@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 36%{?dist}
+%define glibcrelease 55%{?dist}
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -24,14 +24,7 @@
 %define xenpackage 0
 %endif
 ##############################################################################
-# In RHEL7 for 32-bit POWER the following runtimes are provided:
-# - POWER7 (-mcpu=power6 -mtune=power7)
-# - POWER8 (-mcpu=power6 -mtune=power8)
-#
-# We temporarily deploy a POWER6 runtime tuned for POWER7 as our official
-# POWER7 runtime because of bug 1019549 which has yet to be fixed.
-#
-# In RHEL7 for 64-bit POWER the following runtimes are provided:
+# In RHEL7 for 32-bit and 64-bit POWER the following runtimes are provided:
 # - POWER7 (-mcpu=power7 -mtune=power7)
 # - POWER8 (-mcpu=power7 -mtune=power8)
 #
@@ -41,7 +34,7 @@
 #
 # The POWER5 and POWER6 runtimes are now deprecated and no longer provided
 # or supported. This means that RHEL7 will only run on POWER7 or newer
-# hardware (or POWER6 for 32-bit POWER until bug 1019549 is fixed).
+# hardware.
 #
 %ifarch ppc %{power64}
 %define buildpower6 0
@@ -78,7 +71,7 @@
 # If the architecture has SDT probe point support then we build glibc with
 # --enable-systemtap and include all SDT probe points in the library. It is
 # the eventual goal that all supported arches should be on this list.
-%define systemtaparches %{ix86} x86_64
+%define systemtaparches %{ix86} x86_64 ppc ppc64 s390 s390x
 ##############################################################################
 # Add -s for a less verbose build output.
 %define silentrules PARALLELMFLAGS=
@@ -128,9 +121,11 @@ Source1: %{glibcsrcdir}-releng.tar.gz
 # the changes from one bucket to another won't necessarily result in needing
 # to twiddle the patch because of dependencies on prior patches and the like.
 
+##############################################################################
 #
-# Patches that are highly unlikely to ever be accepted upstream.
+# Patches that are unlikely to go upstream or not yet analyzed.
 #
+##############################################################################
 
 # Configuration twiddle, not sure there's a good case to get upstream to
 # change this.
@@ -196,16 +191,15 @@ Patch0043: %{name}-rh990388-4.patch
 Patch0044: %{name}-rh731833-rtkaio.patch
 Patch0045: %{name}-rh731833-rtkaio-2.patch
 
-# Patch to update translation for stale file handle error 
-Patch0046: %{name}-rh981332.patch
+# Add -fstack-protector-strong support. 
+Patch0048: %{name}-rh1070806.patch
 
-# Patch to update the manual to say SunRPC AUTH_DES will prevent FIPS 140-2
-# compliance.
-Patch0047: %{name}-rh971589.patch
-
+##############################################################################
 #
 # Patches from upstream
 #
+##############################################################################
+
 Patch1000: %{name}-rh905877.patch
 Patch1001: %{name}-rh958652.patch
 Patch1002: %{name}-rh977870.patch
@@ -258,55 +252,108 @@ Patch1036: %{name}-rh884008.patch
 Patch1037: %{name}-rh1008298.patch
 # Add support for rtlddir distinct from slibdir.
 Patch1038: %{name}-rh950093.patch
+Patch1039: %{name}-rh1025612.patch
+Patch1040: %{name}-rh1032435.patch
+Patch1041: %{name}-rh1020637.patch
+# Power value increase for MINSIGSTKSZ and SIGSTKSZ.
+Patch1042: %{name}-rh1028652.patch
 
+# Upstream BZ 15601 
+Patch1043: %{name}-rh1039496.patch
+
+Patch1044: %{name}-rh1047983.patch
+
+Patch1045: %{name}-rh1064945.patch
+
+# Patch to update the manual to say SunRPC AUTH_DES will prevent FIPS 140-2
+# compliance.
+Patch1046: %{name}-rh971589.patch
+# Patch to update translation for stale file handle error.
+# Only libc.pot part is sent upstream, the only valid part
+# since upstream translations are done by the TP.
+Patch1047: %{name}-rh981332.patch
+
+# Upstream BZ 9954
+Patch1048: %{name}-rh739743.patch
+
+# Upstream BZ 13028
+Patch1049: %{name}-rh841787.patch
+
+# Systemtap malloc probes
+Patch1050: %{name}-rh742038.patch
+
+# Upstream BZ 15006
+Patch1051: %{name}-rh905184.patch
+
+# Upstream BZ 14256
+Patch1052: %{name}-rh966259.patch
+
+# Upstream BZ 15362
+Patch1053: %{name}-rh979363.patch
+
+# Upstream BZ 14547
+Patch1054: %{name}-rh989862.patch
+Patch1055: %{name}-rh989862-2.patch
+Patch1056: %{name}-rh989862-3.patch
+Patch1057: %{name}-rh989861.patch
+
+# Upstream s390/s390x bug fixes
+Patch1058: %{name}-rh804768-bugfix.patch
+
+# Upstream BZ 15754
+Patch1059: %{name}-rh990481-CVE-2013-4788.patch
+
+# Upstream BZ 16366
+Patch1060: %{name}-rh1039970.patch
+
+# Upstream BZ 16365
+Patch1061: %{name}-rh1046199.patch
+
+# Upstream BZ 16532
+Patch1062: %{name}-rh1063681.patch
+
+# Upstream BZ 16680
+Patch1063: %{name}-rh1074410.patch
+
+
+##############################################################################
+#
 # Patches submitted, but not yet approved upstream.
+#
+##############################################################################
+#
 # Each should be associated with a BZ.
 # Obviously we're not there right now, but that's the goal
 #
+
 # http://sourceware.org/ml/libc-alpha/2012-12/msg00103.html
+# Not upstream as of 2014-02-27
 Patch2007: %{name}-rh697421.patch
 
+# Not upstream as of 2014-02-27
 Patch2011: %{name}-rh757881.patch
 
+# Not upstream as of 2014-02-27
 Patch2013: %{name}-rh741105.patch
 
-# Upstream BZ 9954
-Patch2021: %{name}-rh739743.patch
-
 # Upstream BZ 14247
+# Not upstream as of 2014-02-27.
 Patch2023: %{name}-rh827510.patch
 
-# Upstream BZ 13028
-Patch2026: %{name}-rh841787.patch
-
 # Upstream BZ 14185
+# Not upstream as of 2014-02-27.
 Patch2027: %{name}-rh819430.patch
 
-# Upstream BZ 15006
-Patch2028: %{name}-rh905184.patch
-
-# Upstream BZ 14256
-Patch2039: %{name}-rh966259.patch
-
-Patch2040: %{name}-rh979363.patch
-
-# Upstream BZ 14547
-Patch2041: %{name}-rh989862.patch
-Patch2042: %{name}-rh989862-2.patch
-Patch2043: %{name}-rh989862-3.patch
-Patch2044: %{name}-rh989861.patch
-
-#Systemtap malloc probes
-Patch2045: %{name}-rh742038.patch
-
-# Upstream s390/s390x bug fixes
-Patch2046: glibc-rh804768-bugfix.patch
-
-# Upstream BZ 15754
-Patch2047: %{name}-rh990481-CVE-2013-4788.patch
-
 # Fix nscd to use permission names not constants.
+# Not upstream as of 2014-02-27.
 Patch2048: %{name}-rh1025934.patch
+
+# Upstream BZ 16398.
+Patch2051: %{name}-rh1048036.patch
+Patch2052: %{name}-rh1048123.patch
+
+# Upstream BZ 16680
+Patch2053: %{name}-rh1074410-2.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -611,11 +658,11 @@ package or when debugging this package.
 %patch0017 -p1
 %patch0019 -p1
 %patch0020 -p1
-%patch2021 -p1
+%patch1048 -p1
 %patch2023 -p1
 %patch0024 -p1
 %patch0025 -p1
-%patch2026 -p1
+%patch1049 -p1
 %patch2027 -p1
 %patch0028 -p1
 %patch0029 -p1
@@ -624,13 +671,13 @@ package or when debugging this package.
 %patch0032 -p1
 %patch0033 -p1
 %patch0034 -p1
-%patch2028 -p1
+%patch1051 -p1
 %patch0035 -p1
 %patch0036 -p1
 %patch0037 -p1
 %patch1000 -p1
 %patch0038 -p1
-%patch2039 -p1
+%patch1052 -p1
 %patch1001 -p1
 %patch1002 -p1
 %patch1003 -p1
@@ -640,18 +687,18 @@ package or when debugging this package.
 %patch1007 -p1
 %patch1008 -p1
 %patch1009 -p1
-%patch2040 -p1
+%patch1053 -p1
 %patch1010 -p1
 %patch0039 -p1
-%patch2041 -p1
-%patch2042 -p1
-%patch2043 -p1
-%patch2044 -p1
+%patch1054 -p1
+%patch1055 -p1
+%patch1056 -p1
+%patch1057 -p1
 %patch0040 -p1
 %patch0041 -p1
 %patch0042 -p1
 %patch0043 -p1
-%patch2045 -p0
+%patch1050 -p0
 %patch1011 -p1
 %patch1012 -p1
 %patch1013 -p1
@@ -677,16 +724,31 @@ package or when debugging this package.
 %patch1033 -p1
 %patch0044 -p1
 %patch0045 -p1
-%patch0046 -p1
+%patch1047 -p1
 %patch1034 -p1
-%patch2046 -p1
+%patch1058 -p1
 %patch1035 -p1
-%patch2047 -p1
+%patch1059 -p1
 %patch1036 -p1
-%patch0047 -p1
+%patch1046 -p1
 %patch1037 -p1
 %patch1038 -p1
 %patch2048 -p1
+%patch1039 -p1
+%patch1040 -p1
+%patch1041 -p1
+%patch1042 -p1
+%patch1043 -p1
+%patch1060 -p1
+%patch1061 -p1
+%patch2051 -p1
+%patch1044 -p1
+%patch1045 -p1
+%patch2052 -p1
+%patch0048 -p1
+%patch1062 -p1
+%patch1063 -p1
+%patch2053 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -771,8 +833,8 @@ GXX="g++ -m64"
 %endif
 %ifarch ppc
 BuildFlags=""
-GCC="gcc -mcpu=power6 -mtune=power7"
-GXX="g++ -mcpu=power6 -mtune=power7"
+GCC="gcc -mcpu=power7 -mtune=power7"
+GXX="g++ -mcpu=power7 -mtune=power7"
 %endif
 %ifarch %{power64}
 BuildFlags=""
@@ -830,7 +892,7 @@ configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
 %ifarch %{systemtaparches}
 	--enable-systemtap \
 %endif
-%ifarch %{power64}
+%ifarch ppc %{power64}
 	--with-cpu=power7 \
 %endif
 	--disable-profile --enable-nss-crypt ||
@@ -882,16 +944,9 @@ build power6
 
 %if %{buildpower8}
 (
-%ifarch %{power64}
   AddOns="$AddOns --with-cpu=power7"
   GCC="$GCC -mcpu=power7 -mtune=power8"
   GXX="$GXX -mcpu=power7 -mtune=power8"
-%endif
-%ifarch ppc
-# See bug 1019549. We must use POWER6 until we fix POWER7 failures.
-  GCC="$GCC -mcpu=power6 -mtune=power8"
-  GXX="$GXX -mcpu=power6 -mtune=power8"
-%endif
   build power8
 )
 %endif
@@ -1749,6 +1804,70 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Wed Mar 19 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55
+- Fix up test case for previous ftell bug (#1074410).
+
+* Tue Mar 18 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-54
+- Fix offset computation for a+ mode on switching from read (#1074410).
+
+* Mon Mar 17 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-53
+- Fix offset caching for streams and use it for ftell (#1074410).
+- Change offset in fdopen only if setting O_APPEND (#1074410).
+- Fix up return codes for tests in tst-ftell-active-handler (#1074410).
+
+* Tue Mar  4 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-52
+- Fix ftell behavior when the stream handle is not active (#1063681).
+
+* Mon Mar  3 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-51
+- Build parts of the library with -fstack-protector-strong (#1070806).
+
+* Fri Feb 28 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-50
+- Better support for detecting nscd startup failures (#1048123).
+
+* Wed Feb 26 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-49
+- Fix ftime gettimeofday internal call returning bogus data (#1064945).
+
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2.17-48
+- Mass rebuild 2014-01-24
+
+* Mon Jan 13 2014 Patsy Franklin <pfrankli@redhat.com> - 2.17-47
+- Rebuild without ppc64p7 package (#1051065).
+
+* Thu Jan  9 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-46
+- Enable systemtap probes on S/390 and Power (#1049206).
+
+* Mon Jan  6 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-45
+- Revert to flushing buffer for ftell if output buffer does not have sufficient
+  space for conversion (#1048036).
+- Use first name entry for address in /etc/hosts as the canonical name in
+  getaddrinfo (#1047983).
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2.17-44
+- Mass rebuild 2013-12-27
+
+* Fri Dec 27 2013 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-43
+- Fix infinite loop on empty netgroups (#1046199).
+
+* Tue Dec 24 2013 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-42
+- Return failure for negative lookups from nscd in netgroup cache (#1039970).
+
+* Fri Dec 20 2013 Carlos O'Donell <carlos@redhat.com> - 2.17-41
+- Use POWER7 instructions for 32-bit POWER7 and POWER8 runtimes
+  (#1028661).
+
+* Thu Dec 12 2013 Patsy Franklin <pfrankli@redhat.com> - 2.17-40
+- Change Oriya to Odia.  Convert iso-639.def to utf-8. (#1039496)
+
+* Thu Dec 12 2013 Carlos O'Donell <carlos@redhat.com> - 2.17-39
+- Increase the value of SIGSTKSZ and MINSIGSTKSZ for Power (#1028652).
+
+* Fri Nov 29 2013 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-38
+- S/390: Fix TLS GOT pointer setup (#1020637).
+
+* Thu Nov 28 2013 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-37
+- Fix stack overflow due to large AF_INET6 requests (CVE-2013-4458, #1025612).
+- Fix reads for sizes larger than INT_MAX in AF_INET lookup (#1032435).
+
 * Fri Nov  8 2013 Carlos O'Donell <carlos@redhat.com> - 2.17-36
 - Enhance NSCD's SELinux support to use dynamic permission names (#1025934).
 
