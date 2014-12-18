@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 55%{?dist}.1
+%define glibcrelease 55%{?dist}.3
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -320,6 +320,9 @@ Patch1063: %{name}-rh1074410.patch
 Patch1509: %{name}-rh1133811-2.patch
 Patch1510: %{name}-rh1133811-3.patch
 
+# Upstream CVE-2014-7817.
+Patch1511: %{name}-rh1170118-CVE-2014-7817.patch
+
 ##############################################################################
 #
 # Patches submitted, but not yet approved upstream.
@@ -358,6 +361,8 @@ Patch2052: %{name}-rh1048123.patch
 
 # Upstream BZ 16680
 Patch2053: %{name}-rh1074410-2.patch
+
+Patch2065: %{name}-rh1170187.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -756,6 +761,8 @@ package or when debugging this package.
 %patch0061 -p1
 %patch1509 -p1
 %patch1510 -p1
+%patch2065 -p1
+%patch1511 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -1811,6 +1818,12 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri Dec  5 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.3
+- Fix wordexp() to honour WRDE_NOCMD (CVE-2014-7817, #1170118)
+
+* Thu Dec  4 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55.2
+- ftell: seek to end only when there are unflushed bytes (#1170187).
+
 * Tue Aug 26 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55.1
 - Remove gconv transliteration loadable modules support (CVE-2014-5119,
   #1133811).
