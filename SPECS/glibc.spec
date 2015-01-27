@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 55%{?dist}.3
+%define glibcrelease 55%{?dist}.5
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -322,6 +322,8 @@ Patch1510: %{name}-rh1133811-3.patch
 
 # Upstream CVE-2014-7817.
 Patch1511: %{name}-rh1170118-CVE-2014-7817.patch
+
+Patch1512: %{name}-rh1183535.patch
 
 ##############################################################################
 #
@@ -763,6 +765,7 @@ package or when debugging this package.
 %patch1510 -p1
 %patch2065 -p1
 %patch1511 -p1
+%patch1512 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -1818,6 +1821,12 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Mon Jan 19 2015 Carlos O'Donell <codonell@redhat.com> - 2.17-55.5
+- Rebuild and run regression testing.
+
+* Mon Jan 19 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55.4
+- Fix parsing of numeric hosts in gethostbyname_r (CVE-2015-0235, #1183535).
+
 * Fri Dec  5 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.3
 - Fix wordexp() to honour WRDE_NOCMD (CVE-2014-7817, #1170118)
 
