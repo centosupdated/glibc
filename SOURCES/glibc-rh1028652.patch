@@ -2,6 +2,38 @@
 # Upstream power patch to increase MINSIGSTKSZ and SIGSTKSZ to
 # account for the kernel signal frame size increase.
 #
+# commit f7c399cff5bd04ee9dc117fb6b0f39597dc047c6
+# Author: Alan Modra <amodra@gmail.com>
+# Date:   Sat Aug 17 18:37:18 2013 +0930
+# 
+#     PowerPC SIGSTKSZ
+#     http://sourceware.org/ml/libc-alpha/2013-08/msg00093.html
+#     
+#     This copies the sparc version of sigstack.h, which gives powerpc
+#      #define MINSIGSTKSZ     4096
+#      #define SIGSTKSZ        16384
+#     
+#     Before the VSX changes, struct rt_sigframe size was 1920 plus 128 for
+#     __SIGNAL_FRAMESIZE giving ppc64 exactly the default MINSIGSTKSZ of
+#     2048.
+#     
+#     After VSX, ucontext increased by 256 bytes.  Oops, we're over
+#     MINSIGSTKSZ, so powerpc has been using the wrong value for quite a
+#     while.  Add another ucontext for TM and rt_sigframe is now at 3872,
+#     giving actual MINSIGSTKSZ of 4000.
+#     
+#     The glibc testcase that I was looking at was tst-cancel21, which
+#     allocates 2*SIGSTKSZ (not because the test is trying to be
+#     conservative, but because the test actually has nested signal stack
+#     frames).  We blew the allocation by 48 bytes when using current
+#     mainline gcc to compile glibc (le ppc64).
+#     
+#     The required stack depth in _dl_lookup_symbol_x from the top of the
+#     next signal frame was 10944 bytes.  I guess you'd want to add 288 to
+#     that, implying an actual SIGSTKSZ of 11232.
+#     
+#         * sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h: New file.
+# 
 diff --git a/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h b/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h
 new file mode 100644
 index 0000000..33be9e8

@@ -1,0 +1,33 @@
+diff --git a/sysdeps/aarch64/dl-machine.h b/sysdeps/aarch64/dl-machine.h
+index 997c860..44154c0 100644
+--- a/ports/sysdeps/aarch64/dl-machine.h
++++ b/ports/sysdeps/aarch64/dl-machine.h
+@@ -294,21 +294,25 @@ elf_machine_rela (struct link_map *map, const ElfW(Rela) *reloc,
+ #ifndef RTLD_BOOTSTRAP
+ # ifndef SHARED
+ 		CHECK_STATIC_TLS (map, sym_map);
++		  {
++		    td->arg = (void*)(sym->st_value + sym_map->l_tls_offset
++				      + reloc->r_addend);
++		    td->entry = _dl_tlsdesc_return;
++		  }
+ # else
+-		if (!TRY_STATIC_TLS (map, sym_map))
+ 		  {
+ 		    td->arg = _dl_make_tlsdesc_dynamic
+ 		      (sym_map, sym->st_value + reloc->r_addend);
+ 		    td->entry = _dl_tlsdesc_dynamic;
+ 		  }
+-		else
+ # endif
+-#endif
++#else
+ 		  {
+ 		    td->arg = (void*)(sym->st_value + sym_map->l_tls_offset
+ 				      + reloc->r_addend);
+ 		    td->entry = _dl_tlsdesc_return;
+ 		  }
++#endif
+ 	      }
+ 	    break;
+ 	  }

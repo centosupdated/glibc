@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 55%{?dist}.5
+%define glibcrelease 78%{?dist}
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -194,7 +194,24 @@ Patch0045: %{name}-rh731833-rtkaio-2.patch
 # Add -fstack-protector-strong support. 
 Patch0048: %{name}-rh1070806.patch
 
-Patch0061: %{name}-rh1133811-1.patch
+Patch0060: %{name}-aa64-commonpagesize-64k.patch
+
+Patch0061: %{name}-rh1133812-1.patch
+
+Patch0062: %{name}-cs-path.patch
+
+# Use __int128_t in link.h to support older compilers.
+Patch0063: %{name}-rh1120490-int128.patch
+
+# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+# CVE-2014-8121:
+Patch0064: glibc-rh1165192.patch
+# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+
 ##############################################################################
 #
 # Patches from upstream
@@ -316,14 +333,171 @@ Patch1062: %{name}-rh1063681.patch
 # Upstream BZ 16680
 Patch1063: %{name}-rh1074410.patch
 
+# PPC64LE Patch Set:
+Patch1064: glibc-ppc64le-01.patch
+Patch1065: glibc-ppc64le-02.patch
+Patch1066: glibc-ppc64le-03.patch
+Patch1067: glibc-ppc64le-04.patch
+Patch1068: glibc-ppc64le-05.patch
+Patch1069: glibc-ppc64le-06.patch
+Patch1070: glibc-ppc64le-07.patch
+Patch1071: glibc-ppc64le-08.patch
+Patch1072: glibc-ppc64le-09.patch
+Patch1073: glibc-ppc64le-10.patch
+Patch1074: glibc-ppc64le-11.patch
+Patch1075: glibc-ppc64le-12.patch
+Patch1076: glibc-ppc64le-13.patch
+Patch1077: glibc-ppc64le-14.patch
+Patch1078: glibc-ppc64le-15.patch
+Patch1079: glibc-ppc64le-16.patch
+Patch1080: glibc-ppc64le-17.patch
+Patch1081: glibc-ppc64le-18.patch
+Patch1082: glibc-ppc64le-19.patch
+Patch1083: glibc-ppc64le-20.patch
+Patch1084: glibc-ppc64le-21.patch
+Patch1085: glibc-ppc64le-22.patch
+Patch1086: glibc-ppc64le-23.patch
+Patch1087: glibc-ppc64le-24.patch
+Patch1088: glibc-ppc64le-25.patch
+Patch1089: glibc-ppc64le-26.patch
+Patch1090: glibc-ppc64le-27.patch
+Patch1091: glibc-ppc64le-28.patch
+Patch1092: glibc-ppc64le-29.patch
+Patch1093: glibc-ppc64le-30.patch
+Patch1094: glibc-ppc64le-31.patch
+Patch1095: glibc-ppc64le-32.patch
+Patch1096: glibc-ppc64le-33.patch
+Patch1097: glibc-ppc64le-34.patch
+Patch1098: glibc-ppc64le-35.patch
+Patch1099: glibc-ppc64le-36.patch
+Patch1100: glibc-ppc64le-37.patch
+Patch1101: glibc-ppc64le-38.patch
+Patch1102: glibc-ppc64le-39.patch
+Patch1103: glibc-ppc64le-40.patch
+Patch1104: glibc-ppc64le-41.patch
+Patch1105: glibc-ppc64le-42.patch
+Patch1106: glibc-ppc64le-43.patch
+Patch1107: glibc-ppc64le-44.patch
+Patch1108: glibc-ppc64le-45.patch
+Patch1109: glibc-ppc64le-46.patch
+# End of PPC64LE patch set.
+# Leave room up to 1120 for ppc64le patches.
 
-Patch1509: %{name}-rh1133811-2.patch
-Patch1510: %{name}-rh1133811-3.patch
+# Split out ldbl_high into a distinct patch that is applied *before*
+# the ppc64le patches and the ppc64 IFUNC patches. We do this because
+# we want the IFUNC patches to be LE-safe and some code has to be
+# factored out and applied for both to use.
+Patch1110: glibc-powerpc-ldbl_high.patch
 
-# Upstream CVE-2014-7817.
-Patch1511: %{name}-rh1170118-CVE-2014-7817.patch
+# Backport fixes for power math ULP changes.
+Patch1121: glibc-power-libm-test-ulps.patch
+# Backport the write buffer size adjustment to match newer kernels.
+Patch1122: glibc-fix-test-write-buf-size.patch
 
-Patch1512: %{name}-rh1183535.patch
+# Upstream BZ #14142
+# Required RHEL 7.1 BZ #1067754
+Patch1499: %{name}-rh1067755.patch
+
+# Acadia BZ #1070458
+Patch1500: %{name}-rh1070458.patch
+
+# Upstream BZ #15036
+# Acadia BZ #1070471
+Patch1501: %{name}-rh1070471.patch
+
+# Upstream BZ #16169
+# Acadia BZ #1078225
+Patch1502: %{name}-rh1078225.patch
+
+# Upstream BZ #16629 -- plus a bit extra
+Patch1503: %{name}-aa64-setcontext.patch
+
+Patch1504: glibc-aarch64-add-ptr_mangle-support.patch
+Patch1505: glibc-aarch64-fpu-optional-trapping-exceptions.patch
+Patch1506: glibc-aarch64-syscall-rewrite.patch
+Patch1508: glibc-aarch64-ifunc.patch
+
+Patch1509: %{name}-rh1133812-2.patch
+Patch1510: %{name}-rh1133812-3.patch
+
+Patch1511: %{name}-rh1083647.patch
+Patch1512: %{name}-rh1085290.patch
+Patch1513: %{name}-rh1083644.patch
+Patch1514: %{name}-rh1083646.patch
+
+Patch1515: %{name}-rh1103856.patch
+Patch1516: %{name}-rh1080766.patch
+Patch1517: %{name}-rh1103874.patch
+Patch1518: %{name}-rh1125306.patch
+Patch1519: %{name}-rh1098047.patch
+Patch1520: %{name}-rh1138520.patch
+Patch1521: %{name}-rh1085313.patch
+Patch1522: %{name}-rh1140474.patch
+
+# Backport multi-lib support in GLIBC for PowerPC using IFUNC
+Patch1530: %{name}-rh731837-00.patch
+Patch1531: %{name}-rh731837-01.patch
+Patch1532: %{name}-rh731837-02.patch
+Patch1533: %{name}-rh731837-03.patch
+Patch1534: %{name}-rh731837-04.patch
+Patch1535: %{name}-rh731837-05.patch
+Patch1536: %{name}-rh731837-06.patch
+Patch1537: %{name}-rh731837-07.patch
+Patch1538: %{name}-rh731837-08.patch
+Patch1539: %{name}-rh731837-09.patch
+Patch1540: %{name}-rh731837-10.patch
+Patch1541: %{name}-rh731837-11.patch
+Patch1542: %{name}-rh731837-12.patch
+Patch1543: %{name}-rh731837-13.patch
+Patch1544: %{name}-rh731837-14.patch
+Patch1545: %{name}-rh731837-15.patch
+Patch1546: %{name}-rh731837-16.patch
+Patch1547: %{name}-rh731837-17.patch
+Patch1548: %{name}-rh731837-18.patch
+Patch1549: %{name}-rh731837-19.patch
+Patch1550: %{name}-rh731837-20.patch
+Patch1551: %{name}-rh731837-21.patch
+Patch1552: %{name}-rh731837-22.patch
+Patch1553: %{name}-rh731837-23.patch
+Patch1554: %{name}-rh731837-24.patch
+Patch1555: %{name}-rh731837-25.patch
+Patch1556: %{name}-rh731837-26.patch
+Patch1557: %{name}-rh731837-27.patch
+Patch1558: %{name}-rh731837-28.patch
+Patch1559: %{name}-rh731837-29.patch
+Patch1560: %{name}-rh731837-30.patch
+Patch1561: %{name}-rh731837-31.patch
+Patch1562: %{name}-rh731837-32.patch
+Patch1563: %{name}-rh731837-33.patch
+Patch1564: %{name}-rh731837-34.patch
+Patch1565: %{name}-rh731837-35.patch
+Patch1566: %{name}-rh731837-33A.patch
+Patch1567: %{name}-rh731837-36.patch
+
+# Intel AVX-512 support.
+Patch1570: %{name}-rh1140272-avx512.patch
+# Intel MPX support.
+Patch1571: %{name}-rh1132518-mpx.patch
+# glibc manual update.
+Patch1572: %{name}-manual-update.patch
+
+Patch1573: %{name}-rh1120490.patch
+
+# Fix ppc64le relocation handling:
+Patch1574: %{name}-rh1162847-p1.patch
+Patch1575: %{name}-rh1162847-p2.patch
+
+# CVE-2014-7817
+Patch1576: %{name}-rh1170118-CVE-2014-7817.patch
+
+# Provide artificial OPDs for ppc64 VDSO functions.
+Patch1577: %{name}-rh1077389-p1.patch
+# BZ#16431
+Patch1578: %{name}-rh1077389-p2.patch
+# BZ#16037 - Allow GNU Make version 4.0 and up to be used. 
+Patch1579: %{name}-gmake.patch
+
+Patch1580: %{name}-rh1183545.patch
 
 ##############################################################################
 #
@@ -364,7 +538,21 @@ Patch2052: %{name}-rh1048123.patch
 # Upstream BZ 16680
 Patch2053: %{name}-rh1074410-2.patch
 
-Patch2065: %{name}-rh1170187.patch
+# Upstream BZ 15493.
+# Upstream as of 2013-03-20
+Patch2055: %{name}-rh1073667.patch
+
+Patch2060: %{name}-aarch64-rh1076760.patch
+Patch2061: %{name}-aarch64-dont-alloc-static-tls-for-TLS_DESC.patch
+
+# Include pthread.h in rtkaio/tst-aiod2.c and rtkaio/tst-aiod3.c.
+Patch2062: %{name}-rtkaio-inc-pthread.patch
+
+Patch2063: %{name}-rh1084089.patch
+
+Patch2064: %{name}-rh1161666.patch
+
+Patch2065: %{name}-rh1156331.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -373,6 +561,7 @@ Patch2065: %{name}-rh1170187.patch
 ##############################################################################
 # Continued list of core "glibc" package information:
 ##############################################################################
+
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Obsoletes: glibc-profile < 2.4
 Obsoletes: nss_db
@@ -414,7 +603,11 @@ Conflicts: kernel < %{enablekernel}
 %define target %{_target_cpu}-redhat-linuxeabi
 %endif
 %ifarch %{power64}
+%ifarch ppc64le
+%define target ppc64le-redhat-linux
+%else
 %define target ppc64-redhat-linux
+%endif
 %endif
 
 %ifarch %{multiarcharches}
@@ -757,15 +950,163 @@ package or when debugging this package.
 %patch1045 -p1
 %patch2052 -p1
 %patch0048 -p1
+%patch0060 -p1
 %patch1062 -p1
 %patch1063 -p1
 %patch2053 -p1
+# Apply ldbl_high() patch for both ppc64le and ppc64.
+%patch1110 -p1
+# PPC64LE Patch set:
+# 1064 to 1108.
+%ifarch ppc64le
+%patch1064 -p1
+%patch1065 -p1
+%patch1066 -p1
+%patch1067 -p1
+%patch1068 -p1
+%patch1069 -p1
+%patch1070 -p1
+%patch1071 -p1
+%patch1072 -p1
+%patch1073 -p1
+%patch1074 -p1
+%patch1075 -p1
+%patch1076 -p1
+%patch1077 -p1
+%patch1078 -p1
+%patch1079 -p1
+%patch1080 -p1
+%patch1081 -p1
+%patch1082 -p1
+%patch1083 -p1
+%patch1084 -p1
+%patch1085 -p1
+%patch1086 -p1
+%patch1087 -p1
+%patch1088 -p1
+%patch1089 -p1
+%patch1090 -p1
+%patch1091 -p1
+%patch1092 -p1
+%patch1093 -p1
+%patch1094 -p1
+%patch1095 -p1
+%patch1096 -p1
+%patch1097 -p1
+%patch1098 -p1
+%patch1099 -p1
+%patch1100 -p1
+%patch1101 -p1
+%patch1102 -p1
+%patch1103 -p1
+%patch1104 -p1
+%patch1105 -p1
+%patch1106 -p1
+%patch1107 -p1
+%patch1108 -p1
+%patch1109 -p1
+%else
+# Some patches are different on !ppc64le, but only because the ppc64le patches
+# change things and require a slightly different patch. At present this is
+# becuase libm-test-ulps is shared between ppc64le and normal ppc64/ppc. This
+# means we have to keep two distinct patches to apply to either "branch."
+%patch1121 -p1
+%endif
+%patch1122 -p1
+%patch2055 -p1
+%patch1499 -p1
+%patch1500 -p1
+%patch1501 -p1
+%patch1502 -p1
+%patch1503 -p1
+%patch1504 -p1
+%patch1505 -p1
+%patch2060 -p1
+%patch2061 -p1
+%patch1506 -p1
+%patch1508 -p1
+%patch2062 -p1
 %patch0061 -p1
 %patch1509 -p1
 %patch1510 -p1
-%patch2065 -p1
 %patch1511 -p1
 %patch1512 -p1
+%patch1513 -p1
+%patch1514 -p1
+%patch1515 -p1
+%patch1516 -p1
+%patch1517 -p1
+%patch1518 -p1
+%patch1519 -p1
+%patch0062 -p1
+%patch2063 -p1
+%patch1520 -p1
+%patch1521 -p1
+%patch1522 -p1
+# Start of IBM IFUNC patch set.
+%patch1530 -p1
+%patch1531 -p1
+%patch1532 -p1
+%patch1533 -p1
+%patch1534 -p1
+%patch1535 -p1
+%patch1536 -p1
+%patch1537 -p1
+%patch1538 -p1
+%patch1539 -p1
+%patch1540 -p1
+%patch1541 -p1
+%patch1542 -p1
+%patch1543 -p1
+%patch1544 -p1
+%patch1545 -p1
+%patch1546 -p1
+%patch1547 -p1
+%patch1548 -p1
+%patch1549 -p1
+%patch1550 -p1
+%patch1551 -p1
+%patch1552 -p1
+%patch1553 -p1
+%patch1554 -p1
+%patch1555 -p1
+%patch1556 -p1
+%patch1557 -p1
+%patch1558 -p1
+%patch1559 -p1
+%patch1560 -p1
+%patch1561 -p1
+%patch1562 -p1
+%patch1563 -p1
+%patch1564 -p1
+%patch1565 -p1
+# Apply fixup patch for -33 in the series to make it LE safe.
+%patch1566 -p1
+%ifarch ppc64le
+# On ppc64le add LOCALENTRY() to all IFUNC functions to materialize the TOC.
+# Don't do this in general because LOCALENTRY() depends on ELFv2 patches which
+# we don't apply for ppc64.
+%patch1567 -p1
+%endif
+# End of IBM IFUNC patch set.
+%patch1570 -p1
+%patch1571 -p1
+%patch1572 -p1
+%patch1573 -p1
+%patch0063 -p1
+%patch2064 -p1
+%ifarch ppc64le
+# On ppc64le the relocation handling needs fixing.
+%patch1574 -p1
+%patch1575 -p1
+%endif
+%patch2065 -p1
+%patch1576 -p1
+%patch1577 -p1
+%patch1578 -p1
+%patch0064 -p1
+%patch1579 -p1
+%patch1580 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -910,7 +1251,9 @@ configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
 	--enable-systemtap \
 %endif
 %ifarch ppc %{power64}
+%ifnarch ppc64le
 	--with-cpu=power7 \
+%endif
 %endif
 	--disable-profile --enable-nss-crypt ||
 { cat config.log; false; }
@@ -986,6 +1329,16 @@ popd
 # Install glibc...
 ##############################################################################
 %install
+
+# Ensure the permissions of errlist.c do not change.  When the file is
+# regenerated the Makefile sets the permissions to 444. We set it to 644
+# to match what comes out of git. The tarball of the git archive won't have
+# correct permissions because git doesn't track all of the permissions
+# accurately (see git-cache-meta if you need that). We also set it to 644 to
+# match pre-existing rpms. We do this *after* the build because the build
+# might regenerate the file and set the permissions to 444.
+chmod 644 sysdeps/gnu/errlist.c
+
 # Reload compiler and build options that were used during %%build.
 GCC=`cat Gcc`
 
@@ -1403,7 +1756,7 @@ touch -r sunrpc/etc.rpc $RPM_BUILD_ROOT/etc/rpc
 # the one used at runtime.  This is really only needed during the ARM
 # transition from ld-linux.so.3 to ld-linux-armhf.so.3.
 pushd releng
-$GCC -Os -g -o build-locale-archive build-locale-archive.c \
+$GCC -Os -g -static -o build-locale-archive build-locale-archive.c \
   ../build-%{target}/locale/locarchive.o \
   ../build-%{target}/locale/md5.o \
   -DDATADIR=\"%{_datadir}\" -DPREFIX=\"%{_prefix}\" \
@@ -1821,23 +2174,112 @@ rm -f *.filelist*
 %endif
 
 %changelog
-* Mon Jan 19 2015 Carlos O'Donell <codonell@redhat.com> - 2.17-55.5
-- Rebuild and run regression testing.
+* Mon Jan 19 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-78
+- Fix ppc64le builds (#1077389).
 
-* Mon Jan 19 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55.4
-- Fix parsing of numeric hosts in gethostbyname_r (CVE-2015-0235, #1183535).
+* Mon Jan 19 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-77
+- Fix parsing of numeric hosts in gethostbyname_r (CVE-2015-0235, #1183545).
 
-* Fri Dec  5 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.3
-- Fix wordexp() to honour WRDE_NOCMD (CVE-2014-7817, #1170118)
+* Thu Jan 15 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-76
+- Fix application crashes during calls to gettimeofday on ppc64
+  when kernel exports gettimeofday via VDSO (#1077389).
+- Prevent NSS-based file backend from entering infinite loop
+  when different APIs request the same service (CVE-2014-8121, #1182272).
 
-* Thu Dec  4 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55.2
-- ftell: seek to end only when there are unflushed bytes (#1170187).
+* Mon Dec  8 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-75
+- Fix permission of debuginfo source files to allow multiarch
+  debuginfo packages to be installed and upgraded (#1170110).
 
-* Tue Aug 26 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55.1
+* Fri Dec  5 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-74
+- Fix wordexp() to honour WRDE_NOCMD (CVE-2014-7817, #1170487).
+
+* Wed Dec  3 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-73
+- ftell: seek to end only when there are unflushed bytes (#1156331).
+
+* Wed Nov 12 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-72
+- [s390] Fix up _dl_argv after adjusting arguments in _dl_start_user (#1161666).
+
+* Tue Nov 11 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-71
+- Fix incorrect handling of relocations in 64-bit LE mode for Power
+  (#1162847).
+
+* Tue Nov 11 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-70
+- [s390] Retain stack alignment when skipping over loader argv (#1161666).
+
+* Wed Nov  5 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-69
+- Use __int128_t in link.h to support older compiler (#1120490).
+
+* Tue Sep 16 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-68
+- Revert to defining __extern_inline only for gcc-4.3+ (#1120490).
+
+* Mon Sep 15 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-67
+- Correct a defect in the generated math error table in the manual (#786638).
+
+* Fri Sep 12 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-66
+- Include preliminary thread, signal and cancellation safety documentation
+  in manual (#786638).
+
+* Thu Sep 11 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-65
+- PowerPC 32-bit and 64-bit optimized function support using STT_GNU_IFUNC
+  (#731837).
+- Support running Intel MPX-enabled applications (#1132518).
+- Support running Intel AVX-512-enabled applications (#1140272).
+
+* Thu Sep 11 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-64
+- Fix crashes on invalid input in IBM gconv modules (#1140474, CVE-2014-6040).
+
+* Wed Sep 10 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-63
+- Build build-locale-archive statically (#1070611).
+- Return failure in getnetgrent only when all netgroups have been searched
+  (#1085313).
+
+* Mon Sep  8 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-62
+- Don't use alloca in addgetnetgrentX (#1138520).
+- Adjust pointers to triplets in netgroup query data (#1138520).
+
+* Fri Sep  5 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-61
+- Set CS_PATH to just /use/bin (#1124453).
+- Add systemtap probe in lll_futex_wake for ppc and s390 (#1084089).
+
+* Fri Sep  5 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-60
+- Add mmap usage to malloc_info output (#1103856).
+- Fix nscd lookup for innetgr when netgroup has wildcards (#1080766).
+- Fix memory order when reading libgcc handle (#1103874).
+- Fix typo in nscd/selinux.c (#1125306).
+- Do not fail if one of the two responses to AF_UNSPEC fails (#1098047).
+
+* Thu Sep  4 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-59
+- Provide correct buffer length to netgroup queries in nscd (#1083647).
+- Return NULL for wildcard values in getnetgrent from nscd (#1085290).
+- Avoid overlapping addresses to stpcpy calls in nscd (#1083644).
+- Initialize all of datahead structure in nscd (#1083646).
+
+* Tue Aug 26 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-58
 - Remove gconv transliteration loadable modules support (CVE-2014-5119,
-  #1133811).
+  #1133812).
 - _nl_find_locale: Improve handling of crafted locale names (CVE-2014-0475,
-  #1133811).
+  #1133812).
+
+* Tue Aug 19 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-57
+- Merge 64-bit ARM (AArch64) support (#1027179).
+- Fix build failure for rtkaio/tst-aiod2.c and rtkaio/tst-aiod3.c.
+
+* Sun Aug  3 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-56
+- Merge LE 64-bit POWER support (#1125513).
+
+* Fri Jul 25 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.4
+- Fix tst-cancel4, tst-cancelx4, tst-cancel5, and tst-cancelx5 for all targets.
+- Fix tst-ildoubl, and tst-ldouble for POWER.
+- Allow LE 64-bit POWER to build with VSX if enabled (#1124048).
+
+* Mon Jun  2 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.3
+- Fix ppc64le ABI issue with pthread_atfork being present in libpthread.so.0.
+
+* Fri May 30 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.2
+- Add ABI baseline for 64-bit POWER LE.
+
+* Fri May 30 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-55.1
+- Add 64-bit POWER LE support.
 
 * Wed Mar 19 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-55
 - Fix up test case for previous ftell bug (#1074410).
@@ -1849,6 +2291,12 @@ rm -f *.filelist*
 - Fix offset caching for streams and use it for ftell (#1074410).
 - Change offset in fdopen only if setting O_APPEND (#1074410).
 - Fix up return codes for tests in tst-ftell-active-handler (#1074410).
+
+* Thu Mar  6 2014 Richard Henderson <rth@redhat.com> - 2.17-52.2
+- Fix argument clobber (#1073667).
+
+* Thu Mar  6 2014 Carlos O'Donell <carlos@redhat.com> - 2.17-52.1
+- Fix nscd failure on AArch64 involving errno access (#1067755).
 
 * Tue Mar  4 2014 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-52
 - Fix ftell behavior when the stream handle is not active (#1063681).
