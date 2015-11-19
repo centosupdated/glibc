@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 106%{?dist}.1
+%define glibcrelease 105%{?dist}
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -2360,12 +2360,6 @@ rm -f *.filelist*
 %endif
 
 %changelog
-* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106.1
-- Rebuild with corrected release.
-
-* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106
-- Add fix for CVE-2015-5277 (#1275920).
-
 * Fri Aug 14 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-105
 - Fix up test case for initial-exec fix (#1248208).
 
