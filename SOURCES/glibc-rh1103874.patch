@@ -1,6 +1,6 @@
-diff -pruN a/nptl/sysdeps/pthread/unwind-forcedunwind.c b/nptl/sysdeps/pthread/unwind-forcedunwind.c
---- a/nptl/sysdeps/pthread/unwind-forcedunwind.c	2010-05-04 16:57:23.000000000 +0530
-+++ b/nptl/sysdeps/pthread/unwind-forcedunwind.c	2014-06-02 23:00:02.901013275 +0530
+diff -pruN glibc-2.17-c758a686/nptl/sysdeps/pthread/unwind-forcedunwind.c glibc-2.17-c758a686/nptl/sysdeps/pthread/unwind-forcedunwind.c
+--- glibc-2.17-c758a686/nptl/sysdeps/pthread/unwind-forcedunwind.c	2010-05-04 16:57:23.000000000 +0530
++++ glibc-2.17-c758a686/nptl/sysdeps/pthread/unwind-forcedunwind.c	2014-06-02 23:00:02.901013275 +0530
 @@ -45,8 +45,10 @@ pthread_cancel_init (void)
  
    if (__builtin_expect (libgcc_s_handle != NULL, 1))
@@ -90,9 +90,9 @@ diff -pruN a/nptl/sysdeps/pthread/unwind-forcedunwind.c b/nptl/sysdeps/pthread/u
  
    _Unwind_Word (*getcfa) (struct _Unwind_Context *) = libgcc_s_getcfa;
    PTR_DEMANGLE (getcfa);
-diff -pruN a/sysdeps/gnu/unwind-resume.c b/sysdeps/gnu/unwind-resume.c
---- a/sysdeps/gnu/unwind-resume.c	2010-05-04 16:57:23.000000000 +0530
-+++ b/sysdeps/gnu/unwind-resume.c	2014-06-02 23:02:26.812007078 +0530
+diff -pruN glibc-2.17-c758a686/sysdeps/gnu/unwind-resume.c glibc-2.17-c758a686/sysdeps/gnu/unwind-resume.c
+--- glibc-2.17-c758a686/sysdeps/gnu/unwind-resume.c	2010-05-04 16:57:23.000000000 +0530
++++ glibc-2.17-c758a686/sysdeps/gnu/unwind-resume.c	2014-06-02 23:02:26.812007078 +0530
 @@ -20,8 +20,11 @@
  #include <dlfcn.h>
  #include <stdio.h>

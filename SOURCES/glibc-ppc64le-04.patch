@@ -24,9 +24,9 @@
 #         * sysdeps/ieee754/ldbl-128ibm/strtold_l.c: Likewise.
 #         * sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c: Likewise.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c	2014-05-26 21:08:10.000000000 -0500
 @@ -36,9 +36,9 @@
    else if (arg > LDBL_MAX_10_EXP + 1)
      return LDBL_MAX * LDBL_MAX;
@@ -40,9 +40,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_exp10l.c glibc-
    exp_high = arg_high * log10_high;
    exp_low = arg_high * log10_low + arg_low * M_LN10l;
    return __ieee754_expl (exp_high) * __ieee754_expl (exp_low);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_expl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_expl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_expl.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_expl.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_expl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_expl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_expl.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_expl.c	2014-05-26 21:08:10.000000000 -0500
 @@ -162,39 +162,39 @@
        x = x + xl;
  
@@ -116,9 +116,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_expl.c glibc-2.
      }
    /* Exceptional cases:  */
    else if (isless (x, himark))
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ieee754.h glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/ieee754.h
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ieee754.h	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/ieee754.h	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ieee754.h glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ieee754.h
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ieee754.h	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ieee754.h	2014-05-26 21:08:10.000000000 -0500
 @@ -180,29 +180,9 @@
  
  union ibm_extended_long_double
@@ -152,9 +152,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ieee754.h glibc-2
  
  __END_DECLS
  
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-26 21:08:10.000000000 -0500
 @@ -36,22 +36,22 @@
    union ibm_extended_long_double u;
    unsigned long long hi, lo;
@@ -205,9 +205,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c glibc-
      {
        /* A biased exponent of zero is a special case.
  	 Either it is a zero or it is a denormal number.  */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-26 21:08:10.000000000 -0500
 @@ -14,28 +14,28 @@
       as bit 53 of the mantissa.  */
    uint64_t hi, lo;
@@ -338,9 +338,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h glibc
  }
  
  #ifndef ldbl_pack
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-26 21:08:10.000000000 -0500
 @@ -34,11 +34,11 @@
    unsigned long long hi, lo;
    int exponent2;
@@ -415,9 +415,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c glibc-
 -  return u.d;
 +  return u.ld;
  }
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-26 21:08:10.000000000 -0500
 @@ -27,31 +27,31 @@
        unsigned long long int num0, num1;				      \
        unsigned long long hi, lo;					      \
@@ -503,9 +503,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c gl
  	}								      \
  } while (0)
  
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c	2014-05-26 21:08:10.000000000 -0500
 @@ -33,11 +33,11 @@
    fenv_t env;
    static const long double TWO52 = 4503599627370496.0L;
@@ -613,9 +613,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_nearbyintl.c gl
  }
  
  long_double_symbol (libm, __nearbyintl, nearbyintl);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/strtold_l.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/strtold_l.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/strtold_l.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/strtold_l.c	2014-05-26 21:12:01.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/strtold_l.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/strtold_l.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/strtold_l.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/strtold_l.c	2014-05-26 21:12:01.000000000 -0500
 @@ -43,12 +43,11 @@
  #define FLOAT_HUGE_VAL	HUGE_VALL
  # define SET_MANTISSA(flt, mant) \
@@ -634,9 +634,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/strtold_l.c glibc
    } while (0)
  
  #include <strtod_l.c>
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c	2014-05-26 21:08:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c	2014-05-26 21:08:10.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c	2014-05-26 21:08:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/x2y2m1l.c	2014-05-26 21:08:10.000000000 -0500
 @@ -89,23 +89,23 @@
    double vals[12];
    SET_RESTORE_ROUND (FE_TONEAREST);

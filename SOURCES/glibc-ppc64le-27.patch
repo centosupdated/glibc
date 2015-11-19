@@ -23,9 +23,9 @@
 #         * sysdeps/powerpc/powerpc64/power7/strncmp.S: Likewise.
 #         * sysdeps/powerpc/powerpc32/power7/strncmp.S: Likewise.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/strncmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/strncmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/strncmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/strncmp.S	2014-05-28 13:27:02.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/strncmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/strncmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/strncmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/strncmp.S	2014-05-28 13:27:02.000000000 -0500
 @@ -26,7 +26,7 @@
  
  EALIGN (BP_SYM(strncmp), 4, 0)
@@ -124,9 +124,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/strncmp.S gl
  
  /* Oh well.  In this case, we just do a byte-by-byte comparison.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/strncmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/strncmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/strncmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/strncmp.S	2014-05-28 13:27:02.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/strncmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/strncmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/strncmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/strncmp.S	2014-05-28 13:27:02.000000000 -0500
 @@ -28,7 +28,7 @@
  
  EALIGN (BP_SYM(strncmp),5,0)
@@ -225,9 +225,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/strncmp.S gl
  
  /* Oh well. In this case, we just do a byte-by-byte comparison.  */
  	.align	4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strcmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/strcmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strcmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/strcmp.S	2014-05-28 13:27:02.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcmp.S	2014-05-28 13:27:02.000000000 -0500
 @@ -26,7 +26,7 @@
  
  EALIGN (BP_SYM (strcmp), 4, 0)
@@ -301,9 +301,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strcmp.S glibc-2.17
  
  /* Oh well.  In this case, we just do a byte-by-byte comparison.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strncmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/strncmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strncmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/strncmp.S	2014-05-28 13:27:02.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strncmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strncmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strncmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strncmp.S	2014-05-28 13:27:02.000000000 -0500
 @@ -26,7 +26,7 @@
  
  EALIGN (BP_SYM(strncmp), 4, 0)
@@ -402,9 +402,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strncmp.S glibc-2.1
  
  /* Oh well.  In this case, we just do a byte-by-byte comparison.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power4/strncmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power4/strncmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power4/strncmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power4/strncmp.S	2014-05-28 13:27:02.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/strncmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/strncmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/strncmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/strncmp.S	2014-05-28 13:27:02.000000000 -0500
 @@ -27,7 +27,7 @@
  EALIGN (BP_SYM(strncmp), 4, 0)
  	CALL_MCOUNT 3
@@ -516,9 +516,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power4/strncmp.S gl
  
  /* Oh well.  In this case, we just do a byte-by-byte comparison.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/strncmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power7/strncmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/strncmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power7/strncmp.S	2014-05-28 13:27:02.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/strncmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/strncmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/strncmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/strncmp.S	2014-05-28 13:27:02.000000000 -0500
 @@ -29,7 +29,7 @@
  EALIGN (BP_SYM(strncmp),5,0)
  	CALL_MCOUNT 3
@@ -628,9 +628,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/strncmp.S gl
  
  /* Oh well.  In this case, we just do a byte-by-byte comparison.  */
  	.align	4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strcmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/strcmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strcmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/strcmp.S	2014-05-28 13:37:15.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcmp.S	2014-05-28 13:37:15.000000000 -0500
 @@ -27,7 +27,7 @@
  EALIGN (BP_SYM(strcmp), 4, 0)
  	CALL_MCOUNT 2
@@ -743,9 +743,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strcmp.S glibc-2.17
  
  /* Oh well.  In this case, we just do a byte-by-byte comparison.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strncmp.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/strncmp.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strncmp.S	2014-05-28 13:26:59.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/strncmp.S	2014-05-28 13:38:31.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strncmp.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strncmp.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strncmp.S	2014-05-28 13:26:59.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strncmp.S	2014-05-28 13:38:31.000000000 -0500
 @@ -27,7 +27,7 @@
  EALIGN (BP_SYM(strncmp), 4, 0)
  	CALL_MCOUNT 3

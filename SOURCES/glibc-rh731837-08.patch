@@ -17,10 +17,10 @@ Date:   Fri Dec 13 14:38:17 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strlen.c
 
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 695112c..9da7be1 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -5,5 +5,5 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    memset-ppc64 bzero-power4 bzero-power6 bzero-power7 \
                    mempcpy-power7 mempcpy-ppc64 memchr-power7 memchr-ppc64 \
@@ -28,10 +28,10 @@ index 695112c..9da7be1 100644
 -                  rawmemchr-ppc64
 +                  rawmemchr-ppc64 strlen-power7 strlen-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index 5b15c3f..bdc908b 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -70,6 +70,13 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
               IFUNC_IMPL_ADD (array, i, memset, hwcap & PPC_FEATURE_POWER4,
                               __memset_power4)
@@ -46,11 +46,11 @@ index 5b15c3f..bdc908b 100644
  #endif
  
    /* Support sysdeps/powerpc/powerpc64/multiarch/memcmp.c.  */
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strlen-power7.S b/sysdeps/powerpc/powerpc64/multiarch/strlen-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen-power7.S
 new file mode 100644
 index 0000000..a38521d
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strlen-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen-power7.S
 @@ -0,0 +1,38 @@
 +/* Optimized strlen implementation for POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -90,11 +90,11 @@ index 0000000..a38521d
 +#define libc_hidden_builtin_def(name)
 +
 +#include <sysdeps/powerpc/powerpc64/power7/strlen.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S b/sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S
 new file mode 100644
 index 0000000..b463b3a
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen-ppc64.S
 @@ -0,0 +1,40 @@
 +/* Default strlen implementation for PowerPC64.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -136,11 +136,11 @@ index 0000000..b463b3a
 +#endif
 +
 +#include <sysdeps/powerpc/powerpc64/strlen.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strlen.c b/sysdeps/powerpc/powerpc64/multiarch/strlen.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen.c
 new file mode 100644
 index 0000000..d2c26e9
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strlen.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strlen.c
 @@ -0,0 +1,41 @@
 +/* Multiple versions of strlen. PowerPC64 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

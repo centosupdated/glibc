@@ -186,10 +186,10 @@ Date:   Wed Jun 4 23:37:25 2014 +0000
     	(bug-setlocale1-static-ENV): Likewise.
     	(tst-setlocale2-ENV): Likewise.
 
-diff --git a/Rules b/Rules
+diff --git glibc-2.17-c758a686/Rules glibc-2.17-c758a686/Rules
 index feb304d..9f1a445 100644
---- a/Rules
-+++ b/Rules
+--- glibc-2.17-c758a686/Rules
++++ glibc-2.17-c758a686/Rules
 @@ -191,7 +191,8 @@ ifneq "$(strip $(tests) $(xtests) $(test-srcs))" ""
  # from the test programs and whatever input files are present.
  
@@ -200,10 +200,10 @@ index feb304d..9f1a445 100644
  		$($*-ENV) $(host-built-program-cmd) $($*-ARGS)
  $(objpfx)%-bp.out: %.input $(objpfx)%-bp
  	$(make-test-out) > $@ < $(word 1,$^)
-diff --git a/debug/Makefile b/debug/Makefile
+diff --git glibc-2.17-c758a686/debug/Makefile glibc-2.17-c758a686/debug/Makefile
 index b599a22..c284c51 100644
---- a/debug/Makefile
-+++ b/debug/Makefile
+--- glibc-2.17-c758a686/debug/Makefile
++++ glibc-2.17-c758a686/debug/Makefile
 @@ -109,18 +109,6 @@ CFLAGS-tst-lfschk3.c = -Wno-format
  CFLAGS-tst-lfschk4.cc = -Wno-format
  CFLAGS-tst-lfschk5.cc = -Wno-format
@@ -223,10 +223,10 @@ index b599a22..c284c51 100644
  LDLIBS-tst-chk4 = -lstdc++
  LDLIBS-tst-chk5 = -lstdc++
  LDLIBS-tst-chk6 = -lstdc++
-diff --git a/iconvdata/Makefile b/iconvdata/Makefile
+diff --git glibc-2.17-c758a686/iconvdata/Makefile glibc-2.17-c758a686/iconvdata/Makefile
 index 074d330..d98b6bd 100644
---- a/iconvdata/Makefile
-+++ b/iconvdata/Makefile
+--- glibc-2.17-c758a686/iconvdata/Makefile
++++ glibc-2.17-c758a686/iconvdata/Makefile
 @@ -73,9 +73,6 @@ tests += bug-iconv3
  endif
  
@@ -237,10 +237,10 @@ index 074d330..d98b6bd 100644
  endif
  
  # No code here is in libc.so.
-diff --git a/intl/Makefile b/intl/Makefile
+diff --git glibc-2.17-c758a686/intl/Makefile glibc-2.17-c758a686/intl/Makefile
 index f11449d..10051f6 100644
---- a/intl/Makefile
-+++ b/intl/Makefile
+--- glibc-2.17-c758a686/intl/Makefile
++++ glibc-2.17-c758a686/intl/Makefile
 @@ -118,11 +118,6 @@ CFLAGS-tst-gettext4.c = -DOBJPFX=\"$(objpfx)\"
  CFLAGS-tst-gettext5.c = -DOBJPFX=\"$(objpfx)\"
  CFLAGS-tst-gettext6.c = -DOBJPFX=\"$(objpfx)\"
@@ -253,10 +253,10 @@ index f11449d..10051f6 100644
  ifeq ($(have-thread-library),yes)
  ifeq (yes,$(build-shared))
  $(addprefix $(objpfx),$(multithread-test-srcs)): $(shared-thread-library)
-diff --git a/libio/Makefile b/libio/Makefile
+diff --git glibc-2.17-c758a686/libio/Makefile glibc-2.17-c758a686/libio/Makefile
 index b324ccc..4552360 100644
---- a/libio/Makefile
-+++ b/libio/Makefile
+--- glibc-2.17-c758a686/libio/Makefile
++++ glibc-2.17-c758a686/libio/Makefile
 @@ -148,17 +148,8 @@ CFLAGS-tst_putwc.c = -DOBJPFX=\"$(objpfx)\"
  
  tst_wprintf2-ARGS = "Some Text"
@@ -277,10 +277,10 @@ index b324ccc..4552360 100644
  
  generated = tst-fopenloc.mtrace tst-fopenloc.check
  
-diff --git a/localedata/Makefile b/localedata/Makefile
+diff --git glibc-2.17-c758a686/localedata/Makefile glibc-2.17-c758a686/localedata/Makefile
 index d7ab445..20da00c 100644
---- a/localedata/Makefile
-+++ b/localedata/Makefile
+--- glibc-2.17-c758a686/localedata/Makefile
++++ glibc-2.17-c758a686/localedata/Makefile
 @@ -215,79 +215,13 @@
  		     $(addprefix --prefix=,$(install_root)) $$locale; \
  	echo ' done'; \
@@ -363,10 +363,10 @@ index d7ab445..20da00c 100644
  
  $(objdir)/iconvdata/gconv-modules:
  	$(MAKE) -C ../iconvdata subdir=iconvdata $@
-diff --git a/posix/Makefile b/posix/Makefile
+diff --git glibc-2.17-c758a686/posix/Makefile glibc-2.17-c758a686/posix/Makefile
 index 328c2c5..3d75971 100644
---- a/posix/Makefile
-+++ b/posix/Makefile
+--- glibc-2.17-c758a686/posix/Makefile
++++ glibc-2.17-c758a686/posix/Makefile
 @@ -203,27 +203,7 @@ tst-dir-ARGS = `pwd` `cd $(common-objdir)/$(subdir); pwd` `cd $(common-objdir);
  tst-chmod-ARGS = $(objdir)
  tst-vfork3-ARGS = --test-dir=$(objpfx)
@@ -395,10 +395,10 @@ index 328c2c5..3d75971 100644
  tst-pcre-ARGS = PCRE.tests
  tst-boost-ARGS = BOOST.tests
  bug-glob1-ARGS = "$(objpfx)"
-diff --git a/stdio-common/Makefile b/stdio-common/Makefile
+diff --git glibc-2.17-c758a686/stdio-common/Makefile glibc-2.17-c758a686/stdio-common/Makefile
 index f179eab..5f8e534 100644
---- a/stdio-common/Makefile
-+++ b/stdio-common/Makefile
+--- glibc-2.17-c758a686/stdio-common/Makefile
++++ glibc-2.17-c758a686/stdio-common/Makefile
 @@ -118,13 +118,6 @@ CFLAGS-scanf17.c = -I../libio -I../stdlib -I../wcsmbs -I../time -I../string \
  
  # We know the test has a format string problem.
@@ -413,10 +413,10 @@ index f179eab..5f8e534 100644
  
  CPPFLAGS += $(libio-mtsafe)
  
-diff --git a/stdlib/Makefile b/stdlib/Makefile
+diff --git glibc-2.17-c758a686/stdlib/Makefile glibc-2.17-c758a686/stdlib/Makefile
 index d7a562f..0fdf7cc 100644
---- a/stdlib/Makefile
-+++ b/stdlib/Makefile
+--- glibc-2.17-c758a686/stdlib/Makefile
++++ glibc-2.17-c758a686/stdlib/Makefile
 @@ -123,11 +123,6 @@ include ../Rules
  # Testdir has to be named stdlib and needs to be writable
  test-canon-ARGS = --test-dir=${common-objpfx}stdlib
@@ -429,10 +429,10 @@ index d7a562f..0fdf7cc 100644
  bug-fmtmsg1-ENV = SEV_LEVEL=foo,11,newsev
  
  # Run a test on the header files we use.
-diff --git a/string/Makefile b/string/Makefile
+diff --git glibc-2.17-c758a686/string/Makefile glibc-2.17-c758a686/string/Makefile
 index 5a76872..70b9c19 100644
---- a/string/Makefile
-+++ b/string/Makefile
+--- glibc-2.17-c758a686/string/Makefile
++++ glibc-2.17-c758a686/string/Makefile
 @@ -67,9 +67,6 @@ include ../Rules
  tester-ENV = LANGUAGE=C
  inl-tester-ENV = LANGUAGE=C
@@ -443,10 +443,10 @@ index 5a76872..70b9c19 100644
  CFLAGS-inl-tester.c = -fno-builtin
  CFLAGS-noinl-tester.c = -fno-builtin
  CFLAGS-tst-strlen.c = -fno-builtin
-diff --git a/time/Makefile b/time/Makefile
+diff --git glibc-2.17-c758a686/time/Makefile glibc-2.17-c758a686/time/Makefile
 index b7f3dba..a07c041 100644
---- a/time/Makefile
-+++ b/time/Makefile
+--- glibc-2.17-c758a686/time/Makefile
++++ glibc-2.17-c758a686/time/Makefile
 @@ -55,7 +55,4 @@ CFLAGS-test_time.c = -Wno-format
  tst-getdate-ENV= DATEMSK=datemsk TZDIR=${common-objpfx}timezone/testdata
  test_time-ARGS= EST5EDT CST
@@ -455,10 +455,10 @@ index b7f3dba..a07c041 100644
 -tst-ftime_l-ENV = LOCPATH=${common-objpfx}localedata
 -
  bug-getdate1-ARGS = ${objpfx}bug-getdate1-fmt
-diff --git a/wcsmbs/Makefile b/wcsmbs/Makefile
+diff --git glibc-2.17-c758a686/wcsmbs/Makefile glibc-2.17-c758a686/wcsmbs/Makefile
 index 197ca7d..42843a6 100644
---- a/wcsmbs/Makefile
-+++ b/wcsmbs/Makefile
+--- glibc-2.17-c758a686/wcsmbs/Makefile
++++ glibc-2.17-c758a686/wcsmbs/Makefile
 @@ -80,10 +80,3 @@ CPPFLAGS += $(libio-mtsafe)
  
  # We need to find the default version of strtold_l in stdlib.

@@ -22,11 +22,11 @@ apart from original commit.
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strnlen.c
 
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c b/sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c
 new file mode 100644
 index 0000000..676d837
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c
 @@ -0,0 +1,26 @@
 +/* Default strnlen implementation for PowerPC32.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -54,10 +54,10 @@ index 0000000..676d837
 +#endif
 +
 +#include <string/strnlen.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 9da7be1..3285fd7 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -5,5 +5,6 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    memset-ppc64 bzero-power4 bzero-power6 bzero-power7 \
                    mempcpy-power7 mempcpy-ppc64 memchr-power7 memchr-ppc64 \
@@ -66,10 +66,10 @@ index 9da7be1..3285fd7 100644
 +                  rawmemchr-ppc64 strlen-power7 strlen-ppc64 strnlen-power7 \
 +                  strnlen-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index bdc908b..c9125b8 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -129,5 +129,12 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
               IFUNC_IMPL_ADD (array, i, rawmemchr, 1,
                               __rawmemchr_ppc))
@@ -83,11 +83,11 @@ index bdc908b..c9125b8 100644
 +
    return i;
  }
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strnlen-power7.S b/sysdeps/powerpc/powerpc64/multiarch/strnlen-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen-power7.S
 new file mode 100644
 index 0000000..909aae8
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strnlen-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen-power7.S
 @@ -0,0 +1,40 @@
 +/* Optimized strnlen version for POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -129,11 +129,11 @@ index 0000000..909aae8
 +#define weak_alias(name, alias)
 +
 +#include <sysdeps/powerpc/powerpc64/power7/strnlen.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c b/sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c
 new file mode 100644
 index 0000000..9d23994
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen-ppc64.c
 @@ -0,0 +1,18 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -153,11 +153,11 @@ index 0000000..9d23994
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/strnlen-ppc32.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strnlen.c b/sysdeps/powerpc/powerpc64/multiarch/strnlen.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen.c
 new file mode 100644
 index 0000000..3926031
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strnlen.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strnlen.c
 @@ -0,0 +1,36 @@
 +/* Multiple versions of strnlen.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

@@ -9,8 +9,8 @@ Date:   Fri Mar 7 14:05:20 2014 +0000
     support can be detected by reading back the FPCR and comparing with
     the desired value.
 
---- a/ports/sysdeps/aarch64/fpu/feenablxcpt.c
-+++ b/ports/sysdeps/aarch64/fpu/feenablxcpt.c
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/fpu/feenablxcpt.c
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/fpu/feenablxcpt.c
 @@ -35,5 +35,18 @@ feenableexcept (int excepts)
  
    _FPU_SETCW (fpcr);
@@ -30,8 +30,8 @@ Date:   Fri Mar 7 14:05:20 2014 +0000
 +
    return original_excepts;
  }
---- a/ports/sysdeps/aarch64/fpu/fesetenv.c
-+++ b/ports/sysdeps/aarch64/fpu/fesetenv.c
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/fpu/fesetenv.c
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/fpu/fesetenv.c
 @@ -24,6 +24,7 @@ fesetenv (const fenv_t *envp)
  {
    fpu_control_t fpcr;
@@ -64,8 +64,8 @@ Date:   Thu Apr 17 09:39:27 2014 +0100
 
 (removed unnecessary code to limit it to test-fenv.c --kyle)
 
---- a/math/test-fenv.c
-+++ b/math/test-fenv.c
+--- glibc-2.17-c758a686/math/test-fenv.c
++++ glibc-2.17-c758a686/math/test-fenv.c
 @@ -233,14 +234,9 @@ feenv_nomask_test (const char *flag_name, int fe_exc)
  #if defined FE_NOMASK_ENV
    int status;

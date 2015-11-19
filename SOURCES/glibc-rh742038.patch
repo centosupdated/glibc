@@ -52,10 +52,10 @@ Author: Alexandre Oliva <aoliva@redhat.com>
     	* manual/Makefile (chapters): Add probes.
     	* manual/debug.texi: Set next node.
 
-Index: malloc/arena.c
+Index: glibc-2.17-c758a686/malloc/arena.c
 ===================================================================
---- malloc/arena.c.orig	2013-09-20 12:59:12.000000000 -0300
-+++ malloc/arena.c	2013-09-20 13:01:07.848184108 -0300
+--- glibc-2.17-c758a686/malloc/arena.c.orig
++++ glibc-2.17-c758a686/malloc/arena.c
 @@ -586,6 +586,7 @@ new_heap(size_t size, size_t top_pad)
    h->size = size;
    h->mprotect_size = size;
@@ -140,10 +140,10 @@ Index: malloc/arena.c
    if(ar_ptr != &main_arena) {
      (void)mutex_unlock(&ar_ptr->mutex);
      ar_ptr = &main_arena;
-Index: malloc/malloc.c
+Index: glibc-2.17-c758a686/malloc/malloc.c
 ===================================================================
---- malloc/malloc.c.orig	2013-09-20 12:59:12.000000000 -0300
-+++ malloc/malloc.c	2013-09-20 13:01:07.876181919 -0300
+--- glibc-2.17-c758a686/malloc/malloc.c.orig
++++ glibc-2.17-c758a686/malloc/malloc.c
 @@ -1884,6 +1884,8 @@ static int perturb_byte;
  #define free_perturb(p, n) memset (p, perturb_byte & 0xff, n)
  
@@ -320,10 +320,10 @@ Index: malloc/malloc.c
      break;
  #endif
    }
-Index: manual/Makefile
+Index: glibc-2.17-c758a686/manual/Makefile
 ===================================================================
---- manual/Makefile.orig	2013-09-20 12:59:12.435209793 -0300
-+++ manual/Makefile	2013-09-20 13:01:07.906179573 -0300
+--- glibc-2.17-c758a686/manual/Makefile.orig
++++ glibc-2.17-c758a686/manual/Makefile
 @@ -43,7 +43,7 @@ chapters = $(addsuffix .texi, \
  		       message search pattern io stdio llio filesys	\
  		       pipe socket terminal syslog math arith time	\
@@ -333,10 +333,10 @@ Index: manual/Makefile
  add-chapters = $(wildcard $(foreach d, $(add-ons), ../$d/$d.texi))
  appendices = lang.texi header.texi install.texi maint.texi platform.texi \
  	     contrib.texi
-Index: manual/probes.texi
+Index: glibc-2.17-c758a686/manual/probes.texi
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ manual/probes.texi	2013-09-20 13:03:59.749747437 -0300
+--- /dev/null
++++ glibc-2.17-c758a686/manual/probes.texi
 @@ -0,0 +1,257 @@
 +@node Internal Probes
 +@c @node Internal Probes, , Debugging Support, Top
@@ -595,10 +595,10 @@ Index: manual/probes.texi
 +dynamic brk/mmap thresholds.  Argument @var{$arg1} and @var{$arg2} are
 +the adjusted mmap and trim thresholds, respectively.
 +@end deftp
-Index: manual/debug.texi
+Index: glibc-2.17-c758a686/manual/debug.texi
 ===================================================================
---- manual/debug.texi.orig	2012-12-25 01:02:13.000000000 -0200
-+++ manual/debug.texi	2013-09-20 13:01:07.939176993 -0300
+--- glibc-2.17-c758a686/manual/debug.texi.orig
++++ glibc-2.17-c758a686/manual/debug.texi
 @@ -1,5 +1,5 @@
  @node Debugging Support
 -@c @node Debugging Support, , Cryptographic Functions, Top

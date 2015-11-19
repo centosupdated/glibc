@@ -24,10 +24,10 @@ original commit
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/memchr.c
 
-diff --git a/string/memchr.c b/string/memchr.c
+diff --git glibc-2.17-c758a686/string/memchr.c glibc-2.17-c758a686/string/memchr.c
 index 22637cf..822c0a4 100644
---- a/string/memchr.c
-+++ b/string/memchr.c
+--- glibc-2.17-c758a686/string/memchr.c
++++ glibc-2.17-c758a686/string/memchr.c
 @@ -56,9 +56,13 @@
  #undef memchr
  #undef __memchr
@@ -43,11 +43,11 @@ index 22637cf..822c0a4 100644
       const __ptr_t s;
       int c_in;
       size_t n;
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c b/sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c
 new file mode 100644
 index 0000000..43c5652
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c
 @@ -0,0 +1,34 @@
 +/* PowerPC32 default implementation of memchr.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -83,10 +83,10 @@ index 0000000..43c5652
 +extern __typeof (memchr) __memchr_ppc attribute_hidden;
 +
 +#include <string/memchr.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 22560e8..b2815e7 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -3,5 +3,5 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    memcpy-power4 memcpy-ppc64 memcmp-power7 memcmp-power4 \
                    memcmp-ppc64 memset-power7 memset-power6 memset-power4 \
@@ -94,10 +94,10 @@ index 22560e8..b2815e7 100644
 -                  mempcpy-power7 mempcpy-ppc64
 +                  mempcpy-power7 mempcpy-ppc64 memchr-power7 memchr-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index c72c229..663e294 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -98,5 +98,13 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
               IFUNC_IMPL_ADD (array, i, mempcpy, 1,
                               __mempcpy_ppc))
@@ -112,11 +112,11 @@ index c72c229..663e294 100644
 +
    return i;
  }
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memchr-power7.S b/sysdeps/powerpc/powerpc64/multiarch/memchr-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr-power7.S
 new file mode 100644
 index 0000000..b1b4ec7
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memchr-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr-power7.S
 @@ -0,0 +1,40 @@
 +/* Optimized memchr implementation for PowerPC64/POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -158,11 +158,11 @@ index 0000000..b1b4ec7
 +#define weak_alias(name,alias)
 +
 +#include <sysdeps/powerpc/powerpc64/power7/memchr.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c b/sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c
 new file mode 100644
 index 0000000..9e2a711
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr-ppc64.c
 @@ -0,0 +1,19 @@
 +/* PowerPC64 default implementation of memchr.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -183,11 +183,11 @@ index 0000000..9e2a711
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/memchr-ppc32.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memchr.c b/sysdeps/powerpc/powerpc64/multiarch/memchr.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr.c
 new file mode 100644
 index 0000000..ca0f714
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memchr.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memchr.c
 @@ -0,0 +1,38 @@
 +/* Multiple versions of memchr.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

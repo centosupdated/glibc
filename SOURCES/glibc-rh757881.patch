@@ -1,6 +1,6 @@
-diff -Nrup a/malloc/arena.c b/malloc/arena.c
---- a/malloc/arena.c	2012-05-29 16:45:53.000000000 -0600
-+++ b/malloc/arena.c	2012-05-30 00:13:40.683514016 -0600
+diff -Nru glibc-2.17-c758a686/malloc/arena.c glibc-2.17-c758a686/malloc/arena.c
+--- glibc-2.17-c758a686/malloc/arena.c	2012-05-29 16:45:53.000000000 -0600
++++ glibc-2.17-c758a686/malloc/arena.c	2012-05-30 00:13:40.683514016 -0600
 @@ -673,7 +673,7 @@ heap_trim(heap_info *heap, size_t pad)
      heap = prev_heap;
      if(!prev_inuse(p)) { /* consolidate backward */
@@ -10,9 +10,9 @@ diff -Nrup a/malloc/arena.c b/malloc/arena.c
      }
      assert(((unsigned long)((char*)p + new_size) & (pagesz-1)) == 0);
      assert( ((char*)p + new_size) == ((char*)heap + heap->size) );
-diff -Nrup a/malloc/hooks.c b/malloc/hooks.c
---- a/malloc/hooks.c	2012-05-29 16:45:53.000000000 -0600
-+++ b/malloc/hooks.c	2012-05-30 00:13:40.684514011 -0600
+diff -Nru glibc-2.17-c758a686/malloc/hooks.c glibc-2.17-c758a686/malloc/hooks.c
+--- glibc-2.17-c758a686/malloc/hooks.c	2012-05-29 16:45:53.000000000 -0600
++++ glibc-2.17-c758a686/malloc/hooks.c	2012-05-30 00:13:40.684514011 -0600
 @@ -191,7 +191,9 @@ top_check(void)
  	(char*)t + chunksize(t) == mp_.sbrk_base + main_arena.system_mem)))
      return 0;
@@ -23,9 +23,9 @@ diff -Nrup a/malloc/hooks.c b/malloc/hooks.c
  
    /* Try to set up a new top chunk. */
    brk = MORECORE(0);
-diff -Nrup a/malloc/malloc.c b/malloc/malloc.c
---- a/malloc/malloc.c	2012-05-29 16:45:53.000000000 -0600
-+++ b/malloc/malloc.c	2012-05-30 00:13:40.686514001 -0600
+diff -Nru glibc-2.17-c758a686/malloc/malloc.c glibc-2.17-c758a686/malloc/malloc.c
+--- glibc-2.17-c758a686/malloc/malloc.c	2012-05-29 16:45:53.000000000 -0600
++++ glibc-2.17-c758a686/malloc/malloc.c	2012-05-30 00:13:40.686514001 -0600
 @@ -1424,12 +1424,14 @@ typedef struct malloc_chunk* mbinptr;
  #define last(b)      ((b)->bk)
  

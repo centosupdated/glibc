@@ -8,10 +8,10 @@ Date:   Sun Jun 30 20:45:05 2013 +0530
     possible stack overflow.  This patch implements sequence traversal and
     comparison without caching indeces and rules.
 
-diff --git a/string/strcoll_l.c b/string/strcoll_l.c
+diff --git glibc-2.17-c758a686/string/strcoll_l.c glibc-2.17-c758a686/string/strcoll_l.c
 index 1bb9e23..1be6874 100644
---- a/string/strcoll_l.c
-+++ b/string/strcoll_l.c
+--- glibc-2.17-c758a686/string/strcoll_l.c
++++ glibc-2.17-c758a686/string/strcoll_l.c
 @@ -55,6 +55,12 @@ typedef struct
    const USTRING_TYPE *us;	/* The string.  */
    int32_t *idxarr;		/* Array to cache weight indeces.  */

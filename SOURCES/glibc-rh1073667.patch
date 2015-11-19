@@ -4,10 +4,10 @@ Date:   Mon May 20 10:19:31 2013 +0200
 
     AArch64: Don't clobber argument for tail call to __sigjmp_save in sigsetjmp
 
-diff --git a/ports/sysdeps/aarch64/setjmp.S b/ports/sysdeps/aarch64/setjmp.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S
 index cff81c7..10e0709 100644
---- a/ports/sysdeps/aarch64/setjmp.S
-+++ b/ports/sysdeps/aarch64/setjmp.S
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S
 @@ -44,8 +44,14 @@ ENTRY (__sigsetjmp)
  	stp	d10, d11, [x0, #JB_D10<<3]
  	stp	d12, d13, [x0, #JB_D12<<3]
@@ -25,10 +25,10 @@ index cff81c7..10e0709 100644
 +#endif
  END (__sigsetjmp)
  hidden_def (__sigsetjmp)
-diff --git a/setjmp/Makefile b/setjmp/Makefile
+diff --git glibc-2.17-c758a686/setjmp/Makefile glibc-2.17-c758a686/setjmp/Makefile
 index 6124333..913359c 100644
---- a/setjmp/Makefile
-+++ b/setjmp/Makefile
+--- glibc-2.17-c758a686/setjmp/Makefile
++++ glibc-2.17-c758a686/setjmp/Makefile
 @@ -25,7 +25,8 @@ headers	:= setjmp.h bits/setjmp.h bits/setjmp2.h
  routines	:= setjmp sigjmp bsd-setjmp bsd-_setjmp \
  		   longjmp __longjmp jmp-unwind
@@ -39,11 +39,11 @@ index 6124333..913359c 100644
  
  
  include ../Rules
-diff --git a/setjmp/tst-sigsetjmp.c b/setjmp/tst-sigsetjmp.c
+diff --git glibc-2.17-c758a686/setjmp/tst-sigsetjmp.c glibc-2.17-c758a686/setjmp/tst-sigsetjmp.c
 new file mode 100644
 index 0000000..467c26a
 --- /dev/null
-+++ b/setjmp/tst-sigsetjmp.c
++++ glibc-2.17-c758a686/setjmp/tst-sigsetjmp.c
 @@ -0,0 +1,44 @@
 +/* Copyright (C) 2013 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.

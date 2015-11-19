@@ -22,10 +22,10 @@ Date:   Fri Dec 13 15:02:32 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c
 
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index a4636b0..9eb69af 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -4,5 +4,6 @@ sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
  
  libm-sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
@@ -34,11 +34,11 @@ index a4636b0..9eb69af 100644
 +                       s_llround-power5+ s_llround-ppc64 s_ceil-power5+ \
 +                       s_ceil-ppc64 s_ceilf-power5+ s_ceilf-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-power5+.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-power5+.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-power5+.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-power5+.S
 new file mode 100644
 index 0000000..cc1316f
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-power5+.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-power5+.S
 @@ -0,0 +1,31 @@
 +/* ceil function.  PowerPC64/power5+ version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -71,11 +71,11 @@ index 0000000..cc1316f
 +#define __ceil __ceil_power5plus
 +
 +#include <sysdeps/powerpc/powerpc64/power5+/fpu/s_ceil.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-ppc64.S
 new file mode 100644
 index 0000000..52e5a56
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil-ppc64.S
 @@ -0,0 +1,31 @@
 +/* ceil function.  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -108,11 +108,11 @@ index 0000000..52e5a56
 +#define __ceil __ceil_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_ceil.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil.c
 new file mode 100644
 index 0000000..f53df5b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceil.c
 @@ -0,0 +1,40 @@
 +/* Multiple versions of ceil.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -154,11 +154,11 @@ index 0000000..f53df5b
 +#if LONG_DOUBLE_COMPAT(libm, GLIBC_2_0)
 +compat_symbol (libm, __ceil, ceill, GLIBC_2_0);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-power5+.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-power5+.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-power5+.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-power5+.S
 new file mode 100644
 index 0000000..21261e2
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-power5+.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-power5+.S
 @@ -0,0 +1,26 @@
 +/* ceilf function.  PowerPC64/power5+ version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -186,11 +186,11 @@ index 0000000..21261e2
 +#define __ceilf __ceilf_power5plus
 +
 +#include <sysdeps/powerpc/powerpc64/power5+/fpu/s_ceilf.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S
 new file mode 100644
 index 0000000..8cd869b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf-ppc64.S
 @@ -0,0 +1,26 @@
 +/* ceilf function.  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -218,11 +218,11 @@ index 0000000..8cd869b
 +#define __ceilf __ceilf_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_ceilf.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c
 new file mode 100644
 index 0000000..d951990
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_ceilf.c
 @@ -0,0 +1,32 @@
 +/* Multiple versions of ceilf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

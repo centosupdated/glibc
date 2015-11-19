@@ -10,10 +10,10 @@ Date:   Thu Nov 28 17:18:12 2013 +0530
     _nss_files_gethostbyname2_r and then returns result.h_name as the
     canonical name.
 
-diff --git a/nss/Versions b/nss/Versions
+diff --git glibc-2.17-c758a686/nss/Versions glibc-2.17-c758a686/nss/Versions
 index d13d570..f8ababc 100644
---- a/nss/Versions
-+++ b/nss/Versions
+--- glibc-2.17-c758a686/nss/Versions
++++ glibc-2.17-c758a686/nss/Versions
 @@ -40,6 +40,7 @@ libnss_files {
      _nss_files_endhostent;
      _nss_files_gethostbyaddr_r;
@@ -22,10 +22,10 @@ index d13d570..f8ababc 100644
      _nss_files_gethostbyname4_r;
      _nss_files_gethostbyname_r;
      _nss_files_gethostent_r;
-diff --git a/nss/nss_files/files-hosts.c b/nss/nss_files/files-hosts.c
+diff --git glibc-2.17-c758a686/nss/nss_files/files-hosts.c glibc-2.17-c758a686/nss/nss_files/files-hosts.c
 index 6db2535..957c9aa 100644
---- a/nss/nss_files/files-hosts.c
-+++ b/nss/nss_files/files-hosts.c
+--- glibc-2.17-c758a686/nss/nss_files/files-hosts.c
++++ glibc-2.17-c758a686/nss/nss_files/files-hosts.c
 @@ -97,262 +97,12 @@ LINE_PARSER
     STRING_FIELD (result->h_name, isspace, 1);
   })

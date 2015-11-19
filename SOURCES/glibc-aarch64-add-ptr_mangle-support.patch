@@ -4,10 +4,10 @@ Date:   Wed Jan 1 17:47:14 2014 +0000
 
     [AArch64] Pointer mangling support for AArch64.
 
-diff --git a/ports/sysdeps/aarch64/__longjmp.S b/ports/sysdeps/aarch64/__longjmp.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/__longjmp.S glibc-2.17-c758a686/ports/sysdeps/aarch64/__longjmp.S
 index 250f2af..2d38bbf 100644
---- a/ports/sysdeps/aarch64/__longjmp.S
-+++ b/ports/sysdeps/aarch64/__longjmp.S
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/__longjmp.S
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/__longjmp.S
 @@ -50,8 +50,12 @@ ENTRY (__longjmp)
  	ldp	x23, x24, [x0, #JB_X23<<3]
  	ldp	x25, x26, [x0, #JB_X25<<3]
@@ -37,10 +37,10 @@ index 250f2af..2d38bbf 100644
  	mov	sp, x5
  	cmp	x1, #0
  	mov	x0, #1
-diff --git a/ports/sysdeps/aarch64/jmpbuf-offsets.h b/ports/sysdeps/aarch64/jmpbuf-offsets.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-offsets.h glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-offsets.h
 index 84c2ccc..bcf2afa 100644
---- a/ports/sysdeps/aarch64/jmpbuf-offsets.h
-+++ b/ports/sysdeps/aarch64/jmpbuf-offsets.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-offsets.h
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-offsets.h
 @@ -39,6 +39,22 @@
  #define JB_D14		 20
  #define JB_D15		 21
@@ -65,10 +65,10 @@ index 84c2ccc..bcf2afa 100644
  #define JB_FRAME_ADDRESS(buf) \
 -  ((void *) (buf[JB_SP]))
 +  ((void *) _jmpbuf_sp (buf))
-diff --git a/ports/sysdeps/aarch64/jmpbuf-unwind.h b/ports/sysdeps/aarch64/jmpbuf-unwind.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-unwind.h glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-unwind.h
 index 22c6c2b..39a5dc2 100644
---- a/ports/sysdeps/aarch64/jmpbuf-unwind.h
-+++ b/ports/sysdeps/aarch64/jmpbuf-unwind.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-unwind.h
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/jmpbuf-unwind.h
 @@ -29,16 +29,6 @@
  #define _JMPBUF_CFA_UNWINDS_ADJ(jmpbuf, context, adj) \
    _JMPBUF_UNWINDS_ADJ (jmpbuf, (void *) _Unwind_GetCFA (context), adj)
@@ -86,10 +86,10 @@ index 22c6c2b..39a5dc2 100644
  #define _JMPBUF_UNWINDS_ADJ(_jmpbuf, _address, _adj) \
    ((uintptr_t) (_address) - (_adj) < _jmpbuf_sp (_jmpbuf) - (_adj))
  
-diff --git a/ports/sysdeps/aarch64/setjmp.S b/ports/sysdeps/aarch64/setjmp.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S
 index cb94e01..5822abd 100644
---- a/ports/sysdeps/aarch64/setjmp.S
-+++ b/ports/sysdeps/aarch64/setjmp.S
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/setjmp.S
 @@ -39,13 +39,25 @@ ENTRY (__sigsetjmp)
  	stp	x23, x24, [x0, #JB_X23<<3]
  	stp	x25, x26, [x0, #JB_X25<<3]
@@ -116,10 +116,10 @@ index cb94e01..5822abd 100644
  #if defined NOT_IN_libc && defined IS_IN_rtld
  	/* In ld.so we never save the signal mask */
  	mov	w0, #0
-diff --git a/ports/sysdeps/aarch64/sysdep.h b/ports/sysdeps/aarch64/sysdep.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/sysdep.h glibc-2.17-c758a686/ports/sysdeps/aarch64/sysdep.h
 index 0dd597a..7169ba7 100644
---- a/ports/sysdeps/aarch64/sysdep.h
-+++ b/ports/sysdeps/aarch64/sysdep.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/sysdep.h
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/sysdep.h
 @@ -78,6 +78,17 @@
  # define L(name)         .L##name
  #endif
@@ -138,10 +138,10 @@ index 0dd597a..7169ba7 100644
  /* Since C identifiers are not normally prefixed with an underscore
     on this system, the asm identifier `syscall_error' intrudes on the
     C name space.  Make sure we use an innocuous name.  */
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h b/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
 index f3f0ada..5ccf1da 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
 @@ -371,8 +371,44 @@ __local_syscall_error:						\
  
  #endif	/* __ASSEMBLER__ */
@@ -201,10 +201,10 @@ Date:   Mon Sep 23 01:44:38 2013 -0400
     Provide the right definition depending on the test case
     we are building.
 
-hiff --git a/elf/Makefile b/elf/Makefile
+diff --git glibc-2.17-c758a686/elf/Makefile glibc-2.17-c758a686/elf/Makefile
 index cb8da93..27d249b 100644
---- a/elf/Makefile
-+++ b/elf/Makefile
+--- glibc-2.17-c758a686/elf/Makefile
++++ glibc-2.17-c758a686/elf/Makefile
 @@ -1019,6 +1019,9 @@ tst-stackguard1-ARGS = --command "$(host-test-program-cmd) --child"
  tst-stackguard1-static-ARGS = --command "$(objpfx)tst-stackguard1-static --child"
  
@@ -215,10 +215,10 @@ index cb8da93..27d249b 100644
  tst-ptrguard1-static-ARGS = --command "$(objpfx)tst-ptrguard1-static --child"
  
  $(objpfx)tst-leaks1: $(libdl)
-diff --git a/sysdeps/generic/stackguard-macros.h b/sysdeps/generic/stackguard-macros.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/stackguard-macros.h glibc-2.17-c758a686/sysdeps/generic/stackguard-macros.h
 index 4fa3d96..b4a6b23 100644
---- a/sysdeps/generic/stackguard-macros.h
-+++ b/sysdeps/generic/stackguard-macros.h
+--- glibc-2.17-c758a686/sysdeps/generic/stackguard-macros.h
++++ glibc-2.17-c758a686/sysdeps/generic/stackguard-macros.h
 @@ -3,5 +3,10 @@
  extern uintptr_t __stack_chk_guard;
  #define STACK_CHK_GUARD __stack_chk_guard

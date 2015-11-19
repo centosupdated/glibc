@@ -1,6 +1,6 @@
-diff -Nrup a/posix/fnmatch.c b/posix/fnmatch.c
---- a/posix/fnmatch.c	2012-01-01 07:16:32.000000000 -0500
-+++ b/posix/fnmatch.c	2012-05-23 14:14:29.099461189 -0400
+diff -Nru glibc-2.17-c758a686/posix/fnmatch.c glibc-2.17-c758a686/posix/fnmatch.c
+--- glibc-2.17-c758a686/posix/fnmatch.c	2012-01-01 07:16:32.000000000 -0500
++++ glibc-2.17-c758a686/posix/fnmatch.c	2012-05-23 14:14:29.099461189 -0400
 @@ -333,6 +333,7 @@ fnmatch (pattern, string, flags)
  # if HANDLE_MULTIBYTE
    if (__builtin_expect (MB_CUR_MAX, 1) != 1)

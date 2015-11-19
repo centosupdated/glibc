@@ -9,10 +9,10 @@ Date:   Tue Feb 26 14:24:40 2013 +0530
     Draw graphs for heap and stack only if MAXSIZE_HEAP and MAXSIZE_STACK
     are non-zero.
 
-diff --git a/malloc/memusagestat.c b/malloc/memusagestat.c
+diff --git glibc-2.17-c758a686/malloc/memusagestat.c glibc-2.17-c758a686/malloc/memusagestat.c
 index f561e0d..7bbd009 100644
---- a/malloc/memusagestat.c
-+++ b/malloc/memusagestat.c
+--- glibc-2.17-c758a686/malloc/memusagestat.c
++++ glibc-2.17-c758a686/malloc/memusagestat.c
 @@ -319,17 +319,26 @@ main (int argc, char *argv[])
  
    for (line = 1; line <= 3; ++line)

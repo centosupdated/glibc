@@ -8,7 +8,7 @@
 #	AUTH_DES and FIPS 140-2.
 #	(DES Encryption): Add cindex FIPS 46-3.
 #
---- glibc-2.17-c758a686.orig/manual/crypt.texi	2013-09-13 03:02:40.891987663 -0400
+--- glibc-2.17-c758a686/manual/crypt.texi	2013-09-13 03:02:40.891987663 -0400
 +++ glibc-2.17-c758a686/manual/crypt.texi	2013-09-13 03:04:02.082380415 -0400
 @@ -30,8 +30,15 @@
  and the other based on the Data Encryption Standard (DES) that is

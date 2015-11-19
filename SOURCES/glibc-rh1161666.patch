@@ -1,7 +1,7 @@
-diff --git a/sysdeps/s390/s390-32/dl-machine.h b/sysdeps/s390/s390-32/dl-machine.h
+diff --git glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h
 index c56185c..79f8ef9 100644
---- a/sysdeps/s390/s390-32/dl-machine.h
-+++ b/sysdeps/s390/s390-32/dl-machine.h
+--- glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h
++++ glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h
 @@ -166,18 +166,49 @@ _dl_start_user:\n\
  	# See if we were run as a command with the executable file\n\
  	# name as an extra leading argument.\n\
@@ -77,11 +77,11 @@ index c56185c..79f8ef9 100644
  	# Jump to the user's entry point (saved in %r8).\n\
  	br    %r8\n\
  .Llit:\n\
-diff --git a/sysdeps/s390/s390-32/dl-sysdep.h b/sysdeps/s390/s390-32/dl-sysdep.h
+diff --git glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-sysdep.h glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-sysdep.h
 new file mode 100644
 index 0000000..b992778
 --- /dev/null
-+++ b/sysdeps/s390/s390-32/dl-sysdep.h
++++ glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-sysdep.h
 @@ -0,0 +1,23 @@
 +/* System-specific settings for dynamic linker code.  S/390 version.
 +   Copyright (C) 2014 Free Software Foundation, Inc.

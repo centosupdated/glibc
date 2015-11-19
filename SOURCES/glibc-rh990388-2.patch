@@ -1,6 +1,6 @@
-diff -pruN glibc-2.17-c758a686/csu/libc-start.c glibc-2.17-c758a686.new/csu/libc-start.c
+diff -pruN glibc-2.17-c758a686/csu/libc-start.c glibc-2.17-c758a686/csu/libc-start.c
 --- glibc-2.17-c758a686/csu/libc-start.c	2012-12-25 08:32:13.000000000 +0530
-+++ glibc-2.17-c758a686.new/csu/libc-start.c	2013-07-30 11:46:44.571901690 +0530
++++ glibc-2.17-c758a686/csu/libc-start.c	2013-07-30 11:46:44.571901690 +0530
 @@ -32,7 +32,7 @@ extern int __libc_multiple_libcs;
  #include <tls.h>
  #ifndef SHARED
@@ -19,9 +19,9 @@ diff -pruN glibc-2.17-c758a686/csu/libc-start.c glibc-2.17-c758a686.new/csu/libc
  
    /* Set up the stack checker's canary.  */
    uintptr_t stack_chk_guard = _dl_setup_stack_chk_guard (_dl_random);
-diff -pruN glibc-2.17-c758a686/csu/libc-tls.c glibc-2.17-c758a686.new/csu/libc-tls.c
+diff -pruN glibc-2.17-c758a686/csu/libc-tls.c glibc-2.17-c758a686/csu/libc-tls.c
 --- glibc-2.17-c758a686/csu/libc-tls.c	2012-12-25 08:32:13.000000000 +0530
-+++ glibc-2.17-c758a686.new/csu/libc-tls.c	2013-07-30 11:46:44.572901690 +0530
++++ glibc-2.17-c758a686/csu/libc-tls.c	2013-07-30 11:46:44.572901690 +0530
 @@ -243,7 +243,7 @@ _dl_tls_setup (void)
     not used.  */
  void
@@ -31,9 +31,9 @@ diff -pruN glibc-2.17-c758a686/csu/libc-tls.c glibc-2.17-c758a686.new/csu/libc-t
  {
    __libc_setup_tls (TLS_INIT_TCB_SIZE, TLS_INIT_TCB_ALIGN);
  }
-diff -pruN glibc-2.17-c758a686/nptl/Makefile glibc-2.17-c758a686.new/nptl/Makefile
+diff -pruN glibc-2.17-c758a686/nptl/Makefile glibc-2.17-c758a686/nptl/Makefile
 --- glibc-2.17-c758a686/nptl/Makefile	2013-07-30 11:46:34.909902026 +0530
-+++ glibc-2.17-c758a686.new/nptl/Makefile	2013-07-30 11:46:44.573901690 +0530
++++ glibc-2.17-c758a686/nptl/Makefile	2013-07-30 11:46:44.573901690 +0530
 @@ -201,7 +201,7 @@ CFLAGS-pt-system.c = -fexceptions
  
  
@@ -57,9 +57,9 @@ diff -pruN glibc-2.17-c758a686/nptl/Makefile glibc-2.17-c758a686.new/nptl/Makefi
  include ../Makeconfig
  
  ifeq ($(have-forced-unwind),yes)
-diff -pruN glibc-2.17-c758a686/nptl/nptl-init.c glibc-2.17-c758a686.new/nptl/nptl-init.c
+diff -pruN glibc-2.17-c758a686/nptl/nptl-init.c glibc-2.17-c758a686/nptl/nptl-init.c
 --- glibc-2.17-c758a686/nptl/nptl-init.c	2013-07-30 11:46:35.112902019 +0530
-+++ glibc-2.17-c758a686.new/nptl/nptl-init.c	2013-07-30 11:46:44.601901689 +0530
++++ glibc-2.17-c758a686/nptl/nptl-init.c	2013-07-30 11:46:44.601901689 +0530
 @@ -35,6 +35,7 @@
  #include <smp.h>
  #include <lowlevellock.h>
@@ -164,9 +164,9 @@ diff -pruN glibc-2.17-c758a686/nptl/nptl-init.c glibc-2.17-c758a686.new/nptl/npt
    __default_pthread_attr.guardsize = GLRO (dl_pagesize);
  
  #ifdef SHARED
-diff -pruN glibc-2.17-c758a686/nptl/tst-default-attr.c glibc-2.17-c758a686.new/nptl/tst-default-attr.c
+diff -pruN glibc-2.17-c758a686/nptl/tst-default-attr.c glibc-2.17-c758a686/nptl/tst-default-attr.c
 --- glibc-2.17-c758a686/nptl/tst-default-attr.c	1970-01-01 05:30:00.000000000 +0530
-+++ glibc-2.17-c758a686.new/nptl/tst-default-attr.c	2013-07-30 11:46:44.601901689 +0530
++++ glibc-2.17-c758a686/nptl/tst-default-attr.c	2013-07-30 11:46:44.601901689 +0530
 @@ -0,0 +1,109 @@
 +/* Verify that default stack size gets set correctly from the environment
 +   variable.

@@ -17,9 +17,9 @@
 #     
 #         * tst-cancel4.c (WRITE_BUFFER_SIZE): Adjust comment.
 # 
-diff -urN glibc-2.17-c758a686.next/nptl/tst-cancel4.c glibc-2.17-c758a686.new/nptl/tst-cancel4.c
---- glibc-2.17-c758a686.next/nptl/tst-cancel4.c	2014-07-25 22:07:09.130021164 -0400
-+++ glibc-2.17-c758a686.new/nptl/tst-cancel4.c	2014-07-25 22:12:07.580022919 -0400
+diff -urN glibc-2.17-c758a686/nptl/tst-cancel4.c glibc-2.17-c758a686/nptl/tst-cancel4.c
+--- glibc-2.17-c758a686/nptl/tst-cancel4.c	2014-07-25 22:07:09.130021164 -0400
++++ glibc-2.17-c758a686/nptl/tst-cancel4.c	2014-07-25 22:12:07.580022919 -0400
 @@ -83,7 +83,30 @@
  # define IPC_ADDVAL 0
  #endif

@@ -28,9 +28,9 @@
 #         * sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S: Use HISHORT.
 #         * sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S: Likewise.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_copysign.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_copysign.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_copysign.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_copysign.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysign.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysign.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysign.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysign.S	2014-05-27 22:45:46.000000000 -0500
 @@ -29,7 +29,7 @@
  	stwu	r1,-16(r1)
  	cfi_adjust_cfa_offset (16)
@@ -40,9 +40,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_copysign.S gl
  	cmpwi   r3,0
  	addi    r1,r1,16
  	cfi_adjust_cfa_offset (-16)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S	2014-05-27 22:45:46.000000000 -0500
 @@ -30,7 +30,7 @@
  	fmr	fp0,fp1
  	fabs	fp1,fp1
@@ -52,9 +52,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_copysignl.S g
  	cmpwi	cr6,r3,0
  	addi	r1,r1,16
  	cfi_adjust_cfa_offset (-16)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_lrint.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_lrint.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_lrint.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_lrint.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lrint.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lrint.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lrint.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lrint.S	2014-05-27 22:45:46.000000000 -0500
 @@ -24,10 +24,10 @@
  	stwu	r1,-16(r1)
  	fctiw	fp13,fp1
@@ -68,9 +68,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_lrint.S glibc
  	addi	r1,r1,16
  	blr
  	END (__lrint)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_lround.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_lround.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_lround.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_lround.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lround.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lround.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lround.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_lround.S	2014-05-27 22:45:46.000000000 -0500
 @@ -67,7 +67,7 @@
  	nop	/* Ensure the following load is in a different dispatch  */
  	nop	/* group to avoid pipe stall on POWER4&5.  */
@@ -80,9 +80,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_lround.S glib
  .Lout:
  	addi	r1,r1,16
  	blr
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S	2014-05-27 22:48:09.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint.S	2014-05-27 22:48:09.000000000 -0500
 @@ -29,8 +29,8 @@
  	nop	/* Insure the following load is in a different dispatch group */
  	nop	/* to avoid pipe stall on POWER4&5.  */
@@ -94,9 +94,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint
  	addi	r1,r1,16	
  	blr
  	END (__llrint)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S	2014-05-27 22:48:44.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llrintf.S	2014-05-27 22:48:44.000000000 -0500
 @@ -28,8 +28,8 @@
  	nop	/* Insure the following load is in a different dispatch group */
  	nop	/* to avoid pipe stall on POWER4&5.  */
@@ -108,9 +108,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llrint
  	addi	r1,r1,16	
  	blr
  	END (__llrintf)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.S	2014-05-27 22:45:46.000000000 -0500
 @@ -27,8 +27,8 @@
  	ori	r1,r1,0
  	stfd	fp1,24(r1)	/* copy FPR to GPR */
@@ -122,9 +122,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5/fpu/s_isnan.
  	lis	r0,0x7ff0	/* const long r0 0x7ff00000 00000000 */
  	clrlwi	r4,r4,1		/* x = fabs(x) */
  	cmpw	cr7,r4,r0	/* if (fabs(x) =< inf) */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_llround.S	2014-05-27 22:45:46.000000000 -0500
 @@ -39,8 +39,8 @@
  	nop	/* Ensure the following load is in a different dispatch  */
  	nop	/* group to avoid pipe stall on POWER4&5.  */
@@ -136,9 +136,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5+/fpu/s_llrou
  	addi	r1,r1,16
  	blr
  	END (__llround)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power5+/fpu/s_lround.S	2014-05-27 22:45:46.000000000 -0500
 @@ -38,7 +38,7 @@
  	nop	/* Ensure the following load is in a different dispatch  */
  	nop	/* group to avoid pipe stall on POWER4&5.  */
@@ -148,9 +148,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power5+/fpu/s_lroun
  	addi	r1,r1,16
  	blr
  	END (__lround)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.S	2014-05-27 22:45:46.000000000 -0500
 @@ -27,8 +27,8 @@
  	ori	r1,r1,0
  	stfd	fp1,24(r1)	/* copy FPR to GPR */
@@ -162,9 +162,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_isnan.
  	lis	r0,0x7ff0	/* const long r0 0x7ff00000 00000000 */
  	clrlwi	r4,r4,1		/* x = fabs(x) */
  	cmpw	cr7,r4,r0	/* if (fabs(x) =< inf) */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S	2014-05-27 22:46:52.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint.S	2014-05-27 22:46:52.000000000 -0500
 @@ -29,8 +29,8 @@
  /* Insure the following load is in a different dispatch group by
     inserting "group ending nop".  */
@@ -176,9 +176,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint
  	addi	r1,r1,16	
  	blr
  	END (__llrint)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S	2014-05-27 22:47:29.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llrintf.S	2014-05-27 22:47:29.000000000 -0500
 @@ -28,8 +28,8 @@
  /* Insure the following load is in a different dispatch group by
     inserting "group ending nop".  */
@@ -190,9 +190,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llrint
  	addi	r1,r1,16	
  	blr
  	END (__llrintf)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power6/fpu/s_llround.S	2014-05-27 22:45:46.000000000 -0500
 @@ -39,8 +39,8 @@
  /* Insure the following load is in a different dispatch group by
     inserting "group ending nop".  */
@@ -204,9 +204,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power6/fpu/s_llroun
  	addi	r1,r1,16
  	blr
  	END (__llround)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_finite.S	2014-05-27 22:45:46.000000000 -0500
 @@ -54,9 +54,8 @@
  	stfd    fp1,8(r1)     /* Transfer FP to GPR's.  */
  
@@ -219,9 +219,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_finite
  	clrlwi	r0,r0,17      /* r0 = abs(r0).  */
  	addi	r1,r1,16      /* Reset the stack pointer.  */
  	cmpwi	cr7,r0,0x7ff0 /* r4 == 0x7ff0?.  */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.S	2014-05-27 22:45:46.000000000 -0500
 @@ -48,14 +48,13 @@
  	li	r3,0
  	bflr    29	      /* If not INF, return.  */
@@ -240,9 +240,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_isinf.
  	addi	r1,r1,16      /* Reset the stack pointer.  */
  	cmpwi	cr7,r4,0x7ff0 /* r4 == 0x7ff0?  */
  	li	r3,1
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.S	2014-05-27 22:45:46.000000000 -0500
 @@ -53,8 +53,8 @@
  	stwu	r1,-16(r1)    /* Allocate stack space.  */
  	stfd	fp1,8(r1)     /* Transfer FP to GPR's.  */
@@ -254,9 +254,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_isnan.
  	addi	r1,r1,16      /* Reset the stack pointer.  */
  	lis     r0,0x7ff0     /* Load the upper portion for an INF/NaN.  */
  	clrlwi  r4,r4,1	      /* r4 = abs(r4).  */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_finite.S	2014-05-27 22:45:46.000000000 -0500
 @@ -39,10 +39,8 @@
  
  	stfd    fp1,-16(r1)   /* Transfer FP to GPR's.  */
@@ -270,9 +270,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/fpu/s_finite
  	clrlwi  r4,r4,17      /* r4 = abs(r4).  */
  	cmpwi   cr7,r4,0x7ff0 /* r4 == 0x7ff0?  */
  	bltlr   cr7	      /* LT means finite, other non-finite.  */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S	2014-05-27 22:45:46.000000000 -0500
 @@ -38,9 +38,8 @@
  
  	stfd    fp1,-16(r1)   /* Transfer FP to GPR's.  */
@@ -285,9 +285,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.
  	cmpwi	cr7,r4,0x7ff0 /* r4 == 0x7ff0?  */
  	li	r3,1
  	beqlr   cr7	      /* EQ means INF, otherwise -INF.  */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/sysdep.h glibc-2.17-c758a686.diff/sysdeps/powerpc/sysdep.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/sysdep.h	2014-05-27 22:45:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/sysdep.h	2014-05-27 22:45:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/sysdep.h glibc-2.17-c758a686/sysdeps/powerpc/sysdep.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/sysdep.h	2014-05-27 22:45:44.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/sysdep.h	2014-05-27 22:45:46.000000000 -0500
 @@ -144,6 +144,21 @@
  
  #define VRSAVE	256

@@ -13,10 +13,10 @@ memcpy.  Add the alias to internal GLIBC symbol to avoid PLT creation.
  sysdeps/generic/symbol-hacks.h | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/sysdeps/generic/symbol-hacks.h b/sysdeps/generic/symbol-hacks.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h
 index 9eaf014..6bec24b 100644
---- a/sysdeps/generic/symbol-hacks.h
-+++ b/sysdeps/generic/symbol-hacks.h
+--- glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h
++++ glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h
 @@ -3,4 +3,5 @@
  #if !defined __ASSEMBLER__ && !defined NOT_IN_libc && defined SHARED
  asm ("memmove = __GI_memmove");

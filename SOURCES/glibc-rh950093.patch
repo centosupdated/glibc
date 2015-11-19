@@ -57,8 +57,8 @@
 #
 #    s390x: Move rtld link to /lib
 #
-diff -urN glibc-2.17-c758a686.orig/config.make.in glibc-2.17-c758a686/config.make.in
---- glibc-2.17-c758a686.orig/config.make.in	2013-10-28 10:56:39.996320904 -0400
+diff -urN glibc-2.17-c758a686/config.make.in glibc-2.17-c758a686/config.make.in
+--- glibc-2.17-c758a686/config.make.in	2013-10-28 10:56:39.996320904 -0400
 +++ glibc-2.17-c758a686/config.make.in	2013-10-28 10:56:57.773317467 -0400
 @@ -11,6 +11,7 @@
  datadir = @datadir@
@@ -68,8 +68,8 @@ diff -urN glibc-2.17-c758a686.orig/config.make.in glibc-2.17-c758a686/config.mak
  localedir = @libc_cv_localedir@
  sysconfdir = @libc_cv_sysconfdir@
  libexecdir = @libexecdir@
-diff -urN glibc-2.17-c758a686.orig/configure glibc-2.17-c758a686/configure
---- glibc-2.17-c758a686.orig/configure	2013-10-28 10:56:39.935320916 -0400
+diff -urN glibc-2.17-c758a686/configure glibc-2.17-c758a686/configure
+--- glibc-2.17-c758a686/configure	2013-10-28 10:56:39.935320916 -0400
 +++ glibc-2.17-c758a686/configure	2013-10-28 10:56:57.775317467 -0400
 @@ -594,6 +594,7 @@
  libc_cv_localstatedir
@@ -87,8 +87,8 @@ diff -urN glibc-2.17-c758a686.orig/configure glibc-2.17-c758a686/configure
  
  
  
-diff -urN glibc-2.17-c758a686.orig/configure.in glibc-2.17-c758a686/configure.in
---- glibc-2.17-c758a686.orig/configure.in	2013-10-28 10:56:39.902320923 -0400
+diff -urN glibc-2.17-c758a686/configure.in glibc-2.17-c758a686/configure.in
+--- glibc-2.17-c758a686/configure.in	2013-10-28 10:56:39.902320923 -0400
 +++ glibc-2.17-c758a686/configure.in	2013-10-28 10:56:57.776317467 -0400
 @@ -2127,6 +2127,7 @@
  AC_SUBST(old_glibc_headers)
@@ -98,8 +98,8 @@ diff -urN glibc-2.17-c758a686.orig/configure.in glibc-2.17-c758a686/configure.in
  AC_SUBST(libc_cv_localedir)
  AC_SUBST(libc_cv_sysconfdir)
  AC_SUBST(libc_cv_localstatedir)
-diff -urN glibc-2.17-c758a686.orig/elf/Makefile glibc-2.17-c758a686/elf/Makefile
---- glibc-2.17-c758a686.orig/elf/Makefile	2013-10-28 10:56:40.127320879 -0400
+diff -urN glibc-2.17-c758a686/elf/Makefile glibc-2.17-c758a686/elf/Makefile
+--- glibc-2.17-c758a686/elf/Makefile	2013-10-28 10:56:40.127320879 -0400
 +++ glibc-2.17-c758a686/elf/Makefile	2013-10-28 10:56:57.776317467 -0400
 @@ -66,7 +66,7 @@
  ifeq (yes,$(build-shared))
@@ -142,8 +142,8 @@ diff -urN glibc-2.17-c758a686.orig/elf/Makefile glibc-2.17-c758a686/elf/Makefile
  		     -e 's%@VERSION@%$(version)%g' \
  		     -e 's|@PKGVERSION@|$(PKGVERSION)|g' \
  		     -e 's|@REPORT_BUGS_TO@|$(REPORT_BUGS_TO)|g'
-diff -urN glibc-2.17-c758a686.orig/Makeconfig glibc-2.17-c758a686/Makeconfig
---- glibc-2.17-c758a686.orig/Makeconfig	2013-10-28 10:56:40.434320820 -0400
+diff -urN glibc-2.17-c758a686/Makeconfig glibc-2.17-c758a686/Makeconfig
+--- glibc-2.17-c758a686/Makeconfig	2013-10-28 10:56:40.434320820 -0400
 +++ glibc-2.17-c758a686/Makeconfig	2013-10-28 10:56:57.772317467 -0400
 @@ -148,12 +148,18 @@
  endif
@@ -174,8 +174,8 @@ diff -urN glibc-2.17-c758a686.orig/Makeconfig glibc-2.17-c758a686/Makeconfig
  endif
  endif
  ifndef link-libc
-diff -urN glibc-2.17-c758a686.orig/Makerules glibc-2.17-c758a686/Makerules
---- glibc-2.17-c758a686.orig/Makerules	2013-10-28 10:56:39.928320918 -0400
+diff -urN glibc-2.17-c758a686/Makerules glibc-2.17-c758a686/Makerules
+--- glibc-2.17-c758a686/Makerules	2013-10-28 10:56:39.928320918 -0400
 +++ glibc-2.17-c758a686/Makerules	2013-10-28 10:56:57.777317467 -0400
 @@ -873,7 +873,7 @@
  symbolic-link-prog := $(common-objpfx)elf/sln
@@ -204,8 +204,8 @@ diff -urN glibc-2.17-c758a686.orig/Makerules glibc-2.17-c758a686/Makerules
  	) > $@.new
  	mv -f $@.new $@
  
-diff -urN glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/configure glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure
---- glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/configure	2013-10-28 10:56:39.873320928 -0400
+diff -urN glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure	2013-10-28 10:56:39.873320928 -0400
 +++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure	2013-10-28 10:57:26.270311964 -0400
 @@ -1,3 +1,17 @@
  # This file is generated from configure.in by Autoconf.  DO NOT EDIT!
@@ -225,8 +225,8 @@ diff -urN glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/configu
 +    fi
 +    ;;
 +esac
-diff -urN glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/configure.in glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure.in
---- glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/configure.in	2013-10-28 10:56:39.873320928 -0400
+diff -urN glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure.in glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure.in
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure.in	2013-10-28 10:56:39.873320928 -0400
 +++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/configure.in	2013-10-28 10:57:49.162307556 -0400
 @@ -2,3 +2,16 @@
  # Local configure fragment for sysdeps/unix/sysv/linux/aarch64.
@@ -245,8 +245,8 @@ diff -urN glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/configu
 +    fi
 +    ;;
 +esac
-diff -urN glibc-2.17-c758a686.orig/scripts/rellns-sh glibc-2.17-c758a686/scripts/rellns-sh
---- glibc-2.17-c758a686.orig/scripts/rellns-sh	2013-10-28 10:56:40.081320888 -0400
+diff -urN glibc-2.17-c758a686/scripts/rellns-sh glibc-2.17-c758a686/scripts/rellns-sh
+--- glibc-2.17-c758a686/scripts/rellns-sh	2013-10-28 10:56:40.081320888 -0400
 +++ glibc-2.17-c758a686/scripts/rellns-sh	2013-10-28 10:56:57.776317467 -0400
 @@ -16,8 +16,17 @@
  # You should have received a copy of the GNU General Public License
@@ -277,10 +277,10 @@ diff -urN glibc-2.17-c758a686.orig/scripts/rellns-sh glibc-2.17-c758a686/scripts
 +else
 +  ln -s $rfrom$to $2
 +fi
-diff --git a/sysdeps/gnu/configure b/sysdeps/gnu/configure
+diff --git glibc-2.17-c758a686/sysdeps/gnu/configure glibc-2.17-c758a686/sysdeps/gnu/configure
 index 26327ca..70aaa90 100644
---- a/sysdeps/gnu/configure
-+++ b/sysdeps/gnu/configure
+--- glibc-2.17-c758a686/sysdeps/gnu/configure
++++ glibc-2.17-c758a686/sysdeps/gnu/configure
 @@ -9,12 +9,17 @@
  case "$prefix" in
  /usr | /usr/)
@@ -301,10 +301,10 @@ index 26327ca..70aaa90 100644
      if test "$libdir" = '${exec_prefix}/lib'; then
        libdir='${exec_prefix}/lib64';
        # Locale data can be shared between 32bit and 64bit libraries
-diff --git a/sysdeps/gnu/configure.in b/sysdeps/gnu/configure.in
+diff --git glibc-2.17-c758a686/sysdeps/gnu/configure.in glibc-2.17-c758a686/sysdeps/gnu/configure.in
 index b8fd74c..ce251df 100644
---- a/sysdeps/gnu/configure.in
-+++ b/sysdeps/gnu/configure.in
+--- glibc-2.17-c758a686/sysdeps/gnu/configure.in
++++ glibc-2.17-c758a686/sysdeps/gnu/configure.in
 @@ -9,12 +9,17 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
  case "$prefix" in
  /usr | /usr/)

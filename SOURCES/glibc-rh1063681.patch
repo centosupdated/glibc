@@ -1,7 +1,7 @@
-diff --git a/libio/Makefile b/libio/Makefile
+diff --git glibc-2.17-c758a686/libio/Makefile glibc-2.17-c758a686/libio/Makefile
 index 22dbcae..488ee51 100644
---- a/libio/Makefile
-+++ b/libio/Makefile
+--- glibc-2.17-c758a686/libio/Makefile
++++ glibc-2.17-c758a686/libio/Makefile
 @@ -60,7 +60,7 @@ tests = tst_swprintf tst_wprintf tst_swscanf tst_wscanf tst_getwc tst_putwc   \
  	tst-wmemstream1 tst-wmemstream2 \
  	bug-memstream1 bug-wmemstream1 \
@@ -11,10 +11,10 @@ index 22dbcae..488ee51 100644
  ifeq (yes,$(build-shared))
  # Add test-fopenloc only if shared library is enabled since it depends on
  # shared localedata objects.
-diff --git a/libio/fileops.c b/libio/fileops.c
+diff --git glibc-2.17-c758a686/libio/fileops.c glibc-2.17-c758a686/libio/fileops.c
 index a3499be..2e7bc8d 100644
---- a/libio/fileops.c
-+++ b/libio/fileops.c
+--- glibc-2.17-c758a686/libio/fileops.c
++++ glibc-2.17-c758a686/libio/fileops.c
 @@ -929,6 +929,93 @@ _IO_file_sync_mmap (_IO_FILE *fp)
    return 0;
  }
@@ -186,10 +186,10 @@ index a3499be..2e7bc8d 100644
    /* If destination is within current buffer, optimize: */
    if (fp->_offset != _IO_pos_BAD && fp->_IO_read_base != NULL
        && !_IO_in_backup (fp))
-diff --git a/libio/iofdopen.c b/libio/iofdopen.c
+diff --git glibc-2.17-c758a686/libio/iofdopen.c glibc-2.17-c758a686/libio/iofdopen.c
 index 066ff19..3f266f7 100644
---- a/libio/iofdopen.c
-+++ b/libio/iofdopen.c
+--- glibc-2.17-c758a686/libio/iofdopen.c
++++ glibc-2.17-c758a686/libio/iofdopen.c
 @@ -141,9 +141,6 @@ _IO_new_fdopen (fd, mode)
  #ifdef _IO_MTSAFE_IO
    new_f->fp.file._lock = &new_f->lock;
@@ -220,10 +220,10 @@ index 066ff19..3f266f7 100644
    new_f->fp.file._flags &= ~_IO_DELETE_DONT_CLOSE;
  
    _IO_mask_flags (&new_f->fp.file, read_write,
-diff --git a/libio/iofwide.c b/libio/iofwide.c
+diff --git glibc-2.17-c758a686/libio/iofwide.c glibc-2.17-c758a686/libio/iofwide.c
 index 5cff632..64187e4 100644
---- a/libio/iofwide.c
-+++ b/libio/iofwide.c
+--- glibc-2.17-c758a686/libio/iofwide.c
++++ glibc-2.17-c758a686/libio/iofwide.c
 @@ -199,12 +199,6 @@ _IO_fwide (fp, mode)
  
        /* From now on use the wide character callback functions.  */
@@ -237,10 +237,10 @@ index 5cff632..64187e4 100644
      }
  
    /* Set the mode now.  */
-diff --git a/libio/libioP.h b/libio/libioP.h
+diff --git glibc-2.17-c758a686/libio/libioP.h glibc-2.17-c758a686/libio/libioP.h
 index 4ca723c..8a7b85b 100644
---- a/libio/libioP.h
-+++ b/libio/libioP.h
+--- glibc-2.17-c758a686/libio/libioP.h
++++ glibc-2.17-c758a686/libio/libioP.h
 @@ -397,6 +397,7 @@ extern void _IO_wdoallocbuf (_IO_FILE *) __THROW;
  libc_hidden_proto (_IO_wdoallocbuf)
  extern void _IO_unsave_wmarkers (_IO_FILE *) __THROW;
@@ -249,11 +249,11 @@ index 4ca723c..8a7b85b 100644
  
  /* Marker-related function. */
  
-diff --git a/libio/tst-ftell-active-handler.c b/libio/tst-ftell-active-handler.c
+diff --git glibc-2.17-c758a686/libio/tst-ftell-active-handler.c glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
 new file mode 100644
 index 0000000..175e904
 --- /dev/null
-+++ b/libio/tst-ftell-active-handler.c
++++ glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
 @@ -0,0 +1,384 @@
 +/* Verify that ftell returns the correct value at various points before and
 +   after the handler on which it is called becomes active.
@@ -639,10 +639,10 @@ index 0000000..175e904
 +
 +  return ret;
 +}
-diff --git a/libio/wfileops.c b/libio/wfileops.c
+diff --git glibc-2.17-c758a686/libio/wfileops.c glibc-2.17-c758a686/libio/wfileops.c
 index 9cebe77..8b2e108 100644
---- a/libio/wfileops.c
-+++ b/libio/wfileops.c
+--- glibc-2.17-c758a686/libio/wfileops.c
++++ glibc-2.17-c758a686/libio/wfileops.c
 @@ -596,29 +596,25 @@ done:
    return 0;
  }

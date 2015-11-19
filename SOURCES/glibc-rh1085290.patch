@@ -24,10 +24,10 @@ Date:   Thu Mar 27 19:49:51 2014 +0530
     netgroup` adds it if the return value from getnetgrent is NULL for
     either host or user.
 
-diff --git a/inet/getnetgrent_r.c b/inet/getnetgrent_r.c
+diff --git glibc-2.17-c758a686/inet/getnetgrent_r.c glibc-2.17-c758a686/inet/getnetgrent_r.c
 index 62cdfda..f6d064d 100644
---- a/inet/getnetgrent_r.c
-+++ b/inet/getnetgrent_r.c
+--- glibc-2.17-c758a686/inet/getnetgrent_r.c
++++ glibc-2.17-c758a686/inet/getnetgrent_r.c
 @@ -235,6 +235,14 @@ endnetgrent (void)
    __libc_lock_unlock (lock);
  }

@@ -29,10 +29,10 @@ the original commit.
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c
 
-diff --git a/sysdeps/powerpc/powerpc32/fpu/s_isnan.S b/sysdeps/powerpc/powerpc32/fpu/s_isnan.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_isnan.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_isnan.S
 index f1ea473..0157805 100644
---- a/sysdeps/powerpc/powerpc32/fpu/s_isnan.S
-+++ b/sysdeps/powerpc/powerpc32/fpu/s_isnan.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_isnan.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_isnan.S
 @@ -37,9 +37,11 @@ weak_alias (__isnan, isnan)
  
  /* It turns out that the 'double' version will also always work for
@@ -45,11 +45,11 @@ index f1ea473..0157805 100644
  
  #ifdef NO_LONG_DOUBLE
  strong_alias (__isnan, __isnanl)
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 new file mode 100644
 index 0000000..b57ddc9
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -0,0 +1,7 @@
 +ifeq ($(subdir),math)
 +sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
@@ -58,11 +58,11 @@ index 0000000..b57ddc9
 +libm-sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
 +                       s_isnan-power5 s_isnan-ppc64
 +endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power5.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power5.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power5.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power5.S
 new file mode 100644
 index 0000000..145e24b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power5.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power5.S
 @@ -0,0 +1,33 @@
 +/* isnan().  PowerPC64/POWER5 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -97,11 +97,11 @@ index 0000000..145e24b
 +#define __isnan __isnan_power5
 +
 +#include <sysdeps/powerpc/powerpc64/power5/fpu/s_isnan.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6.S
 new file mode 100644
 index 0000000..4576eb3
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6.S
 @@ -0,0 +1,33 @@
 +/* isnan().  PowerPC64/POWER6 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -136,11 +136,11 @@ index 0000000..4576eb3
 +#define __isnan __isnan_power6
 +
 +#include <sysdeps/powerpc/powerpc64/power6/fpu/s_isnan.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6x.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6x.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6x.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6x.S
 new file mode 100644
 index 0000000..c2a45e3
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6x.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power6x.S
 @@ -0,0 +1,33 @@
 +/* isnan().  PowerPC64/POWER6X version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -175,11 +175,11 @@ index 0000000..c2a45e3
 +#define __isnan __isnan_power6x
 +
 +#include <sysdeps/powerpc/powerpc64/power6x/fpu/s_isnan.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power7.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power7.S
 new file mode 100644
 index 0000000..05b9fbc
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-power7.S
 @@ -0,0 +1,33 @@
 +/* isnan().  PowerPC64/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -214,11 +214,11 @@ index 0000000..05b9fbc
 +#define __isnan __isnan_power7
 +
 +#include <sysdeps/powerpc/powerpc64/power7/fpu/s_isnan.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-ppc64.S
 new file mode 100644
 index 0000000..cf01d64
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan-ppc64.S
 @@ -0,0 +1,32 @@
 +/* isnan().  PowerPC32 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -252,11 +252,11 @@ index 0000000..cf01d64
 +  .globl __GI___isnan ; .set __GI___isnan,__isnan_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_isnan.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c
 new file mode 100644
 index 0000000..0de833e
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnan.c
 @@ -0,0 +1,53 @@
 +/* Multiple versions of isnan.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -311,11 +311,11 @@ index 0000000..0de833e
 +compat_symbol (libc, isnan, isnanl, GLIBC_2_0);
 +# endif
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c
 new file mode 100644
 index 0000000..b237455
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isnanf.c
 @@ -0,0 +1,40 @@
 +/* Multiple versions of isnan.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

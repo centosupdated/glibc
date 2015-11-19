@@ -36,11 +36,11 @@ wcsmbs/wcsrchr.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c
 
-diff --git a/sysdeps/powerpc/power6/wcsrchr.c b/sysdeps/powerpc/power6/wcsrchr.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power6/wcsrchr.c glibc-2.17-c758a686/sysdeps/powerpc/power6/wcsrchr.c
 new file mode 100644
 index 0000000..278d98d
 --- /dev/null
-+++ b/sysdeps/powerpc/power6/wcsrchr.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power6/wcsrchr.c
 @@ -0,0 +1,89 @@
 +/* wcsrchr.c - Wide Character Reverse Search for POWER6+.
 +   Copyright (C) 2012-2014 Free Software Foundation, Inc.
@@ -131,11 +131,11 @@ index 0000000..278d98d
 +
 +  return (wchar_t *) retval;
 +}
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c b/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c
 new file mode 100644
 index 0000000..bd77eb3
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c
 @@ -0,0 +1,20 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -157,11 +157,11 @@ index 0000000..bd77eb3
 +#define WCSRCHR      __wcsrchr_power6
 +
 +#include <sysdeps/powerpc/power6/wcsrchr.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c b/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c
 new file mode 100644
 index 0000000..829a434
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c
 @@ -0,0 +1,20 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -183,11 +183,11 @@ index 0000000..829a434
 +#define WCSRCHR      __wcsrchr_power7
 +
 +#include <sysdeps/powerpc/power6/wcsrchr.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c b/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c
 new file mode 100644
 index 0000000..9c7fe2d
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c
 @@ -0,0 +1,26 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -215,10 +215,10 @@ index 0000000..9c7fe2d
 +extern __typeof (wcsrchr) __wcsrchr_ppc;
 +
 +#include <wcsmbs/wcsrchr.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index ff3b8cf..b4504b7 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -10,10 +10,13 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    strncase-power7 strncase_l-power7 strncmp-power7 \
                    strncmp-power4 strncmp-ppc64 strchr-power7 strchr-ppc64 \
@@ -234,10 +234,10 @@ index ff3b8cf..b4504b7 100644
 +CFLAGS-wcsrchr-power7.c += -mcpu=power7
 +CFLAGS-wcsrchr-power6.c += -mcpu=power6
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index cc932c9..6c7422c 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -202,5 +202,16 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
               IFUNC_IMPL_ADD (array, i, wcschr, 1,
                               __wcschr_ppc))
@@ -255,11 +255,11 @@ index cc932c9..6c7422c 100644
 +
    return i;
  }
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power6.c b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power6.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power6.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power6.c
 new file mode 100644
 index 0000000..da6f27b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power6.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power6.c
 @@ -0,0 +1,19 @@
 +/* wcsrchr.c - Wide Character Search for powerpc64/power6.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -280,11 +280,11 @@ index 0000000..da6f27b
 +   not, see <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power6.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power7.c b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power7.c
 new file mode 100644
 index 0000000..60f07a8
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-power7.c
 @@ -0,0 +1,19 @@
 +/* wcsrchr.c - Wide Character Search for powerpc64/power7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -305,11 +305,11 @@ index 0000000..60f07a8
 +   not, see <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c
 new file mode 100644
 index 0000000..1fff510
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr-ppc64.c
 @@ -0,0 +1,18 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -329,11 +329,11 @@ index 0000000..1fff510
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/wcsrchr-ppc32.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c
 new file mode 100644
 index 0000000..3d0ab42
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wcsrchr.c
 @@ -0,0 +1,36 @@
 +/* Multiple versions of wcsrchr.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -371,17 +371,17 @@ index 0000000..3d0ab42
 +#else
 +#include <wcsmbs/wcsrchr.c>
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/power6/wcsrchr.c b/sysdeps/powerpc/powerpc64/power6/wcsrchr.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wcsrchr.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wcsrchr.c
 index 2327c05..b86472d 100644
---- a/sysdeps/powerpc/powerpc64/power6/wcsrchr.c
-+++ b/sysdeps/powerpc/powerpc64/power6/wcsrchr.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wcsrchr.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wcsrchr.c
 @@ -1 +1 @@
 -#include "../../powerpc32/power6/wcsrchr.c"
 +#include <sysdeps/powerpc/power6/wcsrchr.c>
-diff --git a/wcsmbs/wcsrchr.c b/wcsmbs/wcsrchr.c
+diff --git glibc-2.17-c758a686/wcsmbs/wcsrchr.c glibc-2.17-c758a686/wcsmbs/wcsrchr.c
 index c1b5a59..27c94c5 100644
---- a/wcsmbs/wcsrchr.c
-+++ b/wcsmbs/wcsrchr.c
+--- glibc-2.17-c758a686/wcsmbs/wcsrchr.c
++++ glibc-2.17-c758a686/wcsmbs/wcsrchr.c
 @@ -18,10 +18,13 @@
  
  #include <wchar.h>

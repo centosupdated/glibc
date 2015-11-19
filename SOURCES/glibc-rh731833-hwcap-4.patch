@@ -22,10 +22,10 @@ Subject: [PATCH 39/42] Add GLRO(dl_hwcap2) for new AT_HWCAP2 auxv_t a_type.
  sysdeps/unix/sysv/linux/s390/dl-procinfo.h      |  6 +++++-
  18 files changed, 89 insertions(+), 13 deletions(-)
 
-diff --git a/elf/dl-support.c b/elf/dl-support.c
+diff --git glibc-2.17-c758a686/elf/dl-support.c glibc-2.17-c758a686/elf/dl-support.c
 index 81e7172..05f53ee 100644
---- a/elf/dl-support.c
-+++ b/elf/dl-support.c
+--- glibc-2.17-c758a686/elf/dl-support.c
++++ glibc-2.17-c758a686/elf/dl-support.c
 @@ -129,6 +129,7 @@ ElfW(auxv_t) *_dl_auxv;
  ElfW(Phdr) *_dl_phdr;
  size_t _dl_phnum;
@@ -44,10 +44,10 @@ index 81e7172..05f53ee 100644
  #ifdef NEED_DL_SYSINFO
        case AT_SYSINFO:
  	GL(dl_sysinfo) = av->a_un.a_val;
-diff --git a/elf/dl-sysdep.c b/elf/dl-sysdep.c
+diff --git glibc-2.17-c758a686/elf/dl-sysdep.c glibc-2.17-c758a686/elf/dl-sysdep.c
 index 65a9046..a0d1d04 100644
---- a/elf/dl-sysdep.c
-+++ b/elf/dl-sysdep.c
+--- glibc-2.17-c758a686/elf/dl-sysdep.c
++++ glibc-2.17-c758a686/elf/dl-sysdep.c
 @@ -156,6 +156,9 @@ _dl_sysdep_start (void **start_argptr,
        case AT_HWCAP:
  	GLRO(dl_hwcap) = (unsigned long int) av->a_un.a_val;
@@ -80,10 +80,10 @@ index 65a9046..a0d1d04 100644
  	    continue;
  	}
  
-diff --git a/misc/getauxval.c b/misc/getauxval.c
+diff --git glibc-2.17-c758a686/misc/getauxval.c glibc-2.17-c758a686/misc/getauxval.c
 index bff4560..1c1882b 100644
---- a/misc/getauxval.c
-+++ b/misc/getauxval.c
+--- glibc-2.17-c758a686/misc/getauxval.c
++++ glibc-2.17-c758a686/misc/getauxval.c
 @@ -26,6 +26,8 @@ __getauxval (unsigned long int type)
  
    if (type == AT_HWCAP)
@@ -93,10 +93,10 @@ index bff4560..1c1882b 100644
  
    for (p = GLRO(dl_auxv); p->a_type != AT_NULL; p++)
      if (p->a_type == type)
-diff --git a/ports/sysdeps/alpha/dl-procinfo.h b/ports/sysdeps/alpha/dl-procinfo.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/alpha/dl-procinfo.h glibc-2.17-c758a686/ports/sysdeps/alpha/dl-procinfo.h
 index 3db0efb..c3b27b4 100644
---- a/ports/sysdeps/alpha/dl-procinfo.h
-+++ b/ports/sysdeps/alpha/dl-procinfo.h
+--- glibc-2.17-c758a686/ports/sysdeps/alpha/dl-procinfo.h
++++ glibc-2.17-c758a686/ports/sysdeps/alpha/dl-procinfo.h
 @@ -51,7 +51,7 @@ _dl_string_platform (const char *str)
  };
  
@@ -106,10 +106,10 @@ index 3db0efb..c3b27b4 100644
  
  /* There are no hardware capabilities defined.  */
  #define _dl_hwcap_string(idx) ""
-diff --git a/ports/sysdeps/mips/dl-procinfo.h b/ports/sysdeps/mips/dl-procinfo.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/mips/dl-procinfo.h glibc-2.17-c758a686/ports/sysdeps/mips/dl-procinfo.h
 index d42aea7..8c9f5c2 100644
---- a/ports/sysdeps/mips/dl-procinfo.h
-+++ b/ports/sysdeps/mips/dl-procinfo.h
+--- glibc-2.17-c758a686/ports/sysdeps/mips/dl-procinfo.h
++++ glibc-2.17-c758a686/ports/sysdeps/mips/dl-procinfo.h
 @@ -51,7 +51,7 @@ _dl_string_platform (const char *str)
  };
  
@@ -119,10 +119,10 @@ index d42aea7..8c9f5c2 100644
  
  /* There are no hardware capabilities defined.  */
  #define _dl_hwcap_string(idx) ""
-diff --git a/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h b/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h
 index bea7100..c96297b 100644
---- a/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h
-+++ b/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-procinfo.h
 @@ -31,10 +31,14 @@
  
  static inline int
@@ -139,10 +139,10 @@ index bea7100..c96297b 100644
    _dl_printf ("AT_HWCAP:   ");
  
    for (i = 0; i < _DL_HWCAP_COUNT; ++i)
-diff --git a/sysdeps/generic/dl-procinfo.h b/sysdeps/generic/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/dl-procinfo.h glibc-2.17-c758a686/sysdeps/generic/dl-procinfo.h
 index c2bf914..0345717 100644
---- a/sysdeps/generic/dl-procinfo.h
-+++ b/sysdeps/generic/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/generic/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/generic/dl-procinfo.h
 @@ -21,7 +21,7 @@
  #define _DL_PROCINFO_H	1
  
@@ -152,10 +152,10 @@ index c2bf914..0345717 100644
  
  /* There are no hardware capabilities defined.  */
  #define _dl_hwcap_string(idx) ""
-diff --git a/sysdeps/generic/ldsodefs.h b/sysdeps/generic/ldsodefs.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h
 index c667e34..5635d72 100644
---- a/sysdeps/generic/ldsodefs.h
-+++ b/sysdeps/generic/ldsodefs.h
+--- glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h
++++ glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h
 @@ -548,6 +548,10 @@ struct rtld_global_ro
    EXTERN struct link_map *_dl_sysinfo_map;
  #endif
@@ -167,10 +167,10 @@ index c667e34..5635d72 100644
  #ifdef SHARED
    /* We add a function table to _rtld_global which is then used to
       call the function instead of going through the PLT.  The result
-diff --git a/sysdeps/i386/dl-procinfo.h b/sysdeps/i386/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/i386/dl-procinfo.h glibc-2.17-c758a686/sysdeps/i386/dl-procinfo.h
 index 6ecaac2..38e902d 100644
---- a/sysdeps/i386/dl-procinfo.h
-+++ b/sysdeps/i386/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/i386/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/i386/dl-procinfo.h
 @@ -61,7 +61,7 @@ enum
  };
  
@@ -180,10 +180,10 @@ index 6ecaac2..38e902d 100644
  
  static inline const char *
  __attribute__ ((unused))
-diff --git a/sysdeps/powerpc/dl-procinfo.h b/sysdeps/powerpc/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h
 index 0939dcf..7732ed2 100644
---- a/sysdeps/powerpc/dl-procinfo.h
-+++ b/sysdeps/powerpc/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h
 @@ -159,8 +159,12 @@ _dl_string_platform (const char *str)
  #ifdef IS_IN_rtld
  static inline int
@@ -198,10 +198,10 @@ index 0939dcf..7732ed2 100644
    _dl_printf ("AT_HWCAP:       ");
  
    for (int i = _DL_HWCAP_FIRST; i < _DL_HWCAP_COUNT; ++i)
-diff --git a/sysdeps/s390/dl-procinfo.h b/sysdeps/s390/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/s390/dl-procinfo.h glibc-2.17-c758a686/sysdeps/s390/dl-procinfo.h
 index 97dcf07..26de043 100644
---- a/sysdeps/s390/dl-procinfo.h
-+++ b/sysdeps/s390/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/s390/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/s390/dl-procinfo.h
 @@ -56,7 +56,7 @@ enum
  			  | HWCAP_S390_EIMM | HWCAP_S390_DFP)
  
@@ -211,10 +211,10 @@ index 97dcf07..26de043 100644
  
  static inline const char *
  __attribute__ ((unused))
-diff --git a/sysdeps/sparc/dl-procinfo.h b/sysdeps/sparc/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/sparc/dl-procinfo.h glibc-2.17-c758a686/sysdeps/sparc/dl-procinfo.h
 index 6ae8768..a05d458 100644
---- a/sysdeps/sparc/dl-procinfo.h
-+++ b/sysdeps/sparc/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/sparc/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/sparc/dl-procinfo.h
 @@ -28,10 +28,14 @@
  
  static inline int
@@ -231,10 +231,10 @@ index 6ae8768..a05d458 100644
    _dl_printf ("AT_HWCAP:   ");
  
    for (i = 0; i < _DL_HWCAP_COUNT; ++i)
-diff --git a/sysdeps/unix/sysv/linux/i386/dl-procinfo.h b/sysdeps/unix/sysv/linux/i386/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/dl-procinfo.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/dl-procinfo.h
 index 4c61357..23f4501 100644
---- a/sysdeps/unix/sysv/linux/i386/dl-procinfo.h
-+++ b/sysdeps/unix/sysv/linux/i386/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/dl-procinfo.h
 @@ -24,12 +24,16 @@
  #undef _dl_procinfo
  static inline int
@@ -253,10 +253,10 @@ index 4c61357..23f4501 100644
    _dl_printf ("AT_HWCAP:   ");
  
    for (i = 0; i < _DL_HWCAP_COUNT; ++i)
-diff --git a/sysdeps/unix/sysv/linux/s390/dl-procinfo.h b/sysdeps/unix/sysv/linux/s390/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/dl-procinfo.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/dl-procinfo.h
 index f36ba55..759738e 100644
---- a/sysdeps/unix/sysv/linux/s390/dl-procinfo.h
-+++ b/sysdeps/unix/sysv/linux/s390/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/dl-procinfo.h
 @@ -24,12 +24,16 @@
  #undef _dl_procinfo
  static inline int

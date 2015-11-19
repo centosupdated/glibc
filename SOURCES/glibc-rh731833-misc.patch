@@ -19,10 +19,10 @@ register (or implied pair) is to be used for the return value.
  sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h | 29 +++++++++++-----------
  5 files changed, 55 insertions(+), 29 deletions(-)
 
-diff --git a/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c b/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c
 index a863a27..021594c 100644
---- a/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c
-+++ b/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/get_clockfreq.c
 @@ -41,7 +41,8 @@ __get_clockfreq (void)
    /* If we can use the vDSO to obtain the timebase even better.  */
  #ifdef SHARED
@@ -33,10 +33,10 @@ index a863a27..021594c 100644
    if (INTERNAL_SYSCALL_ERROR_P (timebase_freq, err)
        && INTERNAL_SYSCALL_ERRNO (timebase_freq, err) == ENOSYS)
  #endif
-diff --git a/sysdeps/unix/sysv/linux/powerpc/init-first.c b/sysdeps/unix/sysv/linux/powerpc/init-first.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c
 index 6bcb7d5..5587e2a 100644
---- a/sysdeps/unix/sysv/linux/powerpc/init-first.c
-+++ b/sysdeps/unix/sysv/linux/powerpc/init-first.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c
 @@ -41,7 +41,7 @@ _libc_vdso_platform_setup (void)
  
    __vdso_clock_getres = _dl_vdso_vsym ("__kernel_clock_getres", &linux2615);
@@ -46,10 +46,10 @@ index 6bcb7d5..5587e2a 100644
  
    __vdso_getcpu = _dl_vdso_vsym ("__kernel_getcpu", &linux2615);
  }
-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h b/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h
 index da25c01..fa4116e 100644
---- a/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h
-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/sysdep.h
 @@ -60,7 +60,8 @@
  									      \
      if (__vdso_##name != NULL)						      \
@@ -129,10 +129,10 @@ index da25c01..fa4116e 100644
      __asm__ __volatile__						\
        ("sc   \n\t"							\
         "mfcr %0"							\
-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h b/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
 index 059cf70..b4cdbbb 100644
---- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
 @@ -75,7 +75,8 @@
  									      \
      if (__vdso_##name != NULL)						      \

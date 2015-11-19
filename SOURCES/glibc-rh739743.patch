@@ -7,8 +7,8 @@
  sysdeps/posix/getaddrinfo.c |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/sysdeps/posix/getaddrinfo.c
-+++ b/sysdeps/posix/getaddrinfo.c
+--- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
++++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 @@ -1456,13 +1456,13 @@
  
  	      /* Fill in the results in all the records.  */
@@ -35,8 +35,8 @@
  sysdeps/posix/getaddrinfo.c |    9 ++++++++-
  1 file changed, 8 insertions(+), 1 deletion(-)
 
---- a/sysdeps/posix/getaddrinfo.c
-+++ b/sysdeps/posix/getaddrinfo.c
+--- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
++++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 @@ -2265,7 +2265,14 @@
  			  tmp.addr[0] = 0;
  			  tmp.addr[1] = 0;

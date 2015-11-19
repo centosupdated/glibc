@@ -1,7 +1,7 @@
-diff --git a/malloc/malloc.c b/malloc/malloc.c
+diff --git glibc-2.17-c758a686/malloc/malloc.c glibc-2.17-c758a686/malloc/malloc.c
 index 3148c5f..f7718a9 100644
---- a/malloc/malloc.c
-+++ b/malloc/malloc.c
+--- glibc-2.17-c758a686/malloc/malloc.c
++++ glibc-2.17-c758a686/malloc/malloc.c
 @@ -3015,6 +3015,13 @@ __libc_memalign(size_t alignment, size_t bytes)
    /* Otherwise, ensure that it is at least a minimum chunk size */
    if (alignment <  MINSIZE) alignment = MINSIZE;

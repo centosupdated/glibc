@@ -38,11 +38,11 @@
  tst-rxspencer-ARGS = --utf8 rxspencer/tests
  tst-rxspencer-ENV = LOCPATH=$(common-objpfx)localedata
  tst-pcre-ARGS = PCRE.tests
-diff --git a/posix/bug-regex34.c b/posix/bug-regex34.c
+diff --git glibc-2.17-c758a686/posix/bug-regex34.c glibc-2.17-c758a686/posix/bug-regex34.c
 new file mode 100644
 index 0000000..bb3b613
 --- /dev/null
-+++ b/posix/bug-regex34.c
++++ glibc-2.17-c758a686/posix/bug-regex34.c
 @@ -0,0 +1,46 @@
 +/* Test re_search with multi-byte characters in UTF-8.
 +   Copyright (C) 2013 Free Software Foundation, Inc.
@@ -90,10 +90,10 @@ index 0000000..bb3b613
 +
 +#define TEST_FUNCTION do_test ()
 +#include "../test-skeleton.c"
-diff --git a/posix/regexec.c b/posix/regexec.c
+diff --git glibc-2.17-c758a686/posix/regexec.c glibc-2.17-c758a686/posix/regexec.c
 index 7f2de85..5ca2bf6 100644
---- a/posix/regexec.c
-+++ b/posix/regexec.c
+--- glibc-2.17-c758a686/posix/regexec.c
++++ glibc-2.17-c758a686/posix/regexec.c
 @@ -197,7 +197,7 @@ static int group_nodes_into_DFAstates (const re_dfa_t *dfa,
  static int check_node_accept (const re_match_context_t *mctx,
  			      const re_token_t *node, int idx)

@@ -27,9 +27,9 @@
 #     ports/
 #         * sysdeps/ia64/fpu/printf_fphex.c: Adjust for fpnum change.
 # 
-diff -urN glibc-2.17-c758a686.orig/math/test-misc.c glibc-2.17-c758a686.diff/math/test-misc.c
---- glibc-2.17-c758a686.orig/math/test-misc.c	2014-05-27 19:53:22.000000000 -0500
-+++ glibc-2.17-c758a686.diff/math/test-misc.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/math/test-misc.c glibc-2.17-c758a686/math/test-misc.c
+--- glibc-2.17-c758a686/math/test-misc.c	2014-05-27 19:53:22.000000000 -0500
++++ glibc-2.17-c758a686/math/test-misc.c	2014-05-27 19:53:45.000000000 -0500
 @@ -721,300 +721,161 @@
  
  #ifndef NO_LONG_DOUBLE
@@ -406,9 +406,9 @@ diff -urN glibc-2.17-c758a686.orig/math/test-misc.c glibc-2.17-c758a686.diff/mat
  	result = 1;
        }
  
-diff -urN glibc-2.17-c758a686.orig/ports/sysdeps/ia64/fpu/printf_fphex.c glibc-2.17-c758a686.diff/ports/sysdeps/ia64/fpu/printf_fphex.c
---- glibc-2.17-c758a686.orig/ports/sysdeps/ia64/fpu/printf_fphex.c	2014-05-27 19:53:21.000000000 -0500
-+++ glibc-2.17-c758a686.diff/ports/sysdeps/ia64/fpu/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/ports/sysdeps/ia64/fpu/printf_fphex.c glibc-2.17-c758a686/ports/sysdeps/ia64/fpu/printf_fphex.c
+--- glibc-2.17-c758a686/ports/sysdeps/ia64/fpu/printf_fphex.c	2014-05-27 19:53:21.000000000 -0500
++++ glibc-2.17-c758a686/ports/sysdeps/ia64/fpu/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
 @@ -25,9 +25,11 @@
        /* The "strange" 80 bit format on ia64 has an explicit		      \
  	 leading digit in the 64 bit mantissa.  */			      \
@@ -434,9 +434,9 @@ diff -urN glibc-2.17-c758a686.orig/ports/sysdeps/ia64/fpu/printf_fphex.c glibc-2
        if (exponent == 0)						      \
  	{								      \
  	  if (zero_mantissa)						      \
-diff -urN glibc-2.17-c758a686.orig/stdio-common/printf_fp.c glibc-2.17-c758a686.diff/stdio-common/printf_fp.c
---- glibc-2.17-c758a686.orig/stdio-common/printf_fp.c	2014-05-27 19:53:22.000000000 -0500
-+++ glibc-2.17-c758a686.diff/stdio-common/printf_fp.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/stdio-common/printf_fp.c glibc-2.17-c758a686/stdio-common/printf_fp.c
+--- glibc-2.17-c758a686/stdio-common/printf_fp.c	2014-05-27 19:53:22.000000000 -0500
++++ glibc-2.17-c758a686/stdio-common/printf_fp.c	2014-05-27 19:53:45.000000000 -0500
 @@ -335,8 +335,7 @@
        int res;
        if (__isnanl (fpnum.ldbl))
@@ -447,9 +447,9 @@ diff -urN glibc-2.17-c758a686.orig/stdio-common/printf_fp.c glibc-2.17-c758a686.
  	  if (isupper (info->spec))
  	    {
  	      special = "NAN";
-diff -urN glibc-2.17-c758a686.orig/stdio-common/printf_fphex.c glibc-2.17-c758a686.diff/stdio-common/printf_fphex.c
---- glibc-2.17-c758a686.orig/stdio-common/printf_fphex.c	2014-05-27 19:53:22.000000000 -0500
-+++ glibc-2.17-c758a686.diff/stdio-common/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/stdio-common/printf_fphex.c glibc-2.17-c758a686/stdio-common/printf_fphex.c
+--- glibc-2.17-c758a686/stdio-common/printf_fphex.c	2014-05-27 19:53:22.000000000 -0500
++++ glibc-2.17-c758a686/stdio-common/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
 @@ -93,7 +93,7 @@
    union
      {
@@ -497,9 +497,9 @@ diff -urN glibc-2.17-c758a686.orig/stdio-common/printf_fphex.c glibc-2.17-c758a6
      }
    else
  #endif	/* no long double */
-diff -urN glibc-2.17-c758a686.orig/stdio-common/printf_size.c glibc-2.17-c758a686.diff/stdio-common/printf_size.c
---- glibc-2.17-c758a686.orig/stdio-common/printf_size.c	2014-05-27 19:53:22.000000000 -0500
-+++ glibc-2.17-c758a686.diff/stdio-common/printf_size.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/stdio-common/printf_size.c glibc-2.17-c758a686/stdio-common/printf_size.c
+--- glibc-2.17-c758a686/stdio-common/printf_size.c	2014-05-27 19:53:22.000000000 -0500
++++ glibc-2.17-c758a686/stdio-common/printf_size.c	2014-05-27 19:53:45.000000000 -0500
 @@ -103,7 +103,7 @@
    union
      {
@@ -540,9 +540,9 @@ diff -urN glibc-2.17-c758a686.orig/stdio-common/printf_size.c glibc-2.17-c758a68
  	    ++tag;
  	  }
      }
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128/printf_fphex.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128/printf_fphex.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128/printf_fphex.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128/printf_fphex.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
 @@ -24,13 +24,15 @@
  	 digits we use only the implicit digits for the number before	      \
  	 the decimal point.  */						      \
@@ -575,9 +575,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128/printf_fphex.c glibc
  									      \
        if (exponent == 0)						      \
  	{								      \
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
 @@ -28,14 +28,14 @@
        unsigned long long hi, lo;					      \
        int ediff;							      \
@@ -595,9 +595,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c gl
  	 53rd bit.  */							      \
        if (u.d[1].ieee.exponent != 0)					      \
  	lo |= (1ULL << (52 + 7));					      \
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-96/printf_fphex.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-96/printf_fphex.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-96/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-96/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-96/printf_fphex.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-96/printf_fphex.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-96/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-96/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
 @@ -25,11 +25,13 @@
        /* The "strange" 80 bit format on ix86 and m68k has an explicit	      \
  	 leading digit in the 64 bit mantissa.  */			      \
@@ -623,9 +623,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-96/printf_fphex.c glibc-
  									      \
        if (exponent == 0)						      \
  	{								      \
-diff -urN glibc-2.17-c758a686.orig/sysdeps/x86_64/fpu/printf_fphex.c glibc-2.17-c758a686.diff/sysdeps/x86_64/fpu/printf_fphex.c
---- glibc-2.17-c758a686.orig/sysdeps/x86_64/fpu/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/x86_64/fpu/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/fpu/printf_fphex.c glibc-2.17-c758a686/sysdeps/x86_64/fpu/printf_fphex.c
+--- glibc-2.17-c758a686/sysdeps/x86_64/fpu/printf_fphex.c	2014-05-27 19:53:20.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/x86_64/fpu/printf_fphex.c	2014-05-27 19:53:45.000000000 -0500
 @@ -25,10 +25,11 @@
        /* The "strange" 80 bit format on ix86 and m68k has an explicit	      \
  	 leading digit in the 64 bit mantissa.  */			      \

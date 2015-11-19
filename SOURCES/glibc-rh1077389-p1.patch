@@ -10,9 +10,9 @@
 #     in some cases. It adds an artificial OPD static entry to such cases
 #     and set its TOC to non 0 to avoid triggering lazy resolutions.
 #
-diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
 --- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h	2015-01-15 16:05:08.853681325 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h	2015-01-15 16:06:11.451747716 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h	2015-01-15 16:06:11.451747716 -0500
 @@ -34,12 +34,32 @@
  
  extern void *__vdso_time;
@@ -52,9 +52,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h g
  #else
  #define VDSO_IFUNC_RET(value)  ((void *) (value))
  #endif
-diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
 --- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c	2015-01-15 16:05:08.912679502 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c	2015-01-15 16:06:11.451747716 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c	2015-01-15 16:06:11.451747716 -0500
 @@ -21,6 +21,7 @@
  
  # include <dl-vdso.h>
@@ -63,9 +63,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c gli
  
  void *gettimeofday_ifunc (void) __asm__ ("__gettimeofday");
  
-diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/time.c
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c
 --- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c	2015-01-15 16:05:08.912679502 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/time.c	2015-01-15 16:06:11.451747716 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c	2015-01-15 16:06:11.451747716 -0500
 @@ -20,7 +20,9 @@
  
  # include <time.h>

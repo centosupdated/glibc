@@ -16,8 +16,8 @@ diff -up glibc-2.17-c758a686/nss/Makefile.rh1165192 glibc-2.17-c758a686/nss/Make
  makedb-modules = xmalloc hash-string
  extra-objs		+= $(makedb-modules:=.o)
  
--tests			= test-netdb tst-nss-test1
-+tests			= test-netdb tst-nss-test1 tst-nss-getpwent
+-tests			= test-netdb tst-nss-test1 bug17079
++tests			= test-netdb tst-nss-test1 bug17079 tst-nss-getpwent
  xtests			= bug-erange
  
  include ../Makeconfig

@@ -10,8 +10,8 @@ Subject: [PATCH] ldd: never run file directly
  elf/ldd.bash.in |   14 +-------------
  2 files changed, 5 insertions(+), 13 deletions(-)
 
---- a/elf/ldd.bash.in
-+++ b/elf/ldd.bash.in
+--- glibc-2.17-c758a686/elf/ldd.bash.in
++++ glibc-2.17-c758a686/elf/ldd.bash.in
 @@ -166,18 +166,6 @@ warning: you do not have execution permission for" "\`$file'" >&2
        fi
      done

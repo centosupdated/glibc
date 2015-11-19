@@ -26,9 +26,9 @@
 #     were stored in the wrong place, and it removes the unnecessary
 #     save/restore of CR.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/bits/link.h glibc-2.17-c758a686.diff/sysdeps/powerpc/bits/link.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/bits/link.h	2014-05-29 14:11:12.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/bits/link.h	2014-05-29 14:11:20.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/bits/link.h glibc-2.17-c758a686/sysdeps/powerpc/bits/link.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/bits/link.h	2014-05-29 14:11:12.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/bits/link.h	2014-05-29 14:11:20.000000000 -0500
 @@ -63,7 +63,7 @@
  
  __END_DECLS
@@ -87,9 +87,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/bits/link.h glibc-2.17-c758a6
 +__END_DECLS
 +
  #endif
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/ldsodefs.h glibc-2.17-c758a686.diff/sysdeps/powerpc/ldsodefs.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/ldsodefs.h	2014-05-29 14:11:12.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/ldsodefs.h	2014-05-29 14:11:20.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/ldsodefs.h glibc-2.17-c758a686/sysdeps/powerpc/ldsodefs.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/ldsodefs.h	2014-05-29 14:11:12.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/ldsodefs.h	2014-05-29 14:11:20.000000000 -0500
 @@ -25,6 +25,8 @@
  struct La_ppc32_retval;
  struct La_ppc64_regs;
@@ -129,9 +129,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/ldsodefs.h glibc-2.17-c758a68
  
  #include_next <ldsodefs.h>
  
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-machine.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:11:12.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:11:20.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:11:12.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:11:20.000000000 -0500
 @@ -546,8 +546,13 @@
  
  
@@ -146,9 +146,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h glibc-
  
  #endif /* dl_machine_h */
  
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-trampoline.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-trampoline.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:11:12.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:11:20.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:11:12.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:11:20.000000000 -0500
 @@ -50,11 +50,8 @@
  /* Store the LR in the LR Save area.  */
  	std	r0,FRAME_SIZE+FRAME_LR_SAVE(r1)
@@ -382,9 +382,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-trampoline.S gli
  	mtlr	r0
  	ld	r1,0(r1)
  	blr
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/tst-audit.h glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/tst-audit.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/tst-audit.h	2014-05-29 14:11:12.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/tst-audit.h	2014-05-29 14:11:20.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/tst-audit.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/tst-audit.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/tst-audit.h	2014-05-29 14:11:12.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/tst-audit.h	2014-05-29 14:11:20.000000000 -0500
 @@ -18,8 +18,16 @@
     License along with the GNU C Library.  If not, see
     <http://www.gnu.org/licenses/>.  */

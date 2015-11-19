@@ -1,6 +1,6 @@
-diff -Nrup a/stdio-common/Makefile b/stdio-common/Makefile
---- a/stdio-common/Makefile	2012-09-14 14:31:29.000000000 -0600
-+++ b/stdio-common/Makefile	2012-09-14 14:41:50.837749196 -0600
+diff -Nru glibc-2.17-c758a686/stdio-common/Makefile glibc-2.17-c758a686/stdio-common/Makefile
+--- glibc-2.17-c758a686/stdio-common/Makefile	2012-09-14 14:31:29.000000000 -0600
++++ glibc-2.17-c758a686/stdio-common/Makefile	2012-09-14 14:41:50.837749196 -0600
 @@ -57,7 +57,7 @@ tests := tstscanf test_rdwr test-popen t
  	 bug19 bug19a tst-popen2 scanf13 scanf14 scanf15 bug20 bug21 bug22 \
  	 scanf16 scanf17 tst-setvbuf1 tst-grouping bug23 bug24 \
@@ -10,9 +10,9 @@ diff -Nrup a/stdio-common/Makefile b/stdio-common/Makefile
  
  test-srcs = tst-unbputc tst-printf
  
-diff -Nrup a/stdio-common/bug23-2.c b/stdio-common/bug23-2.c
---- a/stdio-common/bug23-2.c	1969-12-31 17:00:00.000000000 -0700
-+++ b/stdio-common/bug23-2.c	2012-09-14 14:41:27.832840375 -0600
+diff -Nru glibc-2.17-c758a686/stdio-common/bug23-2.c glibc-2.17-c758a686/stdio-common/bug23-2.c
+--- glibc-2.17-c758a686/stdio-common/bug23-2.c	1969-12-31 17:00:00.000000000 -0700
++++ glibc-2.17-c758a686/stdio-common/bug23-2.c	2012-09-14 14:41:27.832840375 -0600
 @@ -0,0 +1,70 @@
 +#include <stdio.h>
 +#include <string.h>
@@ -84,9 +84,9 @@ diff -Nrup a/stdio-common/bug23-2.c b/stdio-common/bug23-2.c
 +
 +#define TEST_FUNCTION do_test ()
 +#include "../test-skeleton.c"
-diff -Nrup a/stdio-common/bug23-3.c b/stdio-common/bug23-3.c
---- a/stdio-common/bug23-3.c	1969-12-31 17:00:00.000000000 -0700
-+++ b/stdio-common/bug23-3.c	2012-09-14 14:41:27.884840169 -0600
+diff -Nru glibc-2.17-c758a686/stdio-common/bug23-3.c glibc-2.17-c758a686/stdio-common/bug23-3.c
+--- glibc-2.17-c758a686/stdio-common/bug23-3.c	1969-12-31 17:00:00.000000000 -0700
++++ glibc-2.17-c758a686/stdio-common/bug23-3.c	2012-09-14 14:41:27.884840169 -0600
 @@ -0,0 +1,45076 @@
 +#include <stdio.h>
 +#include <string.h>
@@ -45164,9 +45164,9 @@ diff -Nrup a/stdio-common/bug23-3.c b/stdio-common/bug23-3.c
 +#define TEST_FUNCTION do_test ()
 +#include "../test-skeleton.c"
 +
-diff -Nrup a/stdio-common/vfprintf.c b/stdio-common/vfprintf.c
---- a/stdio-common/vfprintf.c	2012-09-14 14:31:29.000000000 -0600
-+++ b/stdio-common/vfprintf.c	2012-09-14 14:41:27.891840141 -0600
+diff -Nru glibc-2.17-c758a686/stdio-common/vfprintf.c glibc-2.17-c758a686/stdio-common/vfprintf.c
+--- glibc-2.17-c758a686/stdio-common/vfprintf.c	2012-09-14 14:31:29.000000000 -0600
++++ glibc-2.17-c758a686/stdio-common/vfprintf.c	2012-09-14 14:41:27.891840141 -0600
 @@ -243,6 +243,12 @@ vfprintf (FILE *s, const CHAR_T *format,
    /* For the argument descriptions, which may be allocated on the heap.  */
    void *args_malloced = NULL;

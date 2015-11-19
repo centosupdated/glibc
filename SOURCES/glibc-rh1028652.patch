@@ -34,11 +34,11 @@
 #     
 #         * sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h: New file.
 # 
-diff --git a/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h b/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h
 new file mode 100644
 index 0000000..33be9e8
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/sigstack.h
 @@ -0,0 +1,54 @@
 +/* sigstack, sigaltstack definitions.
 +   Copyright (C) 1998-2013 Free Software Foundation, Inc.

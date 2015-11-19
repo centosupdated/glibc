@@ -10,10 +10,10 @@ Subject: [PATCH 19/42] PowerPC: gettimeofday optimization by using IFUNC
  sysdeps/unix/sysv/linux/powerpc/gettimeofday.c   | 48 +++++++++++++++++-------
  3 files changed, 52 insertions(+), 13 deletions(-)
 
-diff --git a/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h b/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
 index cda8491..e4ae630 100644
---- a/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
-+++ b/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
 @@ -32,6 +32,16 @@ extern void *__vdso_get_tbfreq;
  
  extern void *__vdso_getcpu;
@@ -31,10 +31,10 @@ index cda8491..e4ae630 100644
  #endif
  
  #endif /* _LIBC_VDSO_H */
-diff --git a/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c b/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
 index 7376135..4f4abbd 100644
---- a/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
-+++ b/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
 @@ -15,26 +15,48 @@
     License along with the GNU C Library; if not, see
     <http://www.gnu.org/licenses/>.  */

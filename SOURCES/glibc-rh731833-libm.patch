@@ -9,10 +9,10 @@ Subject: [PATCH 16/42] BZ #15055: Use __ieee754_sqrl in acoshl for
  sysdeps/ieee754/ldbl-128ibm/e_acoshl.c | 2 +-
  3 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c b/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
+diff --git glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
 index 117bd0f..abc78a3 100644
---- a/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
-+++ b/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
 @@ -52,7 +52,7 @@ __ieee754_acoshl(long double x)
  	    return __ieee754_logl(2.0*x-one/(x+__ieee754_sqrtl(t-one)));
  	} else {			/* 1<x<2 */

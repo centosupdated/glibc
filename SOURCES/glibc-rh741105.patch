@@ -1,6 +1,6 @@
-diff -rup a/elf/dl-load.c b/elf/dl-load.c
---- a/elf/dl-load.c	2012-02-03 10:59:58.917870716 -0700
-+++ b/elf/dl-load.c	2012-02-03 11:01:01.796580644 -0700
+diff -rup glibc-2.17-c758a686/elf/dl-load.c glibc-2.17-c758a686/elf/dl-load.c
+--- glibc-2.17-c758a686/elf/dl-load.c	2012-02-03 10:59:58.917870716 -0700
++++ glibc-2.17-c758a686/elf/dl-load.c	2012-02-03 11:01:01.796580644 -0700
 @@ -1130,6 +1130,16 @@ _dl_map_object_from_fd (const char *name
  		= N_("ELF load command address/offset not properly aligned");
  	      goto call_lose;
@@ -18,4 +18,4 @@ diff -rup a/elf/dl-load.c b/elf/dl-load.c
  
  	  c = &loadcmds[nloadcmds++];
  	  c->mapstart = ph->p_vaddr & ~(GLRO(dl_pagesize) - 1);
-Only in b/elf: dl-load.c.orig
+Only inglibc-2.17-c758a686/elf: dl-load.c.orig

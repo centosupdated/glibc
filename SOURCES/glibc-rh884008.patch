@@ -1,7 +1,7 @@
-diff --git a/nptl/tst-cleanup2.c b/nptl/tst-cleanup2.c
+diff --git glibc-2.17-c758a686/nptl/tst-cleanup2.c glibc-2.17-c758a686/nptl/tst-cleanup2.c
 index 5bd1609..65af0f2 100644
---- a/nptl/tst-cleanup2.c
-+++ b/nptl/tst-cleanup2.c
+--- glibc-2.17-c758a686/nptl/tst-cleanup2.c
++++ glibc-2.17-c758a686/nptl/tst-cleanup2.c
 @@ -34,6 +34,12 @@ static int
  do_test (void)
  {

@@ -1,7 +1,7 @@
-diff --git a/elf/elf.h b/elf/elf.h
+diff --git glibc-2.17-c758a686/elf/elf.h glibc-2.17-c758a686/elf/elf.h
 index 8686fd5..2b10581 100644
---- a/elf/elf.h
-+++ b/elf/elf.h
+--- glibc-2.17-c758a686/elf/elf.h
++++ glibc-2.17-c758a686/elf/elf.h
 @@ -2327,6 +2327,117 @@ typedef Elf32_Addr Elf32_Conflict;
  #define R_AARCH64_NONE            0	/* No relocation.  */
  #define R_AARCH64_ABS64         257	/* Direct 64 bit. */
@@ -128,10 +128,10 @@ index 8686fd5..2b10581 100644
  
  /* ARM relocs.  */
  
-diff --git a/ports/sysdeps/aarch64/dl-irel.h b/ports/sysdeps/aarch64/dl-irel.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-irel.h glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-irel.h
 index 32dee0f..9a48dc2 100644
---- a/ports/sysdeps/aarch64/dl-irel.h
-+++ b/ports/sysdeps/aarch64/dl-irel.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-irel.h
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-irel.h
 @@ -1,6 +1,6 @@
  /* Machine-dependent ELF indirect relocation inline functions.
     AArch64 version.
@@ -175,10 +175,10 @@ index 32dee0f..9a48dc2 100644
  }
  
  #endif
-diff --git a/ports/sysdeps/aarch64/dl-machine.h b/ports/sysdeps/aarch64/dl-machine.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-machine.h glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-machine.h
 index b1878a7..1db5a5b 100644
---- a/ports/sysdeps/aarch64/dl-machine.h
-+++ b/ports/sysdeps/aarch64/dl-machine.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-machine.h
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/dl-machine.h
 @@ -23,6 +23,7 @@
  
  #include <tls.h>

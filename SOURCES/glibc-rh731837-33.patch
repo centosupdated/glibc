@@ -50,10 +50,10 @@ sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c
 
-diff --git a/sysdeps/ieee754/ldbl-128ibm/s_logbl.c b/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
+diff --git glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
 index 6cbfcfa..28a50de 100644
---- a/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
-+++ b/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
 @@ -44,4 +44,6 @@ __logbl (long double x)
    return (long double) (rhx - 1023);
  }
@@ -61,11 +61,11 @@ index 6cbfcfa..28a50de 100644
 +#ifndef __logbl
  long_double_symbol (libm, __logbl, logbl);
 +#endif
-diff --git a/sysdeps/powerpc/power7/fpu/s_logb.c b/sysdeps/powerpc/power7/fpu/s_logb.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logb.c glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logb.c
 new file mode 100644
 index 0000000..87176c3
 --- /dev/null
-+++ b/sysdeps/powerpc/power7/fpu/s_logb.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logb.c
 @@ -0,0 +1,78 @@
 +/* logb(). PowerPC/POWER7 version.
 +   Copyright (C) 2012 Free Software Foundation, Inc.
@@ -145,11 +145,11 @@ index 0000000..87176c3
 +#if LONG_DOUBLE_COMPAT (libm, GLIBC_2_0)
 +compat_symbol (libm, logb, logbl, GLIBC_2_0);
 +#endif
-diff --git a/sysdeps/powerpc/power7/fpu/s_logbf.c b/sysdeps/powerpc/power7/fpu/s_logbf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logbf.c glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logbf.c
 new file mode 100644
 index 0000000..aa8499a
 --- /dev/null
-+++ b/sysdeps/powerpc/power7/fpu/s_logbf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logbf.c
 @@ -0,0 +1,60 @@
 +/* logbf(). PowerPC/POWER7 version.
 +   Copyright (C) 2012 Free Software Foundation, Inc.
@@ -211,11 +211,11 @@ index 0000000..aa8499a
 +  return ret == -0.0 ? 0.0 : ret;
 +}
 +weak_alias (__logbf, logbf)
-diff --git a/sysdeps/powerpc/power7/fpu/s_logbl.c b/sysdeps/powerpc/power7/fpu/s_logbl.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logbl.c glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logbl.c
 new file mode 100644
 index 0000000..e1ec089
 --- /dev/null
-+++ b/sysdeps/powerpc/power7/fpu/s_logbl.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power7/fpu/s_logbl.c
 @@ -0,0 +1,72 @@
 +/* logbl(). PowerPC/POWER7 version.
 +   Copyright (C) 2012 Free Software Foundation, Inc.
@@ -289,11 +289,11 @@ index 0000000..e1ec089
 +#ifndef __logbl
 +long_double_symbol (libm, __logbl, logbl);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c
 new file mode 100644
 index 0000000..3280566
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c
 @@ -0,0 +1,31 @@
 +/* logb(). PowerPC32/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -326,11 +326,11 @@ index 0000000..3280566
 +#define __logb __logb_power7
 +
 +#include <sysdeps/powerpc/power7/fpu/s_logb.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c
 new file mode 100644
 index 0000000..6531af0
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c
 @@ -0,0 +1,26 @@
 +/* logbf(). PowerPC32/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -358,11 +358,11 @@ index 0000000..6531af0
 +#define __logbf __logbf_power7
 +
 +#include <sysdeps/powerpc/power7/fpu/s_logbf.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c
 new file mode 100644
 index 0000000..7c5ad47
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c
 @@ -0,0 +1,21 @@
 +/* logbl(). PowerPC32/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -385,10 +385,10 @@ index 0000000..7c5ad47
 +#define __logbl __logbl_power7
 +
 +#include <sysdeps/powerpc/power7/fpu/s_logbl.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index 64dd85f..87aabca 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -16,5 +16,11 @@ libm-sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                         s_copysign-power6 s_copysign-ppc64 s_llrint-power6x \
                         s_llrint-ppc64 s_finite-power7 s_finite-ppc64 \
@@ -402,11 +402,11 @@ index 64dd85f..87aabca 100644
 +CFLAGS-s_logbl-power7.c = -mcpu=power7
 +CFLAGS-s_logb-power7.c = -mcpu=power7
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-power7.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-power7.c
 new file mode 100644
 index 0000000..049f2c1
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-power7.c
 @@ -0,0 +1,19 @@
 +/* logb().  PowerPC64/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -427,11 +427,11 @@ index 0000000..049f2c1
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logb-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-ppc64.c
 new file mode 100644
 index 0000000..41d1d9b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb-ppc64.c
 @@ -0,0 +1,28 @@
 +/* logb(). PowerPC32/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -461,11 +461,11 @@ index 0000000..41d1d9b
 +#define __logb __logb_ppc64
 +
 +#include <sysdeps/ieee754/dbl-64/s_logb.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb.c
 new file mode 100644
 index 0000000..e14efa7
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logb.c
 @@ -0,0 +1,41 @@
 +/* Multiple versions of logb.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -508,11 +508,11 @@ index 0000000..e14efa7
 +#if LONG_DOUBLE_COMPAT (libm, GLIBC_2_0)
 +compat_symbol (libm, logb, logbl, GLIBC_2_0);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-power7.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-power7.c
 new file mode 100644
 index 0000000..5e4e4fc
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-power7.c
 @@ -0,0 +1,19 @@
 +/* logb().  PowerPC64/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -533,11 +533,11 @@ index 0000000..5e4e4fc
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbf-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-ppc64.c
 new file mode 100644
 index 0000000..08674a6
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf-ppc64.c
 @@ -0,0 +1,26 @@
 +/* logbf().  PowerPC64 default implementation.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -565,11 +565,11 @@ index 0000000..08674a6
 +#define __logbf __logbf_ppc64
 +
 +#include <sysdeps/ieee754/flt-32/s_logbf.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf.c
 new file mode 100644
 index 0000000..01f9ecb
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbf.c
 @@ -0,0 +1,32 @@
 +/* Multiple versions of logbf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -603,11 +603,11 @@ index 0000000..01f9ecb
 +            : __logbf_ppc64);
 +
 +weak_alias (__logbf, logbf)
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-power7.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-power7.c
 new file mode 100644
 index 0000000..258d502
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-power7.c
 @@ -0,0 +1,19 @@
 +/* logb().  PowerPC64/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -628,11 +628,11 @@ index 0000000..258d502
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_logbl-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c
 new file mode 100644
 index 0000000..47d4153
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl-ppc64.c
 @@ -0,0 +1,21 @@
 +/* logbl(). PowerPC64/POWER7 version.
 +   Copyright (C) 2012-2014 Free Software Foundation, Inc.
@@ -655,11 +655,11 @@ index 0000000..47d4153
 +#define __logbl __logbl_ppc64
 +
 +#include <sysdeps/ieee754/ldbl-128ibm/s_logbl.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c
 new file mode 100644
 index 0000000..cb0b0c5
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_logbl.c
 @@ -0,0 +1,32 @@
 +/* Multiple versions of logbl.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

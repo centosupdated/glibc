@@ -30,11 +30,11 @@ sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c
 
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c
 new file mode 100644
 index 0000000..967b923
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c
 @@ -0,0 +1,26 @@
 +/* __ieee_hypot() POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -62,11 +62,11 @@ index 0000000..967b923
 +#define __ieee754_hypot __ieee754_hypot_power7
 +
 +#include <sysdeps/powerpc/fpu/e_hypot.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c
 new file mode 100644
 index 0000000..d1da9f2
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c
 @@ -0,0 +1,26 @@
 +/* __ieee754_hypot POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -94,10 +94,10 @@ index 0000000..d1da9f2
 +#define __ieee754_hypotf __ieee754_hypotf_power7
 +
 +#include <sysdeps/powerpc/fpu/e_hypotf.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index e152bf5..1e04f21 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -20,11 +20,14 @@ libm-sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                         s_isinf-ppc64 s_logb-power7 s_logbf-power7 \
                         s_logbl-power7 s_logb-ppc64 s_logbf-ppc64 \
@@ -114,11 +114,11 @@ index e152bf5..1e04f21 100644
 +CFLAGS-e_hypot-power7.c = -mcpu=power7
 +CFLAGS-e_hypotf-power7.c = -mcpu=power7
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-power7.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-power7.c
 new file mode 100644
 index 0000000..b153753
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-power7.c
 @@ -0,0 +1,19 @@
 +/* __ieee_hypot() POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -139,11 +139,11 @@ index 0000000..b153753
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypot-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-ppc64.c
 new file mode 100644
 index 0000000..c418ae7
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot-ppc64.c
 @@ -0,0 +1,26 @@
 +/* __ieee_hypot() PowerPC64 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -171,11 +171,11 @@ index 0000000..c418ae7
 +#define __ieee754_hypot __ieee754_hypot_ppc64
 +
 +#include <sysdeps/powerpc/fpu/e_hypot.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot.c
 new file mode 100644
 index 0000000..941b293
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypot.c
 @@ -0,0 +1,32 @@
 +/* Multiple versions of ieee754_hypot.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -209,11 +209,11 @@ index 0000000..941b293
 +            : __ieee754_hypot_ppc64);
 +
 +strong_alias (__ieee754_hypot, __hypot_finite)
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-power7.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-power7.c
 new file mode 100644
 index 0000000..2d67ee9
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-power7.c
 @@ -0,0 +1,19 @@
 +/* __ieee_hypotf() POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -234,11 +234,11 @@ index 0000000..2d67ee9
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/e_hypotf-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c
 new file mode 100644
 index 0000000..8335e19
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf-ppc64.c
 @@ -0,0 +1,26 @@
 +/* __ieee_hypot() PowerPC64 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -266,11 +266,11 @@ index 0000000..8335e19
 +#define __ieee754_hypotf __ieee754_hypotf_ppc64
 +
 +#include <sysdeps/powerpc/fpu/e_hypotf.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c
 new file mode 100644
 index 0000000..3c418d3
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/e_hypotf.c
 @@ -0,0 +1,32 @@
 +/* Multiple versions of ieee754_hypot.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

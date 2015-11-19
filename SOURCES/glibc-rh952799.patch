@@ -21,9 +21,9 @@
 #	* wcsmbs/btowc.c (__btowc): Demangle btowc_fct before checking
 #	for NULL.
 #
-diff -Nrup a/iconv/gconv_cache.c b/iconv/gconv_cache.c
---- a/iconv/gconv_cache.c	2012-12-24 22:02:13.000000000 -0500
-+++ b/iconv/gconv_cache.c	2013-04-30 11:34:20.112389987 -0400
+diff -Nru glibc-2.17-c758a686/iconv/gconv_cache.c glibc-2.17-c758a686/iconv/gconv_cache.c
+--- glibc-2.17-c758a686/iconv/gconv_cache.c	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/iconv/gconv_cache.c	2013-04-30 11:34:20.112389987 -0400
 @@ -207,17 +207,16 @@ find_module (const char *directory, cons
        result->__data = NULL;
  
@@ -47,9 +47,9 @@ diff -Nrup a/iconv/gconv_cache.c b/iconv/gconv_cache.c
  #endif
  	}
      }
-diff -Nrup a/iconv/gconv_db.c b/iconv/gconv_db.c
---- a/iconv/gconv_db.c	2012-12-24 22:02:13.000000000 -0500
-+++ b/iconv/gconv_db.c	2013-04-30 11:32:42.700592914 -0400
+diff -Nru glibc-2.17-c758a686/iconv/gconv_db.c glibc-2.17-c758a686/iconv/gconv_db.c
+--- glibc-2.17-c758a686/iconv/gconv_db.c	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/iconv/gconv_db.c	2013-04-30 11:32:42.700592914 -0400
 @@ -179,16 +179,15 @@ free_derivation (void *p)
    size_t cnt;
  
@@ -140,9 +140,9 @@ diff -Nrup a/iconv/gconv_db.c b/iconv/gconv_db.c
  #endif
  	    }
  	}
-diff -Nrup a/iconv/gconv_dl.c b/iconv/gconv_dl.c
---- a/iconv/gconv_dl.c	2012-12-24 22:02:13.000000000 -0500
-+++ b/iconv/gconv_dl.c	2013-04-30 11:32:42.701592922 -0400
+diff -Nru glibc-2.17-c758a686/iconv/gconv_dl.c glibc-2.17-c758a686/iconv/gconv_dl.c
+--- glibc-2.17-c758a686/iconv/gconv_dl.c	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/iconv/gconv_dl.c	2013-04-30 11:32:42.701592922 -0400
 @@ -132,10 +132,8 @@ __gconv_find_shlib (const char *name)
  
  #ifdef PTR_MANGLE
@@ -156,9 +156,9 @@ diff -Nrup a/iconv/gconv_dl.c b/iconv/gconv_dl.c
  #endif
  
  		  /* We have succeeded in loading the shared object.  */
-diff -Nrup a/wcsmbs/btowc.c b/wcsmbs/btowc.c
---- a/wcsmbs/btowc.c	2012-12-24 22:02:13.000000000 -0500
-+++ b/wcsmbs/btowc.c	2013-04-30 11:32:42.701592922 -0400
+diff -Nru glibc-2.17-c758a686/wcsmbs/btowc.c glibc-2.17-c758a686/wcsmbs/btowc.c
+--- glibc-2.17-c758a686/wcsmbs/btowc.c	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/wcsmbs/btowc.c	2013-04-30 11:32:42.701592922 -0400
 @@ -47,15 +47,15 @@ __btowc (c)
    /* Get the conversion functions.  */
    fcts = get_gconv_fcts (_NL_CURRENT_DATA (LC_CTYPE));

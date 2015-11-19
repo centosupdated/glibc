@@ -14,10 +14,10 @@ __GI_memset/__GI_memmove symbols.
  sysdeps/wordsize-32/symbol-hacks.h | 2 ++
  3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/sysdeps/generic/symbol-hacks.h b/sysdeps/generic/symbol-hacks.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h
 index bc7b4c4..9eaf014 100644
---- a/sysdeps/generic/symbol-hacks.h
-+++ b/sysdeps/generic/symbol-hacks.h
+--- glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h
++++ glibc-2.17-c758a686/sysdeps/generic/symbol-hacks.h
 @@ -1 +1,6 @@
 -/* Fortunately nothing to do.  */
 +/* Some compiler optimizations may transform loops into memset/memmove
@@ -26,10 +26,10 @@ index bc7b4c4..9eaf014 100644
 +asm ("memmove = __GI_memmove");
 +asm ("memset = __GI_memset");
 +#endif
-diff --git a/sysdeps/wordsize-32/symbol-hacks.h b/sysdeps/wordsize-32/symbol-hacks.h
+diff --git glibc-2.17-c758a686/sysdeps/wordsize-32/symbol-hacks.h glibc-2.17-c758a686/sysdeps/wordsize-32/symbol-hacks.h
 index 52a14fc..ad5b231 100644
---- a/sysdeps/wordsize-32/symbol-hacks.h
-+++ b/sysdeps/wordsize-32/symbol-hacks.h
+--- glibc-2.17-c758a686/sysdeps/wordsize-32/symbol-hacks.h
++++ glibc-2.17-c758a686/sysdeps/wordsize-32/symbol-hacks.h
 @@ -16,6 +16,8 @@
     License along with the GNU C Library; if not, see
     <http://www.gnu.org/licenses/>.  */

@@ -13,9 +13,9 @@ Date:   Fri Jul 26 08:29:17 2013 +0100
 
 
 
-diff -ruNp a/ports/sysdeps/aarch64/machine-gmon.h b/ports/sysdeps/aarch64/machine-gmon.h
---- a/ports/sysdeps/aarch64/machine-gmon.h	2012-12-24 22:02:13.000000000 -0500
-+++ b/ports/sysdeps/aarch64/machine-gmon.h	2014-03-27 12:06:51.361046886 -0400
+diff -ruNp glibc-2.17-c758a686/ports/sysdeps/aarch64/machine-gmon.h glibc-2.17-c758a686/ports/sysdeps/aarch64/machine-gmon.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/machine-gmon.h	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/machine-gmon.h	2014-03-27 12:06:51.361046886 -0400
 @@ -1,5 +1,5 @@
 -/* Copyright (C) 2011-2012 Free Software Foundation, Inc.
 -
@@ -55,9 +55,9 @@ diff -ruNp a/ports/sysdeps/aarch64/machine-gmon.h b/ports/sysdeps/aarch64/machin
 +{                                                                 \
 +  mcount_internal ((u_long) frompc, (u_long) RETURN_ADDRESS (0)); \
 +}
-diff -ruNp a/ports/sysdeps/aarch64/mcount.c b/ports/sysdeps/aarch64/mcount.c
---- a/ports/sysdeps/aarch64/mcount.c	1969-12-31 19:00:00.000000000 -0500
-+++ b/ports/sysdeps/aarch64/mcount.c	2014-03-27 11:54:54.435418262 -0400
+diff -ruNp glibc-2.17-c758a686/ports/sysdeps/aarch64/mcount.c glibc-2.17-c758a686/ports/sysdeps/aarch64/mcount.c
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/mcount.c	1969-12-31 19:00:00.000000000 -0500
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/mcount.c	2014-03-27 11:54:54.435418262 -0400
 @@ -0,0 +1,33 @@
 +/* Copyright (C) 2013 Free Software Foundation, Inc.
 +
@@ -92,18 +92,18 @@ diff -ruNp a/ports/sysdeps/aarch64/mcount.c b/ports/sysdeps/aarch64/mcount.c
 +#else
 +strong_alias (__mcount, _mcount);
 +#endif
-diff -ruNp a/ports/sysdeps/aarch64/Versions b/ports/sysdeps/aarch64/Versions
---- a/ports/sysdeps/aarch64/Versions	1969-12-31 19:00:00.000000000 -0500
-+++ b/ports/sysdeps/aarch64/Versions	2014-03-27 11:54:54.435418262 -0400
+diff -ruNp glibc-2.17-c758a686/ports/sysdeps/aarch64/Versions glibc-2.17-c758a686/ports/sysdeps/aarch64/Versions
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/Versions	1969-12-31 19:00:00.000000000 -0500
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/Versions	2014-03-27 11:54:54.435418262 -0400
 @@ -0,0 +1,5 @@
 +libc {
 +  GLIBC_2.18 {
 +    _mcount;
 +  }
 +}
-diff -ruNp a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist b/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist
---- a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist	2012-12-24 22:02:13.000000000 -0500
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist	2014-03-27 11:54:54.495412015 -0400
+diff -ruNp glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist	2014-03-27 11:54:54.495412015 -0400
 @@ -2077,3 +2077,6 @@ GLIBC_2.17
   xencrypt F
   xprt_register F
@@ -111,9 +111,9 @@ diff -ruNp a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/libc.abilist b/ports/sys
 +GLIBC_2.18
 + GLIBC_2.18 A
 + _mcount F
-diff -ruNp a/Versions.def b/Versions.def
---- a/Versions.def	2012-12-24 22:02:13.000000000 -0500
-+++ b/Versions.def	2014-03-27 11:54:54.535407851 -0400
+diff -ruNp glibc-2.17-c758a686/Versions.def glibc-2.17-c758a686/Versions.def
+--- glibc-2.17-c758a686/Versions.def	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/Versions.def	2014-03-27 11:54:54.535407851 -0400
 @@ -34,6 +34,7 @@ libc {
    GLIBC_2.15
    GLIBC_2.16

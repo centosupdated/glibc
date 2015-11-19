@@ -1,6 +1,6 @@
-diff -pruN glibc-2.17-c758a686/nptl/Makefile glibc-2.17-c758a686.new/nptl/Makefile
+diff -pruN glibc-2.17-c758a686/nptl/Makefile glibc-2.17-c758a686/nptl/Makefile
 --- glibc-2.17-c758a686/nptl/Makefile	2013-07-31 11:51:24.882747234 +0530
-+++ glibc-2.17-c758a686.new/nptl/Makefile	2013-07-31 11:58:55.964731526 +0530
++++ glibc-2.17-c758a686/nptl/Makefile	2013-07-31 11:58:55.964731526 +0530
 @@ -276,10 +276,7 @@ gen-as-const-headers = pthread-errnos.sy
  
  LDFLAGS-pthread.so = -Wl,--enable-new-dtags,-z,nodelete,-z,initfirst
@@ -13,9 +13,9 @@ diff -pruN glibc-2.17-c758a686/nptl/Makefile glibc-2.17-c758a686.new/nptl/Makefi
  CFLAGS-tst-default-attr.c = -DDEFAULT_STACKSIZE=$(DEFAULT_STACKSIZE)
  tst-default-attr-ENV = GLIBC_PTHREAD_STACKSIZE=$(DEFAULT_STACKSIZE)
  
-diff -pruN glibc-2.17-c758a686/nptl/tst-default-attr.c glibc-2.17-c758a686.new/nptl/tst-default-attr.c
+diff -pruN glibc-2.17-c758a686/nptl/tst-default-attr.c glibc-2.17-c758a686/nptl/tst-default-attr.c
 --- glibc-2.17-c758a686/nptl/tst-default-attr.c	2013-07-31 11:51:24.885747234 +0530
-+++ glibc-2.17-c758a686.new/nptl/tst-default-attr.c	2013-07-31 12:18:10.016691337 +0530
++++ glibc-2.17-c758a686/nptl/tst-default-attr.c	2013-07-31 12:18:10.016691337 +0530
 @@ -38,6 +38,7 @@
  
  /* DEFAULT_STACKSIZE macro is defined in the Makefile.  */

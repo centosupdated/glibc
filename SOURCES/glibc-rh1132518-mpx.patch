@@ -59,9 +59,9 @@
 #         (_dl_runtime_resolve): Use them.  Save and restore Intel MPX
 #         bound registers when calling _dl_fixup.
 # 
-diff -urN glibc-2.17-c758a686/config.h.in glibc-2.17-c758a686.mod/config.h.in
+diff -urN glibc-2.17-c758a686/config.h.in glibc-2.17-c758a686/config.h.in
 --- glibc-2.17-c758a686/config.h.in	2014-09-10 23:26:03.467045808 -0400
-+++ glibc-2.17-c758a686.mod/config.h.in	2014-09-10 23:27:41.532851928 -0400
++++ glibc-2.17-c758a686/config.h.in	2014-09-10 23:27:41.532851928 -0400
 @@ -107,6 +107,9 @@
  /* Define if assembler supports AVX512.  */
  #undef  HAVE_AVX512_ASM_SUPPORT
@@ -72,9 +72,9 @@ diff -urN glibc-2.17-c758a686/config.h.in glibc-2.17-c758a686.mod/config.h.in
  /* Define if gcc supports FMA4.  */
  #undef	HAVE_FMA4_SUPPORT
  
-diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686.mod/sysdeps/x86/bits/link.h
+diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686/sysdeps/x86/bits/link.h
 --- glibc-2.17-c758a686/sysdeps/x86/bits/link.h	2014-09-10 23:26:03.467045808 -0400
-+++ glibc-2.17-c758a686.mod/sysdeps/x86/bits/link.h	2014-09-10 23:27:41.533851926 -0400
++++ glibc-2.17-c758a686/sysdeps/x86/bits/link.h	2014-09-10 23:27:41.533851926 -0400
 @@ -93,6 +93,9 @@
    uint64_t lr_rsp;
    La_x86_64_xmm lr_xmm[8];
@@ -96,9 +96,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686.mod/sy
  } La_x86_64_retval;
  
  #define La_x32_regs La_x86_64_regs
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure glibc-2.17-c758a686.mod/sysdeps/x86_64/configure
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure glibc-2.17-c758a686/sysdeps/x86_64/configure
 --- glibc-2.17-c758a686/sysdeps/x86_64/configure	2014-09-10 23:26:03.573045598 -0400
-+++ glibc-2.17-c758a686.mod/sysdeps/x86_64/configure	2014-09-10 23:27:41.532851928 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/configure	2014-09-10 23:27:41.532851928 -0400
 @@ -212,6 +212,33 @@
  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_cc_novzeroupper" >&5
  $as_echo "$libc_cv_cc_novzeroupper" >&6; }
@@ -133,9 +133,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure glibc-2.17-c758a686.mod/s
  $as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
  
  # work around problem with autoconf and empty lines at the end of files
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in glibc-2.17-c758a686.mod/sysdeps/x86_64/configure.in
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in glibc-2.17-c758a686/sysdeps/x86_64/configure.in
 --- glibc-2.17-c758a686/sysdeps/x86_64/configure.in	2014-09-10 23:26:03.468045806 -0400
-+++ glibc-2.17-c758a686.mod/sysdeps/x86_64/configure.in	2014-09-10 23:27:41.532851928 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/configure.in	2014-09-10 23:27:41.532851928 -0400
 @@ -70,6 +70,21 @@
  		   [libc_cv_cc_novzeroupper=no])
  ])
@@ -158,9 +158,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in glibc-2.17-c758a686.mo
  dnl It is always possible to access static and hidden symbols in an
  dnl position independent way.
  AC_DEFINE(PI_STATIC_AND_HIDDEN)
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h glibc-2.17-c758a686.mod/sysdeps/x86_64/dl-trampoline.h
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h
 --- glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h	2014-09-10 23:26:03.468045806 -0400
-+++ glibc-2.17-c758a686.mod/sysdeps/x86_64/dl-trampoline.h	2014-09-10 23:27:41.535851922 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h	2014-09-10 23:27:41.535851922 -0400
 @@ -63,6 +63,20 @@
  	movaps (LR_XMM_OFFSET + XMM_SIZE*6)(%rsp), %xmm6
  	movaps (LR_XMM_OFFSET + XMM_SIZE*7)(%rsp), %xmm7
@@ -216,9 +216,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h glibc-2.17-c758a686
  	fldt LRV_ST1_OFFSET(%rsp)
  	fldt LRV_ST0_OFFSET(%rsp)
  
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S glibc-2.17-c758a686.mod/sysdeps/x86_64/dl-trampoline.S
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S
 --- glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S	2014-09-10 23:26:03.468045806 -0400
-+++ glibc-2.17-c758a686.mod/sysdeps/x86_64/dl-trampoline.S	2014-09-10 23:27:41.534851924 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S	2014-09-10 23:27:41.534851924 -0400
 @@ -24,6 +24,30 @@
  # error RTLD_SAVESPACE_SSE must be aligned to 32 bytes
  #endif
@@ -355,9 +355,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S glibc-2.17-c758a686
  # if defined HAVE_AVX_SUPPORT || defined HAVE_AVX512_ASM_SUPPORT
  	.data
  L(have_avx):
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a686.mod/sysdeps/x86_64/link-defines.sym
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym
 --- glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym	2014-09-10 23:26:03.468045806 -0400
-+++ glibc-2.17-c758a686.mod/sysdeps/x86_64/link-defines.sym	2014-09-10 23:27:41.535851922 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym	2014-09-10 23:27:41.535851922 -0400
 @@ -6,6 +6,7 @@
  XMM_SIZE		sizeof (La_x86_64_xmm)
  YMM_SIZE		sizeof (La_x86_64_ymm)

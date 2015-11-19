@@ -1,6 +1,6 @@
-diff -Nrup a/po/de.po b/po/de.po
---- a/po/de.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/de.po	2013-08-22 00:23:19.550362503 -0400
+diff -Nru glibc-2.17-c758a686/po/de.po glibc-2.17-c758a686/po/de.po
+--- glibc-2.17-c758a686/po/de.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/de.po	2013-08-22 00:23:19.550362503 -0400
 @@ -6342,13 +6342,14 @@ msgstr "Zu viele Benutzer"
  msgid "Disk quota exceeded"
  msgstr "Der zugewiesene Plattenplatz (Quota) ist überschritten"
@@ -22,9 +22,9 @@ diff -Nrup a/po/de.po b/po/de.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/es.po b/po/es.po
---- a/po/es.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/es.po	2013-08-22 00:26:06.924362114 -0400
+diff -Nru glibc-2.17-c758a686/po/es.po glibc-2.17-c758a686/po/es.po
+--- glibc-2.17-c758a686/po/es.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/es.po	2013-08-22 00:26:06.924362114 -0400
 @@ -6419,13 +6419,14 @@ msgstr "Se ha excedido la cuota de disco
  # Muy bien, he buscado "stale" y por lo que parece es algo que "caduca"
  # o que "vence", como las letras comerciales. Me he decidido por "en desuso".
@@ -46,9 +46,9 @@ diff -Nrup a/po/es.po b/po/es.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/fr.po b/po/fr.po
---- a/po/fr.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/fr.po	2013-08-22 00:27:48.381361856 -0400
+diff -Nru glibc-2.17-c758a686/po/fr.po glibc-2.17-c758a686/po/fr.po
+--- glibc-2.17-c758a686/po/fr.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/fr.po	2013-08-22 00:27:48.381361856 -0400
 @@ -6236,13 +6236,14 @@ msgstr "Trop d'usagers"
  msgid "Disk quota exceeded"
  msgstr "Débordement du quota d'espace disque"
@@ -70,9 +70,9 @@ diff -Nrup a/po/fr.po b/po/fr.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/it.po b/po/it.po
---- a/po/it.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/it.po	2013-08-22 00:31:45.643299312 -0400
+diff -Nru glibc-2.17-c758a686/po/it.po glibc-2.17-c758a686/po/it.po
+--- glibc-2.17-c758a686/po/it.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/it.po	2013-08-22 00:31:45.643299312 -0400
 @@ -6488,13 +6488,14 @@ msgstr "Troppi utenti"
  msgid "Disk quota exceeded"
  msgstr "Quota disco superata"
@@ -94,9 +94,9 @@ diff -Nrup a/po/it.po b/po/it.po
  
  # lf
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
-diff -Nrup a/po/ja.po b/po/ja.po
---- a/po/ja.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/ja.po	2013-08-22 00:40:52.870361885 -0400
+diff -Nru glibc-2.17-c758a686/po/ja.po glibc-2.17-c758a686/po/ja.po
+--- glibc-2.17-c758a686/po/ja.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/ja.po	2013-08-22 00:40:52.870361885 -0400
 @@ -6060,13 +6060,14 @@ msgstr "ユーザが多すぎます"
  msgid "Disk quota exceeded"
  msgstr "ディスク使用量制限を超過しました"
@@ -118,9 +118,9 @@ diff -Nrup a/po/ja.po b/po/ja.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/ko.po b/po/ko.po
---- a/po/ko.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/ko.po	2013-08-22 01:26:54.047362067 -0400
+diff -Nru glibc-2.17-c758a686/po/ko.po glibc-2.17-c758a686/po/ko.po
+--- glibc-2.17-c758a686/po/ko.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/ko.po	2013-08-22 01:26:54.047362067 -0400
 @@ -6076,13 +6076,14 @@ msgstr "사용자가 너무 많음"
  msgid "Disk quota exceeded"
  msgstr "디스크 할당량이 초과됨"
@@ -142,9 +142,9 @@ diff -Nrup a/po/ko.po b/po/ko.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/libc.pot b/po/libc.pot
---- a/po/libc.pot	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/libc.pot	2013-08-22 01:28:04.037362480 -0400
+diff -Nru glibc-2.17-c758a686/po/libc.pot glibc-2.17-c758a686/po/libc.pot
+--- glibc-2.17-c758a686/po/libc.pot	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/libc.pot	2013-08-22 01:28:04.037362480 -0400
 @@ -6120,12 +6120,13 @@ msgstr ""
  msgid "Disk quota exceeded"
  msgstr ""
@@ -164,9 +164,9 @@ diff -Nrup a/po/libc.pot b/po/libc.pot
  msgstr ""
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
-diff -Nrup a/po/pt_BR.po b/po/pt_BR.po
---- a/po/pt_BR.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/pt_BR.po	2013-08-22 00:57:47.845218981 -0400
+diff -Nru glibc-2.17-c758a686/po/pt_BR.po glibc-2.17-c758a686/po/pt_BR.po
+--- glibc-2.17-c758a686/po/pt_BR.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/pt_BR.po	2013-08-22 00:57:47.845218981 -0400
 @@ -2287,13 +2287,14 @@ msgstr "Erro de Srmount"
  msgid "Stack fault"
  msgstr "Falha de pilha"
@@ -189,9 +189,9 @@ diff -Nrup a/po/pt_BR.po b/po/pt_BR.po
  
  #: nscd/nscd.c:81
  msgid "Start NUMBER threads"
-diff -Nrup a/po/ru.po b/po/ru.po
---- a/po/ru.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/ru.po	2013-08-22 01:00:36.824204890 -0400
+diff -Nru glibc-2.17-c758a686/po/ru.po glibc-2.17-c758a686/po/ru.po
+--- glibc-2.17-c758a686/po/ru.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/ru.po	2013-08-22 01:00:36.824204890 -0400
 @@ -6243,13 +6243,14 @@ msgstr "Слишком много пол
  msgid "Disk quota exceeded"
  msgstr "Превышена дисковая квота"
@@ -213,9 +213,9 @@ diff -Nrup a/po/ru.po b/po/ru.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/zh_CN.po b/po/zh_CN.po
---- a/po/zh_CN.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/zh_CN.po	2013-08-22 01:02:42.089238124 -0400
+diff -Nru glibc-2.17-c758a686/po/zh_CN.po glibc-2.17-c758a686/po/zh_CN.po
+--- glibc-2.17-c758a686/po/zh_CN.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/zh_CN.po	2013-08-22 01:02:42.089238124 -0400
 @@ -5519,13 +5519,14 @@ msgstr "用户过多"
  msgid "Disk quota exceeded"
  msgstr "超出磁盘限额"
@@ -237,9 +237,9 @@ diff -Nrup a/po/zh_CN.po b/po/zh_CN.po
  
  #. TRANS An attempt was made to NFS-mount a remote file system with a file name that
  #. TRANS already specifies an NFS-mounted file.
-diff -Nrup a/po/zh_TW.po b/po/zh_TW.po
---- a/po/zh_TW.po	2012-12-24 22:02:13.000000000 -0500
-+++ b/po/zh_TW.po	2013-08-22 01:05:36.949361791 -0400
+diff -Nru glibc-2.17-c758a686/po/zh_TW.po glibc-2.17-c758a686/po/zh_TW.po
+--- glibc-2.17-c758a686/po/zh_TW.po	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/po/zh_TW.po	2013-08-22 01:05:36.949361791 -0400
 @@ -6060,13 +6060,14 @@ msgstr "太多使用者"
  msgid "Disk quota exceeded"
  msgstr "硬碟 quota 滿了"

@@ -20,10 +20,10 @@ Date:   Fri Dec 13 15:01:54 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c
 
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index b57ddc9..a4636b0 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -3,5 +3,6 @@ sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                    s_isnan-power5 s_isnan-ppc64
  
@@ -32,11 +32,11 @@ index b57ddc9..a4636b0 100644
 +                       s_isnan-power5 s_isnan-ppc64 s_llround-power6x \
 +                       s_llround-power5+ s_llround-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power5+.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power5+.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power5+.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power5+.S
 new file mode 100644
 index 0000000..ba0b65c
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power5+.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power5+.S
 @@ -0,0 +1,32 @@
 +/* llround().  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -70,11 +70,11 @@ index 0000000..ba0b65c
 +#define __lround __lround_power5plus
 +
 +#include <sysdeps/powerpc/powerpc64/power5+/fpu/s_llround.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power6x.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power6x.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power6x.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power6x.S
 new file mode 100644
 index 0000000..bd1c22a
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power6x.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-power6x.S
 @@ -0,0 +1,32 @@
 +/* llround().  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -108,11 +108,11 @@ index 0000000..bd1c22a
 +#define __lround __lround_power6x
 +
 +#include <sysdeps/powerpc/powerpc64/power6x/fpu/s_llround.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-ppc64.S
 new file mode 100644
 index 0000000..2316da2
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround-ppc64.S
 @@ -0,0 +1,28 @@
 +/* llround().  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -142,11 +142,11 @@ index 0000000..2316da2
 +#define __lround __lround_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_llround.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c
 new file mode 100644
 index 0000000..a4d1bf3
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llround.c
 @@ -0,0 +1,60 @@
 +/* Multiple versions of llround.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -208,11 +208,11 @@ index 0000000..a4d1bf3
 +#if LONG_DOUBLE_COMPAT(libm, GLIBC_2_1)
 +compat_symbol (libm, __lround, lroundl, GLIBC_2_1);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c
 new file mode 100644
 index 0000000..0dab544
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lround.c
 @@ -0,0 +1 @@
 +/* __lround is in s_llround.c  */
 -- 

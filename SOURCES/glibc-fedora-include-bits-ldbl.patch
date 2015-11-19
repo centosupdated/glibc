@@ -14,17 +14,17 @@ Subject: [PATCH] 128-bit long double fixes
  create mode 100644 include/bits/stdlib-ldbl.h
  create mode 100644 include/bits/wchar-ldbl.h
 
-diff --git a/include/bits/stdlib-ldbl.h b/include/bits/stdlib-ldbl.h
+diff --git glibc-2.17-c758a686/include/bits/stdlib-ldbl.h glibc-2.17-c758a686/include/bits/stdlib-ldbl.h
 new file mode 100644
 index 0000000..6250949
 --- /dev/null
-+++ b/include/bits/stdlib-ldbl.h
++++ glibc-2.17-c758a686/include/bits/stdlib-ldbl.h
 @@ -0,0 +1 @@
 +#include <stdlib/bits/stdlib-ldbl.h>
-diff --git a/include/bits/wchar-ldbl.h b/include/bits/wchar-ldbl.h
+diff --git glibc-2.17-c758a686/include/bits/wchar-ldbl.h glibc-2.17-c758a686/include/bits/wchar-ldbl.h
 new file mode 100644
 index 0000000..29baa2f
 --- /dev/null
-+++ b/include/bits/wchar-ldbl.h
++++ glibc-2.17-c758a686/include/bits/wchar-ldbl.h
 @@ -0,0 +1 @@
 +#include <wcsmbs/bits/wchar-ldbl.h>

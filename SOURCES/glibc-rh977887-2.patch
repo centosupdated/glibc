@@ -45,10 +45,10 @@ Date:   Wed Jun 12 10:36:48 2013 +0530
     impact on non-default rounding modes, but I think the tradeoff is
     justified.
 
-diff --git a/include/fenv.h b/include/fenv.h
+diff --git glibc-2.17-c758a686/include/fenv.h glibc-2.17-c758a686/include/fenv.h
 index ed6d139..9f90d17 100644
---- a/include/fenv.h
-+++ b/include/fenv.h
+--- glibc-2.17-c758a686/include/fenv.h
++++ glibc-2.17-c758a686/include/fenv.h
 @@ -1,5 +1,6 @@
  #ifndef _FENV_H
  #include <math/fenv.h>
@@ -70,10 +70,10 @@ index ed6d139..9f90d17 100644
 +};
 +
  #endif
-diff --git a/sysdeps/generic/math_private.h b/sysdeps/generic/math_private.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/math_private.h glibc-2.17-c758a686/sysdeps/generic/math_private.h
 index e98360d..c0fc03d 100644
---- a/sysdeps/generic/math_private.h
-+++ b/sysdeps/generic/math_private.h
+--- glibc-2.17-c758a686/sysdeps/generic/math_private.h
++++ glibc-2.17-c758a686/sysdeps/generic/math_private.h
 @@ -553,35 +553,62 @@ default_libc_feupdateenv_test (fenv_t *e, int ex)
  # define libc_feresetround_noexl libc_fesetenvl
  #endif
@@ -151,10 +151,10 @@ index e98360d..c0fc03d 100644
  
  #define __nan(str) \
    (__builtin_constant_p (str) && str[0] == '\0' ? NAN : __nan (str))
-diff --git a/sysdeps/i386/fpu/fenv_private.h b/sysdeps/i386/fpu/fenv_private.h
+diff --git glibc-2.17-c758a686/sysdeps/i386/fpu/fenv_private.h glibc-2.17-c758a686/sysdeps/i386/fpu/fenv_private.h
 index 1f8336c..3998387 100644
---- a/sysdeps/i386/fpu/fenv_private.h
-+++ b/sysdeps/i386/fpu/fenv_private.h
+--- glibc-2.17-c758a686/sysdeps/i386/fpu/fenv_private.h
++++ glibc-2.17-c758a686/sysdeps/i386/fpu/fenv_private.h
 @@ -322,6 +322,179 @@ libc_feresetround_387 (fenv_t *e)
  # define libc_feholdsetround_53bit	libc_feholdsetround_387_53bit
  #endif

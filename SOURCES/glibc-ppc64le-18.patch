@@ -12,9 +12,9 @@
 #         constant for 0x1p52.  Load little-endian words of double from
 #         correct stack offsets.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_roundf.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_roundf.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_roundf.S	2014-05-27 22:50:13.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/fpu/s_roundf.S	2014-05-27 22:50:13.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_roundf.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_roundf.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_roundf.S	2014-05-27 22:50:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/fpu/s_roundf.S	2014-05-27 22:50:13.000000000 -0500
 @@ -19,7 +19,7 @@
  #include <sysdep.h>
  
@@ -32,9 +32,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/fpu/s_roundf.S glib
  	lfs	fp10,.LC1@l(r9)
  #endif
  	ble-	cr6,.L4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S	2014-05-27 22:50:13.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S	2014-05-27 22:50:13.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S	2014-05-27 22:50:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/s_llround.S	2014-05-27 22:50:13.000000000 -0500
 @@ -19,12 +19,10 @@
  #include <sysdep.h>
  #include <math_ldbl_opt.h>

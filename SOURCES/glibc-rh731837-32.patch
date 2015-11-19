@@ -20,10 +20,10 @@ Date:   Fri Dec 13 15:35:44 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c
 
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index 1c23ddc..64dd85f 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -2,7 +2,8 @@ ifeq ($(subdir),math)
  sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                    s_isnan-power5 s_isnan-ppc64 s_copysign-power6 \
@@ -42,11 +42,11 @@ index 1c23ddc..64dd85f 100644
 +                       s_finitef-ppc64 s_isinff-ppc64 s_isinf-power7 \
 +                       s_isinf-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-power7.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-power7.S
 new file mode 100644
 index 0000000..80a682a
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-power7.S
 @@ -0,0 +1,33 @@
 +/* isinf().  PowerPC64/POWER7 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -81,11 +81,11 @@ index 0000000..80a682a
 +#define __isinf __isinf_power7
 +
 +#include <sysdeps/powerpc/powerpc64/power7/fpu/s_isinf.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-ppc64.c
 new file mode 100644
 index 0000000..28c5602
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf-ppc64.c
 @@ -0,0 +1,33 @@
 +/* isinf().  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -120,11 +120,11 @@ index 0000000..28c5602
 +#endif
 +
 +#include <sysdeps/ieee754/dbl-64/s_isinf.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf.c
 new file mode 100644
 index 0000000..1ee230b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinf.c
 @@ -0,0 +1,44 @@
 +/* Multiple versions of isinf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -170,11 +170,11 @@ index 0000000..1ee230b
 +compat_symbol (libc, isinf, isinfl, GLIBC_2_0);
 +# endif
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c
 new file mode 100644
 index 0000000..c2559d7
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff-ppc64.c
 @@ -0,0 +1,31 @@
 +/* isinff().  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -207,11 +207,11 @@ index 0000000..c2559d7
 +#endif
 +
 +#include <sysdeps/ieee754/flt-32/s_isinff.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c
 new file mode 100644
 index 0000000..1336feb
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_isinff.c
 @@ -0,0 +1,33 @@
 +/* Multiple versions of isinf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

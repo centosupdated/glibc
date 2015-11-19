@@ -9,9 +9,9 @@
 #         Correct handling of unaligned relocs for little-endian.
 #         * sysdeps/powerpc/powerpc64/dl-machine.h (elf_machine_rela): Likewise.
 # 
-diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c glibc-2.17-c758a686.mod/sysdeps/powerpc/powerpc32/dl-machine.c
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c
 --- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/powerpc/powerpc32/dl-machine.c	2014-11-11 18:51:36.140570654 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c	2014-11-11 18:51:36.140570654 -0500
 @@ -423,6 +423,12 @@
  			Elf32_Addr const finaladdr,
  			int rinfo)
@@ -47,9 +47,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c glibc-2.17-
        break;
  
      case R_PPC_ADDR16_LO:
-diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686.mod/sysdeps/powerpc/powerpc64/dl-machine.h
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
 --- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/powerpc/powerpc64/dl-machine.h	2014-11-11 18:51:36.141570651 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-11-11 18:51:36.141570651 -0500
 @@ -561,6 +561,12 @@
    Elf64_Addr *const reloc_addr = reloc_addr_arg;
    const int r_type = ELF64_R_TYPE (reloc->r_info);

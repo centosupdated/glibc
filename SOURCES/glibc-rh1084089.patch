@@ -1,6 +1,6 @@
-diff -pruN a/nptl/sysdeps/unix/sysv/linux/lowlevellock.c b/nptl/sysdeps/unix/sysv/linux/lowlevellock.c
---- a/nptl/sysdeps/unix/sysv/linux/lowlevellock.c	2012-12-25 08:32:13.000000000 +0530
-+++ b/nptl/sysdeps/unix/sysv/linux/lowlevellock.c	2014-09-05 21:50:56.982975803 +0530
+diff -pruN glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/lowlevellock.c glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/lowlevellock.c
+--- glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/lowlevellock.c	2012-12-25 08:32:13.000000000 +0530
++++ glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/lowlevellock.c	2014-09-05 21:50:56.982975803 +0530
 @@ -21,11 +21,13 @@
  #include <sysdep.h>
  #include <lowlevellock.h>
@@ -23,9 +23,9 @@ diff -pruN a/nptl/sysdeps/unix/sysv/linux/lowlevellock.c b/nptl/sysdeps/unix/sys
    if (*futex == 2)
      lll_futex_wait (futex, 2, private);
  
-diff -pruN a/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h b/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h
---- a/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h	2012-12-25 08:32:13.000000000 +0530
-+++ b/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h	2014-09-05 21:51:58.722483631 +0530
+diff -pruN glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h
+--- glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h	2012-12-25 08:32:13.000000000 +0530
++++ glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h	2014-09-05 21:51:58.722483631 +0530
 @@ -19,6 +19,8 @@
  #ifndef _LOWLEVELLOCK_H
  #define _LOWLEVELLOCK_H	1
@@ -43,9 +43,9 @@ diff -pruN a/nptl/sysdeps/unix/sysv/linux/powerpc/lowlevellock.h b/nptl/sysdeps/
      __ret = INTERNAL_SYSCALL (futex, __err, 4, (futexp),		      \
  			      __lll_private_flag (FUTEX_WAKE, private),	      \
  			      (nr), 0);					      \
-diff -pruN a/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h b/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h
---- a/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h	2012-12-25 08:32:13.000000000 +0530
-+++ b/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h	2014-09-05 21:51:58.722483631 +0530
+diff -pruN glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h
+--- glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h	2012-12-25 08:32:13.000000000 +0530
++++ glibc-2.17-c758a686/nptl/sysdeps/unix/sysv/linux/s390/lowlevellock.h	2014-09-05 21:51:58.722483631 +0530
 @@ -19,6 +19,8 @@
  #ifndef _LOWLEVELLOCK_H
  #define _LOWLEVELLOCK_H	1

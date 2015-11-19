@@ -8,10 +8,10 @@ Backport
   [AArch64] Ensure getcontext() initializes PSTATE.
 
 
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S b/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S
 index aff2e32..70b2e32 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/getcontext.S
 @@ -1,6 +1,6 @@
  /* Save current context.
  
@@ -30,10 +30,10 @@ index aff2e32..70b2e32 100644
  	/* Figure out where to place the first context extension
  	   block.  */
  	add     x2, x0, #oEXTENSION
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S b/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S
 index a98f67f..f45a655 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/setcontext.S
 @@ -1,6 +1,6 @@
  /* Set current context.
  
@@ -206,10 +206,10 @@ index a98f67f..f45a655 100644
 -END(__startcontext)
 +1:	b       HIDDEN_JUMPTARGET (_exit)
 +END (__startcontext)
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym b/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym
 index 1afff78..ab3930c 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ucontext_i.sym
 @@ -37,6 +37,7 @@ STACK_FLAGS			stack (ss_flags)
  oX0				mcontext (regs)
  oSP				mcontext (sp)

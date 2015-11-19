@@ -62,9 +62,9 @@
 # https://sourceware.org/ml/libc-alpha/2014-09/msg00228.html
 # To extend zmm register checking.
 #
-diff -urN glibc-2.17-c758a686/config.h.in glibc-2.17-c758a686.mod-mpx/config.h.in
+diff -urN glibc-2.17-c758a686/config.h.in glibc-2.17-c758a686/config.h.in
 --- glibc-2.17-c758a686/config.h.in	2014-09-10 23:11:14.605787816 -0400
-+++ glibc-2.17-c758a686.mod-mpx/config.h.in	2014-09-10 23:16:36.331167056 -0400
++++ glibc-2.17-c758a686/config.h.in	2014-09-10 23:16:36.331167056 -0400
 @@ -101,6 +101,12 @@
  /* Define if gcc supports VEX encoding.  */
  #undef	HAVE_SSE2AVX_SUPPORT
@@ -78,9 +78,9 @@ diff -urN glibc-2.17-c758a686/config.h.in glibc-2.17-c758a686.mod-mpx/config.h.i
  /* Define if gcc supports FMA4.  */
  #undef	HAVE_FMA4_SUPPORT
  
-diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686.mod-mpx/sysdeps/x86/bits/link.h
+diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686/sysdeps/x86/bits/link.h
 --- glibc-2.17-c758a686/sysdeps/x86/bits/link.h	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86/bits/link.h	2014-09-10 23:16:36.331167056 -0400
++++ glibc-2.17-c758a686/sysdeps/x86/bits/link.h	2014-09-10 23:16:36.331167056 -0400
 @@ -66,6 +66,8 @@
  typedef float La_x86_64_xmm __attribute__ ((__vector_size__ (16)));
  typedef float La_x86_64_ymm
@@ -98,9 +98,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686.mod-mp
  # endif
    La_x86_64_xmm xmm[4];
  } La_x86_64_vector __attribute__ ((__aligned__ (16)));
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure glibc-2.17-c758a686/sysdeps/x86_64/configure
 --- glibc-2.17-c758a686/sysdeps/x86_64/configure	2014-09-10 23:11:15.000787061 -0400
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure	2014-09-10 23:16:36.338167042 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/configure	2014-09-10 23:16:36.338167042 -0400
 @@ -91,6 +91,59 @@
  
  fi
@@ -161,9 +161,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure glibc-2.17-c758a686.mod-m
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for AVX encoding of SSE instructions" >&5
  $as_echo_n "checking for AVX encoding of SSE instructions... " >&6; }
  if ${libc_cv_cc_sse2avx+:} false; then :
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure.in
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in glibc-2.17-c758a686/sysdeps/x86_64/configure.in
 --- glibc-2.17-c758a686/sysdeps/x86_64/configure.in	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure.in	2014-09-10 23:16:36.338167042 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/configure.in	2014-09-10 23:16:36.338167042 -0400
 @@ -21,6 +21,30 @@
    AC_DEFINE(HAVE_AVX_SUPPORT)
  fi
@@ -195,233 +195,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in glibc-2.17-c758a686.mo
  dnl Check if -msse2avx works.
  AC_CACHE_CHECK(for AVX encoding of SSE instructions, libc_cv_cc_sse2avx, [dnl
  LIBC_TRY_CC_OPTION([-msse2avx],
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.in.orig glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure.in.orig
---- glibc-2.17-c758a686/sysdeps/x86_64/configure.in.orig	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure.in.orig	2014-09-10 23:16:28.418182701 -0400
-@@ -0,0 +1,52 @@
-+GLIBC_PROVIDES dnl See aclocal.m4 in the top level source directory.
-+# Local configure fragment for sysdeps/x86_64.
-+
-+AC_CHECK_HEADER([cpuid.h], ,
-+  [AC_MSG_ERROR([gcc must provide the <cpuid.h> header])],
-+  [/* No default includes.  */])
-+
-+dnl Check if -msse4 works.
-+AC_CACHE_CHECK(for SSE4 support, libc_cv_cc_sse4, [dnl
-+LIBC_TRY_CC_OPTION([-msse4], [libc_cv_cc_sse4=yes], [libc_cv_cc_sse4=no])
-+])
-+if test $libc_cv_cc_sse4 = yes; then
-+  AC_DEFINE(HAVE_SSE4_SUPPORT)
-+fi
-+
-+dnl Check if -mavx works.
-+AC_CACHE_CHECK(for AVX support, libc_cv_cc_avx, [dnl
-+LIBC_TRY_CC_OPTION([-mavx], [libc_cv_cc_avx=yes], [libc_cv_cc_avx=no])
-+])
-+if test $libc_cv_cc_avx = yes; then
-+  AC_DEFINE(HAVE_AVX_SUPPORT)
-+fi
-+
-+dnl Check if -msse2avx works.
-+AC_CACHE_CHECK(for AVX encoding of SSE instructions, libc_cv_cc_sse2avx, [dnl
-+LIBC_TRY_CC_OPTION([-msse2avx],
-+		   [libc_cv_cc_sse2avx=yes],
-+		   [libc_cv_cc_sse2avx=no])
-+])
-+if test $libc_cv_cc_sse2avx = yes; then
-+  AC_DEFINE(HAVE_SSE2AVX_SUPPORT)
-+fi
-+
-+dnl Check if -mfma4 works.
-+AC_CACHE_CHECK(for FMA4 support, libc_cv_cc_fma4, [dnl
-+LIBC_TRY_CC_OPTION([-mfma4], [libc_cv_cc_fma4=yes], [libc_cv_cc_fma4=no])
-+])
-+if test $libc_cv_cc_fma4 = yes; then
-+  AC_DEFINE(HAVE_FMA4_SUPPORT)
-+fi
-+
-+dnl Check if -mno-vzeroupper works.
-+AC_CACHE_CHECK(for -mno-vzeroupper support, libc_cv_cc_novzeroupper, [dnl
-+LIBC_TRY_CC_OPTION([-mno-vzeroupper],
-+		   [libc_cv_cc_novzeroupper=yes],
-+		   [libc_cv_cc_novzeroupper=no])
-+])
-+
-+dnl It is always possible to access static and hidden symbols in an
-+dnl position independent way.
-+AC_DEFINE(PI_STATIC_AND_HIDDEN)
-+# work around problem with autoconf and empty lines at the end of files
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/configure.orig glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure.orig
---- glibc-2.17-c758a686/sysdeps/x86_64/configure.orig	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/configure.orig	2014-09-10 23:16:28.419182699 -0400
-@@ -0,0 +1,164 @@
-+
-+# ac_fn_c_check_header_compile LINENO HEADER VAR INCLUDES
-+# -------------------------------------------------------
-+# Tests whether HEADER exists and can be compiled using the include files in
-+# INCLUDES, setting the cache variable VAR accordingly.
-+ac_fn_c_check_header_compile ()
-+{
-+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-+$as_echo_n "checking for $2... " >&6; }
-+if eval \${$3+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+/* end confdefs.h.  */
-+$4
-+#include <$2>
-+_ACEOF
-+if ac_fn_c_try_compile "$LINENO"; then :
-+  eval "$3=yes"
-+else
-+  eval "$3=no"
-+fi
-+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-+fi
-+eval ac_res=\$$3
-+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-+$as_echo "$ac_res" >&6; }
-+  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-+
-+} # ac_fn_c_check_header_compile
-+# This file is generated from configure.in by Autoconf.  DO NOT EDIT!
-+ # Local configure fragment for sysdeps/x86_64.
-+
-+
-+ac_fn_c_check_header_compile "$LINENO" "cpuid.h" "ac_cv_header_cpuid_h" "/* No default includes.  */
-+"
-+if test "x$ac_cv_header_cpuid_h" = xyes; then :
-+
-+else
-+  as_fn_error $? "gcc must provide the <cpuid.h> header" "$LINENO" 5
-+fi
-+
-+
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SSE4 support" >&5
-+$as_echo_n "checking for SSE4 support... " >&6; }
-+if ${libc_cv_cc_sse4+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if { ac_try='${CC-cc} -msse4 -xc /dev/null -S -o /dev/null'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; }; then :
-+  libc_cv_cc_sse4=yes
-+else
-+  libc_cv_cc_sse4=no
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_cc_sse4" >&5
-+$as_echo "$libc_cv_cc_sse4" >&6; }
-+if test $libc_cv_cc_sse4 = yes; then
-+  $as_echo "#define HAVE_SSE4_SUPPORT 1" >>confdefs.h
-+
-+fi
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for AVX support" >&5
-+$as_echo_n "checking for AVX support... " >&6; }
-+if ${libc_cv_cc_avx+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if { ac_try='${CC-cc} -mavx -xc /dev/null -S -o /dev/null'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; }; then :
-+  libc_cv_cc_avx=yes
-+else
-+  libc_cv_cc_avx=no
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_cc_avx" >&5
-+$as_echo "$libc_cv_cc_avx" >&6; }
-+if test $libc_cv_cc_avx = yes; then
-+  $as_echo "#define HAVE_AVX_SUPPORT 1" >>confdefs.h
-+
-+fi
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for AVX encoding of SSE instructions" >&5
-+$as_echo_n "checking for AVX encoding of SSE instructions... " >&6; }
-+if ${libc_cv_cc_sse2avx+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if { ac_try='${CC-cc} -msse2avx -xc /dev/null -S -o /dev/null'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; }; then :
-+  libc_cv_cc_sse2avx=yes
-+else
-+  libc_cv_cc_sse2avx=no
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_cc_sse2avx" >&5
-+$as_echo "$libc_cv_cc_sse2avx" >&6; }
-+if test $libc_cv_cc_sse2avx = yes; then
-+  $as_echo "#define HAVE_SSE2AVX_SUPPORT 1" >>confdefs.h
-+
-+fi
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for FMA4 support" >&5
-+$as_echo_n "checking for FMA4 support... " >&6; }
-+if ${libc_cv_cc_fma4+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if { ac_try='${CC-cc} -mfma4 -xc /dev/null -S -o /dev/null'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; }; then :
-+  libc_cv_cc_fma4=yes
-+else
-+  libc_cv_cc_fma4=no
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_cc_fma4" >&5
-+$as_echo "$libc_cv_cc_fma4" >&6; }
-+if test $libc_cv_cc_fma4 = yes; then
-+  $as_echo "#define HAVE_FMA4_SUPPORT 1" >>confdefs.h
-+
-+fi
-+
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for -mno-vzeroupper support" >&5
-+$as_echo_n "checking for -mno-vzeroupper support... " >&6; }
-+if ${libc_cv_cc_novzeroupper+:} false; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  if { ac_try='${CC-cc} -mno-vzeroupper -xc /dev/null -S -o /dev/null'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; }; then :
-+  libc_cv_cc_novzeroupper=yes
-+else
-+  libc_cv_cc_novzeroupper=no
-+fi
-+
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_cc_novzeroupper" >&5
-+$as_echo "$libc_cv_cc_novzeroupper" >&6; }
-+
-+$as_echo "#define PI_STATIC_AND_HIDDEN 1" >>confdefs.h
-+
-+# work around problem with autoconf and empty lines at the end of files
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/dl-trampoline.h
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h
 --- glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/dl-trampoline.h	2014-09-10 23:16:36.334167050 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h	2014-09-10 23:16:36.334167050 -0400
 @@ -19,14 +19,14 @@
  
  #ifdef RESTORE_AVX
@@ -544,9 +320,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.h glibc-2.17-c758a686
  
  1:
  #endif
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/dl-trampoline.S
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S
 --- glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/dl-trampoline.S	2014-09-10 23:16:36.334167050 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S	2014-09-10 23:16:36.334167050 -0400
 @@ -96,7 +96,7 @@
  
  	/* Actively align the La_x86_64_regs structure.  */
@@ -750,9 +526,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/dl-trampoline.S glibc-2.17-c758a686
  L(no_avx6):
  # endif
  	movdqa	%fs:RTLD_SAVESPACE_SSE+0*XMM_SIZE, %xmm0
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/link-defines.sym
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym
 --- glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/link-defines.sym	2014-09-10 23:16:36.335167048 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym	2014-09-10 23:16:36.335167048 -0400
 @@ -4,6 +4,8 @@
  --
  VECTOR_SIZE		sizeof (La_x86_64_vector)
@@ -762,9 +538,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a68
  
  LR_SIZE			sizeof (struct La_x86_64_regs)
  LR_RDX_OFFSET		offsetof (struct La_x86_64_regs, lr_rdx)
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/Makefile glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/Makefile
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/Makefile glibc-2.17-c758a686/sysdeps/x86_64/Makefile
 --- glibc-2.17-c758a686/sysdeps/x86_64/Makefile	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/Makefile	2014-09-10 23:22:04.269518711 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/Makefile	2014-09-10 23:22:04.269518711 -0400
 @@ -37,6 +37,20 @@
  
  $(objpfx)tst-quad1pie: $(objpfx)tst-quadmod1pie.o
@@ -786,57 +562,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/Makefile glibc-2.17-c758a686.mod-mp
  endif
  
  ifeq ($(subdir),csu)
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/Makefile.orig glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/Makefile.orig
---- glibc-2.17-c758a686/sysdeps/x86_64/Makefile.orig	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/Makefile.orig	2014-09-10 23:16:36.332167054 -0400
-@@ -0,0 +1,44 @@
-+# The i387 `long double' is a distinct type we support.
-+long-double-fcts = yes
-+
-+ifeq ($(subdir),csu)
-+sysdep_routines += hp-timing
-+elide-routines.os += hp-timing
-+gen-as-const-headers += link-defines.sym
-+endif
-+
-+ifeq ($(subdir),gmon)
-+sysdep_routines += _mcount
-+endif
-+
-+ifeq ($(subdir),malloc)
-+tests += tst-mallocalign1
-+endif
-+
-+ifeq ($(subdir),string)
-+sysdep_routines += cacheinfo strcasecmp_l-nonascii strncase_l-nonascii
-+gen-as-const-headers += locale-defines.sym
-+endif
-+
-+ifeq ($(subdir),elf)
-+sysdep-dl-routines += tlsdesc dl-tlsdesc
-+sysdep_routines += tlsdesc dl-tlsdesc
-+sysdep-rtld-routines += tlsdesc dl-tlsdesc
-+
-+tests += tst-quad1 tst-quad2
-+modules-names += tst-quadmod1 tst-quadmod2
-+
-+$(objpfx)tst-quad1: $(objpfx)tst-quadmod1.so
-+$(objpfx)tst-quad2: $(objpfx)tst-quadmod2.so
-+
-+quad-pie-test += tst-quad1pie tst-quad2pie
-+tests += $(quad-pie-test)
-+tests-pie += $(quad-pie-test)
-+
-+$(objpfx)tst-quad1pie: $(objpfx)tst-quadmod1pie.o
-+$(objpfx)tst-quad2pie: $(objpfx)tst-quadmod2pie.o
-+endif
-+
-+ifeq ($(subdir),csu)
-+gen-as-const-headers += tlsdesc.sym
-+endif
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-audit10.c glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/tst-audit10.c
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-audit10.c glibc-2.17-c758a686/sysdeps/x86_64/tst-audit10.c
 --- glibc-2.17-c758a686/sysdeps/x86_64/tst-audit10.c	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/tst-audit10.c	2014-09-10 23:16:36.335167048 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/tst-audit10.c	2014-09-10 23:16:36.335167048 -0400
 @@ -0,0 +1,70 @@
 +/* Copyright (C) 2012-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -908,9 +636,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-audit10.c glibc-2.17-c758a686.m
 +  return 0;
 +}
 +#endif
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10a.c glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/tst-auditmod10a.c
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10a.c glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10a.c
 --- glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10a.c	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/tst-auditmod10a.c	2014-09-10 23:16:36.335167048 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10a.c	2014-09-10 23:16:36.335167048 -0400
 @@ -0,0 +1,65 @@
 +/* Copyright (C) 2012-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -977,9 +705,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10a.c glibc-2.17-c758a6
 +  return _mm512_setzero_si512 ();
 +}
 +#endif
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10b.c glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/tst-auditmod10b.c
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10b.c glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10b.c
 --- glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10b.c	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod-mpx/sysdeps/x86_64/tst-auditmod10b.c	2014-09-10 23:16:36.336167046 -0400
++++ glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10b.c	2014-09-10 23:16:36.336167046 -0400
 @@ -0,0 +1,219 @@
 +/* Copyright (C) 2012-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -1200,9 +928,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86_64/tst-auditmod10b.c glibc-2.17-c758a6
 +
 +  return 0;
 +}
-diff -urN glibc-2.17-c758a686/sysdeps/x86/Makefile glibc-2.17-c758a686.mod/sysdeps/x86/Makefile
+diff -urN glibc-2.17-c758a686/sysdeps/x86/Makefile glibc-2.17-c758a686/sysdeps/x86/Makefile
 --- glibc-2.17-c758a686/sysdeps/x86/Makefile	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/x86/Makefile	2014-09-11 16:06:03.121319867 -0400
++++ glibc-2.17-c758a686/sysdeps/x86/Makefile	2014-09-11 16:06:03.121319867 -0400
 @@ -2,8 +2,8 @@
  CFLAGS-.os += $(if $(filter $(@F),$(patsubst %,%.os,$(all-rtld-routines))),\
  		   -mno-sse -mno-mmx)
@@ -1214,9 +942,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86/Makefile glibc-2.17-c758a686.mod/sysde
  	@echo "Checking ld.so for SSE register use.  This will take a few seconds..."
  	$(SHELL) $< $(objpfx) '$(NM)' '$(OBJDUMP)' '$(READELF)' > $@
  endif
-diff -urN glibc-2.17-c758a686/sysdeps/x86/tst-xmmymm.sh glibc-2.17-c758a686.mod/sysdeps/x86/tst-xmmymm.sh
+diff -urN glibc-2.17-c758a686/sysdeps/x86/tst-xmmymm.sh glibc-2.17-c758a686/sysdeps/x86/tst-xmmymm.sh
 --- glibc-2.17-c758a686/sysdeps/x86/tst-xmmymm.sh	2012-12-24 22:02:13.000000000 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/x86/tst-xmmymm.sh	1969-12-31 19:00:00.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/x86/tst-xmmymm.sh	1969-12-31 19:00:00.000000000 -0500
 @@ -1,103 +0,0 @@
 -#! /bin/bash
 -# Make sure no code in ld.so uses xmm/ymm registers on x86-64.
@@ -1321,9 +1049,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86/tst-xmmymm.sh glibc-2.17-c758a686.mod/
 -
 -rm "$tmp"
 -exit $result
-diff -urN glibc-2.17-c758a686/sysdeps/x86/tst-xmmymmzmm.sh glibc-2.17-c758a686.mod/sysdeps/x86/tst-xmmymmzmm.sh
+diff -urN glibc-2.17-c758a686/sysdeps/x86/tst-xmmymmzmm.sh glibc-2.17-c758a686/sysdeps/x86/tst-xmmymmzmm.sh
 --- glibc-2.17-c758a686/sysdeps/x86/tst-xmmymmzmm.sh	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/x86/tst-xmmymmzmm.sh	2014-09-11 16:05:10.073426623 -0400
++++ glibc-2.17-c758a686/sysdeps/x86/tst-xmmymmzmm.sh	2014-09-11 16:05:10.073426623 -0400
 @@ -0,0 +1,103 @@
 +#! /bin/bash
 +# Make sure no code in ld.so uses xmm/ymm/zmm registers on x86-64.

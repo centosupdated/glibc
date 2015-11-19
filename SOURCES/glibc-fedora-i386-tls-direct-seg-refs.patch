@@ -1,6 +1,6 @@
-diff -Nrup a/sysdeps/i386/Makefile b/sysdeps/i386/Makefile
---- a/sysdeps/i386/Makefile	2012-06-05 07:42:49.000000000 -0600
-+++ b/sysdeps/i386/Makefile	2012-06-07 12:15:21.826318641 -0600
+diff -Nru glibc-2.17-c758a686/sysdeps/i386/Makefile glibc-2.17-c758a686/sysdeps/i386/Makefile
+--- glibc-2.17-c758a686/sysdeps/i386/Makefile	2012-06-05 07:42:49.000000000 -0600
++++ glibc-2.17-c758a686/sysdeps/i386/Makefile	2012-06-07 12:15:21.826318641 -0600
 @@ -62,6 +64,14 @@ endif
  
  ifneq (,$(filter -mno-tls-direct-seg-refs,$(CFLAGS)))

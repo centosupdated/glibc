@@ -33,9 +33,9 @@
 #     The hack in VDSO_IFUNC_RET to "synthesize" a function descriptor
 #     for vDSO routines is also no longer necessary for ELFv2.
 # 
-diff -urN glibc-2.17-c758a686.orig/elf/elf.h glibc-2.17-c758a686.diff/elf/elf.h
---- glibc-2.17-c758a686.orig/elf/elf.h	2014-05-29 13:58:25.000000000 -0500
-+++ glibc-2.17-c758a686.diff/elf/elf.h	2014-05-29 13:58:25.000000000 -0500
+diff -urN glibc-2.17-c758a686/elf/elf.h glibc-2.17-c758a686/elf/elf.h
+--- glibc-2.17-c758a686/elf/elf.h	2014-05-29 13:58:25.000000000 -0500
++++ glibc-2.17-c758a686/elf/elf.h	2014-05-29 13:58:25.000000000 -0500
 @@ -2263,6 +2263,12 @@
  #define R_PPC64_REL16_HI	251	/* half16   (sym+add-.)@h */
  #define R_PPC64_REL16_HA	252	/* half16   (sym+add-.)@ha */
@@ -49,9 +49,9 @@ diff -urN glibc-2.17-c758a686.orig/elf/elf.h glibc-2.17-c758a686.diff/elf/elf.h
  /* PowerPC64 specific values for the Dyn d_tag field.  */
  #define DT_PPC64_GLINK  (DT_LOPROC + 0)
  #define DT_PPC64_OPD	(DT_LOPROC + 1)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/crti.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/crti.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/crti.S	2014-05-29 13:58:25.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/crti.S	2014-05-29 13:58:25.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/crti.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/crti.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/crti.S	2014-05-29 13:58:25.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/crti.S	2014-05-29 13:58:25.000000000 -0500
 @@ -64,6 +64,7 @@
  	ENTRY_2(_init)
  	.align ALIGNARG (2)
@@ -68,9 +68,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/crti.S glibc-2.17-c
  	mflr 0
  	std 0, 16(r1)
  	stdu r1, -112(r1)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-irel.h glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-irel.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-irel.h	2014-05-29 13:58:25.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-irel.h	2014-05-29 13:58:25.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-irel.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-irel.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-irel.h	2014-05-29 13:58:25.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-irel.h	2014-05-29 13:58:25.000000000 -0500
 @@ -50,7 +50,11 @@
      {
        Elf64_Addr *const reloc_addr = (void *) reloc->r_offset;
@@ -83,9 +83,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-irel.h glibc-2.1
      }
    else
      __libc_fatal ("unexpected reloc type in static binary");
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-machine.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 13:58:25.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:05:46.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 13:58:25.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:05:46.000000000 -0500
 @@ -31,6 +31,7 @@
     in l_info array.  */
  #define DT_PPC64(x) (DT_PPC64_##x - DT_LOPROC + DT_NUM)
@@ -311,9 +311,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h glibc-
    return ((Elf64_Addr (*) (unsigned long int)) value) (GLRO(dl_hwcap));
  }
  
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/setjmp-common.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/setjmp-common.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/setjmp-common.S	2014-05-29 13:58:25.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/setjmp-common.S	2014-05-29 14:00:27.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/setjmp-common.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/setjmp-common.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/setjmp-common.S	2014-05-29 13:58:25.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/setjmp-common.S	2014-05-29 14:00:27.000000000 -0500
 @@ -55,21 +55,22 @@
     that saves r2 since the call won't go via a plt call stub.  See
     bugz #269.  __GI__setjmp is used in csu/libc-start.c when
@@ -366,9 +366,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/setjmp-common.S gli
  #endif
 -END (BP_SYM (__sigsetjmp))
 +END (__sigsetjmp)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/sysdep.h glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/sysdep.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/sysdep.h	2014-05-29 13:58:25.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/sysdep.h	2014-05-29 13:58:25.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/sysdep.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/sysdep.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/sysdep.h	2014-05-29 13:58:25.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/sysdep.h	2014-05-29 13:58:25.000000000 -0500
 @@ -74,6 +74,8 @@
  #endif
  	.endm
@@ -463,9 +463,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/sysdep.h glibc-2.17
 +#endif /* _CALL_ELF */
  
  #endif	/* __ASSEMBLER__ */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h
---- glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h	2014-05-29 13:58:24.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h	2014-05-29 13:58:25.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h	2014-05-29 13:58:24.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/ldsodefs.h	2014-05-29 13:58:25.000000000 -0500
 @@ -23,6 +23,8 @@
  
  /* Now define our stuff.  */
@@ -482,9 +482,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/lds
 +#endif
 +
  #endif /* ldsodefs.h */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S
---- glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-29 13:58:24.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-29 13:58:25.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-29 13:58:24.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-29 13:58:25.000000000 -0500
 @@ -111,6 +111,7 @@
  
  L(noparms):

@@ -14,10 +14,10 @@ Date:   Wed Mar 19 00:42:30 2014 +0530
     consider the effect of unflushed writes, i.e. from _IO_write_base to
     _IO_write_ptr.
 
-diff --git a/libio/Makefile b/libio/Makefile
+diff --git glibc-2.17-c758a686/libio/Makefile glibc-2.17-c758a686/libio/Makefile
 index 69c25c0..4bedfad 100644
---- a/libio/Makefile
-+++ b/libio/Makefile
+--- glibc-2.17-c758a686/libio/Makefile
++++ glibc-2.17-c758a686/libio/Makefile
 @@ -60,7 +60,8 @@ tests = tst_swprintf tst_wprintf tst_swscanf tst_wscanf tst_getwc tst_putwc   \
  	tst-wmemstream1 tst-wmemstream2 \
  	bug-memstream1 bug-wmemstream1 \
@@ -28,10 +28,10 @@ index 69c25c0..4bedfad 100644
  ifeq (yes,$(build-shared))
  # Add test-fopenloc only if shared library is enabled since it depends on
  # shared localedata objects.
-diff --git a/libio/fileops.c b/libio/fileops.c
+diff --git glibc-2.17-c758a686/libio/fileops.c glibc-2.17-c758a686/libio/fileops.c
 index cf68dbf..204cfea 100644
---- a/libio/fileops.c
-+++ b/libio/fileops.c
+--- glibc-2.17-c758a686/libio/fileops.c
++++ glibc-2.17-c758a686/libio/fileops.c
 @@ -91,7 +91,9 @@ extern struct __gconv_trans_data __libio_translit attribute_hidden;
  
     The position in the buffer that corresponds to the position
@@ -58,11 +58,11 @@ index cf68dbf..204cfea 100644
        else
  	offset += fp->_IO_write_ptr - fp->_IO_read_end;
      }
-diff --git a/libio/tst-ftell-append.c b/libio/tst-ftell-append.c
+diff --git glibc-2.17-c758a686/libio/tst-ftell-append.c glibc-2.17-c758a686/libio/tst-ftell-append.c
 new file mode 100644
 index 0000000..604dc03
 --- /dev/null
-+++ b/libio/tst-ftell-append.c
++++ glibc-2.17-c758a686/libio/tst-ftell-append.c
 @@ -0,0 +1,169 @@
 +/* Verify that ftell returns the correct value after a read and a write on a
 +   file opened in a+ mode.
@@ -233,10 +233,10 @@ index 0000000..604dc03
 +
 +  return ret;
 +}
-diff --git a/libio/wfileops.c b/libio/wfileops.c
+diff --git glibc-2.17-c758a686/libio/wfileops.c glibc-2.17-c758a686/libio/wfileops.c
 index 3199861..f123add 100644
---- a/libio/wfileops.c
-+++ b/libio/wfileops.c
+--- glibc-2.17-c758a686/libio/wfileops.c
++++ glibc-2.17-c758a686/libio/wfileops.c
 @@ -713,9 +713,16 @@ do_ftell_wide (_IO_FILE *fp)
  	      offset += outstop - out;
  	    }

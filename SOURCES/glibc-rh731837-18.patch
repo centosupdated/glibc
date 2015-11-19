@@ -43,10 +43,10 @@ sysdeps/powerpc/powerpc64/power6/wordcopy.c
  delete mode 100644 sysdeps/powerpc/powerpc64/power4/wordcopy.c
  delete mode 100644 sysdeps/powerpc/powerpc64/power6/wordcopy.c
 
-diff --git a/string/wordcopy.c b/string/wordcopy.c
+diff --git glibc-2.17-c758a686/string/wordcopy.c glibc-2.17-c758a686/string/wordcopy.c
 index b171f27..ff4cce4 100644
---- a/string/wordcopy.c
-+++ b/string/wordcopy.c
+--- glibc-2.17-c758a686/string/wordcopy.c
++++ glibc-2.17-c758a686/string/wordcopy.c
 @@ -1,5 +1,5 @@
  /* _memcopy.c -- subroutines for memory copy functions.
 -   Copyright (C) 1991, 1996 Free Software Foundation, Inc.
@@ -122,11 +122,11 @@ index b171f27..ff4cce4 100644
  {
    op_t a0, a1, a2, a3;
    int sh_1, sh_2;
-diff --git a/sysdeps/powerpc/power4/wordcopy.c b/sysdeps/powerpc/power4/wordcopy.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power4/wordcopy.c glibc-2.17-c758a686/sysdeps/powerpc/power4/wordcopy.c
 new file mode 100644
 index 0000000..263b444
 --- /dev/null
-+++ b/sysdeps/powerpc/power4/wordcopy.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power4/wordcopy.c
 @@ -0,0 +1,212 @@
 +/* _memcopy.c -- subroutines for memory copy functions.
 +   Copyright (C) 1991-2014 Free Software Foundation, Inc.
@@ -340,11 +340,11 @@ index 0000000..263b444
 +    }
 +  while (len != 0);
 +}
-diff --git a/sysdeps/powerpc/power6/wordcopy.c b/sysdeps/powerpc/power6/wordcopy.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power6/wordcopy.c glibc-2.17-c758a686/sysdeps/powerpc/power6/wordcopy.c
 new file mode 100644
 index 0000000..c32e6dd
 --- /dev/null
-+++ b/sysdeps/powerpc/power6/wordcopy.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power6/wordcopy.c
 @@ -0,0 +1,221 @@
 +/* _memcopy.c -- subroutines for memory copy functions.
 +   Copyright (C) 1991-2014 Free Software Foundation, Inc.
@@ -567,11 +567,11 @@ index 0000000..c32e6dd
 +
 +  bwd_align_merge (align);
 +}
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c b/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c
 new file mode 100644
 index 0000000..c5c6eb7
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c
 @@ -0,0 +1,23 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -596,11 +596,11 @@ index 0000000..c5c6eb7
 +#define WORDCOPY_BWD_DEST_ALIGNED _wordcopy_bwd_dest_aligned_power6
 +
 +#include <sysdeps/powerpc/power6/wordcopy.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c b/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c
 new file mode 100644
 index 0000000..841d1a2
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c
 @@ -0,0 +1,23 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -625,11 +625,11 @@ index 0000000..841d1a2
 +#define WORDCOPY_BWD_DEST_ALIGNED _wordcopy_bwd_dest_aligned_power7
 +
 +#include <sysdeps/powerpc/power6/wordcopy.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c b/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c
 new file mode 100644
 index 0000000..ccd24ad
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c
 @@ -0,0 +1,23 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -654,10 +654,10 @@ index 0000000..ccd24ad
 +#define WORDCOPY_BWD_DEST_ALIGNED _wordcopy_bwd_dest_aligned_ppc
 +
 +#include <sysdeps/powerpc/power4/wordcopy.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 7113212..8dceb09 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -11,7 +11,8 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    strncmp-power4 strncmp-ppc64 strchr-power7 strchr-ppc64 \
                    strchrnul-power7 strchrnul-ppc64 wcschr-power7 \
@@ -675,11 +675,11 @@ index 7113212..8dceb09 100644
 +CFLAGS-wordcopy-power7.c += -mcpu=power7
 +CFLAGS-wordcopy-power6.c += -mcpu=power6
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power6.c b/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power6.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power6.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power6.c
 new file mode 100644
 index 0000000..2a65b52
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power6.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power6.c
 @@ -0,0 +1,19 @@
 +/* wordcopy routines for powerpc64/power6.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -700,11 +700,11 @@ index 0000000..2a65b52
 +   not, see <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power6.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power7.c b/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power7.c
 new file mode 100644
 index 0000000..e804f88
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-power7.c
 @@ -0,0 +1,19 @@
 +/* wordcopy routines for powerpc64/power7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -725,11 +725,11 @@ index 0000000..e804f88
 +   not, see <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-power7.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wordcopy-ppc64.c b/sysdeps/powerpc/powerpc64/multiarch/wordcopy-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-ppc64.c
 new file mode 100644
 index 0000000..0584277
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wordcopy-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy-ppc64.c
 @@ -0,0 +1,18 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -749,11 +749,11 @@ index 0000000..0584277
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/wordcopy-ppc32.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/wordcopy.c b/sysdeps/powerpc/powerpc64/multiarch/wordcopy.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy.c
 new file mode 100644
 index 0000000..889be25
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/wordcopy.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/wordcopy.c
 @@ -0,0 +1,86 @@
 +/* Multiple versions of wordcopy functions.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -841,17 +841,17 @@ index 0000000..889be25
 +#else
 +#include <sysdeps/powerpc/power4/wordcopy.c>
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/power4/wordcopy.c b/sysdeps/powerpc/powerpc64/power4/wordcopy.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/wordcopy.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/wordcopy.c
 deleted file mode 100644
 index f427b48..0000000
---- a/sysdeps/powerpc/powerpc64/power4/wordcopy.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/wordcopy.c
 +++ /dev/null
 @@ -1 +0,0 @@
 -#include "../../powerpc32/power4/wordcopy.c"
-diff --git a/sysdeps/powerpc/powerpc64/power6/wordcopy.c b/sysdeps/powerpc/powerpc64/power6/wordcopy.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wordcopy.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wordcopy.c
 deleted file mode 100644
 index 4c72404..0000000
---- a/sysdeps/powerpc/powerpc64/power6/wordcopy.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/wordcopy.c
 +++ /dev/null
 @@ -1,217 +0,0 @@
 -/* _memcopy.c -- subroutines for memory copy functions.

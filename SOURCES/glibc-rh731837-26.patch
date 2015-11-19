@@ -22,10 +22,10 @@ Date:   Fri Dec 13 15:04:04 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c
 
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index 9eb69af..d3d230d 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -5,5 +5,7 @@ sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
  libm-sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                         s_isnan-power5 s_isnan-ppc64 s_llround-power6x \
@@ -35,11 +35,11 @@ index 9eb69af..d3d230d 100644
 +                       s_floor-power5+ s_floor-ppc64 s_floorf-power5+ \
 +                       s_floorf-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-power5+.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-power5+.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-power5+.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-power5+.S
 new file mode 100644
 index 0000000..a1550e9
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-power5+.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-power5+.S
 @@ -0,0 +1,31 @@
 +/* floor function.  PowerPC64/power5+ version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -72,11 +72,11 @@ index 0000000..a1550e9
 +#define __floor __floor_power5plus
 +
 +#include <sysdeps/powerpc/powerpc64/power5+/fpu/s_floor.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-ppc64.S
 new file mode 100644
 index 0000000..b5c232c
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor-ppc64.S
 @@ -0,0 +1,31 @@
 +/* floor function.  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -109,11 +109,11 @@ index 0000000..b5c232c
 +#define __floor __floor_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_floor.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor.c
 new file mode 100644
 index 0000000..f43976a
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floor.c
 @@ -0,0 +1,40 @@
 +/* Multiple versions of floor.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -155,11 +155,11 @@ index 0000000..f43976a
 +#if LONG_DOUBLE_COMPAT(libm, GLIBC_2_0)
 +compat_symbol (libm, __floor, floorl, GLIBC_2_0);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-power5+.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-power5+.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-power5+.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-power5+.S
 new file mode 100644
 index 0000000..d371708
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-power5+.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-power5+.S
 @@ -0,0 +1,26 @@
 +/* floorf function.  PowerPC64/power5+ version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -187,11 +187,11 @@ index 0000000..d371708
 +#define __floorf __floorf_power5plus
 +
 +#include <sysdeps/powerpc/powerpc64/power5+/fpu/s_floorf.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S
 new file mode 100644
 index 0000000..dc81dea
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf-ppc64.S
 @@ -0,0 +1,27 @@
 +/* floorf function.  PowerPC64 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -220,11 +220,11 @@ index 0000000..dc81dea
 +#define __floorf __floorf_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_floorf.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c
 new file mode 100644
 index 0000000..08fc95e
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_floorf.c
 @@ -0,0 +1,32 @@
 +/* Multiple versions of floorf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

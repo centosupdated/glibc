@@ -18,9 +18,9 @@
 #	* elf/tst-auditmod9a.c: New file.
 #	* elf/tst-auditmod9b.c: New file.
 #
-diff -urN glibc-2.12-2-gc4ccff1.orig/elf/dl-tls.c glibc-2.12-2-gc4ccff1/elf/dl-tls.c
---- glibc-2.12-2-gc4ccff1.orig/elf/dl-tls.c	2013-04-24 16:06:10.410756438 -0400
-+++ glibc-2.12-2-gc4ccff1/elf/dl-tls.c	2013-04-24 16:06:49.092604707 -0400
+diff -urN glibc-2.17-c758a686/elf/dl-tls.c glibc-2.17-c758a686/elf/dl-tls.c
+--- glibc-2.17-c758a686/elf/dl-tls.c	2013-04-24 16:06:10.410756438 -0400
++++ glibc-2.17-c758a686/elf/dl-tls.c	2013-04-24 16:06:49.092604707 -0400
 @@ -109,6 +109,28 @@
  }
  
@@ -58,9 +58,9 @@ diff -urN glibc-2.12-2-gc4ccff1.orig/elf/dl-tls.c glibc-2.12-2-gc4ccff1/elf/dl-t
  	  maxgen = MAX (maxgen, listp->slotinfo[cnt].gen);
  
  	  if (map->l_tls_offset == NO_TLS_OFFSET
-diff -urN glibc-2.12-2-gc4ccff1.orig/elf/Makefile glibc-2.12-2-gc4ccff1/elf/Makefile
---- glibc-2.12-2-gc4ccff1.orig/elf/Makefile	2013-04-24 16:06:10.408756448 -0400
-+++ glibc-2.12-2-gc4ccff1/elf/Makefile	2013-04-24 16:07:29.475457962 -0400
+diff -urN glibc-2.17-c758a686/elf/Makefile glibc-2.17-c758a686/elf/Makefile
+--- glibc-2.17-c758a686/elf/Makefile	2013-04-24 16:06:10.408756448 -0400
++++ glibc-2.17-c758a686/elf/Makefile	2013-04-24 16:07:29.475457962 -0400
 @@ -198,7 +200,7 @@
  	 tst-dlmodcount tst-dlopenrpath tst-deep1 \
  	 tst-dlmopen1 tst-dlmopen2 tst-dlmopen3 \
@@ -100,9 +100,9 @@ diff -urN glibc-2.12-2-gc4ccff1.orig/elf/Makefile glibc-2.12-2-gc4ccff1/elf/Make
  $(objpfx)tst-audit8: $(common-objpfx)math/libm.so
  $(objpfx)tst-audit8.out: $(objpfx)tst-auditmod1.so
  tst-audit8-ENV = LD_AUDIT=$(objpfx)tst-auditmod1.so
-diff -urN glibc-2.12-2-gc4ccff1.orig/elf/rtld.c glibc-2.12-2-gc4ccff1/elf/rtld.c
---- glibc-2.12-2-gc4ccff1.orig/elf/rtld.c	2013-04-24 16:06:10.410756438 -0400
-+++ glibc-2.12-2-gc4ccff1/elf/rtld.c	2013-04-24 16:06:49.096604693 -0400
+diff -urN glibc-2.17-c758a686/elf/rtld.c glibc-2.17-c758a686/elf/rtld.c
+--- glibc-2.17-c758a686/elf/rtld.c	2013-04-24 16:06:10.410756438 -0400
++++ glibc-2.17-c758a686/elf/rtld.c	2013-04-24 16:06:49.096604693 -0400
 @@ -1637,6 +1637,10 @@
  	}
      }
@@ -124,9 +124,9 @@ diff -urN glibc-2.12-2-gc4ccff1.orig/elf/rtld.c glibc-2.12-2-gc4ccff1/elf/rtld.c
      ++GL(dl_tls_generation);
  
    /* Now that we have completed relocation, the initializer data
-diff -urN glibc-2.12-2-gc4ccff1.orig/elf/tst-audit9.c glibc-2.12-2-gc4ccff1/elf/tst-audit9.c
---- glibc-2.12-2-gc4ccff1.orig/elf/tst-audit9.c	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.12-2-gc4ccff1/elf/tst-audit9.c	2013-04-24 16:06:49.096604693 -0400
+diff -urN glibc-2.17-c758a686/elf/tst-audit9.c glibc-2.17-c758a686/elf/tst-audit9.c
+--- glibc-2.17-c758a686/elf/tst-audit9.c	1969-12-31 19:00:00.000000000 -0500
++++ glibc-2.17-c758a686/elf/tst-audit9.c	2013-04-24 16:06:49.096604693 -0400
 @@ -0,0 +1,8 @@
 +#include <dlfcn.h>
 +
@@ -136,9 +136,9 @@ diff -urN glibc-2.12-2-gc4ccff1.orig/elf/tst-audit9.c glibc-2.12-2-gc4ccff1/elf/
 +  int (*fp)(void) = dlsym(h, "f");
 +  return fp() - 1;
 +}
-diff -urN glibc-2.12-2-gc4ccff1.orig/elf/tst-auditmod9a.c glibc-2.12-2-gc4ccff1/elf/tst-auditmod9a.c
---- glibc-2.12-2-gc4ccff1.orig/elf/tst-auditmod9a.c	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.12-2-gc4ccff1/elf/tst-auditmod9a.c	2013-04-24 16:06:49.097604689 -0400
+diff -urN glibc-2.17-c758a686/elf/tst-auditmod9a.c glibc-2.17-c758a686/elf/tst-auditmod9a.c
+--- glibc-2.17-c758a686/elf/tst-auditmod9a.c	1969-12-31 19:00:00.000000000 -0500
++++ glibc-2.17-c758a686/elf/tst-auditmod9a.c	2013-04-24 16:06:49.097604689 -0400
 @@ -0,0 +1,16 @@
 +#include <stdint.h>
 +
@@ -156,9 +156,9 @@ diff -urN glibc-2.12-2-gc4ccff1.orig/elf/tst-auditmod9a.c glibc-2.12-2-gc4ccff1/
 +  ++var;
 +}
 +
-diff -urN glibc-2.12-2-gc4ccff1.orig/elf/tst-auditmod9b.c glibc-2.12-2-gc4ccff1/elf/tst-auditmod9b.c
---- glibc-2.12-2-gc4ccff1.orig/elf/tst-auditmod9b.c	1969-12-31 19:00:00.000000000 -0500
-+++ glibc-2.12-2-gc4ccff1/elf/tst-auditmod9b.c	2013-04-24 16:06:49.097604689 -0400
+diff -urN glibc-2.17-c758a686/elf/tst-auditmod9b.c glibc-2.17-c758a686/elf/tst-auditmod9b.c
+--- glibc-2.17-c758a686/elf/tst-auditmod9b.c	1969-12-31 19:00:00.000000000 -0500
++++ glibc-2.17-c758a686/elf/tst-auditmod9b.c	2013-04-24 16:06:49.097604689 -0400
 @@ -0,0 +1,6 @@
 +__thread int a;
 +
@@ -166,9 +166,9 @@ diff -urN glibc-2.12-2-gc4ccff1.orig/elf/tst-auditmod9b.c glibc-2.12-2-gc4ccff1/
 +{
 +  return ++a;
 +}
-diff -urN glibc-2.12-2-gc4ccff1.orig/sysdeps/generic/ldsodefs.h glibc-2.12-2-gc4ccff1/sysdeps/generic/ldsodefs.h
---- glibc-2.12-2-gc4ccff1.orig/sysdeps/generic/ldsodefs.h	2013-04-24 16:06:10.545755798 -0400
-+++ glibc-2.12-2-gc4ccff1/sysdeps/generic/ldsodefs.h	2013-04-24 16:06:49.098604686 -0400
+diff -urN glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h
+--- glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h	2013-04-24 16:06:10.545755798 -0400
++++ glibc-2.17-c758a686/sysdeps/generic/ldsodefs.h	2013-04-24 16:06:49.098604686 -0400
 @@ -1031,6 +1031,9 @@
  /* Determine next available module ID.  */
  extern size_t _dl_next_tls_modid (void) internal_function attribute_hidden;

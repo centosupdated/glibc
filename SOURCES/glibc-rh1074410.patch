@@ -77,10 +77,10 @@ Date:   Mon Mar 10 16:20:01 2014 +0530
     	up test status with function return status.
     	(do_write_test): Likewise.
     	(do_append_test): Likewise.
-diff --git a/libio/fileops.c b/libio/fileops.c
+diff --git glibc-2.17-c758a686/libio/fileops.c glibc-2.17-c758a686/libio/fileops.c
 index 2e7bc8d..cf68dbf 100644
---- a/libio/fileops.c
-+++ b/libio/fileops.c
+--- glibc-2.17-c758a686/libio/fileops.c
++++ glibc-2.17-c758a686/libio/fileops.c
 @@ -232,13 +232,18 @@ _IO_file_open (fp, filename, posix_mode, prot, read_write, is32not64)
      return NULL;
    fp->_fileno = fdesc;
@@ -224,10 +224,10 @@ index 2e7bc8d..cf68dbf 100644
  _IO_off64_t
  _IO_new_file_seekoff (fp, offset, dir, mode)
       _IO_FILE *fp;
-diff --git a/libio/iofdopen.c b/libio/iofdopen.c
+diff --git glibc-2.17-c758a686/libio/iofdopen.c glibc-2.17-c758a686/libio/iofdopen.c
 index 3f266f7..b36d21d 100644
---- a/libio/iofdopen.c
-+++ b/libio/iofdopen.c
+--- glibc-2.17-c758a686/libio/iofdopen.c
++++ glibc-2.17-c758a686/libio/iofdopen.c
 @@ -59,6 +59,11 @@ _IO_new_fdopen (fd, mode)
    int i;
    int use_mmap = 0;
@@ -265,10 +265,10 @@ index 3f266f7..b36d21d 100644
    return &new_f->fp.file;
  }
  libc_hidden_ver (_IO_new_fdopen, _IO_fdopen)
-diff --git a/libio/tst-ftell-active-handler.c b/libio/tst-ftell-active-handler.c
+diff --git glibc-2.17-c758a686/libio/tst-ftell-active-handler.c glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
 index 54bfe63..e9dc7b3 100644
---- a/libio/tst-ftell-active-handler.c
-+++ b/libio/tst-ftell-active-handler.c
+--- glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
++++ glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
 @@ -88,6 +88,107 @@ static size_t file_len;
  typedef int (*fputs_func_t) (const void *data, FILE *fp);
  fputs_func_t fputs_func;
@@ -568,10 +568,10 @@ index 54bfe63..e9dc7b3 100644
  
    return ret;
  }
-diff --git a/libio/wfileops.c b/libio/wfileops.c
+diff --git glibc-2.17-c758a686/libio/wfileops.c glibc-2.17-c758a686/libio/wfileops.c
 index 8b2e108..3199861 100644
---- a/libio/wfileops.c
-+++ b/libio/wfileops.c
+--- glibc-2.17-c758a686/libio/wfileops.c
++++ glibc-2.17-c758a686/libio/wfileops.c
 @@ -597,12 +597,12 @@ done:
  }
  

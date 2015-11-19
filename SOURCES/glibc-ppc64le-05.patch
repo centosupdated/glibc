@@ -56,9 +56,9 @@
 #         (__mpn_construct_long_double): Fix test for overflow of high
 #         mantissa and correct normalisation.  Avoid undefined shift.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:13:56.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:14:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:13:56.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:14:45.000000000 -0500
 @@ -243,7 +243,7 @@
       We split the 113 bits of the mantissa into 5 24bit integers
       stored in a double array.  */
@@ -68,9 +68,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c gli
    ldbl_extract_mantissa (&ixd, &lxd, &exp, x);
    exp = exp - 23;
    /* This is faster than doing this in floating point, because we
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-27 19:13:56.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-27 19:14:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-27 19:13:56.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c	2014-05-27 19:14:45.000000000 -0500
 @@ -36,6 +36,7 @@
    union ibm_extended_long_double u;
    unsigned long long hi, lo;
@@ -128,9 +128,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/ldbl2mpn.c glibc-
  	{
  	  /* we have a borrow from the hidden bit, so shift left 1.  */
  	  hi = 0x0ffffffffffffeLL | (lo >> 51);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-27 19:13:56.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-27 19:51:13.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-27 19:13:56.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h	2014-05-27 19:51:13.000000000 -0500
 @@ -13,77 +13,118 @@
       the number before the decimal point and the second implicit bit
       as bit 53 of the mantissa.  */
@@ -369,9 +369,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/math_ldbl.h glibc
  
    if (__builtin_expect ((__builtin_fabs (a) < two52), 1))
      {
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-27 19:13:56.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-27 19:14:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-27 19:13:56.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c	2014-05-27 19:14:45.000000000 -0500
 @@ -70,9 +70,9 @@
        else
  	lzcount = __builtin_clzl ((long) val) + 32;
@@ -458,9 +458,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/mpn2ldbl.c glibc-
  
    return u.ld;
  }
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:13:56.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:14:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:13:56.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/printf_fphex.c	2014-05-27 19:14:45.000000000 -0500
 @@ -43,15 +43,15 @@
  	lo <<= 1;							      \
        /* The lower double is normalized separately from the upper.  We	      \

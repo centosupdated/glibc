@@ -13,10 +13,10 @@ Subject: [PATCH 40/42] PowerPC: Define AT_HWCAP2 bits and AT_HWCAP2 handling
  sysdeps/powerpc/rtld-global-offsets.sym |  1 +
  6 files changed, 86 insertions(+), 23 deletions(-)
 
-diff --git a/sysdeps/powerpc/Makefile b/sysdeps/powerpc/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/Makefile glibc-2.17-c758a686/sysdeps/powerpc/Makefile
 index 7442b67..f75e625 100644
---- a/sysdeps/powerpc/Makefile
-+++ b/sysdeps/powerpc/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/Makefile
 @@ -17,7 +17,7 @@ endif
  endif
  
@@ -26,10 +26,10 @@ index 7442b67..f75e625 100644
  gen-as-const-headers += rtld-global-offsets.sym
  # get offset to __locale_struct.__ctype_tolower
  gen-as-const-headers += locale-defines.sym
-diff --git a/sysdeps/powerpc/bits/hwcap.h b/sysdeps/powerpc/bits/hwcap.h
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/bits/hwcap.h glibc-2.17-c758a686/sysdeps/powerpc/bits/hwcap.h
 index 89e7d8b..0c02fc6 100644
---- a/sysdeps/powerpc/bits/hwcap.h
-+++ b/sysdeps/powerpc/bits/hwcap.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/bits/hwcap.h
++++ glibc-2.17-c758a686/sysdeps/powerpc/bits/hwcap.h
 @@ -1,5 +1,5 @@
 -/* Defines for bits in AT_HWCAP.
 -   Copyright (C) 2012 Free Software Foundation, Inc.
@@ -77,10 +77,10 @@ index 89e7d8b..0c02fc6 100644
 +#define PPC_FEATURE2_HAS_EBB       0x10000000 /* Event Base Branching */
 +#define PPC_FEATURE2_HAS_ISEL      0x08000000 /* Integer Select */
 +#define PPC_FEATURE2_HAS_TAR       0x04000000 /* Target Address Register */
-diff --git a/sysdeps/powerpc/dl-procinfo.c b/sysdeps/powerpc/dl-procinfo.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.c glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.c
 index efab165..6cebf99 100644
---- a/sysdeps/powerpc/dl-procinfo.c
-+++ b/sysdeps/powerpc/dl-procinfo.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.c
 @@ -45,7 +45,7 @@
  #if !defined PROCINFO_DECL && defined SHARED
    ._dl_powerpc_cap_flags
@@ -105,10 +105,10 @@ index efab165..6cebf99 100644
    }
  #endif
  #if !defined SHARED || defined PROCINFO_DECL
-diff --git a/sysdeps/powerpc/dl-procinfo.h b/sysdeps/powerpc/dl-procinfo.h
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h
 index 7732ed2..dc3b70e 100644
---- a/sysdeps/powerpc/dl-procinfo.h
-+++ b/sysdeps/powerpc/dl-procinfo.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h
++++ glibc-2.17-c758a686/sysdeps/powerpc/dl-procinfo.h
 @@ -20,11 +20,21 @@
  #define _DL_PROCINFO_H 1
  
@@ -179,10 +179,10 @@ index 7732ed2..dc3b70e 100644
    return 0;
  }
  #endif
-diff --git a/sysdeps/powerpc/rtld-global-offsets.sym b/sysdeps/powerpc/rtld-global-offsets.sym
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/rtld-global-offsets.sym glibc-2.17-c758a686/sysdeps/powerpc/rtld-global-offsets.sym
 index ff4e97f..f5ea5a1 100644
---- a/sysdeps/powerpc/rtld-global-offsets.sym
-+++ b/sysdeps/powerpc/rtld-global-offsets.sym
+--- glibc-2.17-c758a686/sysdeps/powerpc/rtld-global-offsets.sym
++++ glibc-2.17-c758a686/sysdeps/powerpc/rtld-global-offsets.sym
 @@ -5,3 +5,4 @@
  #define rtld_global_ro_offsetof(mem) offsetof (struct rtld_global_ro, mem)
  

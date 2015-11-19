@@ -12,10 +12,10 @@ Date:   Wed Apr 10 11:31:46 2013 +0530
     an input string) but not with leading and trailing spaces.  So we trim
     off the leading and trailing spaces before we pass it on to strptime.
 
-diff --git a/time/getdate.c b/time/getdate.c
+diff --git glibc-2.17-c758a686/time/getdate.c glibc-2.17-c758a686/time/getdate.c
 index 637dd18..eadebc3 100644
---- a/time/getdate.c
-+++ b/time/getdate.c
+--- glibc-2.17-c758a686/time/getdate.c
++++ glibc-2.17-c758a686/time/getdate.c
 @@ -25,6 +25,8 @@
  #include <time.h>
  #include <unistd.h>
@@ -79,10 +79,10 @@ index 637dd18..eadebc3 100644
    /* Free the buffer.  */
    free (line);
  
-diff --git a/time/tst-getdate.c b/time/tst-getdate.c
+diff --git glibc-2.17-c758a686/time/tst-getdate.c glibc-2.17-c758a686/time/tst-getdate.c
 index 7604e83..dc8ecf4 100644
---- a/time/tst-getdate.c
-+++ b/time/tst-getdate.c
+--- glibc-2.17-c758a686/time/tst-getdate.c
++++ glibc-2.17-c758a686/time/tst-getdate.c
 @@ -31,6 +31,10 @@ static const struct
  } tests [] =
  {

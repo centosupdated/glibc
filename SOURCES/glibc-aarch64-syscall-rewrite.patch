@@ -28,10 +28,10 @@ And a not-yet-committed cleanup to clone.S.
  ports/sysdeps/unix/sysv/linux/aarch64/vfork.S      |   4 +-
  7 files changed, 108 insertions(+), 238 deletions(-)
 
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/clone.S b/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
 index 8be1464..d5c31f3 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
 @@ -39,46 +39,43 @@
   */
          .text
@@ -121,10 +121,10 @@ index 8be1464..d5c31f3 100644
 +	.size	thread_start, .-thread_start
  
  weak_alias (__clone, clone)
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S b/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S
 index f01fb84..be6c026 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/ioctl.S
 @@ -20,13 +20,12 @@
  
  	.text
@@ -145,19 +145,19 @@ index f01fb84..be6c026 100644
 +PSEUDO_END (__ioctl)
  
  weak_alias (__ioctl, ioctl)
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data b/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data
 index 84af95d..dfca9a7 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/localplt.data
 @@ -12,4 +12,3 @@ libm.so: matherr
  libm.so: __signbit
  libm.so: __signbitf
  libm.so: __signbitl
 -libpthread.so: __errno_location
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h b/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h
 index e0e5cc0..a3b9284 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/nptl/sysdep-cancel.h
 @@ -26,119 +26,60 @@
  
  # undef PSEUDO
@@ -370,10 +370,10 @@ index e0e5cc0..a3b9284 100644
  #  endif
  # endif
  
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S b/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S
 index 574fdf1..fac6416 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/syscall.S
 @@ -37,8 +37,6 @@ ENTRY (syscall)
  	mov	x6, x7
  	svc	0x0
@@ -384,10 +384,10 @@ index 574fdf1..fac6416 100644
 -1:
 -	b	SYSCALL_ERROR
  PSEUDO_END (syscall)
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h b/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
 index 713bf7d..9961c03 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/sysdep.h
 @@ -58,19 +58,8 @@
    .text;								      \
    ENTRY (name);								      \
@@ -519,10 +519,10 @@ index 713bf7d..9961c03 100644
  
  #else /* not __ASSEMBLER__ */
  
-diff --git a/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S b/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S
 index f2dc49b..3fb68b9 100644
---- a/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S
-+++ b/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/vfork.S
 @@ -38,10 +38,8 @@ ENTRY (__vfork)
  	RESTORE_PID
  #endif

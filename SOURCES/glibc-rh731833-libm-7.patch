@@ -12,10 +12,10 @@ Subject: [PATCH 28/42] PowerPC: fix hypot/hypotf check for -INF (cherry
  sysdeps/powerpc/fpu/e_hypotf.c | 6 +++---
  4 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/sysdeps/powerpc/fpu/e_hypot.c b/sysdeps/powerpc/fpu/e_hypot.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypot.c glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypot.c
 index cfadd5c..fc17bea 100644
---- a/sysdeps/powerpc/fpu/e_hypot.c
-+++ b/sysdeps/powerpc/fpu/e_hypot.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypot.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypot.c
 @@ -52,13 +52,13 @@ static const double pdnum   = 2.225073858507201e-308;
     ieee_double_shape_type gh_u2;                                  \
     gh_u1.value = (d1);                                            \
@@ -33,10 +33,10 @@ index cfadd5c..fc17bea 100644
     GET_TW0_HIGH_WORD(x, y, hx, hy);                              \
     if (hy > hx) {                                                \
       uint32_t ht = hx; hx = hy; hy = ht;                         \
-diff --git a/sysdeps/powerpc/fpu/e_hypotf.c b/sysdeps/powerpc/fpu/e_hypotf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypotf.c glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypotf.c
 index 92e824d..77c1b17 100644
---- a/sysdeps/powerpc/fpu/e_hypotf.c
-+++ b/sysdeps/powerpc/fpu/e_hypotf.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypotf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/fpu/e_hypotf.c
 @@ -46,13 +46,13 @@ static const float two30  = 1.0737418e09;
     ieee_float_shape_type gf_u2;                                  \
     gf_u1.value = (f1);                                           \

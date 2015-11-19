@@ -19,10 +19,10 @@ Date:   Fri Dec 13 14:40:28 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strncase_l.c
 
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 5e172da..4dca756 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -6,5 +6,9 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    mempcpy-power7 mempcpy-ppc64 memchr-power7 memchr-ppc64 \
                    memrchr-power7 memrchr-ppc64 rawmemchr-power7 \
@@ -34,10 +34,10 @@ index 5e172da..4dca756 100644
 +CFLAGS-strncase-power7.c += -mcpu=power7 -funroll-loops
 +CFLAGS-strncase_l-power7.c += -mcpu=power7 -funroll-loops
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index ba78d97..4b8fb22 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -151,5 +151,20 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
               IFUNC_IMPL_ADD (array, i, strcasecmp_l, 1,
                               __strcasecmp_l_ppc))
@@ -59,11 +59,11 @@ index ba78d97..4b8fb22 100644
 +
    return i;
  }
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strncase-power7.c b/sysdeps/powerpc/powerpc64/multiarch/strncase-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase-power7.c
 new file mode 100644
 index 0000000..9c5dbab
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strncase-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase-power7.c
 @@ -0,0 +1,24 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -89,11 +89,11 @@ index 0000000..9c5dbab
 +extern __typeof (strncasecmp) __strncasecmp_power7 attribute_hidden;
 +
 +#include <string/strncase.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strncase.c b/sysdeps/powerpc/powerpc64/multiarch/strncase.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase.c
 new file mode 100644
 index 0000000..05eba7c
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strncase.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase.c
 @@ -0,0 +1,41 @@
 +/* Multiple versions of strncasecmp
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -136,11 +136,11 @@ index 0000000..05eba7c
 +             : __strncasecmp_ppc);
 +weak_alias (__libc_strncasecmp, strncasecmp)
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c b/sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c
 new file mode 100644
 index 0000000..8c8cd8d
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase_l-power7.c
 @@ -0,0 +1,25 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -167,11 +167,11 @@ index 0000000..8c8cd8d
 +extern __typeof (strncasecmp_l) __strncasecmp_l_power7 attribute_hidden;
 +
 +#include <string/strncase.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strncase_l.c b/sysdeps/powerpc/powerpc64/multiarch/strncase_l.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase_l.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase_l.c
 new file mode 100644
 index 0000000..4014269
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strncase_l.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strncase_l.c
 @@ -0,0 +1,42 @@
 +/* Multiple versions of strncasecmp_l
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

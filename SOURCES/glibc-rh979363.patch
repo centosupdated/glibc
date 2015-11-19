@@ -1,7 +1,7 @@
-diff --git a/libio/fileops.c b/libio/fileops.c
+diff --git glibc-2.17-c758a686/libio/fileops.c glibc-2.17-c758a686/libio/fileops.c
 index 61b61b3..5f3dae7 100644
---- a/libio/fileops.c
-+++ b/libio/fileops.c
+--- glibc-2.17-c758a686/libio/fileops.c
++++ glibc-2.17-c758a686/libio/fileops.c
 @@ -1245,13 +1245,12 @@ _IO_new_file_write (f, data, n)
       _IO_ssize_t n;
  {
@@ -47,10 +47,10 @@ index 61b61b3..5f3dae7 100644
        block_size = f->_IO_buf_end - f->_IO_buf_base;
        do_write = to_do - (block_size >= 128 ? to_do % block_size : 0);
 
-diff --git a/libio/iofwrite.c b/libio/iofwrite.c
+diff --git glibc-2.17-c758a686/libio/iofwrite.c glibc-2.17-c758a686/libio/iofwrite.c
 index 81596a6..66542ea 100644
---- a/libio/iofwrite.c
-+++ b/libio/iofwrite.c
+--- glibc-2.17-c758a686/libio/iofwrite.c
++++ glibc-2.17-c758a686/libio/iofwrite.c
 @@ -42,12 +42,12 @@ _IO_fwrite (buf, size, count, fp)
    if (_IO_vtable_offset (fp) != 0 || _IO_fwide (fp, -1) == -1)
      written = _IO_sputn (fp, (const char *) buf, request);
@@ -69,10 +69,10 @@ index 81596a6..66542ea 100644
    else
      return written / size;
  }
-diff --git a/libio/iofwrite_u.c b/libio/iofwrite_u.c
+diff --git glibc-2.17-c758a686/libio/iofwrite_u.c glibc-2.17-c758a686/libio/iofwrite_u.c
 index 4a9d6ca..18dc6d0 100644
---- a/libio/iofwrite_u.c
-+++ b/libio/iofwrite_u.c
+--- glibc-2.17-c758a686/libio/iofwrite_u.c
++++ glibc-2.17-c758a686/libio/iofwrite_u.c
 @@ -44,12 +44,12 @@ fwrite_unlocked (buf, size, count, fp)
    if (_IO_fwide (fp, -1) == -1)
      {
@@ -91,10 +91,10 @@ index 4a9d6ca..18dc6d0 100644
      }
 
    return written / size;
-diff --git a/libio/iopadn.c b/libio/iopadn.c
+diff --git glibc-2.17-c758a686/libio/iopadn.c glibc-2.17-c758a686/libio/iopadn.c
 index cc93c0f..5ebbcf4 100644
---- a/libio/iopadn.c
-+++ b/libio/iopadn.c
+--- glibc-2.17-c758a686/libio/iopadn.c
++++ glibc-2.17-c758a686/libio/iopadn.c
 @@ -59,7 +59,7 @@ _IO_padn (fp, pad, count)
        w = _IO_sputn (fp, padptr, PADSIZE);
        written += w;
@@ -104,10 +104,10 @@ index cc93c0f..5ebbcf4 100644
      }
 
    if (i > 0)
-diff --git a/libio/iowpadn.c b/libio/iowpadn.c
+diff --git glibc-2.17-c758a686/libio/iowpadn.c glibc-2.17-c758a686/libio/iowpadn.c
 index d94db71..5600f37 100644
---- a/libio/iowpadn.c
-+++ b/libio/iowpadn.c
+--- glibc-2.17-c758a686/libio/iowpadn.c
++++ glibc-2.17-c758a686/libio/iowpadn.c
 @@ -65,7 +65,7 @@ _IO_wpadn (fp, pad, count)
        w = _IO_sputn (fp, (char *) padptr, PADSIZE);
        written += w;
@@ -117,10 +117,10 @@ index d94db71..5600f37 100644
      }
 
    if (i > 0)
-diff --git a/stdio-common/vfprintf.c b/stdio-common/vfprintf.c
+diff --git glibc-2.17-c758a686/stdio-common/vfprintf.c glibc-2.17-c758a686/stdio-common/vfprintf.c
 index c8bcf5a..61d9dc2 100644
---- a/stdio-common/vfprintf.c
-+++ b/stdio-common/vfprintf.c
+--- glibc-2.17-c758a686/stdio-common/vfprintf.c
++++ glibc-2.17-c758a686/stdio-common/vfprintf.c
 @@ -90,13 +90,13 @@
    do {									      \
      if (width > 0)							      \

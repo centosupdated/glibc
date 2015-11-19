@@ -4,10 +4,10 @@ Date:   Fri Nov 29 09:57:04 2013 +0100
 
     [BZ #16214] S/390: Fix TLS GOT pointer setup.
 
-diff --git a/sysdeps/s390/Versions b/sysdeps/s390/Versions
+diff --git glibc-2.17-c758a686/sysdeps/s390/Versions glibc-2.17-c758a686/sysdeps/s390/Versions
 index e18617c..baf9842 100644
---- a/sysdeps/s390/Versions
-+++ b/sysdeps/s390/Versions
+--- glibc-2.17-c758a686/sysdeps/s390/Versions
++++ glibc-2.17-c758a686/sysdeps/s390/Versions
 @@ -3,4 +3,8 @@ ld {
      # runtime interface to TLS
      __tls_get_offset;
@@ -17,10 +17,10 @@ index e18617c..baf9842 100644
 +    __tls_get_addr_internal;
 +  }
  }
-diff --git a/sysdeps/s390/dl-tls.h b/sysdeps/s390/dl-tls.h
+diff --git glibc-2.17-c758a686/sysdeps/s390/dl-tls.h glibc-2.17-c758a686/sysdeps/s390/dl-tls.h
 index 68a5af4..52192a2 100644
---- a/sysdeps/s390/dl-tls.h
-+++ b/sysdeps/s390/dl-tls.h
+--- glibc-2.17-c758a686/sysdeps/s390/dl-tls.h
++++ glibc-2.17-c758a686/sysdeps/s390/dl-tls.h
 @@ -26,11 +26,26 @@ typedef struct
  
  
@@ -77,10 +77,10 @@ index 68a5af4..52192a2 100644
  
  #endif
  
-diff --git a/sysdeps/s390/s390-32/tls-macros.h b/sysdeps/s390/s390-32/tls-macros.h
+diff --git glibc-2.17-c758a686/sysdeps/s390/s390-32/tls-macros.h glibc-2.17-c758a686/sysdeps/s390/s390-32/tls-macros.h
 index 8a0ad58..a592d81 100644
---- a/sysdeps/s390/s390-32/tls-macros.h
-+++ b/sysdeps/s390/s390-32/tls-macros.h
+--- glibc-2.17-c758a686/sysdeps/s390/s390-32/tls-macros.h
++++ glibc-2.17-c758a686/sysdeps/s390/s390-32/tls-macros.h
 @@ -8,12 +8,15 @@
  
  #ifdef PIC
@@ -102,10 +102,10 @@ index 8a0ad58..a592d81 100644
       (int *) (__builtin_thread_pointer() + __offset); })
  #else
  # define TLS_IE(x) \
-diff --git a/sysdeps/s390/s390-64/tls-macros.h b/sysdeps/s390/s390-64/tls-macros.h
+diff --git glibc-2.17-c758a686/sysdeps/s390/s390-64/tls-macros.h glibc-2.17-c758a686/sysdeps/s390/s390-64/tls-macros.h
 index be8aa6c..3c59436 100644
---- a/sysdeps/s390/s390-64/tls-macros.h
-+++ b/sysdeps/s390/s390-64/tls-macros.h
+--- glibc-2.17-c758a686/sysdeps/s390/s390-64/tls-macros.h
++++ glibc-2.17-c758a686/sysdeps/s390/s390-64/tls-macros.h
 @@ -8,12 +8,13 @@
  
  #ifdef PIC

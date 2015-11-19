@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 78%{?dist}
+%define glibcrelease 106%{?dist}.1
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -68,11 +68,6 @@
 # execution is provided by STT_GNU_IFUNC.
 %define multiarcharches ppc %{power64} %{ix86} x86_64 %{sparc} s390 s390x
 ##############################################################################
-# If the architecture has SDT probe point support then we build glibc with
-# --enable-systemtap and include all SDT probe points in the library. It is
-# the eventual goal that all supported arches should be on this list.
-%define systemtaparches %{ix86} x86_64 ppc ppc64 s390 s390x
-##############################################################################
 # Add -s for a less verbose build output.
 %define silentrules PARALLELMFLAGS=
 ##############################################################################
@@ -129,88 +124,82 @@ Source1: %{glibcsrcdir}-releng.tar.gz
 
 # Configuration twiddle, not sure there's a good case to get upstream to
 # change this.
-Patch0001: %{name}-fedora-nscd.patch
+Patch0001: glibc-fedora-nscd.patch
 
-Patch0002: %{name}-fedora-regcomp-sw11561.patch
-Patch0003: %{name}-fedora-ldd.patch
+Patch0002: glibc-fedora-regcomp-sw11561.patch
+Patch0003: glibc-fedora-ldd.patch
 
-Patch0004: %{name}-fedora-ppc-unwind.patch
+Patch0004: glibc-fedora-ppc-unwind.patch
 
 # Build info files in the source tree, then move to the build
 # tree so that they're identical for multilib builds
-Patch0005: %{name}-rh825061.patch
+Patch0005: glibc-rh825061.patch
 
 # Horrible hack, never to be upstreamed.  Can go away once the world
 # has been rebuilt to use the new ld.so path.
-Patch0006: %{name}-arm-hardfloat-3.patch
+Patch0006: glibc-arm-hardfloat-3.patch
 
 # Needs to be sent upstream
-Patch0008: %{name}-fedora-getrlimit-PLT.patch
-Patch0009: %{name}-fedora-include-bits-ldbl.patch
+Patch0008: glibc-fedora-getrlimit-PLT.patch
+Patch0009: glibc-fedora-include-bits-ldbl.patch
 
 # stap, needs to be sent upstream
-Patch0010: %{name}-stap-libm.patch
+Patch0010: glibc-stap-libm.patch
 
 # Needs to be sent upstream
-Patch0029: %{name}-rh841318.patch
+Patch0029: glibc-rh841318.patch
 
 # All these were from the glibc-fedora.patch mega-patch and need another
 # round of reviewing.  Ideally they'll either be submitted upstream or
 # dropped.
-Patch0012: %{name}-fedora-linux-tcsetattr.patch
-Patch0014: %{name}-fedora-nptl-linklibc.patch
-Patch0015: %{name}-fedora-localedef.patch
-Patch0016: %{name}-fedora-i386-tls-direct-seg-refs.patch
-Patch0017: %{name}-fedora-gai-canonical.patch
-Patch0019: %{name}-fedora-nis-rh188246.patch
-Patch0020: %{name}-fedora-manual-dircategory.patch
-Patch0024: %{name}-fedora-locarchive.patch
-Patch0025: %{name}-fedora-streams-rh436349.patch
-Patch0028: %{name}-fedora-localedata-rh61908.patch
-Patch0030: %{name}-fedora-uname-getrlimit.patch
-Patch0031: %{name}-fedora-__libc_multiple_libcs.patch
-Patch0032: %{name}-fedora-elf-rh737223.patch
-Patch0033: %{name}-fedora-elf-ORIGIN.patch
-Patch0034: %{name}-fedora-elf-init-hidden_undef.patch
+Patch0012: glibc-fedora-linux-tcsetattr.patch
+Patch0014: glibc-fedora-nptl-linklibc.patch
+Patch0015: glibc-fedora-localedef.patch
+Patch0016: glibc-fedora-i386-tls-direct-seg-refs.patch
+Patch0017: glibc-fedora-gai-canonical.patch
+Patch0019: glibc-fedora-nis-rh188246.patch
+Patch0020: glibc-fedora-manual-dircategory.patch
+Patch0024: glibc-fedora-locarchive.patch
+Patch0025: glibc-fedora-streams-rh436349.patch
+Patch0028: glibc-fedora-localedata-rh61908.patch
+Patch0030: glibc-fedora-uname-getrlimit.patch
+Patch0031: glibc-fedora-__libc_multiple_libcs.patch
+Patch0032: glibc-fedora-elf-rh737223.patch
+Patch0033: glibc-fedora-elf-ORIGIN.patch
+Patch0034: glibc-fedora-elf-init-hidden_undef.patch
 
 # Needs to be sent upstream
-Patch0035: %{name}-rh911307.patch
-Patch0036: %{name}-rh892777.patch
-Patch0037: %{name}-rh952799.patch
-Patch0038: %{name}-rh959034.patch
-Patch0039: %{name}-rh970791.patch
+Patch0035: glibc-rh911307.patch
+Patch0036: glibc-rh892777.patch
+Patch0037: glibc-rh952799.patch
+Patch0038: glibc-rh959034.patch
+Patch0039: glibc-rh970791.patch
 
 # GLIBC_PTHREAD_STACKSIZE - Needs to be upstreamed on top of the future
 # tunables framework.
-Patch0040: %{name}-rh990388.patch
-Patch0041: %{name}-rh990388-2.patch
-Patch0042: %{name}-rh990388-3.patch
-Patch0043: %{name}-rh990388-4.patch
+Patch0040: glibc-rh990388.patch
+Patch0041: glibc-rh990388-2.patch
+Patch0042: glibc-rh990388-3.patch
+Patch0043: glibc-rh990388-4.patch
 
 # Remove non-ELF support in rtkaio
-Patch0044: %{name}-rh731833-rtkaio.patch
-Patch0045: %{name}-rh731833-rtkaio-2.patch
+Patch0044: glibc-rh731833-rtkaio.patch
+Patch0045: glibc-rh731833-rtkaio-2.patch
 
-# Add -fstack-protector-strong support. 
-Patch0048: %{name}-rh1070806.patch
+# Add -fstack-protector-strong support.
+Patch0048: glibc-rh1070806.patch
 
-Patch0060: %{name}-aa64-commonpagesize-64k.patch
+Patch0060: glibc-aa64-commonpagesize-64k.patch
 
-Patch0061: %{name}-rh1133812-1.patch
+Patch0061: glibc-rh1133812-1.patch
 
-Patch0062: %{name}-cs-path.patch
+Patch0062: glibc-cs-path.patch
 
 # Use __int128_t in link.h to support older compilers.
-Patch0063: %{name}-rh1120490-int128.patch
+Patch0063: glibc-rh1120490-int128.patch
 
-# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
-# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
-# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
-# CVE-2014-8121:
-Patch0064: glibc-rh1165192.patch
-# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
-# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
-# EMBARGOED!!! -- EMBARGOED!!! --- EMBARGOED!!!
+# Workaround to extend DTV_SURPLUS. Not to go upstream.
+Patch0066: glibc-rh1227699.patch
 
 ##############################################################################
 #
@@ -218,127 +207,137 @@ Patch0064: glibc-rh1165192.patch
 #
 ##############################################################################
 
-Patch1000: %{name}-rh905877.patch
-Patch1001: %{name}-rh958652.patch
-Patch1002: %{name}-rh977870.patch
-Patch1003: %{name}-rh977872.patch
-Patch1004: %{name}-rh977874.patch
-Patch1005: %{name}-rh977875.patch
-Patch1006: %{name}-rh977887.patch
-Patch1007: %{name}-rh977887-2.patch
-Patch1008: %{name}-rh980323.patch
-Patch1009: %{name}-rh984828.patch
-Patch1010: %{name}-rh966633.patch
+Patch1000: glibc-rh905877.patch
+Patch1001: glibc-rh958652.patch
+Patch1002: glibc-rh977870.patch
+Patch1003: glibc-rh977872.patch
+Patch1004: glibc-rh977874.patch
+Patch1005: glibc-rh977875.patch
+Patch1006: glibc-rh977887.patch
+Patch1007: glibc-rh977887-2.patch
+Patch1008: glibc-rh980323.patch
+Patch1009: glibc-rh984828.patch
+Patch1010: glibc-rh966633.patch
 
 # Additional backports from upstream to fix problems caused by
 # -ftree-loop-distribute-patterns
-Patch1011: %{name}-rh911307-2.patch
-Patch1012: %{name}-rh911307-3.patch
+Patch1011: glibc-rh911307-2.patch
+Patch1012: glibc-rh911307-3.patch
 
 # PowerPC backports
-Patch1013: %{name}-rh977110.patch
-Patch1014: %{name}-rh977110-2.patch
+Patch1013: glibc-rh977110.patch
+Patch1014: glibc-rh977110-2.patch
 
 # HWCAPS2 support and POWER8 additions to it
-Patch1015: %{name}-rh731833-hwcap.patch
-Patch1016: %{name}-rh731833-hwcap-2.patch
-Patch1017: %{name}-rh731833-hwcap-3.patch
-Patch1018: %{name}-rh731833-hwcap-4.patch
-Patch1019: %{name}-rh731833-hwcap-5.patch
+Patch1015: glibc-rh731833-hwcap.patch
+Patch1016: glibc-rh731833-hwcap-2.patch
+Patch1017: glibc-rh731833-hwcap-3.patch
+Patch1018: glibc-rh731833-hwcap-4.patch
+Patch1019: glibc-rh731833-hwcap-5.patch
 
 # Miscellaneous fixes for PowerPC
-Patch1020: %{name}-rh731833-misc.patch
-Patch1021: %{name}-rh731833-misc-2.patch
-Patch1022: %{name}-rh731833-misc-3.patch
-Patch1023: %{name}-rh731833-misc-4.patch
-Patch1024: %{name}-rh731833-misc-5.patch
-Patch1025: %{name}-rh731833-misc-6.patch
+Patch1020: glibc-rh731833-misc.patch
+Patch1021: glibc-rh731833-misc-2.patch
+Patch1022: glibc-rh731833-misc-3.patch
+Patch1023: glibc-rh731833-misc-4.patch
+Patch1024: glibc-rh731833-misc-5.patch
+Patch1025: glibc-rh731833-misc-6.patch
 
 # Math fixes for PowerPC
-Patch1026: %{name}-rh731833-libm.patch
-Patch1027: %{name}-rh731833-libm-2.patch
-Patch1028: %{name}-rh731833-libm-3.patch
-Patch1029: %{name}-rh731833-libm-4.patch
-Patch1030: %{name}-rh731833-libm-5.patch
-Patch1031: %{name}-rh731833-libm-6.patch
-Patch1032: %{name}-rh731833-libm-7.patch
+Patch1026: glibc-rh731833-libm.patch
+Patch1027: glibc-rh731833-libm-2.patch
+Patch1028: glibc-rh731833-libm-3.patch
+Patch1029: glibc-rh731833-libm-4.patch
+Patch1030: glibc-rh731833-libm-5.patch
+Patch1031: glibc-rh731833-libm-6.patch
+Patch1032: glibc-rh731833-libm-7.patch
 
-Patch1033: %{name}-rh992727.patch
-Patch1034: %{name}-rh996227.patch
-Patch1035: %{name}-rh1000923.patch
-Patch1036: %{name}-rh884008.patch
-Patch1037: %{name}-rh1008298.patch
+Patch1034: glibc-rh996227.patch
+Patch1035: glibc-rh1000923.patch
+Patch1036: glibc-rh884008.patch
+Patch1037: glibc-rh1008298.patch
 # Add support for rtlddir distinct from slibdir.
-Patch1038: %{name}-rh950093.patch
-Patch1039: %{name}-rh1025612.patch
-Patch1040: %{name}-rh1032435.patch
-Patch1041: %{name}-rh1020637.patch
+Patch1038: glibc-rh950093.patch
+Patch1039: glibc-rh1025612.patch
+Patch1040: glibc-rh1032435.patch
+Patch1041: glibc-rh1020637.patch
 # Power value increase for MINSIGSTKSZ and SIGSTKSZ.
-Patch1042: %{name}-rh1028652.patch
+Patch1042: glibc-rh1028652.patch
 
-# Upstream BZ 15601 
-Patch1043: %{name}-rh1039496.patch
+# Upstream BZ 15601
+Patch1043: glibc-rh1039496.patch
 
-Patch1044: %{name}-rh1047983.patch
+Patch1044: glibc-rh1047983.patch
 
-Patch1045: %{name}-rh1064945.patch
+Patch1045: glibc-rh1064945.patch
 
 # Patch to update the manual to say SunRPC AUTH_DES will prevent FIPS 140-2
 # compliance.
-Patch1046: %{name}-rh971589.patch
+Patch1046: glibc-rh971589.patch
 # Patch to update translation for stale file handle error.
 # Only libc.pot part is sent upstream, the only valid part
 # since upstream translations are done by the TP.
-Patch1047: %{name}-rh981332.patch
+Patch1047: glibc-rh981332.patch
 
 # Upstream BZ 9954
-Patch1048: %{name}-rh739743.patch
+Patch1048: glibc-rh739743.patch
 
 # Upstream BZ 13028
-Patch1049: %{name}-rh841787.patch
+Patch1049: glibc-rh841787.patch
 
 # Systemtap malloc probes
-Patch1050: %{name}-rh742038.patch
+Patch1050: glibc-rh742038.patch
 
 # Upstream BZ 15006
-Patch1051: %{name}-rh905184.patch
+Patch1051: glibc-rh905184.patch
 
 # Upstream BZ 14256
-Patch1052: %{name}-rh966259.patch
+Patch1052: glibc-rh966259.patch
 
 # Upstream BZ 15362
-Patch1053: %{name}-rh979363.patch
+Patch1053: glibc-rh979363.patch
 
 # Upstream BZ 14547
-Patch1054: %{name}-rh989862.patch
-Patch1055: %{name}-rh989862-2.patch
-Patch1056: %{name}-rh989862-3.patch
-Patch1057: %{name}-rh989861.patch
+Patch1054: glibc-rh989862.patch
+Patch1055: glibc-rh989862-2.patch
+Patch1056: glibc-rh989862-3.patch
+Patch1057: glibc-rh989861.patch
 
 # Upstream s390/s390x bug fixes
-Patch1058: %{name}-rh804768-bugfix.patch
+Patch1058: glibc-rh804768-bugfix.patch
 
 # Upstream BZ 15754
-Patch1059: %{name}-rh990481-CVE-2013-4788.patch
+Patch1059: glibc-rh990481-CVE-2013-4788.patch
 
 # Upstream BZ 16366
-Patch1060: %{name}-rh1039970.patch
+Patch1060: glibc-rh1039970.patch
 
 # Upstream BZ 16365
-Patch1061: %{name}-rh1046199.patch
+Patch1061: glibc-rh1046199.patch
 
 # Upstream BZ 16532
-Patch1062: %{name}-rh1063681.patch
+Patch1062: glibc-rh1063681.patch
 
 # Upstream BZ 16680
-Patch1063: %{name}-rh1074410.patch
+Patch1063: glibc-rh1074410.patch
 
 # PPC64LE Patch Set:
+# abilist-pattern configurability
 Patch1064: glibc-ppc64le-01.patch
+
+# PowerPC: powerpc64le abilist for 2.17
 Patch1065: glibc-ppc64le-02.patch
+
+# Update miscellaneous scripts from upstream.
 Patch1066: glibc-ppc64le-03.patch
+
+# IBM long double mechanical changes to support little-endian
 Patch1067: glibc-ppc64le-04.patch
+
+# Fix for [BZ #15680] IBM long double inaccuracy
 Patch1068: glibc-ppc64le-05.patch
+
+# PowerPC floating point little-endian [1-15 of 15]
 Patch1069: glibc-ppc64le-06.patch
 Patch1070: glibc-ppc64le-07.patch
 Patch1071: glibc-ppc64le-08.patch
@@ -354,31 +353,83 @@ Patch1080: glibc-ppc64le-17.patch
 Patch1081: glibc-ppc64le-18.patch
 Patch1082: glibc-ppc64le-19.patch
 Patch1083: glibc-ppc64le-20.patch
+
+# PowerPC LE setjmp/longjmp
 Patch1084: glibc-ppc64le-21.patch
+
+# PowerPC ugly symbol versioning
 Patch1085: glibc-ppc64le-22.patch
+
+# PowerPC LE _dl_hwcap access
 Patch1086: glibc-ppc64le-23.patch
+
+# PowerPC makecontext
 Patch1087: glibc-ppc64le-24.patch
+
+# PowerPC LE strlen
 Patch1088: glibc-ppc64le-25.patch
+
+# PowerPC LE strnlen
 Patch1089: glibc-ppc64le-26.patch
+
+# PowerPC LE strcmp and strncmp
 Patch1090: glibc-ppc64le-27.patch
+
+# PowerPC LE strcpy
 Patch1091: glibc-ppc64le-28.patch
+
+# PowerPC LE strchr
 Patch1092: glibc-ppc64le-29.patch
+
+# PowerPC LE memcmp
 Patch1093: glibc-ppc64le-30.patch
+
+# PowerPC LE memcpy
 Patch1094: glibc-ppc64le-31.patch
+
+# PowerPC LE memset
 Patch1095: glibc-ppc64le-32.patch
+
+# PowerPC LE memchr and memrchr
 Patch1096: glibc-ppc64le-33.patch
+
+# PowerPC LE configury
 Patch1097: glibc-ppc64le-34.patch
+
+# PowerPC64: Fix incorrect CFI in *context routines
 Patch1098: glibc-ppc64le-35.patch
+
+# PowerPC64: Report overflow on @h and @ha relocations
 Patch1099: glibc-ppc64le-36.patch
+
+# PowerPC64: Add __private_ss field to TCB header
 Patch1100: glibc-ppc64le-37.patch
+
+# PowerPC64 ELFv2 ABI 1/6: Code refactoring
 Patch1101: glibc-ppc64le-38.patch
+
+# PowerPC64 ELFv2 ABI 2/6: Remove function descriptors
 Patch1102: glibc-ppc64le-39.patch
+
+# PowerPC64 ELFv2 ABI 3/6: PLT local entry point optimization
 Patch1103: glibc-ppc64le-40.patch
+
+# PowerPC64 ELFv2 ABI 4/6: Stack frame layout changes
 Patch1104: glibc-ppc64le-41.patch
+
+# PowerPC64 ELFv2 ABI 5/6: LD_AUDIT interface changes
 Patch1105: glibc-ppc64le-42.patch
+
+# PowerPC64 ELFv2 ABI 6/6: Bump ld.so soname version number
 Patch1106: glibc-ppc64le-43.patch
+
+# Fix s_copysign stack temp for PowerPC64 ELFv2 [BZ #16786]
 Patch1107: glibc-ppc64le-44.patch
+
+# PPC64LE only Versions.def change.
 Patch1108: glibc-ppc64le-45.patch
+
+# powerpc/fpu/libm-test-ulps tan() round-toward-zero fixup.
 Patch1109: glibc-ppc64le-46.patch
 # End of PPC64LE patch set.
 # Leave room up to 1120 for ppc64le patches.
@@ -389,115 +440,218 @@ Patch1109: glibc-ppc64le-46.patch
 # factored out and applied for both to use.
 Patch1110: glibc-powerpc-ldbl_high.patch
 
-# Backport fixes for power math ULP changes.
-Patch1121: glibc-power-libm-test-ulps.patch
+# RH BZ #1186491: disable inlining in math tests to work around
+# a GCC bug.
+Patch1112: glibc-rh1186491.patch
+
 # Backport the write buffer size adjustment to match newer kernels.
 Patch1122: glibc-fix-test-write-buf-size.patch
 
+Patch1123: glibc-rh1248208.patch
+Patch1124: glibc-rh1248208-2.patch
+
 # Upstream BZ #14142
 # Required RHEL 7.1 BZ #1067754
-Patch1499: %{name}-rh1067755.patch
+Patch1499: glibc-rh1067755.patch
 
 # Acadia BZ #1070458
-Patch1500: %{name}-rh1070458.patch
+Patch1500: glibc-rh1070458.patch
 
 # Upstream BZ #15036
 # Acadia BZ #1070471
-Patch1501: %{name}-rh1070471.patch
+Patch1501: glibc-rh1070471.patch
 
 # Upstream BZ #16169
 # Acadia BZ #1078225
-Patch1502: %{name}-rh1078225.patch
+Patch1502: glibc-rh1078225.patch
 
 # Upstream BZ #16629 -- plus a bit extra
-Patch1503: %{name}-aa64-setcontext.patch
+Patch1503: glibc-aa64-setcontext.patch
 
 Patch1504: glibc-aarch64-add-ptr_mangle-support.patch
 Patch1505: glibc-aarch64-fpu-optional-trapping-exceptions.patch
 Patch1506: glibc-aarch64-syscall-rewrite.patch
 Patch1508: glibc-aarch64-ifunc.patch
 
-Patch1509: %{name}-rh1133812-2.patch
-Patch1510: %{name}-rh1133812-3.patch
+Patch1509: glibc-rh1133812-2.patch
+Patch1510: glibc-rh1133812-3.patch
 
-Patch1511: %{name}-rh1083647.patch
-Patch1512: %{name}-rh1085290.patch
-Patch1513: %{name}-rh1083644.patch
-Patch1514: %{name}-rh1083646.patch
+Patch1511: glibc-rh1083647.patch
+Patch1512: glibc-rh1085290.patch
+Patch1513: glibc-rh1083644.patch
+Patch1514: glibc-rh1083646.patch
 
-Patch1515: %{name}-rh1103856.patch
-Patch1516: %{name}-rh1080766.patch
-Patch1517: %{name}-rh1103874.patch
-Patch1518: %{name}-rh1125306.patch
-Patch1519: %{name}-rh1098047.patch
-Patch1520: %{name}-rh1138520.patch
-Patch1521: %{name}-rh1085313.patch
-Patch1522: %{name}-rh1140474.patch
+Patch1515: glibc-rh1103856.patch
+Patch1516: glibc-rh1080766.patch
+Patch1517: glibc-rh1103874.patch
+Patch1518: glibc-rh1125306.patch
+Patch1519: glibc-rh1098047.patch
+Patch1520: glibc-rh1138520.patch
+Patch1521: glibc-rh1085313.patch
+Patch1522: glibc-rh1140474.patch
 
 # Backport multi-lib support in GLIBC for PowerPC using IFUNC
-Patch1530: %{name}-rh731837-00.patch
-Patch1531: %{name}-rh731837-01.patch
-Patch1532: %{name}-rh731837-02.patch
-Patch1533: %{name}-rh731837-03.patch
-Patch1534: %{name}-rh731837-04.patch
-Patch1535: %{name}-rh731837-05.patch
-Patch1536: %{name}-rh731837-06.patch
-Patch1537: %{name}-rh731837-07.patch
-Patch1538: %{name}-rh731837-08.patch
-Patch1539: %{name}-rh731837-09.patch
-Patch1540: %{name}-rh731837-10.patch
-Patch1541: %{name}-rh731837-11.patch
-Patch1542: %{name}-rh731837-12.patch
-Patch1543: %{name}-rh731837-13.patch
-Patch1544: %{name}-rh731837-14.patch
-Patch1545: %{name}-rh731837-15.patch
-Patch1546: %{name}-rh731837-16.patch
-Patch1547: %{name}-rh731837-17.patch
-Patch1548: %{name}-rh731837-18.patch
-Patch1549: %{name}-rh731837-19.patch
-Patch1550: %{name}-rh731837-20.patch
-Patch1551: %{name}-rh731837-21.patch
-Patch1552: %{name}-rh731837-22.patch
-Patch1553: %{name}-rh731837-23.patch
-Patch1554: %{name}-rh731837-24.patch
-Patch1555: %{name}-rh731837-25.patch
-Patch1556: %{name}-rh731837-26.patch
-Patch1557: %{name}-rh731837-27.patch
-Patch1558: %{name}-rh731837-28.patch
-Patch1559: %{name}-rh731837-29.patch
-Patch1560: %{name}-rh731837-30.patch
-Patch1561: %{name}-rh731837-31.patch
-Patch1562: %{name}-rh731837-32.patch
-Patch1563: %{name}-rh731837-33.patch
-Patch1564: %{name}-rh731837-34.patch
-Patch1565: %{name}-rh731837-35.patch
-Patch1566: %{name}-rh731837-33A.patch
-Patch1567: %{name}-rh731837-36.patch
+Patch1530: glibc-rh731837-00.patch
+Patch1531: glibc-rh731837-01.patch
+Patch1532: glibc-rh731837-02.patch
+Patch1533: glibc-rh731837-03.patch
+Patch1534: glibc-rh731837-04.patch
+Patch1535: glibc-rh731837-05.patch
+Patch1536: glibc-rh731837-06.patch
+Patch1537: glibc-rh731837-07.patch
+Patch1538: glibc-rh731837-08.patch
+Patch1539: glibc-rh731837-09.patch
+Patch1540: glibc-rh731837-10.patch
+Patch1541: glibc-rh731837-11.patch
+Patch1542: glibc-rh731837-12.patch
+Patch1543: glibc-rh731837-13.patch
+Patch1544: glibc-rh731837-14.patch
+Patch1545: glibc-rh731837-15.patch
+Patch1546: glibc-rh731837-16.patch
+Patch1547: glibc-rh731837-17.patch
+Patch1548: glibc-rh731837-18.patch
+Patch1549: glibc-rh731837-19.patch
+Patch1550: glibc-rh731837-20.patch
+Patch1551: glibc-rh731837-21.patch
+Patch1552: glibc-rh731837-22.patch
+Patch1553: glibc-rh731837-23.patch
+Patch1554: glibc-rh731837-24.patch
+Patch1555: glibc-rh731837-25.patch
+Patch1556: glibc-rh731837-26.patch
+Patch1557: glibc-rh731837-27.patch
+Patch1558: glibc-rh731837-28.patch
+Patch1559: glibc-rh731837-29.patch
+Patch1560: glibc-rh731837-30.patch
+Patch1561: glibc-rh731837-31.patch
+Patch1562: glibc-rh731837-32.patch
+Patch1563: glibc-rh731837-33.patch
+Patch1564: glibc-rh731837-34.patch
+Patch1565: glibc-rh731837-35.patch
+Patch1566: glibc-rh731837-33A.patch
+Patch1567: glibc-rh731837-36.patch
 
 # Intel AVX-512 support.
-Patch1570: %{name}-rh1140272-avx512.patch
+Patch1570: glibc-rh1140272-avx512.patch
 # Intel MPX support.
-Patch1571: %{name}-rh1132518-mpx.patch
+Patch1571: glibc-rh1132518-mpx.patch
 # glibc manual update.
-Patch1572: %{name}-manual-update.patch
+Patch1572: glibc-manual-update.patch
 
-Patch1573: %{name}-rh1120490.patch
+Patch1573: glibc-rh1120490.patch
 
 # Fix ppc64le relocation handling:
-Patch1574: %{name}-rh1162847-p1.patch
-Patch1575: %{name}-rh1162847-p2.patch
+Patch1574: glibc-rh1162847-p1.patch
+Patch1575: glibc-rh1162847-p2.patch
 
 # CVE-2014-7817
-Patch1576: %{name}-rh1170118-CVE-2014-7817.patch
+Patch1576: glibc-rh1170118-CVE-2014-7817.patch
 
 # Provide artificial OPDs for ppc64 VDSO functions.
-Patch1577: %{name}-rh1077389-p1.patch
+Patch1577: glibc-rh1077389-p1.patch
 # BZ#16431
-Patch1578: %{name}-rh1077389-p2.patch
-# BZ#16037 - Allow GNU Make version 4.0 and up to be used. 
-Patch1579: %{name}-gmake.patch
+Patch1578: glibc-rh1077389-p2.patch
+# BZ#16037 - Allow GNU Make version 4.0 and up to be used.
+Patch1579: glibc-gmake.patch
 
-Patch1580: %{name}-rh1183545.patch
+Patch1580: glibc-rh1183545.patch
+
+Patch1581: glibc-rh1064066.patch
+
+# RHBZ #1165212 - [SAP] Recursive dlopen causes SAP HANA installer
+#                 to crash
+#   including RHBZ #1225959 - Test suite failure: tst-rec-dlopen fails
+Patch1582: glibc-rh1165212.patch
+# BZ#17411
+Patch1583: glibc-rh1144133.patch
+
+# BZ#12100 - QoI regression: strstr() slowed from O(n) to O(n^2)
+#            on SSE4 machines
+# but mainly RHBZ #1150282 - glibc-2.17-55 crashes sqlplus
+Patch1584: glibc-rh1150282.patch
+# BZ#13862
+Patch1585: glibc-rh1189278.patch
+Patch1586: glibc-rh1189278-1.patch
+# BZ#17892
+Patch1587: glibc-rh1183456.patch
+# BZ#14841
+Patch1588: glibc-rh1186620.patch
+
+# BZ#16878 - nscd enters busy loop on long netgroup entry via nss_ldap
+#            of nslcd
+Patch1589: glibc-rh1173537.patch
+
+# BZ#14906: inotify failed when /etc/hosts file change
+Patch1590: glibc-rh1193797.patch
+# RHBZ #1173238 - `check-abi-librtkaio' not performed during
+# make check after building glibc
+Patch1591: glibc-rh1173238.patch
+
+Patch1592: glibc-rh1207032.patch
+
+Patch1593: glibc-rh1176906.patch
+Patch1594: glibc-rh1159169.patch
+Patch1595: glibc-rh1098042.patch
+Patch1596: glibc-rh1194143.patch
+Patch1597: glibc-rh1219891.patch
+
+# RHBZ #1209107 - CVE-2015-1781 CVE-2015-1473 CVE-2015-1472 glibc:
+#                 various flaws [rhel-7.2]
+# * RHBZ #1188235 - (CVE-2015-1472) CVE-2015-1472 glibc: heap buffer
+#                   overflow in glibc swscanf
+#   upstream #16618 - wscanf allocates too little memory
+#                     (CVE-2015-1472, CVE-2015-1473)
+Patch1598: glibc-rh1188235.patch
+#
+# * RHBZ #1195762 - glibc: _IO_wstr_overflow integer overflow
+#   upstream #16009 - Possible buffer overflow in strxfrm
+Patch1599: glibc-rh1195762.patch
+#
+# * RHBZ #1197730 - glibc: potential denial of service in internal_fnmatch()
+#   upstream #17062 - fnmatch: buffer overflow read from pattern
+#                     "[[:alpha:]'[:alpha:]"
+Patch1600: glibc-rh1197730-1.patch
+#   upstream #18032 - buffer overflow (read past end of buffer) in
+#                     internal_fnmatch
+Patch1601: glibc-rh1197730-2.patch
+#   upstream #18036 - buffer overflow (read past end of buffer)
+#                     in internal_fnmatch=>end_pattern with "**(!()" pattern
+Patch1602: glibc-rh1197730-3.patch
+#
+# * RHBZ #1199525 - (CVE-2015-1781) CVE-2015-1781 glibc: buffer overflow
+#                   in gethostbyname_r() and related functions with
+#                   misaligned buffer
+#  upstream #18287 - (CVE-2015-1781) - Buffer overflow in getanswer_r,
+#                    resolv/nss_dns/dns-host.c (CVE-2015-1781)
+Patch1603: glibc-rh1199525.patch
+#
+# RHBZ #1162895 - Backport upstream ppc64 and ppc64le enhancements
+# * upstream #17153 - Shared libraries built with multiple tocs resolve
+#                     plt to local function entry
+Patch1604: glibc-rh1162895-1.patch
+#
+# * upstream #16740 - IBM long double frexpl wrong when value slightly
+#                     smaller than a power of two
+# * upstream #16619 - [ldbl-128ibm] frexpl bad results on some denormal
+#                     arguments
+Patch1605: glibc-rh1162895-2.patch
+#
+# * upstream #16739 - IBM long double nextafterl wrong on power of two value
+Patch1606: glibc-rh1162895-3.patch
+# RHBZ #1214326 - Upstream benchtests/ rebase
+# RHBZ #1084395 - Run pythong scripts with $(PYTHON).
+Patch1607: glibc-rh1084395.patch
+
+# CVE-2014-8121:
+Patch1608: glibc-rh1165192.patch
+
+# BZ #17090, BZ #17620, BZ #17621, BZ #17628
+Patch1609: glibc-rh1202952.patch
+
+# BZ #15234:
+Patch1610: glibc-rh1234622.patch
+
+# Fix 32-bit POWER assembly to use only 32-bit instructions.
+Patch1611: glibc-rh1240796.patch
 
 ##############################################################################
 #
@@ -511,48 +665,50 @@ Patch1580: %{name}-rh1183545.patch
 
 # http://sourceware.org/ml/libc-alpha/2012-12/msg00103.html
 # Not upstream as of 2014-02-27
-Patch2007: %{name}-rh697421.patch
+Patch2007: glibc-rh697421.patch
 
 # Not upstream as of 2014-02-27
-Patch2011: %{name}-rh757881.patch
+Patch2011: glibc-rh757881.patch
 
 # Not upstream as of 2014-02-27
-Patch2013: %{name}-rh741105.patch
+Patch2013: glibc-rh741105.patch
 
 # Upstream BZ 14247
 # Not upstream as of 2014-02-27.
-Patch2023: %{name}-rh827510.patch
+Patch2023: glibc-rh827510.patch
 
 # Upstream BZ 14185
 # Not upstream as of 2014-02-27.
-Patch2027: %{name}-rh819430.patch
+Patch2027: glibc-rh819430.patch
 
 # Fix nscd to use permission names not constants.
 # Not upstream as of 2014-02-27.
-Patch2048: %{name}-rh1025934.patch
+Patch2048: glibc-rh1025934.patch
 
 # Upstream BZ 16398.
-Patch2051: %{name}-rh1048036.patch
-Patch2052: %{name}-rh1048123.patch
+Patch2051: glibc-rh1048036.patch
+Patch2052: glibc-rh1048123.patch
 
 # Upstream BZ 16680
-Patch2053: %{name}-rh1074410-2.patch
+Patch2053: glibc-rh1074410-2.patch
 
 # Upstream BZ 15493.
 # Upstream as of 2013-03-20
-Patch2055: %{name}-rh1073667.patch
+Patch2055: glibc-rh1073667.patch
 
-Patch2060: %{name}-aarch64-rh1076760.patch
-Patch2061: %{name}-aarch64-dont-alloc-static-tls-for-TLS_DESC.patch
+Patch2060: glibc-aarch64-rh1076760.patch
 
 # Include pthread.h in rtkaio/tst-aiod2.c and rtkaio/tst-aiod3.c.
-Patch2062: %{name}-rtkaio-inc-pthread.patch
+Patch2062: glibc-rtkaio-inc-pthread.patch
 
-Patch2063: %{name}-rh1084089.patch
+Patch2063: glibc-rh1084089.patch
 
-Patch2064: %{name}-rh1161666.patch
+Patch2064: glibc-rh1161666.patch
 
-Patch2065: %{name}-rh1156331.patch
+Patch2065: glibc-rh1156331.patch
+
+# Upstream BZ 18557: Fix ruserok scalability issues.
+Patch2066: glibc-rh1216246.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -586,9 +742,7 @@ Requires(pre): basesystem, libgcc
 BuildRequires: gd-devel libpng-devel zlib-devel texinfo, libselinux-devel >= 1.33.4-3
 BuildRequires: audit-libs-devel >= 1.1.3, sed >= 3.95, libcap-devel, gettext, nss-devel
 BuildRequires: /bin/ps, /bin/kill, /bin/awk
-%ifarch %{systemtaparches}
 BuildRequires: systemtap-sdt-devel
-%endif
 
 # This is needed to get the _tmpfilesdir macro we use for nscd.
 BuildRequires: systemd
@@ -615,7 +769,7 @@ Conflicts: kernel < %{enablekernel}
 %ifarch ppc %{power64}
 BuildRequires: binutils >= 2.20.51.0.2
 Conflicts: binutils < 2.20.51.0.2
-%else 
+%else
 %ifarch s390 s390x
 # Needed for STT_GNU_IFUNC support for s390/390x
 BuildRequires: binutils >= 2.23.52.0.1-8
@@ -714,6 +868,13 @@ which is highly discouraged.
 
 ##############################################################################
 # glibc "headers" sub-package
+# - The headers package includes all common headers that are shared amongst
+#   the multilib builds. It was created to reduce the download size, and
+#   thus avoid downloading one header package per multilib. The package is
+#   identical both in content and file list, any difference is an error.
+#   Files like gnu/stubs.h which have gnu/stubs-32.h (i686) and gnu/stubs-64.h
+#   are included in glibc-headers, but the -32 and -64 files are in their
+#   respective i686 and x86_64 devel packages.
 ##############################################################################
 %package headers
 Summary: Header files for development using standard C libraries.
@@ -902,7 +1063,7 @@ package or when debugging this package.
 %patch0041 -p1
 %patch0042 -p1
 %patch0043 -p1
-%patch1050 -p0
+%patch1050 -p1
 %patch1011 -p1
 %patch1012 -p1
 %patch1013 -p1
@@ -925,7 +1086,6 @@ package or when debugging this package.
 %patch1030 -p1
 %patch1031 -p1
 %patch1032 -p1
-%patch1033 -p1
 %patch0044 -p1
 %patch0045 -p1
 %patch1047 -p1
@@ -956,9 +1116,10 @@ package or when debugging this package.
 %patch2053 -p1
 # Apply ldbl_high() patch for both ppc64le and ppc64.
 %patch1110 -p1
+
 # PPC64LE Patch set:
-# 1064 to 1108.
-%ifarch ppc64le
+# 1064 to 1109.
+
 %patch1064 -p1
 %patch1065 -p1
 %patch1066 -p1
@@ -1005,13 +1166,10 @@ package or when debugging this package.
 %patch1107 -p1
 %patch1108 -p1
 %patch1109 -p1
-%else
-# Some patches are different on !ppc64le, but only because the ppc64le patches
-# change things and require a slightly different patch. At present this is
-# becuase libm-test-ulps is shared between ppc64le and normal ppc64/ppc. This
-# means we have to keep two distinct patches to apply to either "branch."
-%patch1121 -p1
-%endif
+
+%patch1112 -p1
+# End of PPC64LE Patch Set.
+
 %patch1122 -p1
 %patch2055 -p1
 %patch1499 -p1
@@ -1022,7 +1180,6 @@ package or when debugging this package.
 %patch1504 -p1
 %patch1505 -p1
 %patch2060 -p1
-%patch2061 -p1
 %patch1506 -p1
 %patch1508 -p1
 %patch2062 -p1
@@ -1082,12 +1239,7 @@ package or when debugging this package.
 %patch1565 -p1
 # Apply fixup patch for -33 in the series to make it LE safe.
 %patch1566 -p1
-%ifarch ppc64le
-# On ppc64le add LOCALENTRY() to all IFUNC functions to materialize the TOC.
-# Don't do this in general because LOCALENTRY() depends on ELFv2 patches which
-# we don't apply for ppc64.
 %patch1567 -p1
-%endif
 # End of IBM IFUNC patch set.
 %patch1570 -p1
 %patch1571 -p1
@@ -1095,18 +1247,50 @@ package or when debugging this package.
 %patch1573 -p1
 %patch0063 -p1
 %patch2064 -p1
-%ifarch ppc64le
-# On ppc64le the relocation handling needs fixing.
 %patch1574 -p1
 %patch1575 -p1
-%endif
 %patch2065 -p1
 %patch1576 -p1
 %patch1577 -p1
 %patch1578 -p1
-%patch0064 -p1
+%patch1608 -p1
 %patch1579 -p1
 %patch1580 -p1
+%patch1581 -p1
+%patch1582 -p1
+%patch1583 -p1
+%patch1584 -p1
+%patch1585 -p1
+%patch1586 -p1
+%patch1587 -p1
+%patch1588 -p1
+%patch1589 -p1
+%patch1590 -p1
+%patch1591 -p1
+%patch1592 -p1
+%patch1593 -p1
+%patch1594 -p1
+%patch1595 -p1
+%patch1596 -p1
+%patch1597 -p1
+%patch0066 -p1
+%patch1598 -p1
+%patch1599 -p1
+%patch1600 -p1
+%patch1601 -p1
+%patch1602 -p1
+%patch1603 -p1
+%patch1604 -p1
+%patch1605 -p1
+%patch1606 -p1
+%patch2066 -p1
+# Rebase of microbenchmarks.
+%patch1607 -p1
+%patch1609 -p1
+%patch1610 -p1
+%patch1611 -p1
+%patch1123 -p1
+%patch1124 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -1215,7 +1399,7 @@ EnableKernel="--enable-kernel=%{enablekernel}"
 # Save the used compiler and options into the file "Gcc" for use later
 # by %%install.
 echo "$GCC" > Gcc
-AddOns=`echo */configure | sed -e 's!/configure!!g;s!\(linuxthreads\|nptl\|rtkaio\|powerpc-cpu\)\( \|$\)!!g;s! \+$!!;s! !,!g;s!^!,!;/^,\*$/d'`
+AddOns=`echo */configure | sed -e 's!/configure!!g;s!\(nptl\|rtkaio\|powerpc-cpu\)\( \|$\)!!g;s! \+$!!;s! !,!g;s!^!,!;/^,\*$/d'`
 %ifarch %{rtkaioarches}
 AddOns=,rtkaio$AddOns
 %endif
@@ -1247,9 +1431,7 @@ configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
 	--enable-multi-arch \
 %endif
 	--enable-obsolete-rpc \
-%ifarch %{systemtaparches}
 	--enable-systemtap \
-%endif
 %ifarch ppc %{power64}
 %ifnarch ppc64le
 	--with-cpu=power7 \
@@ -1648,13 +1830,18 @@ done
 # Put the info files into the devel file list.
 grep '%{_infodir}' < rpm.filelist | grep -v '%{_infodir}/dir' > devel.filelist
 
-# Put the stub headers into the devel file list.
-grep '%{_prefix}/include/gnu/stubs-[32164]\+\.h' < rpm.filelist >> devel.filelist || :
+# The glibc-headers package includes only common files which are identical
+# across all multilib packages. We must keep gnu/stubs.h and gnu/lib-names.h
+# in the glibc-headers package, but the -32, -64, -64-v1, and -64-v2 versions
+# go into the development packages.
+grep '%{_prefix}/include/gnu/stubs-.*\.h$' < rpm.filelist >> devel.filelist || :
+grep '%{_prefix}/include/gnu/lib-names-.*\.h$' < rpm.filelist >> devel.filelist || :
 
 # Put the include files into headers file list.
-grep '%{_prefix}/include' < rpm.filelist |
-  egrep -v '%{_prefix}/include/(linuxthreads|gnu/stubs-[32164]+\.h)' \
-	> headers.filelist
+grep '%{_prefix}/include' < rpm.filelist \
+  | egrep -v '%{_prefix}/include/gnu/stubs-.*\.h$' \
+  | egrep -v '%{_prefix}/include/gnu/lib-names-.*\.h$' \
+  > headers.filelist
 
 # Remove partial (lib*_p.a) static libraries, include files, and info files from
 # the core glibc package.
@@ -1677,12 +1864,11 @@ grep '%{_prefix}/%{_lib}/lib.*\.a' < rpm.filelist \
 grep '%{_prefix}/%{_lib}/.*\.o' < rpm.filelist >> devel.filelist
 grep '%{_prefix}/%{_lib}/lib.*\.so' < rpm.filelist >> devel.filelist
 
-# Remove all of the static, object, unversioned DSOs, old linuxthreads stuff,
-# and nscd from the core glibc package.
+# Remove all of the static, object, unversioned DSOs, and nscd from the core
+# glibc package.
 sed -i -e '\|%{_prefix}/%{_lib}/lib.*\.a|d' \
        -e '\|%{_prefix}/%{_lib}/.*\.o|d' \
        -e '\|%{_prefix}/%{_lib}/lib.*\.so|d' \
-       -e '\|%{_prefix}/%{_lib}/linuxthreads|d' \
        -e '\|nscd|d' rpm.filelist
 
 # All of the bin and certain sbin files go into the common package.
@@ -2174,6 +2360,116 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106.1
+- Rebuild with corrected release.
+
+* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106
+- Add fix for CVE-2015-5277 (#1275920).
+
+* Fri Aug 14 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-105
+- Fix up test case for initial-exec fix (#1248208).
+
+* Wed Aug  5 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-104
+- Mark all TLS variables in libc.so as initial-exec (#1248208).
+
+* Sat Jul 11 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-103
+- Apply correct fix for #1195672.
+
+* Fri Jul 10 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-102
+- Remove workaround for kernel netlink bug (#1089836).
+- Use only 32-bit instructions in optimized 32-bit POWER functions (#1240796).
+
+* Mon Jun 22 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-101
+- Correct the AArch64 ABI baseline for libpthread (#1234622).
+
+* Mon Jun 22 2015 Martin Sebor <msebor@redhat.com> - 2.17-100
+- Prevent tst-rec-dlopen from intermittently failing in parallel
+  builds due to a missing makefile dependency (#1225959).
+
+* Sat Jun 20 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-99
+- Increase AArch64 TLS descriptor performance (#1202952).
+
+* Sat Jun 20 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-98
+- Move arch-specific header files from glibc-headers to glibc-devel (#1230328).
+
+* Sat Jun 20 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-97
+- Rebase high-precision timing support for microbenchmark (#1214326).
+
+* Fri Jun 19 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-96
+- Rebase microbenchmarks from upstream for performance testing (#1214326)
+- Fix running microbenchmark script bench.pl from source (#1084395)
+
+* Thu Jun 18 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-95
+- Enable systemtap support for all architectures (#1225490).
+
+* Thu Jun 18 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-94
+- Fix ruserok API scalability issues (#1216246).
+
+* Tue Jun 16 2015 Martin Sebor <msebor@redhat.com> - 2.17-93
+- Backport fixes and enhancements for ppc64 and ppc64le (#1162895).
+  - Correct DT_PPC64_NUM in elf/elf.h.
+  - Correct IBM long double frexpl.
+  - Correct IBM long double nextafterl.
+
+* Fri Jun 12 2015 Martin Sebor <msebor@redhat.com> - 2.17-92
+- Backport fixes for various security flaws (#1209107):
+  - Prevent heap buffer overflow in swscanf (CVE-2015-1472, CVE-2015-1473,
+    #1188235).
+  - Prevent integer overflow in _IO_wstr_overflow (#1195762).
+  - Prevent potential denial of service in internal_fnmatch (#1197730).
+  - Prevent buffer overflow in gethostbyname_r and related functions
+    with misaligned buffer (CVE-2015-1781, #1199525).
+
+* Fri Jun  5 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-91
+- Allow more shared libraries with static TLS to be loaded (#1227699).
+
+* Fri May 29 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-90
+- Work around kernel netlink bug on some specialized hardware setup (#1089836).
+- Fix invalid file descriptor reuse when sending DNS query
+  (CVE-2013-7423, #1194143).
+- Sync netinet/tcp.h with the kernel (#1219891).
+
+* Thu May 28 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-89
+- Avoid deadlock in malloc on backtrace (#1207032).
+- Actually test iconv modules (#1176906).
+- Use calloc to allocate xports (#1159169).
+- Return EAI_AGAIN for AF_UNSPEC when herrno is TRY_AGAIN (#1098042).
+
+* Wed May 27 2015 Martin Sebor <msebor@redhat.com> - 2.17-88
+- Add librtkaio.abilist generated by make update-abi (#1173238).
+
+* Fri May 15 2015 Martin Sebor <msebor@redhat.com> - 2.18-87
+- Enhance nscd inotify support (#1193797).
+
+* Fri May 15 2015 Martin Sebor <msebor@redhat.com> - 2.17-86
+- Use NSS_STATUS_TRYAGAIN to indicate insufficient buffer (#1173537).
+
+* Thu May 14 2015 Marek Polacek <polacek@redhat.com> - 2.17-85
+- Skip logging for DNSSEC responses (#1186620).
+- Also apply the RHEL6.7 Makerules patch (#1189278).
+
+* Tue May  5 2015 Marek Polacek <polacek@redhat.com> - 2.17-84
+- Initialize nscd stats data (#1183456).
+
+* Mon Apr 27 2015 Marek Polacek <polacek@redhat.com> - 2.17-83
+- Resize DTV if the current DTV isn't big enough (#1189278).
+
+* Sun Apr 26 2015 Martin Sebor <msebor@redhat.com> - 2.17-82
+- Backport an alternate implementation of strstr and strcasestr for
+  x86 that doesn't use the stack for temporaries requiring 16-byte
+  alignment (#1150282).
+
+* Wed Apr 15 2015 Marek Polacek <polacek@redhat.com> - 2.17-81
+- Fix recursive dlopen() (#1165212).
+- Correctly size profiling reloc table (#1144133).
+
+* Thu Apr  9 2015 Martin Sebor <msebor@redhat.com> - 2.17-80
+- Work around a suspected gcc 4.8 bug (#1064066).
+
+* Mon Jan 26 2015 Martin Sebor <msebor@redhat.com> - 2.17-79
+- Restructure spec file to unconditionally apply ppc64le support (#1182355).
+- Fix test failure in test-ildoubl on ppc64 (#1186491).
+
 * Mon Jan 19 2015 Carlos O'Donell <carlos@redhat.com> - 2.17-78
 - Fix ppc64le builds (#1077389).
 

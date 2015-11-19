@@ -31,9 +31,9 @@
 #
 #	S/390: Change struct statfs[64] member types to unsigned values
 
-diff -Nrup a/sysdeps/s390/bits/setjmp.h b/sysdeps/s390/bits/setjmp.h
---- a/sysdeps/s390/bits/setjmp.h	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/s390/bits/setjmp.h	2013-08-23 12:33:20.597299428 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/s390/bits/setjmp.h glibc-2.17-c758a686/sysdeps/s390/bits/setjmp.h
+--- glibc-2.17-c758a686/sysdeps/s390/bits/setjmp.h	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/s390/bits/setjmp.h	2013-08-23 12:33:20.597299428 -0400
 @@ -34,7 +34,7 @@ typedef struct __s390_jmp_buf
    long int __gregs[10];
  
@@ -43,9 +43,9 @@ diff -Nrup a/sysdeps/s390/bits/setjmp.h b/sysdeps/s390/bits/setjmp.h
    long __fpregs[8];
  # else
    /* We save fpu registers 4 and 6.  */
-diff -Nrup a/sysdeps/s390/s390-32/dl-trampoline.S b/sysdeps/s390/s390-32/dl-trampoline.S
---- a/sysdeps/s390/s390-32/dl-trampoline.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/s390/s390-32/dl-trampoline.S	2013-08-23 12:33:20.593298453 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-trampoline.S glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-trampoline.S
+--- glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-trampoline.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-trampoline.S	2013-08-23 12:33:20.593298453 -0400
 @@ -95,16 +95,16 @@ _dl_runtime_profile:
  	lr     %r1,%r2			# function addr returned in r2
  	icm    %r0,15,20(%r12)		# load & test framesize
@@ -82,9 +82,9 @@ diff -Nrup a/sysdeps/s390/s390-32/dl-trampoline.S b/sysdeps/s390/s390-32/dl-tram
  6:	.long  _dl_profile_fixup - 0b
  7:	.long  _dl_call_pltexit - 5b
  	cfi_endproc
-diff -Nrup a/sysdeps/s390/s390-64/dl-trampoline.S b/sysdeps/s390/s390-64/dl-trampoline.S
---- a/sysdeps/s390/s390-64/dl-trampoline.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/s390/s390-64/dl-trampoline.S	2013-08-23 12:46:11.478239405 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/s390/s390-64/dl-trampoline.S glibc-2.17-c758a686/sysdeps/s390/s390-64/dl-trampoline.S
+--- glibc-2.17-c758a686/sysdeps/s390/s390-64/dl-trampoline.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/s390/s390-64/dl-trampoline.S	2013-08-23 12:46:11.478239405 -0400
 @@ -1,4 +1,4 @@
 -/* PLT trampolines.  s390 version.
 +/* PLT trampolines.  s390x version.
@@ -219,9 +219,9 @@ diff -Nrup a/sysdeps/s390/s390-64/dl-trampoline.S b/sysdeps/s390/s390-64/dl-tram
  	cfi_endproc
  	.size _dl_runtime_profile, .-_dl_runtime_profile
  #endif
-diff -Nrup a/sysdeps/s390/s390-64/__longjmp.c b/sysdeps/s390/s390-64/__longjmp.c
---- a/sysdeps/s390/s390-64/__longjmp.c	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/s390/s390-64/__longjmp.c	2013-08-23 12:33:20.597299428 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/s390/s390-64/__longjmp.c glibc-2.17-c758a686/sysdeps/s390/s390-64/__longjmp.c
+--- glibc-2.17-c758a686/sysdeps/s390/s390-64/__longjmp.c	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/s390/s390-64/__longjmp.c	2013-08-23 12:33:20.597299428 -0400
 @@ -42,10 +42,14 @@ __longjmp (__jmp_buf env, int val)
    register void *r1 __asm ("%r1") = (void *) env;
  #endif
@@ -241,9 +241,9 @@ diff -Nrup a/sysdeps/s390/s390-64/__longjmp.c b/sysdeps/s390/s390-64/__longjmp.c
  #ifdef PTR_DEMANGLE
  		"lmg  %%r6,%%r13,0(%1)\n\t"
  		"lmg  %%r4,%%r5,64(%1)\n\t"
-diff -Nrup a/sysdeps/s390/s390-64/setjmp.S b/sysdeps/s390/s390-64/setjmp.S
---- a/sysdeps/s390/s390-64/setjmp.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/s390/s390-64/setjmp.S	2013-08-23 12:33:20.598300448 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/s390/s390-64/setjmp.S glibc-2.17-c758a686/sysdeps/s390/s390-64/setjmp.S
+--- glibc-2.17-c758a686/sysdeps/s390/s390-64/setjmp.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/s390/s390-64/setjmp.S	2013-08-23 12:33:20.598300448 -0400
 @@ -55,10 +55,14 @@ ENTRY(__sigsetjmp)
  #else
          stmg   %r6,%r15,0(%r2)      /* Store registers in jmp_buf.  */
@@ -263,9 +263,9 @@ diff -Nrup a/sysdeps/s390/s390-64/setjmp.S b/sysdeps/s390/s390-64/setjmp.S
  #if defined NOT_IN_libc && defined IS_IN_rtld
  	/* In ld.so we never save the signal mask.  */
  	lghi   %r2,0
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/bits/statfs.h b/sysdeps/unix/sysv/linux/s390/bits/statfs.h
---- a/sysdeps/unix/sysv/linux/s390/bits/statfs.h	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/bits/statfs.h	2013-08-23 12:33:20.601180842 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/bits/statfs.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/bits/statfs.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/bits/statfs.h	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/bits/statfs.h	2013-08-23 12:33:20.601180842 -0400
 @@ -23,8 +23,8 @@
  
  struct statfs
@@ -315,9 +315,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/bits/statfs.h b/sysdeps/unix/sysv/linu
    };
  #endif
  
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S b/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S
---- a/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S	2013-08-23 12:33:20.588297827 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S	2013-08-23 12:33:20.588297827 -0400
 @@ -31,41 +31,42 @@
    other than the PRESERVED state.  */
  
@@ -382,9 +382,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-32/getcontext.S b/sysdeps/unix/sy
  
  	/* Return.  */
  	br	%r14
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S b/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S
---- a/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S	2013-08-23 12:33:20.588297827 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S	2013-08-23 12:33:20.588297827 -0400
 @@ -31,38 +31,39 @@
    other than the PRESERVED state.  */
  
@@ -446,9 +446,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S b/sysdeps/unix/sy
  
  	/* Return.  */
  	br	%r14
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S b/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S
---- a/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S	2013-08-23 12:33:20.589298155 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S	2013-08-23 12:33:20.589298155 -0400
 @@ -34,12 +34,13 @@
  
  ENTRY(__swapcontext)
@@ -479,9 +479,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S b/sysdeps/unix/s
  	lfpc	SC_FPC(%r5)
  	ld	%f0,SC_FPRS(%r5)
  	ld      %f1,SC_FPRS+8(%r5)
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S b/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S
---- a/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S	2013-08-23 12:33:20.590298812 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S	2013-08-23 12:33:20.590298812 -0400
 @@ -31,41 +31,42 @@
    other than the PRESERVED state.  */
  
@@ -546,9 +546,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-64/getcontext.S b/sysdeps/unix/sy
  
  	/* Return.  */
  	br	%r14
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S b/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S
---- a/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S	2013-08-23 12:33:20.591298098 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S	2013-08-23 12:33:20.591298098 -0400
 @@ -31,38 +31,39 @@
    other than the PRESERVED state.  */
  
@@ -610,9 +610,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S b/sysdeps/unix/sy
  
  	/* Return.  */
  	br	%r14
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S b/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S
---- a/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S	2013-08-23 12:33:20.591298098 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S	2013-08-23 12:33:20.591298098 -0400
 @@ -34,12 +34,13 @@
  
  ENTRY(__swapcontext)
@@ -643,9 +643,9 @@ diff -Nrup a/sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S b/sysdeps/unix/s
  	lfpc	SC_FPC(%r5)
  	ld	%f0,SC_FPRS(%r5)
  	ld      %f1,SC_FPRS+8(%r5)
-diff -Nrup a/sysdeps/unix/sysv/linux/s390/ucontext_i.sym b/sysdeps/unix/sysv/linux/s390/ucontext_i.sym
---- a/sysdeps/unix/sysv/linux/s390/ucontext_i.sym	2012-12-24 22:02:13.000000000 -0500
-+++ b/sysdeps/unix/sysv/linux/s390/ucontext_i.sym	2013-08-23 12:33:20.591298098 -0400
+diff -Nru glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/ucontext_i.sym glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/ucontext_i.sym
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/ucontext_i.sym	2012-12-24 22:02:13.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/s390/ucontext_i.sym	2013-08-23 12:33:20.591298098 -0400
 @@ -8,6 +8,8 @@ SIG_BLOCK
  SIG_UNBLOCK
  SIG_SETMASK

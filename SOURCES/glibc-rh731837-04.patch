@@ -23,10 +23,10 @@ string/mempcpy.c apart from original commit.
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/mempcpy.c
 
-diff --git a/string/mempcpy.c b/string/mempcpy.c
+diff --git glibc-2.17-c758a686/string/mempcpy.c glibc-2.17-c758a686/string/mempcpy.c
 index 2a542e3..7509c24 100644
---- a/string/mempcpy.c
-+++ b/string/mempcpy.c
+--- glibc-2.17-c758a686/string/mempcpy.c
++++ glibc-2.17-c758a686/string/mempcpy.c
 @@ -26,11 +26,12 @@
  #undef mempcpy
  #undef __mempcpy
@@ -44,11 +44,11 @@ index 2a542e3..7509c24 100644
  {
    unsigned long int dstp = (long int) dstpp;
    unsigned long int srcp = (long int) srcpp;
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c b/sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c
 new file mode 100644
 index 0000000..8dc77e9
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c
 @@ -0,0 +1,32 @@
 +/* PowerPC32 default implementation of mempcpy.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -82,10 +82,10 @@ index 0000000..8dc77e9
 +#endif
 +
 +#include <string/mempcpy.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 424d2cd..22560e8 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -2,5 +2,6 @@ ifeq ($(subdir),string)
  sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    memcpy-power4 memcpy-ppc64 memcmp-power7 memcmp-power4 \
@@ -94,10 +94,10 @@ index 424d2cd..22560e8 100644
 +                  memset-ppc64 bzero-power4 bzero-power6 bzero-power7 \
 +                  mempcpy-power7 mempcpy-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index 11e7063..c72c229 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -90,5 +90,13 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
                               __bzero_power4)
               IFUNC_IMPL_ADD (array, i, bzero, 1, __bzero_ppc))
@@ -112,11 +112,11 @@ index 11e7063..c72c229 100644
 +
    return i;
  }
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/mempcpy-power7.S b/sysdeps/powerpc/powerpc64/multiarch/mempcpy-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy-power7.S
 new file mode 100644
 index 0000000..6a79847
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/mempcpy-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy-power7.S
 @@ -0,0 +1,41 @@
 +/* Optimized mempcpy implementation for PowerPC/POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -159,11 +159,11 @@ index 0000000..6a79847
 +#define weak_alias(name, alias)
 +
 +#include <sysdeps/powerpc/powerpc64/power7/mempcpy.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c b/sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c
 new file mode 100644
 index 0000000..78260bb
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy-ppc64.c
 @@ -0,0 +1,19 @@
 +/* PowerPC64 default implementation of mempcpy.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -184,11 +184,11 @@ index 0000000..78260bb
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/mempcpy-ppc32.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/mempcpy.c b/sysdeps/powerpc/powerpc64/multiarch/mempcpy.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy.c
 new file mode 100644
 index 0000000..38fbcc3
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/mempcpy.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/mempcpy.c
 @@ -0,0 +1,38 @@
 +/* Multiple versions of mempcpy.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

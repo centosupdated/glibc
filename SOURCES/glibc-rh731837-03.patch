@@ -36,10 +36,10 @@ Date:   Fri Dec 13 14:33:16 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/memset.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c
 
-diff --git a/sysdeps/powerpc/powerpc64/memset.S b/sysdeps/powerpc/powerpc64/memset.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/memset.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/memset.S
 index d02af98..fd5d4e5 100644
---- a/sysdeps/powerpc/powerpc64/memset.S
-+++ b/sysdeps/powerpc/powerpc64/memset.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/memset.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/memset.S
 @@ -265,6 +265,7 @@ L(medium_28t):
  END_GEN_TB (BP_SYM (memset),TB_TOCLESS)
  libc_hidden_builtin_def (memset)
@@ -53,10 +53,10 @@ index d02af98..fd5d4e5 100644
  
  weak_alias (BP_SYM (__bzero), BP_SYM (bzero))
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index c0bc520..424d2cd 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -1,5 +1,6 @@
  ifeq ($(subdir),string)
  sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
@@ -65,11 +65,11 @@ index c0bc520..424d2cd 100644
 +                  memcmp-ppc64 memset-power7 memset-power6 memset-power4 \
 +                  memset-ppc64 bzero-power4 bzero-power6 bzero-power7
  endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/bzero-power4.S b/sysdeps/powerpc/powerpc64/multiarch/bzero-power4.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power4.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power4.S
 new file mode 100644
 index 0000000..72b75ac
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/bzero-power4.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power4.S
 @@ -0,0 +1,26 @@
 +/* Optimized bzero implementation for PowerPC64/POWER4.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -97,11 +97,11 @@ index 0000000..72b75ac
 +	li	r4,0
 +	b	__memset_power4
 +END_GEN_TB (__bzero_power4,TB_TOCLESS)
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/bzero-power6.S b/sysdeps/powerpc/powerpc64/multiarch/bzero-power6.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power6.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power6.S
 new file mode 100644
 index 0000000..d0917c5
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/bzero-power6.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power6.S
 @@ -0,0 +1,26 @@
 +/* Optimized bzero implementation for PowerPC64/POWER6.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -129,11 +129,11 @@ index 0000000..d0917c5
 +	li	r4,0
 +	b	__memset_power6
 +END_GEN_TB (__bzero_power6,TB_TOCLESS)
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/bzero-power7.S b/sysdeps/powerpc/powerpc64/multiarch/bzero-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power7.S
 new file mode 100644
 index 0000000..0ec285a
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/bzero-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero-power7.S
 @@ -0,0 +1,26 @@
 +/* Optimized bzero implementation for PowerPC64/POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -161,11 +161,11 @@ index 0000000..0ec285a
 +	li	r4,0
 +	b	__memset_power7
 +END_GEN_TB (__bzero_power7,TB_TOCLESS)
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/bzero.c b/sysdeps/powerpc/powerpc64/multiarch/bzero.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero.c
 new file mode 100644
 index 0000000..ed83541
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/bzero.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/bzero.c
 @@ -0,0 +1,40 @@
 +/* Multiple versions of bzero. PowerPC64 version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -207,10 +207,10 @@ index 0000000..ed83541
 +
 +weak_alias (__bzero, bzero)
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index 295ebca..11e7063 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -60,6 +60,16 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
               IFUNC_IMPL_ADD (array, i, memcpy, hwcap & PPC_FEATURE_POWER4,
                               __memcpy_power4)
@@ -244,11 +244,11 @@ index 295ebca..11e7063 100644
 +
    return i;
  }
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memset-power4.S b/sysdeps/powerpc/powerpc64/multiarch/memset-power4.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power4.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power4.S
 new file mode 100644
 index 0000000..9074b95
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memset-power4.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power4.S
 @@ -0,0 +1,40 @@
 +/* Optimized memset implementation for PowerPC64/POWER4.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -290,11 +290,11 @@ index 0000000..9074b95
 +
 +#define NO_BZERO_IMPL
 +#include <sysdeps/powerpc/powerpc64/power4/memset.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memset-power6.S b/sysdeps/powerpc/powerpc64/multiarch/memset-power6.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power6.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power6.S
 new file mode 100644
 index 0000000..70688b5
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memset-power6.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power6.S
 @@ -0,0 +1,40 @@
 +/* Optimized memset implementation for PowerPC64/POWER6.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -336,11 +336,11 @@ index 0000000..70688b5
 +
 +#define NO_BZERO_IMPL
 +#include <sysdeps/powerpc/powerpc64/power6/memset.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memset-power7.S b/sysdeps/powerpc/powerpc64/multiarch/memset-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power7.S
 new file mode 100644
 index 0000000..ab226c5
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memset-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-power7.S
 @@ -0,0 +1,40 @@
 +/* Optimized memset implementation for PowerPC64/POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -382,11 +382,11 @@ index 0000000..ab226c5
 +
 +#define NO_BZERO_IMPL
 +#include <sysdeps/powerpc/powerpc64/power7/memset.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memset-ppc64.S b/sysdeps/powerpc/powerpc64/multiarch/memset-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-ppc64.S
 new file mode 100644
 index 0000000..dc5549c
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memset-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset-ppc64.S
 @@ -0,0 +1,55 @@
 +/* Default memset/bzero implementation for PowerPC64.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -443,11 +443,11 @@ index 0000000..dc5549c
 +#define NO_BZERO_IMPL
 +
 +#include <sysdeps/powerpc/powerpc64/memset.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/memset.c b/sysdeps/powerpc/powerpc64/multiarch/memset.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset.c
 new file mode 100644
 index 0000000..aa2ae70
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/memset.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/memset.c
 @@ -0,0 +1,50 @@
 +/* Multiple versions of memset.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -499,11 +499,11 @@ index 0000000..aa2ae70
 +strong_alias (__libc_memset, memset);
 +libc_hidden_ver (__libc_memset, memset);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c b/sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c
 new file mode 100644
 index 0000000..8eac85b
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/rtld-memset.c
 @@ -0,0 +1,18 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -523,10 +523,10 @@ index 0000000..8eac85b
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc64/rtld-memset.c>
-diff --git a/sysdeps/powerpc/powerpc64/power4/memset.S b/sysdeps/powerpc/powerpc64/power4/memset.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/memset.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/memset.S
 index c86a68a..c077ae7 100644
---- a/sysdeps/powerpc/powerpc64/power4/memset.S
-+++ b/sysdeps/powerpc/powerpc64/power4/memset.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/memset.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/memset.S
 @@ -253,6 +253,7 @@ L(medium_28t):
  END_GEN_TB (BP_SYM (memset),TB_TOCLESS)
  libc_hidden_builtin_def (memset)
@@ -540,10 +540,10 @@ index c86a68a..c077ae7 100644
  
  weak_alias (BP_SYM (__bzero), BP_SYM (bzero))
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/power6/memset.S b/sysdeps/powerpc/powerpc64/power6/memset.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/memset.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/memset.S
 index 930ecce..967642a3 100644
---- a/sysdeps/powerpc/powerpc64/power6/memset.S
-+++ b/sysdeps/powerpc/powerpc64/power6/memset.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/memset.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power6/memset.S
 @@ -397,6 +397,7 @@ L(medium_28t):
  END_GEN_TB (BP_SYM (memset),TB_TOCLESS)
  libc_hidden_builtin_def (memset)
@@ -557,10 +557,10 @@ index 930ecce..967642a3 100644
  
  weak_alias (BP_SYM (__bzero), BP_SYM (bzero))
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/power7/memset.S b/sysdeps/powerpc/powerpc64/power7/memset.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/memset.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/memset.S
 index 5970fbe..2716656 100644
---- a/sysdeps/powerpc/powerpc64/power7/memset.S
-+++ b/sysdeps/powerpc/powerpc64/power7/memset.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/memset.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power7/memset.S
 @@ -385,6 +385,7 @@ L(small):
  END_GEN_TB (BP_SYM (memset),TB_TOCLESS)
  libc_hidden_builtin_def (memset)

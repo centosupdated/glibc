@@ -28,10 +28,10 @@ Date:   Tue Nov 25 21:15:16 2014 +0530
     	test case.
     	(do_one_test): Call it.
 
-diff --git a/libio/fileops.c b/libio/fileops.c
+diff --git glibc-2.17-c758a686/libio/fileops.c glibc-2.17-c758a686/libio/fileops.c
 index e0d7b76..1fc5719 100644
---- a/libio/fileops.c
-+++ b/libio/fileops.c
+--- glibc-2.17-c758a686/libio/fileops.c
++++ glibc-2.17-c758a686/libio/fileops.c
 @@ -943,15 +943,14 @@ do_ftell (_IO_FILE *fp)
       yet.  */
    if (fp->_IO_buf_base != NULL)
@@ -59,10 +59,10 @@ index e0d7b76..1fc5719 100644
  	offset -= fp->_IO_read_end - fp->_IO_read_ptr;
        /* We don't trust _IO_read_end to represent the current file offset when
  	 writing in append mode because the value would have to be shifted to
-diff --git a/libio/tst-ftell-active-handler.c b/libio/tst-ftell-active-handler.c
+diff --git glibc-2.17-c758a686/libio/tst-ftell-active-handler.c glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
 index e9dc7b3..9f23c55 100644
---- a/libio/tst-ftell-active-handler.c
-+++ b/libio/tst-ftell-active-handler.c
+--- glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
++++ glibc-2.17-c758a686/libio/tst-ftell-active-handler.c
 @@ -88,6 +88,95 @@ static size_t file_len;
  typedef int (*fputs_func_t) (const void *data, FILE *fp);
  fputs_func_t fputs_func;
@@ -167,10 +167,10 @@ index e9dc7b3..9f23c55 100644
  
    return ret;
  }
-diff --git a/libio/wfileops.c b/libio/wfileops.c
+diff --git glibc-2.17-c758a686/libio/wfileops.c glibc-2.17-c758a686/libio/wfileops.c
 index 6a088b1..71281c1 100644
---- a/libio/wfileops.c
-+++ b/libio/wfileops.c
+--- glibc-2.17-c758a686/libio/wfileops.c
++++ glibc-2.17-c758a686/libio/wfileops.c
 @@ -626,16 +626,15 @@ do_ftell_wide (_IO_FILE *fp)
        const wchar_t *wide_read_base;
        const wchar_t *wide_read_ptr;

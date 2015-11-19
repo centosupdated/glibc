@@ -4,9 +4,9 @@
 # Include updates that don't impact material differences
 # between the upstream master and 2.17-based RHEL implemenation.
 #
-diff -urN glibc-2.17-c758a686/manual/argp.texi glibc/manual/argp.texi
+diff -urN glibc-2.17-c758a686/manual/argp.texi glibc-2.17-c758a686/manual/argp.texi
 --- glibc-2.17-c758a686/manual/argp.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/argp.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/argp.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -36,6 +36,35 @@
  @comment argp.h
  @comment GNU
@@ -231,9 +231,9 @@ diff -urN glibc-2.17-c758a686/manual/argp.texi glibc/manual/argp.texi
  This outputs a help message for the argp parser @var{argp} to
  @var{stream}.  The type of messages printed will be determined by
  @var{flags}.
-diff -urN glibc-2.17-c758a686/manual/arith.texi glibc/manual/arith.texi
+diff -urN glibc-2.17-c758a686/manual/arith.texi glibc-2.17-c758a686/manual/arith.texi
 --- glibc-2.17-c758a686/manual/arith.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/arith.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/arith.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -160,6 +160,8 @@
  @comment stdlib.h
  @comment ISO
@@ -1230,9 +1230,9 @@ diff -urN glibc-2.17-c758a686/manual/arith.texi glibc/manual/arith.texi
  The @code{qfcvt_r} function is the same as @code{qfcvt}, except
  that it places its result into the user-specified buffer pointed to by
  @var{buf}, with length @var{len}.  The return value is @code{-1} in
-diff -urN glibc-2.17-c758a686/manual/charset.texi glibc/manual/charset.texi
+diff -urN glibc-2.17-c758a686/manual/charset.texi glibc-2.17-c758a686/manual/charset.texi
 --- glibc-2.17-c758a686/manual/charset.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/charset.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/charset.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -504,6 +504,14 @@
  @comment wchar.h
  @comment ISO
@@ -1519,9 +1519,9 @@ diff -urN glibc-2.17-c758a686/manual/charset.texi glibc/manual/charset.texi
               @r{nothing we can do.}  */
            if (data->__is_last)
              @{
-diff -urN glibc-2.17-c758a686/manual/check-safety.sh glibc/manual/check-safety.sh
+diff -urN glibc-2.17-c758a686/manual/check-safety.sh glibc-2.17-c758a686/manual/check-safety.sh
 --- glibc-2.17-c758a686/manual/check-safety.sh	1969-12-31 19:00:00.000000000 -0500
-+++ glibc/manual/check-safety.sh	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/check-safety.sh	2014-09-12 16:10:06.044792719 -0400
 @@ -0,0 +1,119 @@
 +#! /bin/sh
 +
@@ -1642,9 +1642,9 @@ diff -urN glibc-2.17-c758a686/manual/check-safety.sh glibc/manual/check-safety.s
 +success=false
 +
 +$success
-diff -urN glibc-2.17-c758a686/manual/conf.texi glibc/manual/conf.texi
+diff -urN glibc-2.17-c758a686/manual/conf.texi glibc-2.17-c758a686/manual/conf.texi
 --- glibc-2.17-c758a686/manual/conf.texi	2014-09-12 16:08:17.965070383 -0400
-+++ glibc/manual/conf.texi	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/conf.texi	2014-09-12 16:10:06.047792712 -0400
 @@ -114,7 +114,7 @@
  
  @comment limits.h
@@ -1710,9 +1710,9 @@ diff -urN glibc-2.17-c758a686/manual/conf.texi glibc/manual/conf.texi
  This function reads the value of a string-valued system parameter,
  storing the string into @var{len} bytes of memory space starting at
  @var{buf}.  The @var{parameter} argument should be one of the
-diff -urN glibc-2.17-c758a686/manual/crypt.texi glibc/manual/crypt.texi
+diff -urN glibc-2.17-c758a686/manual/crypt.texi glibc-2.17-c758a686/manual/crypt.texi
 --- glibc-2.17-c758a686/manual/crypt.texi	2014-09-12 16:08:18.169069859 -0400
-+++ glibc/manual/crypt.texi	2014-09-12 16:10:06.042792724 -0400
++++ glibc-2.17-c758a686/manual/crypt.texi	2014-09-12 16:10:06.042792724 -0400
 @@ -30,15 +30,15 @@
  and the other based on the Data Encryption Standard (DES) that is
  compatible with Unix systems.
@@ -1839,9 +1839,9 @@ diff -urN glibc-2.17-c758a686/manual/crypt.texi glibc/manual/crypt.texi
  
  The function @code{des_setparity} changes the 64-bit @var{key}, stored
  packed in 8-bit bytes, to have odd parity by altering the low bits of
-diff -urN glibc-2.17-c758a686/manual/ctype.texi glibc/manual/ctype.texi
+diff -urN glibc-2.17-c758a686/manual/ctype.texi glibc-2.17-c758a686/manual/ctype.texi
 --- glibc-2.17-c758a686/manual/ctype.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/ctype.texi	2014-09-12 16:10:06.042792724 -0400
++++ glibc-2.17-c758a686/manual/ctype.texi	2014-09-12 16:10:06.042792724 -0400
 @@ -66,6 +66,16 @@
  @comment ctype.h
  @comment ISO
@@ -2167,9 +2167,9 @@ diff -urN glibc-2.17-c758a686/manual/ctype.texi glibc/manual/ctype.texi
  If @var{wc} is a lower-case letter, @code{towupper} returns the corresponding
  upper-case letter.  Otherwise @var{wc} is returned unchanged.
  
-diff -urN glibc-2.17-c758a686/manual/debug.texi glibc/manual/debug.texi
+diff -urN glibc-2.17-c758a686/manual/debug.texi glibc-2.17-c758a686/manual/debug.texi
 --- glibc-2.17-c758a686/manual/debug.texi	2014-09-12 16:08:17.824070745 -0400
-+++ glibc/manual/debug.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/debug.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -1,5 +1,5 @@
  @node Debugging Support
 -@c @node Debugging Support, Internal Probes, Cryptographic Functions, Top
@@ -2224,9 +2224,9 @@ diff -urN glibc-2.17-c758a686/manual/debug.texi glibc/manual/debug.texi
  The @code{backtrace_symbols_fd} function performs the same translation
  as the function @code{backtrace_symbols} function.  Instead of returning
  the strings to the caller, it writes the strings to the file descriptor
-diff -urN glibc-2.17-c758a686/manual/errno.texi glibc/manual/errno.texi
+diff -urN glibc-2.17-c758a686/manual/errno.texi glibc-2.17-c758a686/manual/errno.texi
 --- glibc-2.17-c758a686/manual/errno.texi	2014-09-12 16:08:17.752070930 -0400
-+++ glibc/manual/errno.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/errno.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -1293,6 +1293,9 @@
  @comment string.h
  @comment ISO
@@ -2383,9 +2383,9 @@ diff -urN glibc-2.17-c758a686/manual/errno.texi glibc/manual/errno.texi
 -in as an value of type @code{va_list}.
 +in as a value of type @code{va_list}.
  @end deftypefun
-diff -urN glibc-2.17-c758a686/manual/examples/add.c glibc/manual/examples/add.c
+diff -urN glibc-2.17-c758a686/manual/examples/add.c glibc-2.17-c758a686/manual/examples/add.c
 --- glibc-2.17-c758a686/manual/examples/add.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/add.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/add.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Example of a Variadic Function
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2393,9 +2393,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/add.c glibc/manual/examples/add.c
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/argp-ex1.c glibc/manual/examples/argp-ex1.c
+diff -urN glibc-2.17-c758a686/manual/examples/argp-ex1.c glibc-2.17-c758a686/manual/examples/argp-ex1.c
 --- glibc-2.17-c758a686/manual/examples/argp-ex1.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/argp-ex1.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/argp-ex1.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Argp example #1 -- a minimal program using argp
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2403,9 +2403,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/argp-ex1.c glibc/manual/examples/a
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/argp-ex2.c glibc/manual/examples/argp-ex2.c
+diff -urN glibc-2.17-c758a686/manual/examples/argp-ex2.c glibc-2.17-c758a686/manual/examples/argp-ex2.c
 --- glibc-2.17-c758a686/manual/examples/argp-ex2.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/argp-ex2.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/argp-ex2.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Argp example #2 -- a pretty minimal program using argp
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2413,9 +2413,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/argp-ex2.c glibc/manual/examples/a
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/argp-ex3.c glibc/manual/examples/argp-ex3.c
+diff -urN glibc-2.17-c758a686/manual/examples/argp-ex3.c glibc-2.17-c758a686/manual/examples/argp-ex3.c
 --- glibc-2.17-c758a686/manual/examples/argp-ex3.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/argp-ex3.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/argp-ex3.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Argp example #3 -- a program with options and arguments using argp
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2423,9 +2423,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/argp-ex3.c glibc/manual/examples/a
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/argp-ex4.c glibc/manual/examples/argp-ex4.c
+diff -urN glibc-2.17-c758a686/manual/examples/argp-ex4.c glibc-2.17-c758a686/manual/examples/argp-ex4.c
 --- glibc-2.17-c758a686/manual/examples/argp-ex4.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/argp-ex4.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/argp-ex4.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Argp example #4 -- a program with somewhat more complicated options
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2433,9 +2433,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/argp-ex4.c glibc/manual/examples/a
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/atexit.c glibc/manual/examples/atexit.c
+diff -urN glibc-2.17-c758a686/manual/examples/atexit.c glibc-2.17-c758a686/manual/examples/atexit.c
 --- glibc-2.17-c758a686/manual/examples/atexit.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/atexit.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/atexit.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Cleanups on Exit
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2443,9 +2443,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/atexit.c glibc/manual/examples/ate
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/db.c glibc/manual/examples/db.c
+diff -urN glibc-2.17-c758a686/manual/examples/db.c glibc-2.17-c758a686/manual/examples/db.c
 --- glibc-2.17-c758a686/manual/examples/db.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/db.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/db.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* User and Group Database Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2453,9 +2453,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/db.c glibc/manual/examples/db.c
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/dir2.c glibc/manual/examples/dir2.c
+diff -urN glibc-2.17-c758a686/manual/examples/dir2.c glibc-2.17-c758a686/manual/examples/dir2.c
 --- glibc-2.17-c758a686/manual/examples/dir2.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/dir2.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/dir2.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Simple Program to List a Directory, Mark II
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2463,9 +2463,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/dir2.c glibc/manual/examples/dir2.
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/dir.c glibc/manual/examples/dir.c
+diff -urN glibc-2.17-c758a686/manual/examples/dir.c glibc-2.17-c758a686/manual/examples/dir.c
 --- glibc-2.17-c758a686/manual/examples/dir.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/dir.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/dir.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Simple Program to List a Directory
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2473,9 +2473,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/dir.c glibc/manual/examples/dir.c
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/execinfo.c glibc/manual/examples/execinfo.c
+diff -urN glibc-2.17-c758a686/manual/examples/execinfo.c glibc-2.17-c758a686/manual/examples/execinfo.c
 --- glibc-2.17-c758a686/manual/examples/execinfo.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/execinfo.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/execinfo.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Obtain a backtrace and print it.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2483,9 +2483,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/execinfo.c glibc/manual/examples/e
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/filecli.c glibc/manual/examples/filecli.c
+diff -urN glibc-2.17-c758a686/manual/examples/filecli.c glibc-2.17-c758a686/manual/examples/filecli.c
 --- glibc-2.17-c758a686/manual/examples/filecli.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/filecli.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/filecli.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Example of Reading Datagrams
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2493,9 +2493,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/filecli.c glibc/manual/examples/fi
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/filesrv.c glibc/manual/examples/filesrv.c
+diff -urN glibc-2.17-c758a686/manual/examples/filesrv.c glibc-2.17-c758a686/manual/examples/filesrv.c
 --- glibc-2.17-c758a686/manual/examples/filesrv.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/filesrv.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/filesrv.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Datagram Socket Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2503,9 +2503,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/filesrv.c glibc/manual/examples/fi
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/fmtmsgexpl.c glibc/manual/examples/fmtmsgexpl.c
+diff -urN glibc-2.17-c758a686/manual/examples/fmtmsgexpl.c glibc-2.17-c758a686/manual/examples/fmtmsgexpl.c
 --- glibc-2.17-c758a686/manual/examples/fmtmsgexpl.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/fmtmsgexpl.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/fmtmsgexpl.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* How to use fmtmsg and addseverity.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2513,9 +2513,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/fmtmsgexpl.c glibc/manual/examples
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/genpass.c glibc/manual/examples/genpass.c
+diff -urN glibc-2.17-c758a686/manual/examples/genpass.c glibc-2.17-c758a686/manual/examples/genpass.c
 --- glibc-2.17-c758a686/manual/examples/genpass.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/genpass.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/genpass.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Encrypting Passwords
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2523,9 +2523,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/genpass.c glibc/manual/examples/ge
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/inetcli.c glibc/manual/examples/inetcli.c
+diff -urN glibc-2.17-c758a686/manual/examples/inetcli.c glibc-2.17-c758a686/manual/examples/inetcli.c
 --- glibc-2.17-c758a686/manual/examples/inetcli.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/inetcli.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/inetcli.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Byte Stream Socket Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2533,9 +2533,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/inetcli.c glibc/manual/examples/in
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/inetsrv.c glibc/manual/examples/inetsrv.c
+diff -urN glibc-2.17-c758a686/manual/examples/inetsrv.c glibc-2.17-c758a686/manual/examples/inetsrv.c
 --- glibc-2.17-c758a686/manual/examples/inetsrv.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/inetsrv.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/inetsrv.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Byte Stream Connection Server Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2543,9 +2543,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/inetsrv.c glibc/manual/examples/in
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/isockad.c glibc/manual/examples/isockad.c
+diff -urN glibc-2.17-c758a686/manual/examples/isockad.c glibc-2.17-c758a686/manual/examples/isockad.c
 --- glibc-2.17-c758a686/manual/examples/isockad.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/isockad.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/isockad.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Internet Socket Example using sockaddr_in.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2553,9 +2553,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/isockad.c glibc/manual/examples/is
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/longopt.c glibc/manual/examples/longopt.c
+diff -urN glibc-2.17-c758a686/manual/examples/longopt.c glibc-2.17-c758a686/manual/examples/longopt.c
 --- glibc-2.17-c758a686/manual/examples/longopt.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/longopt.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/longopt.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Example of Parsing Long Options with getopt_long.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2563,9 +2563,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/longopt.c glibc/manual/examples/lo
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/memopen.c glibc/manual/examples/memopen.c
+diff -urN glibc-2.17-c758a686/manual/examples/memopen.c glibc-2.17-c758a686/manual/examples/memopen.c
 --- glibc-2.17-c758a686/manual/examples/memopen.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/memopen.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/memopen.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* String Streams
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2573,9 +2573,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/memopen.c glibc/manual/examples/me
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/memstrm.c glibc/manual/examples/memstrm.c
+diff -urN glibc-2.17-c758a686/manual/examples/memstrm.c glibc-2.17-c758a686/manual/examples/memstrm.c
 --- glibc-2.17-c758a686/manual/examples/memstrm.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/memstrm.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/memstrm.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* open_memstream example.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2583,9 +2583,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/memstrm.c glibc/manual/examples/me
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/mkfsock.c glibc/manual/examples/mkfsock.c
+diff -urN glibc-2.17-c758a686/manual/examples/mkfsock.c glibc-2.17-c758a686/manual/examples/mkfsock.c
 --- glibc-2.17-c758a686/manual/examples/mkfsock.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/mkfsock.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/mkfsock.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Example of Local-Namespace Sockets
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2609,9 +2609,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/mkfsock.c glibc/manual/examples/mk
  
    if (bind (sock, (struct sockaddr *) &name, size) < 0)
      {
-diff -urN glibc-2.17-c758a686/manual/examples/mkisock.c glibc/manual/examples/mkisock.c
+diff -urN glibc-2.17-c758a686/manual/examples/mkisock.c glibc-2.17-c758a686/manual/examples/mkisock.c
 --- glibc-2.17-c758a686/manual/examples/mkisock.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/mkisock.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/mkisock.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Internet Socket Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2619,9 +2619,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/mkisock.c glibc/manual/examples/mk
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/mygetpass.c glibc/manual/examples/mygetpass.c
+diff -urN glibc-2.17-c758a686/manual/examples/mygetpass.c glibc-2.17-c758a686/manual/examples/mygetpass.c
 --- glibc-2.17-c758a686/manual/examples/mygetpass.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/mygetpass.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/mygetpass.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Reading Passwords
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2629,9 +2629,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/mygetpass.c glibc/manual/examples/
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/pipe.c glibc/manual/examples/pipe.c
+diff -urN glibc-2.17-c758a686/manual/examples/pipe.c glibc-2.17-c758a686/manual/examples/pipe.c
 --- glibc-2.17-c758a686/manual/examples/pipe.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/pipe.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/pipe.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Creating a Pipe
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2639,9 +2639,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/pipe.c glibc/manual/examples/pipe.
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/popen.c glibc/manual/examples/popen.c
+diff -urN glibc-2.17-c758a686/manual/examples/popen.c glibc-2.17-c758a686/manual/examples/popen.c
 --- glibc-2.17-c758a686/manual/examples/popen.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/popen.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/popen.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Pipe to a Subprocess
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2649,9 +2649,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/popen.c glibc/manual/examples/pope
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/rprintf.c glibc/manual/examples/rprintf.c
+diff -urN glibc-2.17-c758a686/manual/examples/rprintf.c glibc-2.17-c758a686/manual/examples/rprintf.c
 --- glibc-2.17-c758a686/manual/examples/rprintf.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/rprintf.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/rprintf.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Printf Extension Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2659,9 +2659,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/rprintf.c glibc/manual/examples/rp
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/search.c glibc/manual/examples/search.c
+diff -urN glibc-2.17-c758a686/manual/examples/search.c glibc-2.17-c758a686/manual/examples/search.c
 --- glibc-2.17-c758a686/manual/examples/search.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/search.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/search.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Searching and Sorting Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2669,9 +2669,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/search.c glibc/manual/examples/sea
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/select.c glibc/manual/examples/select.c
+diff -urN glibc-2.17-c758a686/manual/examples/select.c glibc-2.17-c758a686/manual/examples/select.c
 --- glibc-2.17-c758a686/manual/examples/select.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/select.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/select.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Waiting for Input or Output
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2679,9 +2679,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/select.c glibc/manual/examples/sel
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/setjmp.c glibc/manual/examples/setjmp.c
+diff -urN glibc-2.17-c758a686/manual/examples/setjmp.c glibc-2.17-c758a686/manual/examples/setjmp.c
 --- glibc-2.17-c758a686/manual/examples/setjmp.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/setjmp.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/setjmp.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Introduction to Non-Local Exits
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2689,9 +2689,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/setjmp.c glibc/manual/examples/set
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/sigh1.c glibc/manual/examples/sigh1.c
+diff -urN glibc-2.17-c758a686/manual/examples/sigh1.c glibc-2.17-c758a686/manual/examples/sigh1.c
 --- glibc-2.17-c758a686/manual/examples/sigh1.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/sigh1.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/sigh1.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Signal Handlers that Return
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2699,9 +2699,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/sigh1.c glibc/manual/examples/sigh
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/sigusr.c glibc/manual/examples/sigusr.c
+diff -urN glibc-2.17-c758a686/manual/examples/sigusr.c glibc-2.17-c758a686/manual/examples/sigusr.c
 --- glibc-2.17-c758a686/manual/examples/sigusr.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/sigusr.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/sigusr.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Using kill for Communication
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2709,9 +2709,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/sigusr.c glibc/manual/examples/sig
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/stpcpy.c glibc/manual/examples/stpcpy.c
+diff -urN glibc-2.17-c758a686/manual/examples/stpcpy.c glibc-2.17-c758a686/manual/examples/stpcpy.c
 --- glibc-2.17-c758a686/manual/examples/stpcpy.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/stpcpy.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/stpcpy.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* stpcpy example.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2719,9 +2719,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/stpcpy.c glibc/manual/examples/stp
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/strdupa.c glibc/manual/examples/strdupa.c
+diff -urN glibc-2.17-c758a686/manual/examples/strdupa.c glibc-2.17-c758a686/manual/examples/strdupa.c
 --- glibc-2.17-c758a686/manual/examples/strdupa.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/strdupa.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/strdupa.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* strdupa example.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2729,9 +2729,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/strdupa.c glibc/manual/examples/st
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/strftim.c glibc/manual/examples/strftim.c
+diff -urN glibc-2.17-c758a686/manual/examples/strftim.c glibc-2.17-c758a686/manual/examples/strftim.c
 --- glibc-2.17-c758a686/manual/examples/strftim.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/strftim.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/strftim.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Time Functions Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2739,9 +2739,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/strftim.c glibc/manual/examples/st
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/strncat.c glibc/manual/examples/strncat.c
+diff -urN glibc-2.17-c758a686/manual/examples/strncat.c glibc-2.17-c758a686/manual/examples/strncat.c
 --- glibc-2.17-c758a686/manual/examples/strncat.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/strncat.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/strncat.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* strncat example.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2749,9 +2749,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/strncat.c glibc/manual/examples/st
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/subopt.c glibc/manual/examples/subopt.c
+diff -urN glibc-2.17-c758a686/manual/examples/subopt.c glibc-2.17-c758a686/manual/examples/subopt.c
 --- glibc-2.17-c758a686/manual/examples/subopt.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/subopt.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/subopt.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Parsing of Suboptions Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2759,9 +2759,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/subopt.c glibc/manual/examples/sub
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/swapcontext.c glibc/manual/examples/swapcontext.c
+diff -urN glibc-2.17-c758a686/manual/examples/swapcontext.c glibc-2.17-c758a686/manual/examples/swapcontext.c
 --- glibc-2.17-c758a686/manual/examples/swapcontext.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/swapcontext.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/swapcontext.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Complete Context Control
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2769,9 +2769,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/swapcontext.c glibc/manual/example
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/termios.c glibc/manual/examples/termios.c
+diff -urN glibc-2.17-c758a686/manual/examples/termios.c glibc-2.17-c758a686/manual/examples/termios.c
 --- glibc-2.17-c758a686/manual/examples/termios.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/termios.c	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/examples/termios.c	2014-09-12 16:10:06.046792714 -0400
 @@ -1,5 +1,5 @@
  /* Noncanonical Mode Example
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2779,9 +2779,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/termios.c glibc/manual/examples/te
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/testopt.c glibc/manual/examples/testopt.c
+diff -urN glibc-2.17-c758a686/manual/examples/testopt.c glibc-2.17-c758a686/manual/examples/testopt.c
 --- glibc-2.17-c758a686/manual/examples/testopt.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/testopt.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/testopt.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Example of Parsing Arguments with getopt.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2789,9 +2789,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/testopt.c glibc/manual/examples/te
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/testpass.c glibc/manual/examples/testpass.c
+diff -urN glibc-2.17-c758a686/manual/examples/testpass.c glibc-2.17-c758a686/manual/examples/testpass.c
 --- glibc-2.17-c758a686/manual/examples/testpass.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/testpass.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/testpass.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* Verify a password.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2799,9 +2799,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/testpass.c glibc/manual/examples/t
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/examples/timeval_subtract.c glibc/manual/examples/timeval_subtract.c
+diff -urN glibc-2.17-c758a686/manual/examples/timeval_subtract.c glibc-2.17-c758a686/manual/examples/timeval_subtract.c
 --- glibc-2.17-c758a686/manual/examples/timeval_subtract.c	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/examples/timeval_subtract.c	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/examples/timeval_subtract.c	2014-09-12 16:10:06.047792712 -0400
 @@ -1,5 +1,5 @@
  /* struct timeval subtraction.
 -   Copyright (C) 1991-2012 Free Software Foundation, Inc.
@@ -2809,9 +2809,9 @@ diff -urN glibc-2.17-c758a686/manual/examples/timeval_subtract.c glibc/manual/ex
  
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
-diff -urN glibc-2.17-c758a686/manual/filesys.texi glibc/manual/filesys.texi
+diff -urN glibc-2.17-c758a686/manual/filesys.texi glibc-2.17-c758a686/manual/filesys.texi
 --- glibc-2.17-c758a686/manual/filesys.texi	2014-09-12 16:08:17.966070381 -0400
-+++ glibc/manual/filesys.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/filesys.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -58,6 +58,25 @@
  @comment unistd.h
  @comment POSIX.1
@@ -3645,9 +3645,9 @@ diff -urN glibc-2.17-c758a686/manual/filesys.texi glibc/manual/filesys.texi
 +@c unlinkat
 +@c utimensat
 +@c mknodat
-diff -urN glibc-2.17-c758a686/manual/freemanuals.texi glibc/manual/freemanuals.texi
+diff -urN glibc-2.17-c758a686/manual/freemanuals.texi glibc-2.17-c758a686/manual/freemanuals.texi
 --- glibc-2.17-c758a686/manual/freemanuals.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/freemanuals.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/freemanuals.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -1,4 +1,7 @@
 -@appendix Free Software Needs Free Documentation
 +@c freemanuals.texi - blurb for free documentation.
@@ -3657,9 +3657,9 @@ diff -urN glibc-2.17-c758a686/manual/freemanuals.texi glibc/manual/freemanuals.t
  @cindex free documentation
  
  The biggest deficiency in the free software community today is not in
-diff -urN glibc-2.17-c758a686/manual/getopt.texi glibc/manual/getopt.texi
+diff -urN glibc-2.17-c758a686/manual/getopt.texi glibc-2.17-c758a686/manual/getopt.texi
 --- glibc-2.17-c758a686/manual/getopt.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/getopt.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/getopt.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -59,7 +59,29 @@
  
  @comment unistd.h
@@ -3709,18 +3709,18 @@ diff -urN glibc-2.17-c758a686/manual/getopt.texi glibc/manual/getopt.texi
  
  The @code{getopt_long_only} function is equivalent to the
  @code{getopt_long} function but it allows to specify the user of the
-diff -urN glibc-2.17-c758a686/manual/install-plain.texi glibc/manual/install-plain.texi
+diff -urN glibc-2.17-c758a686/manual/install-plain.texi glibc-2.17-c758a686/manual/install-plain.texi
 --- glibc-2.17-c758a686/manual/install-plain.texi	1969-12-31 19:00:00.000000000 -0500
-+++ glibc/manual/install-plain.texi	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/install-plain.texi	2014-09-12 16:10:06.046792714 -0400
 @@ -0,0 +1,5 @@
 +@c This is for making the `INSTALL' file for the distribution.
 +@c Makeinfo ignores it when processing the file from the include.
 +@setfilename INSTALL
 +@set plain
 +@include install.texi
-diff -urN glibc-2.17-c758a686/manual/install.texi glibc/manual/install.texi
+diff -urN glibc-2.17-c758a686/manual/install.texi glibc-2.17-c758a686/manual/install.texi
 --- glibc-2.17-c758a686/manual/install.texi	2014-09-12 16:08:17.783070851 -0400
-+++ glibc/manual/install.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/install.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -1,10 +1,10 @@
 -@c This is for making the `INSTALL' file for the distribution.
 -@c Makeinfo ignores it when processing the file from the include.
@@ -3901,9 +3901,9 @@ diff -urN glibc-2.17-c758a686/manual/install.texi glibc/manual/install.texi
  These headers must be installed using @samp{make headers_install}; the
  headers present in the kernel source directory are not suitable for
  direct use by @theglibc{}.  You do not need to use that kernel, just have
-diff -urN glibc-2.17-c758a686/manual/intro.texi glibc/manual/intro.texi
+diff -urN glibc-2.17-c758a686/manual/intro.texi glibc-2.17-c758a686/manual/intro.texi
 --- glibc-2.17-c758a686/manual/intro.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/intro.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/intro.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -159,6 +159,14 @@
  These include utilities for dealing with regular expressions and other
  pattern matching facilities (@pxref{Pattern Matching}).
@@ -4787,9 +4787,9 @@ diff -urN glibc-2.17-c758a686/manual/intro.texi glibc/manual/intro.texi
  @ref{Library Summary}, gives a summary of all the functions, variables, and
  macros in the library, with complete data types and function prototypes,
  and says what standard or system each is derived from.
-diff -urN glibc-2.17-c758a686/manual/ipc.texi glibc/manual/ipc.texi
+diff -urN glibc-2.17-c758a686/manual/ipc.texi glibc-2.17-c758a686/manual/ipc.texi
 --- glibc-2.17-c758a686/manual/ipc.texi	1969-12-31 19:00:00.000000000 -0500
-+++ glibc/manual/ipc.texi	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/ipc.texi	2014-09-12 16:10:06.047792712 -0400
 @@ -0,0 +1,116 @@
 +@node Inter-Process Communication, Job Control, Processes, Top
 +@c %MENU% All about inter-process communication
@@ -4907,9 +4907,9 @@ diff -urN glibc-2.17-c758a686/manual/ipc.texi glibc/manual/ipc.texi
 +@safety{@prelim{}@mtsafe{}@assafe{}@acsafe{}}
 +@c Atomic write of a value is safe in all contexts.
 +@end deftypefun
-diff -urN glibc-2.17-c758a686/manual/job.texi glibc/manual/job.texi
+diff -urN glibc-2.17-c758a686/manual/job.texi glibc-2.17-c758a686/manual/job.texi
 --- glibc-2.17-c758a686/manual/job.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/job.texi	2014-09-12 16:10:06.048792709 -0400
++++ glibc-2.17-c758a686/manual/job.texi	2014-09-12 16:10:06.048792709 -0400
 @@ -1,4 +1,4 @@
 -@node Job Control, Name Service Switch, Processes, Top
 +@node Job Control, Name Service Switch, Inter-Process Communication, Top
@@ -5049,9 +5049,9 @@ diff -urN glibc-2.17-c758a686/manual/job.texi glibc/manual/job.texi
  This function is used to obtain the process group ID of the session
  for which the terminal specified by @var{fildes} is the controlling terminal.
  If the call is successful the group ID is returned.  Otherwise the
-diff -urN glibc-2.17-c758a686/manual/lang.texi glibc/manual/lang.texi
+diff -urN glibc-2.17-c758a686/manual/lang.texi glibc-2.17-c758a686/manual/lang.texi
 --- glibc-2.17-c758a686/manual/lang.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/lang.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/lang.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -51,6 +51,8 @@
  @comment assert.h
  @comment ISO
@@ -5120,9 +5120,9 @@ diff -urN glibc-2.17-c758a686/manual/lang.texi glibc/manual/lang.texi
  structure member named @var{member} in the structure type @var{type}.
  For example, @code{offsetof (struct s, elem)} is the offset, in bytes,
  of the member @code{elem} in a @code{struct s}.
-diff -urN glibc-2.17-c758a686/manual/libc.texinfo glibc/manual/libc.texinfo
+diff -urN glibc-2.17-c758a686/manual/libc.texinfo glibc-2.17-c758a686/manual/libc.texinfo
 --- glibc-2.17-c758a686/manual/libc.texinfo	2014-09-12 16:08:17.677071123 -0400
-+++ glibc/manual/libc.texinfo	2014-09-12 16:10:25.996741462 -0400
++++ glibc-2.17-c758a686/manual/libc.texinfo	2014-09-12 16:10:25.996741462 -0400
 @@ -7,7 +7,7 @@
  @include macros.texi
  
@@ -5149,9 +5149,9 @@ diff -urN glibc-2.17-c758a686/manual/libc.texinfo glibc/manual/libc.texinfo
  @include freemanuals.texi
  
  @node Copying, Documentation License, Free Manuals, Top
-diff -urN glibc-2.17-c758a686/manual/libc-texinfo.sh glibc/manual/libc-texinfo.sh
+diff -urN glibc-2.17-c758a686/manual/libc-texinfo.sh glibc-2.17-c758a686/manual/libc-texinfo.sh
 --- glibc-2.17-c758a686/manual/libc-texinfo.sh	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/libc-texinfo.sh	2014-09-12 16:10:06.042792724 -0400
++++ glibc-2.17-c758a686/manual/libc-texinfo.sh	2014-09-12 16:10:06.042792724 -0400
 @@ -91,9 +91,11 @@
  * Variable Index::               Index of variables and variable-like macros.
  * File Index::                   Index of programs and files.
@@ -5164,9 +5164,9 @@ diff -urN glibc-2.17-c758a686/manual/libc-texinfo.sh glibc/manual/libc-texinfo.s
   echo '@end menu'; } >${OUTDIR}top-menu.texi.$$
  mv -f ${OUTDIR}top-menu.texi.$$ ${OUTDIR}top-menu.texi
  
-diff -urN glibc-2.17-c758a686/manual/libdl.texi glibc/manual/libdl.texi
+diff -urN glibc-2.17-c758a686/manual/libdl.texi glibc-2.17-c758a686/manual/libdl.texi
 --- glibc-2.17-c758a686/manual/libdl.texi	1969-12-31 19:00:00.000000000 -0500
-+++ glibc/manual/libdl.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/libdl.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -0,0 +1,10 @@
 +@c FIXME these are undocumented:
 +@c dladdr
@@ -5178,9 +5178,9 @@ diff -urN glibc-2.17-c758a686/manual/libdl.texi glibc/manual/libdl.texi
 +@c dlopen
 +@c dlsym
 +@c dlvsym
-diff -urN glibc-2.17-c758a686/manual/llio.texi glibc/manual/llio.texi
+diff -urN glibc-2.17-c758a686/manual/llio.texi glibc-2.17-c758a686/manual/llio.texi
 --- glibc-2.17-c758a686/manual/llio.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/llio.texi	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/llio.texi	2014-09-12 16:10:06.047792712 -0400
 @@ -78,6 +82,7 @@
  @comment fcntl.h
  @comment POSIX.1
@@ -6070,9 +6070,9 @@ diff -urN glibc-2.17-c758a686/manual/llio.texi glibc/manual/llio.texi
 +
 +@c FIXME this is undocumented:
 +@c dup3
-diff -urN glibc-2.17-c758a686/manual/locale.texi glibc/manual/locale.texi
+diff -urN glibc-2.17-c758a686/manual/locale.texi glibc-2.17-c758a686/manual/locale.texi
 --- glibc-2.17-c758a686/manual/locale.texi	2014-09-12 16:08:18.266069610 -0400
-+++ glibc/manual/locale.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/locale.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -231,6 +231,136 @@
  @comment locale.h
  @comment ISO
@@ -6261,9 +6261,9 @@ diff -urN glibc-2.17-c758a686/manual/locale.texi glibc/manual/locale.texi
 -Note that the loop continues until an read error is detected or until a
 +Note that the loop continues until a read error is detected or until a
  definitive (positive or negative) answer is read.
-diff -urN glibc-2.17-c758a686/manual/macros.texi glibc/manual/macros.texi
+diff -urN glibc-2.17-c758a686/manual/macros.texi glibc-2.17-c758a686/manual/macros.texi
 --- glibc-2.17-c758a686/manual/macros.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/macros.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/macros.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -35,16 +35,225 @@
  GNU/Linux and GNU/Hurd systems
  @end macro
@@ -6492,9 +6492,9 @@ diff -urN glibc-2.17-c758a686/manual/macros.texi glibc/manual/macros.texi
 +@end macro
 +
  @end ifclear
-diff -urN glibc-2.17-c758a686/manual/maint.texi glibc/manual/maint.texi
+diff -urN glibc-2.17-c758a686/manual/maint.texi glibc-2.17-c758a686/manual/maint.texi
 --- glibc-2.17-c758a686/manual/maint.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/maint.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/maint.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -316,7 +316,7 @@
  The top-level @file{configure} script uses the shell @code{.} command to
  read the @file{configure} file in each system-dependent directory
@@ -6531,9 +6531,9 @@ diff -urN glibc-2.17-c758a686/manual/maint.texi glibc/manual/maint.texi
  floating-point coprocessor used with a particular machine should go in
  @w{@file{sysdeps/@var{machine}/fpu}}.
  
-diff -urN glibc-2.17-c758a686/manual/Makefile glibc/manual/Makefile
+diff -urN glibc-2.17-c758a686/manual/Makefile glibc-2.17-c758a686/manual/Makefile
 --- glibc-2.17-c758a686/manual/Makefile	2014-09-12 16:08:17.823070748 -0400
-+++ glibc/manual/Makefile	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/Makefile	2014-09-12 16:10:06.045792717 -0400
 @@ -1,5 +1,4 @@
 -# Copyright (C) 1992-2012
 -#	Free Software Foundation, Inc.
@@ -6615,9 +6615,9 @@ diff -urN glibc-2.17-c758a686/manual/Makefile glibc/manual/Makefile
  
  include ../Rules
  
-diff -urN glibc-2.17-c758a686/manual/math.texi glibc/manual/math.texi
+diff -urN glibc-2.17-c758a686/manual/math.texi glibc-2.17-c758a686/manual/math.texi
 --- glibc-2.17-c758a686/manual/math.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/math.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/math.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -157,6 +157,7 @@
  @comment math.h
  @comment ISO
@@ -7422,9 +7422,9 @@ diff -urN glibc-2.17-c758a686/manual/math.texi glibc/manual/math.texi
  This function initializes all aspects of the random number generator
  described in @var{buffer} with the data in @var{param}.  Here it is
  especially true that the function does more than just copying the
-diff -urN glibc-2.17-c758a686/manual/memory.texi glibc/manual/memory.texi
+diff -urN glibc-2.17-c758a686/manual/memory.texi glibc-2.17-c758a686/manual/memory.texi
 --- glibc-2.17-c758a686/manual/memory.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/memory.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/memory.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -302,6 +302,245 @@
  @comment malloc.h stdlib.h
  @comment ISO
@@ -8499,9 +8499,9 @@ diff -urN glibc-2.17-c758a686/manual/memory.texi glibc/manual/memory.texi
  
  @code{munlockall} unlocks every page in the calling process' virtual
  address space and turn off @code{MCL_FUTURE} future locking mode.
-diff -urN glibc-2.17-c758a686/manual/message.texi glibc/manual/message.texi
+diff -urN glibc-2.17-c758a686/manual/message.texi glibc-2.17-c758a686/manual/message.texi
 --- glibc-2.17-c758a686/manual/message.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/message.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/message.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -2,9 +2,9 @@
  @c %MENU% How to make the program speak the user's language
  @chapter Message Translation
@@ -8809,9 +8809,9 @@ diff -urN glibc-2.17-c758a686/manual/message.texi glibc/manual/message.texi
  
  
  @node GUI program problems
-diff -urN glibc-2.17-c758a686/manual/nss.texi glibc/manual/nss.texi
+diff -urN glibc-2.17-c758a686/manual/nss.texi glibc-2.17-c758a686/manual/nss.texi
 --- glibc-2.17-c758a686/manual/nss.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/nss.texi	2014-09-12 16:10:25.996741462 -0400
++++ glibc-2.17-c758a686/manual/nss.texi	2014-09-12 16:10:25.996741462 -0400
 @@ -10,7 +10,7 @@
  using files (e.g., @file{/etc/passwd}), but other nameservices (like the
  Network Information Service (NIS) and the Domain Name Service (DNS))
@@ -8821,9 +8821,9 @@ diff -urN glibc-2.17-c758a686/manual/nss.texi glibc/manual/nss.texi
  
  @Theglibc{} contains a cleaner solution of this problem.  It is
  designed after a method used by Sun Microsystems in the C library of
-diff -urN glibc-2.17-c758a686/manual/pattern.texi glibc/manual/pattern.texi
+diff -urN glibc-2.17-c758a686/manual/pattern.texi glibc-2.17-c758a686/manual/pattern.texi
 --- glibc-2.17-c758a686/manual/pattern.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/pattern.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/pattern.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -28,6 +28,38 @@
  @comment fnmatch.h
  @comment POSIX.2
@@ -9709,9 +9709,9 @@ diff -urN glibc-2.17-c758a686/manual/pattern.texi glibc/manual/pattern.texi
  Free the storage used for the word-strings and vector that
  @code{*@var{word-vector-ptr}} points to.  This does not free the
  structure @code{*@var{word-vector-ptr}} itself---only the other
-diff -urN glibc-2.17-c758a686/manual/pipe.texi glibc/manual/pipe.texi
+diff -urN glibc-2.17-c758a686/manual/pipe.texi glibc-2.17-c758a686/manual/pipe.texi
 --- glibc-2.17-c758a686/manual/pipe.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/pipe.texi	2014-09-12 16:10:06.048792709 -0400
++++ glibc-2.17-c758a686/manual/pipe.texi	2014-09-12 16:10:06.048792709 -0400
 @@ -56,6 +56,8 @@
  @comment unistd.h
  @comment POSIX.1
@@ -9850,9 +9850,9 @@ diff -urN glibc-2.17-c758a686/manual/pipe.texi glibc/manual/pipe.texi
  The @code{mkfifo} function makes a FIFO special file with name
  @var{filename}.  The @var{mode} argument is used to set the file's
  permissions; see @ref{Setting Permissions}.
-diff -urN glibc-2.17-c758a686/manual/platform.texi glibc/manual/platform.texi
+diff -urN glibc-2.17-c758a686/manual/platform.texi glibc-2.17-c758a686/manual/platform.texi
 --- glibc-2.17-c758a686/manual/platform.texi	2014-09-12 16:08:17.865070640 -0400
-+++ glibc/manual/platform.texi	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/platform.texi	2014-09-12 16:10:06.046792714 -0400
 @@ -15,6 +15,7 @@
  operating system are declared in @file{sys/platform/ppc.h}.
  
@@ -9920,9 +9920,9 @@ diff -urN glibc-2.17-c758a686/manual/platform.texi glibc/manual/platform.texi
 +@safety{@prelim{}@mtsafe{}@assafe{}@acsafe{}}
  Set the Program Priority Register to medium low value.
  @end deftypefun
-diff -urN glibc-2.17-c758a686/manual/process.texi glibc/manual/process.texi
+diff -urN glibc-2.17-c758a686/manual/process.texi glibc-2.17-c758a686/manual/process.texi
 --- glibc-2.17-c758a686/manual/process.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/process.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/process.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -1,4 +1,4 @@
 -@node Processes, Job Control, Program Basics, Top
 +@node Processes, Inter-Process Communication, Program Basics, Top
@@ -10153,9 +10153,9 @@ diff -urN glibc-2.17-c758a686/manual/process.texi glibc/manual/process.texi
  If @var{usage} is a null pointer, @code{wait3} is equivalent to
  @code{waitpid (-1, @var{status-ptr}, @var{options})}.
  
-diff -urN glibc-2.17-c758a686/manual/resource.texi glibc/manual/resource.texi
+diff -urN glibc-2.17-c758a686/manual/resource.texi glibc-2.17-c758a686/manual/resource.texi
 --- glibc-2.17-c758a686/manual/resource.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/resource.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/resource.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -25,6 +25,8 @@
  @comment sys/resource.h
  @comment BSD
@@ -10493,9 +10493,9 @@ diff -urN glibc-2.17-c758a686/manual/resource.texi glibc/manual/resource.texi
  place at most @var{nelem} elements into the array but never more than
  three elements.  The return value is the number of elements written to
  @var{loadavg}, or -1 on error.
-diff -urN glibc-2.17-c758a686/manual/search.texi glibc/manual/search.texi
+diff -urN glibc-2.17-c758a686/manual/search.texi glibc-2.17-c758a686/manual/search.texi
 --- glibc-2.17-c758a686/manual/search.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/search.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/search.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -71,7 +71,8 @@
  
  @comment search.h
@@ -10693,9 +10693,9 @@ diff -urN glibc-2.17-c758a686/manual/search.texi glibc/manual/search.texi
  For each node in the tree with a node pointed to by @var{root}, the
  @code{twalk} function calls the function provided by the parameter
  @var{action}.  For leaf nodes the function is called exactly once with
-diff -urN glibc-2.17-c758a686/manual/setjmp.texi glibc/manual/setjmp.texi
+diff -urN glibc-2.17-c758a686/manual/setjmp.texi glibc-2.17-c758a686/manual/setjmp.texi
 --- glibc-2.17-c758a686/manual/setjmp.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/setjmp.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/setjmp.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -107,6 +107,10 @@
  @comment setjmp.h
  @comment ISO
@@ -10909,9 +10909,9 @@ diff -urN glibc-2.17-c758a686/manual/setjmp.texi glibc/manual/setjmp.texi
 +are executed is a safer approach.  Since @code{swapcontext} is saving the
 +current context it is possible to have multiple different scheduling points
 +in the code.  Execution will always resume where it was left.
-diff -urN glibc-2.17-c758a686/manual/signal.texi glibc/manual/signal.texi
+diff -urN glibc-2.17-c758a686/manual/signal.texi glibc-2.17-c758a686/manual/signal.texi
 --- glibc-2.17-c758a686/manual/signal.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/signal.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/signal.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -889,6 +889,20 @@
  @comment string.h
  @comment GNU
@@ -11242,9 +11242,9 @@ diff -urN glibc-2.17-c758a686/manual/signal.texi glibc/manual/signal.texi
  This function is the equivalent of @code{sigsuspend} (@pxref{Waiting
  for a Signal}):  it sets the calling process's signal mask to @var{mask},
  and waits for a signal to arrive.  On return the previous set of blocked
-diff -urN glibc-2.17-c758a686/manual/socket.texi glibc/manual/socket.texi
+diff -urN glibc-2.17-c758a686/manual/socket.texi glibc-2.17-c758a686/manual/socket.texi
 --- glibc-2.17-c758a686/manual/socket.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/socket.texi	2014-09-12 16:10:06.046792714 -0400
++++ glibc-2.17-c758a686/manual/socket.texi	2014-09-12 16:10:06.046792714 -0400
 @@ -394,6 +394,8 @@
  @comment sys/socket.h
  @comment BSD
@@ -12345,9 +12345,9 @@ diff -urN glibc-2.17-c758a686/manual/socket.texi glibc/manual/socket.texi
 +@c  libc_lock_unlock @aculock
  This function closes the networks database.
  @end deftypefun
-diff -urN glibc-2.17-c758a686/manual/startup.texi glibc/manual/startup.texi
+diff -urN glibc-2.17-c758a686/manual/startup.texi glibc-2.17-c758a686/manual/startup.texi
 --- glibc-2.17-c758a686/manual/startup.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/startup.texi	2014-09-12 16:10:06.042792724 -0400
++++ glibc-2.17-c758a686/manual/startup.texi	2014-09-12 16:10:06.042792724 -0400
 @@ -41,7 +41,7 @@
  * Program Termination::         Telling the system you're done; return status
  @end menu
@@ -12572,9 +12572,9 @@ diff -urN glibc-2.17-c758a686/manual/startup.texi glibc/manual/startup.texi
  The @code{_Exit} function is the @w{ISO C} equivalent to @code{_exit}.
  The @w{ISO C} committee members were not sure whether the definitions of
  @code{_exit} and @code{_Exit} were compatible so they have not used the
-diff -urN glibc-2.17-c758a686/manual/stdio.texi glibc/manual/stdio.texi
+diff -urN glibc-2.17-c758a686/manual/stdio.texi glibc-2.17-c758a686/manual/stdio.texi
 --- glibc-2.17-c758a686/manual/stdio.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/stdio.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/stdio.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -148,6 +148,8 @@
  @comment stdio.h
  @comment ISO
@@ -13803,9 +13803,9 @@ diff -urN glibc-2.17-c758a686/manual/stdio.texi glibc/manual/stdio.texi
  This function allows the introduction of new severity classes which can be
  addressed by the @var{severity} parameter of the @code{fmtmsg} function.
  The @var{severity} parameter of @code{addseverity} must match the value
-diff -urN glibc-2.17-c758a686/manual/string.texi glibc/manual/string.texi
+diff -urN glibc-2.17-c758a686/manual/string.texi glibc-2.17-c758a686/manual/string.texi
 --- glibc-2.17-c758a686/manual/string.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/string.texi	2014-09-12 16:10:06.045792717 -0400
++++ glibc-2.17-c758a686/manual/string.texi	2014-09-12 16:10:06.045792717 -0400
 @@ -200,7 +200,7 @@
  @cindex parameter promotion
  Some of the memory and string functions take single characters as
@@ -14777,9 +14777,9 @@ diff -urN glibc-2.17-c758a686/manual/string.texi glibc/manual/string.texi
 +
 +@c FIXME this are undocumented:
 +@c strcasecmp_l @safety{@mtsafe{}@assafe{}@acsafe{}} see strcasecmp
-diff -urN glibc-2.17-c758a686/manual/summary.awk glibc/manual/summary.awk
+diff -urN glibc-2.17-c758a686/manual/summary.awk glibc-2.17-c758a686/manual/summary.awk
 --- glibc-2.17-c758a686/manual/summary.awk	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/summary.awk	2014-09-12 16:10:06.042792724 -0400
++++ glibc-2.17-c758a686/manual/summary.awk	2014-09-12 16:10:06.042792724 -0400
 @@ -1,5 +1,5 @@
  # awk script to create summary.texinfo from the library texinfo files.
 -# Copyright (C) 1992, 1993, 1997, 2001 Free Software Foundation, Inc.
@@ -14787,9 +14787,9 @@ diff -urN glibc-2.17-c758a686/manual/summary.awk glibc/manual/summary.awk
  # This file is part of the GNU C Library.
  
  # The GNU C Library is free software; you can redistribute it and/or
-diff -urN glibc-2.17-c758a686/manual/sysinfo.texi glibc/manual/sysinfo.texi
+diff -urN glibc-2.17-c758a686/manual/sysinfo.texi glibc-2.17-c758a686/manual/sysinfo.texi
 --- glibc-2.17-c758a686/manual/sysinfo.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/sysinfo.texi	2014-09-12 16:10:06.048792709 -0400
++++ glibc-2.17-c758a686/manual/sysinfo.texi	2014-09-12 16:10:06.048792709 -0400
 @@ -91,6 +91,9 @@
  @comment unistd.h
  @comment BSD
@@ -15063,9 +15063,9 @@ diff -urN glibc-2.17-c758a686/manual/sysinfo.texi glibc/manual/sysinfo.texi
  the form of an array of integers.  Each component of the path is one
  element of the array, in order.  @var{nlen} is the number of components
  in the path.
-diff -urN glibc-2.17-c758a686/manual/syslog.texi glibc/manual/syslog.texi
+diff -urN glibc-2.17-c758a686/manual/syslog.texi glibc-2.17-c758a686/manual/syslog.texi
 --- glibc-2.17-c758a686/manual/syslog.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/syslog.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/syslog.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -147,6 +147,17 @@
  @comment syslog.h
  @comment BSD
@@ -15162,9 +15162,9 @@ diff -urN glibc-2.17-c758a686/manual/syslog.texi glibc/manual/syslog.texi
  
  @code{setlogmask} sets a mask (the ``logmask'') that determines which
  future @code{syslog} calls shall be ignored.  If a program has not
-diff -urN glibc-2.17-c758a686/manual/terminal.texi glibc/manual/terminal.texi
+diff -urN glibc-2.17-c758a686/manual/terminal.texi glibc-2.17-c758a686/manual/terminal.texi
 --- glibc-2.17-c758a686/manual/terminal.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/terminal.texi	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/terminal.texi	2014-09-12 16:10:06.047792712 -0400
 @@ -44,6 +44,9 @@
  @comment unistd.h
  @comment POSIX.1
@@ -15536,9 +15536,9 @@ diff -urN glibc-2.17-c758a686/manual/terminal.texi glibc/manual/terminal.texi
  This function is similar to the @code{openpty} function, but in
  addition, forks a new process (@pxref{Creating a Process}) and makes the
  newly opened slave pseudo-terminal device the controlling terminal
-diff -urN glibc-2.17-c758a686/manual/texinfo.tex glibc/manual/texinfo.tex
+diff -urN glibc-2.17-c758a686/manual/texinfo.tex glibc-2.17-c758a686/manual/texinfo.tex
 --- glibc-2.17-c758a686/manual/texinfo.tex	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/texinfo.tex	2014-09-12 16:10:06.047792712 -0400
++++ glibc-2.17-c758a686/manual/texinfo.tex	2014-09-12 16:10:06.047792712 -0400
 @@ -3,11 +3,11 @@
  % Load plain if necessary, i.e., if running under initex.
  \expandafter\ifx\csname fmtname\endcsname\relax\input plain\fi
@@ -17103,9 +17103,9 @@ diff -urN glibc-2.17-c758a686/manual/texinfo.tex glibc/manual/texinfo.tex
  }
  
  % Make _ and + \other characters, temporarily.
-diff -urN glibc-2.17-c758a686/manual/threads.texi glibc/manual/threads.texi
+diff -urN glibc-2.17-c758a686/manual/threads.texi glibc-2.17-c758a686/manual/threads.texi
 --- glibc-2.17-c758a686/manual/threads.texi	1969-12-31 19:00:00.000000000 -0500
-+++ glibc/manual/threads.texi	2014-09-12 16:10:06.042792724 -0400
++++ glibc-2.17-c758a686/manual/threads.texi	2014-09-12 16:10:06.042792724 -0400
 @@ -0,0 +1,254 @@
 +@node POSIX Threads
 +@c @node POSIX Threads, Internal Probes, Cryptographic Functions, Top
@@ -17361,9 +17361,9 @@ diff -urN glibc-2.17-c758a686/manual/threads.texi glibc/manual/threads.texi
 +@c pthread_timedjoin_np
 +@c pthread_tryjoin_np
 +@c pthread_yield
-diff -urN glibc-2.17-c758a686/manual/time.texi glibc/manual/time.texi
+diff -urN glibc-2.17-c758a686/manual/time.texi glibc-2.17-c758a686/manual/time.texi
 --- glibc-2.17-c758a686/manual/time.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/time.texi	2014-09-12 16:10:06.044792719 -0400
++++ glibc-2.17-c758a686/manual/time.texi	2014-09-12 16:10:06.044792719 -0400
 @@ -79,6 +79,7 @@
  @comment time.h
  @comment ISO
@@ -18113,9 +18113,9 @@ diff -urN glibc-2.17-c758a686/manual/time.texi glibc/manual/time.texi
  If resolution to seconds is not enough the @code{nanosleep} function can
  be used.  As the name suggests the sleep interval can be specified in
  nanoseconds.  The actual elapsed time of the sleep interval might be
-diff -urN glibc-2.17-c758a686/manual/tsort.awk glibc/manual/tsort.awk
+diff -urN glibc-2.17-c758a686/manual/tsort.awk glibc-2.17-c758a686/manual/tsort.awk
 --- glibc-2.17-c758a686/manual/tsort.awk	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/tsort.awk	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/tsort.awk	2014-09-12 16:10:06.043792722 -0400
 @@ -1,6 +1,6 @@
  #! /usr/bin/awk -f
  # Generate topologically sorted list of manual chapters.
@@ -18124,9 +18124,9 @@ diff -urN glibc-2.17-c758a686/manual/tsort.awk glibc/manual/tsort.awk
  # Written by Ulrich Drepper <drepper@cygnus.com>, 1998.
  
  BEGIN {
-diff -urN glibc-2.17-c758a686/manual/users.texi glibc/manual/users.texi
+diff -urN glibc-2.17-c758a686/manual/users.texi glibc-2.17-c758a686/manual/users.texi
 --- glibc-2.17-c758a686/manual/users.texi	2012-12-24 22:02:13.000000000 -0500
-+++ glibc/manual/users.texi	2014-09-12 16:10:06.043792722 -0400
++++ glibc-2.17-c758a686/manual/users.texi	2014-09-12 16:10:06.043792722 -0400
 @@ -71,7 +71,7 @@
  @cindex group ID
  Users are classified in @dfn{groups}.  Each user name belongs to one

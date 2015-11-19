@@ -30,11 +30,11 @@ sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c
 
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c
 new file mode 100644
 index 0000000..d7ad0b7
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c
 @@ -0,0 +1,31 @@
 +/* PowerPC/POWER5+ implementation for modf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -67,11 +67,11 @@ index 0000000..d7ad0b7
 +#define __modf __modf_power5plus
 +
 +#include <sysdeps/powerpc/power5+/fpu/s_modf.c>
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c
 new file mode 100644
 index 0000000..4021b52
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c
 @@ -0,0 +1,27 @@
 +/* PowerPC/POWER5+ implementation for modff.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -100,10 +100,10 @@ index 0000000..4021b52
 +#define __modff __modff_power5plus
 +
 +#include <sysdeps/powerpc/power5+/fpu/s_modff.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index 87aabca..e152bf5 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -3,7 +3,8 @@ sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                    s_isnan-power5 s_isnan-ppc64 s_copysign-power6 \
                    s_copysign-ppc64 s_finite-power7 s_finite-ppc64 \
@@ -128,11 +128,11 @@ index 87aabca..e152bf5 100644
 +CFLAGS-s_modf-power5+.c = -mcpu=power5+
 +CFLAGS-s_modff-power5+.c = -mcpu=power5+
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-power5+.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-power5+.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-power5+.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-power5+.c
 new file mode 100644
 index 0000000..bda9920
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-power5+.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-power5+.c
 @@ -0,0 +1,19 @@
 +/* PowerPC/POWER5+ implementation for modf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -153,11 +153,11 @@ index 0000000..bda9920
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modf-power5+.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-ppc64.c
 new file mode 100644
 index 0000000..90e7599
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf-ppc64.c
 @@ -0,0 +1,29 @@
 +/* PowerPC64 default implementation for modf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -188,11 +188,11 @@ index 0000000..90e7599
 +#define __modf __modf_ppc64
 +
 +#include <sysdeps/ieee754/dbl-64/s_modf.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf.c
 new file mode 100644
 index 0000000..f416fa9
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modf.c
 @@ -0,0 +1,44 @@
 +/* Multiple versions of modf.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -238,11 +238,11 @@ index 0000000..f416fa9
 +#elif LONG_DOUBLE_COMPAT(libc, GLIBC_2_0)
 +compat_symbol (libc, __modf, modfl, GLIBC_2_0);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-power5+.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-power5+.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-power5+.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-power5+.c
 new file mode 100644
 index 0000000..70a536d
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-power5+.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-power5+.c
 @@ -0,0 +1,19 @@
 +/* PowerPC/POWER5+ implementation for modff.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -263,11 +263,11 @@ index 0000000..70a536d
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/fpu/multiarch/s_modff-power5+.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c
 new file mode 100644
 index 0000000..89d8f63
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff-ppc64.c
 @@ -0,0 +1,26 @@
 +/* PowerPC64 default implementation for modff.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -295,11 +295,11 @@ index 0000000..89d8f63
 +#define __modff __modff_ppc64
 +
 +#include <sysdeps/ieee754/flt-32/s_modff.c>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c
 new file mode 100644
 index 0000000..137b7aa
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_modff.c
 @@ -0,0 +1,30 @@
 +/* Multiple versions of modff.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

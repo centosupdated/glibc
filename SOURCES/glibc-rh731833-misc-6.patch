@@ -16,10 +16,10 @@ is based on other architecture code.
  create mode 100644 sysdeps/unix/sysv/linux/powerpc/dl-static.c
  create mode 100644 sysdeps/unix/sysv/linux/powerpc/ldsodefs.h
 
-diff --git a/sysdeps/unix/sysv/linux/powerpc/Makefile b/sysdeps/unix/sysv/linux/powerpc/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Makefile glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Makefile
 index 4ff7e84..cf4de97 100644
---- a/sysdeps/unix/sysv/linux/powerpc/Makefile
-+++ b/sysdeps/unix/sysv/linux/powerpc/Makefile
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Makefile
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Makefile
 @@ -15,6 +15,12 @@ endif
  
  ifeq ($(subdir),elf)
@@ -33,10 +33,10 @@ index 4ff7e84..cf4de97 100644
  endif
  
  ifeq ($(subdir),misc)
-diff --git a/sysdeps/unix/sysv/linux/powerpc/Versions b/sysdeps/unix/sysv/linux/powerpc/Versions
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions
 index 289c4fe..9b583fb 100644
---- a/sysdeps/unix/sysv/linux/powerpc/Versions
-+++ b/sysdeps/unix/sysv/linux/powerpc/Versions
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions
 @@ -1,3 +1,9 @@
 +ld {
 +  GLIBC_PRIVATE {
@@ -47,11 +47,11 @@ index 289c4fe..9b583fb 100644
  libc {
    GLIBC_PRIVATE {
      __vdso_get_tbfreq;
-diff --git a/sysdeps/unix/sysv/linux/powerpc/dl-static.c b/sysdeps/unix/sysv/linux/powerpc/dl-static.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/dl-static.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/dl-static.c
 new file mode 100644
 index 0000000..8289c61
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/powerpc/dl-static.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/dl-static.c
 @@ -0,0 +1,84 @@
 +/* Variable initialization.  PowerPC version.
 +   Copyright (C) 2013 Free Software Foundation, Inc.
@@ -137,11 +137,11 @@ index 0000000..8289c61
 +}
 +
 +#endif
-diff --git a/sysdeps/unix/sysv/linux/powerpc/ldsodefs.h b/sysdeps/unix/sysv/linux/powerpc/ldsodefs.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/ldsodefs.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/ldsodefs.h
 new file mode 100644
 index 0000000..fcedf32
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/powerpc/ldsodefs.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/ldsodefs.h
 @@ -0,0 +1,33 @@
 +/* Run-time dynamic linker data structures for loaded ELF shared objects.
 +   PowerPC version.

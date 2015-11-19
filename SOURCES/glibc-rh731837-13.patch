@@ -19,10 +19,10 @@ Date:   Fri Dec 13 14:49:54 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strchr.c
 
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index 22baf1c..f7c5853 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -8,7 +8,7 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    rawmemchr-ppc64 strlen-power7 strlen-ppc64 strnlen-power7 \
                    strnlen-ppc64 strcasecmp-power7 strcasecmp_l-power7 \
@@ -32,10 +32,10 @@ index 22baf1c..f7c5853 100644
  
  CFLAGS-strncase-power7.c += -mcpu=power7 -funroll-loops
  CFLAGS-strncase_l-power7.c += -mcpu=power7 -funroll-loops
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index 67f75a5..3b005ea 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -86,6 +86,14 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
                               __strncmp_power4)
               IFUNC_IMPL_ADD (array, i, strncmp, 1,
@@ -51,11 +51,11 @@ index 67f75a5..3b005ea 100644
  #endif
  
    /* Support sysdeps/powerpc/powerpc64/multiarch/memcmp.c.  */
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/rtld-strchr.S b/sysdeps/powerpc/powerpc64/multiarch/rtld-strchr.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/rtld-strchr.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/rtld-strchr.S
 new file mode 100644
 index 0000000..5c62657
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/rtld-strchr.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/rtld-strchr.S
 @@ -0,0 +1,18 @@
 +/* Copyright (C) 2013-2014 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -75,11 +75,11 @@ index 0000000..5c62657
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc64/strchr.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strchr-power7.S b/sysdeps/powerpc/powerpc64/multiarch/strchr-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr-power7.S
 new file mode 100644
 index 0000000..0b2ca42
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strchr-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr-power7.S
 @@ -0,0 +1,38 @@
 +/* Optimized strchr implementation for POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -119,11 +119,11 @@ index 0000000..0b2ca42
 +#define libc_hidden_builtin_def(name)
 +
 +#include <sysdeps/powerpc/powerpc64/power7/strchr.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S b/sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S
 new file mode 100644
 index 0000000..ded9284
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr-ppc64.S
 @@ -0,0 +1,41 @@
 +/* PowerPC64 default implementation of strchr.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -166,11 +166,11 @@ index 0000000..ded9284
 +#endif
 +
 +#include <sysdeps/powerpc/powerpc64/strchr.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strchr.c b/sysdeps/powerpc/powerpc64/multiarch/strchr.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr.c
 new file mode 100644
 index 0000000..74a9d54
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strchr.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchr.c
 @@ -0,0 +1,35 @@
 +/* Multiple versions of strchr.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

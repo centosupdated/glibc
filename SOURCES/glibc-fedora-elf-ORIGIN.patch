@@ -13,10 +13,10 @@ path element is skipped.
  elf/dl-load.c |   34 ++++++++++++++++------------------
  2 files changed, 23 insertions(+), 18 deletions(-)
 
-diff --git a/elf/dl-load.c b/elf/dl-load.c
+diff --git glibc-2.17-c758a686/elf/dl-load.c glibc-2.17-c758a686/elf/dl-load.c
 index 18a83d2..6e16a9a 100644
---- a/elf/dl-load.c
-+++ b/elf/dl-load.c
+--- glibc-2.17-c758a686/elf/dl-load.c
++++ glibc-2.17-c758a686/elf/dl-load.c
 @@ -249,8 +249,7 @@ is_trusted_path_normalize (const char *path, size_t len)
  
  

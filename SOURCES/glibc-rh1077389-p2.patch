@@ -15,9 +15,9 @@
 #     
 #     It fixes BZ#16431.
 # 
-diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
 --- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c	2015-01-15 16:07:59.167420456 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c	2015-01-15 16:07:41.408969001 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c	2015-01-15 16:07:41.408969001 -0500
 @@ -34,9 +34,12 @@
  void *
  gettimeofday_ifunc (void)
@@ -33,9 +33,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c gli
  }
  asm (".type __gettimeofday, %gnu_indirect_function");
  
-diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/time.c
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c
 --- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c	2015-01-15 16:07:59.168420425 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/unix/sysv/linux/powerpc/time.c	2015-01-15 16:07:41.408969001 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c	2015-01-15 16:07:41.408969001 -0500
 @@ -45,9 +45,12 @@
  void *
  time_ifunc (void)

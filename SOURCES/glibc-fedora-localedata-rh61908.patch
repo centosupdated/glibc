@@ -1,9 +1,9 @@
 * Tue Mar 26 2002 Jakub Jelinek <jakub@redhat.com> 2.2.5-28
 - add a couple of .ISO-8859-15 locales (#61908)
 
-diff -Nrup a/localedata/SUPPORTED b/localedata/SUPPORTED
---- a/localedata/SUPPORTED	2012-11-25 12:59:31.000000000 -0700
-+++ b/localedata/SUPPORTED	2012-11-26 12:58:43.298223018 -0700
+diff -Nru glibc-2.17-c758a686/localedata/SUPPORTED glibc-2.17-c758a686/localedata/SUPPORTED
+--- glibc-2.17-c758a686/localedata/SUPPORTED	2012-11-25 12:59:31.000000000 -0700
++++ glibc-2.17-c758a686/localedata/SUPPORTED	2012-11-26 12:58:43.298223018 -0700
 @@ -89,6 +89,7 @@ cy_GB.UTF-8/UTF-8 \
  cy_GB/ISO-8859-14 \
  da_DK.UTF-8/UTF-8 \

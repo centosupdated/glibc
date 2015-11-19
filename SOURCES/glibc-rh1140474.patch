@@ -7,10 +7,10 @@ Date:   Wed Sep 3 19:45:43 2014 +0200
     These changes are based on the fix for BZ #14134 in commit
     6e230d11837f3ae7b375ea69d7905f0d18eb79e5.
 
-diff --git a/iconvdata/Makefile b/iconvdata/Makefile
+diff --git glibc-2.17-c758a686/iconvdata/Makefile glibc-2.17-c758a686/iconvdata/Makefile
 index 0a410a1..b6327d6 100644
---- a/iconvdata/Makefile
-+++ b/iconvdata/Makefile
+--- glibc-2.17-c758a686/iconvdata/Makefile
++++ glibc-2.17-c758a686/iconvdata/Makefile
 @@ -297,6 +297,7 @@ $(objpfx)tst-iconv7.out: $(objpfx)gconv-modules \
  $(objpfx)iconv-test.out: run-iconv-test.sh $(objpfx)gconv-modules \
  			 $(addprefix $(objpfx),$(modules.so)) \
@@ -19,10 +19,10 @@ index 0a410a1..b6327d6 100644
  	$(SHELL) $< $(common-objdir) '$(test-wrapper)' > $@
  
  $(objpfx)tst-tables.out: tst-tables.sh $(objpfx)gconv-modules \
-diff --git a/iconvdata/ibm1364.c b/iconvdata/ibm1364.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm1364.c glibc-2.17-c758a686/iconvdata/ibm1364.c
 index 0b5484f..cf80993 100644
---- a/iconvdata/ibm1364.c
-+++ b/iconvdata/ibm1364.c
+--- glibc-2.17-c758a686/iconvdata/ibm1364.c
++++ glibc-2.17-c758a686/iconvdata/ibm1364.c
 @@ -221,7 +221,8 @@ enum
  	  ++rp2;							      \
  									      \
@@ -33,10 +33,10 @@ index 0b5484f..cf80993 100644
  	    || (res = DB_TO_UCS4[ch + rp2->idx],			      \
  		__builtin_expect (res, L'\1') == L'\0' && ch != '\0'))	      \
  	  {								      \
-diff --git a/iconvdata/ibm932.c b/iconvdata/ibm932.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm932.c glibc-2.17-c758a686/iconvdata/ibm932.c
 index f5dca59..aa69d65 100644
---- a/iconvdata/ibm932.c
-+++ b/iconvdata/ibm932.c
+--- glibc-2.17-c758a686/iconvdata/ibm932.c
++++ glibc-2.17-c758a686/iconvdata/ibm932.c
 @@ -74,11 +74,12 @@
  	  }								      \
  									      \
@@ -52,10 +52,10 @@ index f5dca59..aa69d65 100644
  	    || (res = __ibm932db_to_ucs4[ch + rp2->idx],		      \
  	    __builtin_expect (res, '\1') == 0 && ch !=0))		      \
  	  {								      \
-diff --git a/iconvdata/ibm933.c b/iconvdata/ibm933.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm933.c glibc-2.17-c758a686/iconvdata/ibm933.c
 index f46dfb5..461fb5e 100644
---- a/iconvdata/ibm933.c
-+++ b/iconvdata/ibm933.c
+--- glibc-2.17-c758a686/iconvdata/ibm933.c
++++ glibc-2.17-c758a686/iconvdata/ibm933.c
 @@ -162,7 +162,7 @@ enum
  	while (ch > rp2->end)						      \
  	  ++rp2;							      \
@@ -65,10 +65,10 @@ index f46dfb5..461fb5e 100644
  	    || __builtin_expect (ch < rp2->start, 0)			      \
  	    || (res = __ibm933db_to_ucs4[ch + rp2->idx],		      \
  		__builtin_expect (res, L'\1') == L'\0' && ch != '\0'))	      \
-diff --git a/iconvdata/ibm935.c b/iconvdata/ibm935.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm935.c glibc-2.17-c758a686/iconvdata/ibm935.c
 index a8e4e6c..132d816 100644
---- a/iconvdata/ibm935.c
-+++ b/iconvdata/ibm935.c
+--- glibc-2.17-c758a686/iconvdata/ibm935.c
++++ glibc-2.17-c758a686/iconvdata/ibm935.c
 @@ -162,7 +162,7 @@ enum
  	while (ch > rp2->end)						      \
  	  ++rp2;							      \
@@ -78,10 +78,10 @@ index a8e4e6c..132d816 100644
  	    || __builtin_expect (ch < rp2->start, 0)			      \
  	    || (res = __ibm935db_to_ucs4[ch + rp2->idx],		      \
  		__builtin_expect (res, L'\1') == L'\0' && ch != '\0'))	      \
-diff --git a/iconvdata/ibm937.c b/iconvdata/ibm937.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm937.c glibc-2.17-c758a686/iconvdata/ibm937.c
 index 239be61..69b154d 100644
---- a/iconvdata/ibm937.c
-+++ b/iconvdata/ibm937.c
+--- glibc-2.17-c758a686/iconvdata/ibm937.c
++++ glibc-2.17-c758a686/iconvdata/ibm937.c
 @@ -162,7 +162,7 @@ enum
  	while (ch > rp2->end)						      \
  	  ++rp2;							      \
@@ -91,10 +91,10 @@ index 239be61..69b154d 100644
  	    || __builtin_expect (ch < rp2->start, 0)			      \
  	    || (res = __ibm937db_to_ucs4[ch + rp2->idx],		      \
  		__builtin_expect (res, L'\1') == L'\0' && ch != '\0'))	      \
-diff --git a/iconvdata/ibm939.c b/iconvdata/ibm939.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm939.c glibc-2.17-c758a686/iconvdata/ibm939.c
 index 5d0db36..9936e2c 100644
---- a/iconvdata/ibm939.c
-+++ b/iconvdata/ibm939.c
+--- glibc-2.17-c758a686/iconvdata/ibm939.c
++++ glibc-2.17-c758a686/iconvdata/ibm939.c
 @@ -162,7 +162,7 @@ enum
  	while (ch > rp2->end)						      \
  	  ++rp2;							      \
@@ -104,10 +104,10 @@ index 5d0db36..9936e2c 100644
  	    || __builtin_expect (ch < rp2->start, 0)			      \
  	    || (res = __ibm939db_to_ucs4[ch + rp2->idx],		      \
  		__builtin_expect (res, L'\1') == L'\0' && ch != '\0'))	      \
-diff --git a/iconvdata/ibm943.c b/iconvdata/ibm943.c
+diff --git glibc-2.17-c758a686/iconvdata/ibm943.c glibc-2.17-c758a686/iconvdata/ibm943.c
 index be0c14f..c5d5742 100644
---- a/iconvdata/ibm943.c
-+++ b/iconvdata/ibm943.c
+--- glibc-2.17-c758a686/iconvdata/ibm943.c
++++ glibc-2.17-c758a686/iconvdata/ibm943.c
 @@ -75,11 +75,12 @@
  	  }								      \
  									      \
@@ -123,10 +123,10 @@ index be0c14f..c5d5742 100644
  	    || (res = __ibm943db_to_ucs4[ch + rp2->idx],		      \
  	    __builtin_expect (res, '\1') == 0 && ch !=0))		      \
  	  {								      \
-diff --git a/iconvdata/run-iconv-test.sh b/iconvdata/run-iconv-test.sh
+diff --git glibc-2.17-c758a686/iconvdata/run-iconv-test.sh glibc-2.17-c758a686/iconvdata/run-iconv-test.sh
 index c98c929..5dfb69f 100755
---- a/iconvdata/run-iconv-test.sh
-+++ b/iconvdata/run-iconv-test.sh
+--- glibc-2.17-c758a686/iconvdata/run-iconv-test.sh
++++ glibc-2.17-c758a686/iconvdata/run-iconv-test.sh
 @@ -184,6 +184,24 @@ while read utf8 from filename; do
  
  done < TESTS2

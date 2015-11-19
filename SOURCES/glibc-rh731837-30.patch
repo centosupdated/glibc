@@ -18,10 +18,10 @@ Date:   Fri Dec 13 15:33:54 2013 -0500
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c
  create mode 100644 sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c
 
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 index 3af4ac3..10d0ac9 100644
---- a/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/Makefile
 @@ -11,5 +11,6 @@ libm-sysdep_routines += s_isnan-power7 s_isnan-power6x s_isnan-power6 \
                         s_floorf-ppc64 s_round-power5+ s_round-ppc64 \
                         s_roundf-power5+ s_roundf-ppc64 s_trunc-power5+ \
@@ -30,11 +30,11 @@ index 3af4ac3..10d0ac9 100644
 +                       s_copysign-power6 s_copysign-ppc64 s_llrint-power6x \
 +                       s_llrint-ppc64
  endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-power6x.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-power6x.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-power6x.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-power6x.S
 new file mode 100644
 index 0000000..8cd39c6
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-power6x.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-power6x.S
 @@ -0,0 +1,31 @@
 +/* Round double to long int.  PowerPC64/POWER6X default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -67,11 +67,11 @@ index 0000000..8cd39c6
 +#define __llrint __llrint_power6x
 +
 +#include <sysdeps/powerpc/powerpc64/power6x/fpu/s_llrint.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-ppc64.S b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-ppc64.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-ppc64.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-ppc64.S
 new file mode 100644
 index 0000000..754d28f
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-ppc64.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint-ppc64.S
 @@ -0,0 +1,31 @@
 +/* Round double to long int.  PowerPC32 default version.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -104,11 +104,11 @@ index 0000000..754d28f
 +#define __llrint __llrint_ppc64
 +
 +#include <sysdeps/powerpc/powerpc64/fpu/s_llrint.S>
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c
 new file mode 100644
 index 0000000..5818b53
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_llrint.c
 @@ -0,0 +1,57 @@
 +/* Multiple versions of llrint.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -167,11 +167,11 @@ index 0000000..5818b53
 +#if LONG_DOUBLE_COMPAT(libm, GLIBC_2_1)
 +compat_symbol (libm, __lrint, lrintl, GLIBC_2_1);
 +#endif
-diff --git a/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c
 new file mode 100644
 index 0000000..d092862
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/fpu/multiarch/s_lrint.c
 @@ -0,0 +1 @@
 + /* __lrint is in s_llrint.c  */
 -- 

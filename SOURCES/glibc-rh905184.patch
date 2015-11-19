@@ -25,10 +25,10 @@
 #	* sysdeps/unix/sysv/linux/arm/readelflib.c (process_elf_file):
 #	Set FLAG_ARM_LIBSF for soft-float ABI otherwise just FLAG_ELF_LIBC6.
 #
-diff --git a/elf/cache.c b/elf/cache.c
+diff --git glibc-2.17-c758a686/elf/cache.c glibc-2.17-c758a686/elf/cache.c
 index 9901952..699550b 100644
---- a/elf/cache.c
-+++ b/elf/cache.c
+--- glibc-2.17-c758a686/elf/cache.c
++++ glibc-2.17-c758a686/elf/cache.c
 @@ -100,6 +100,10 @@ print_entry (const char *lib, int flag, unsigned int osversion,
      case FLAG_AARCH64_LIB64:
        fputs (",AArch64", stdout);
@@ -40,10 +40,10 @@ index 9901952..699550b 100644
      case 0:
        break;
      default:
-diff --git a/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h b/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h
 index acc4f28..504feca 100644
---- a/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h
-+++ b/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/dl-cache.h
 @@ -18,12 +18,17 @@
  
  #include <ldconfig.h>
@@ -64,10 +64,10 @@ index acc4f28..504feca 100644
  #endif
  
  #include_next <dl-cache.h>
-diff --git a/ports/sysdeps/unix/sysv/linux/arm/readelflib.c b/ports/sysdeps/unix/sysv/linux/arm/readelflib.c
+diff --git glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/readelflib.c glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/readelflib.c
 index 81e5ccb..3efb613 100644
---- a/ports/sysdeps/unix/sysv/linux/arm/readelflib.c
-+++ b/ports/sysdeps/unix/sysv/linux/arm/readelflib.c
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/readelflib.c
++++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/arm/readelflib.c
 @@ -46,6 +46,12 @@ process_elf_file (const char *file_name, const char *lib, int *flag,
  	  if (elf32_header->e_flags & EF_ARM_ABI_FLOAT_HARD)
  	    *flag = FLAG_ARM_LIBHF|FLAG_ELF_LIBC6;
@@ -81,10 +81,10 @@ index 81e5ccb..3efb613 100644
  	    *flag = FLAG_ELF_LIBC6;
  	}
      }
-diff --git a/sysdeps/generic/ldconfig.h b/sysdeps/generic/ldconfig.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/ldconfig.h glibc-2.17-c758a686/sysdeps/generic/ldconfig.h
 index 57a9a46..91190aa 100644
---- a/sysdeps/generic/ldconfig.h
-+++ b/sysdeps/generic/ldconfig.h
+--- glibc-2.17-c758a686/sysdeps/generic/ldconfig.h
++++ glibc-2.17-c758a686/sysdeps/generic/ldconfig.h
 @@ -36,6 +36,7 @@
  #define FLAG_X8664_LIBX32	0x0800
  #define FLAG_ARM_LIBHF		0x0900

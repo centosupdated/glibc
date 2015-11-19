@@ -1,6 +1,6 @@
-diff -rup c/sysdeps/ieee754/dbl-64/slowexp.c d/sysdeps/ieee754/dbl-64/slowexp.c
---- c/sysdeps/ieee754/dbl-64/slowexp.c	2012-05-20 19:47:38.000000000 -0600
-+++ d/sysdeps/ieee754/dbl-64/slowexp.c	2012-05-21 10:02:51.693957300 -0600
+diff -rup glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c	2012-05-20 19:47:38.000000000 -0600
++++ glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c	2012-05-21 10:02:51.693957300 -0600
 @@ -30,6 +30,8 @@
  #include "mpa.h"
  #include <math_private.h>
@@ -33,9 +33,9 @@ diff -rup c/sysdeps/ieee754/dbl-64/slowexp.c d/sysdeps/ieee754/dbl-64/slowexp.c
      return res;
    }
  }
-diff -rup c/sysdeps/ieee754/dbl-64/slowpow.c d/sysdeps/ieee754/dbl-64/slowpow.c
---- c/sysdeps/ieee754/dbl-64/slowpow.c	2012-05-20 19:47:38.000000000 -0600
-+++ d/sysdeps/ieee754/dbl-64/slowpow.c	2012-05-21 10:02:51.694957291 -0600
+diff -rup glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowpow.c glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowpow.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowpow.c	2012-05-20 19:47:38.000000000 -0600
++++ glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowpow.c	2012-05-21 10:02:51.694957291 -0600
 @@ -34,6 +34,8 @@
  #include "mpa.h"
  #include <math_private.h>

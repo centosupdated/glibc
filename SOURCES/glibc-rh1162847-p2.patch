@@ -9,10 +9,10 @@
 #         Use stdint types in rather than __attribute__((mode())).
 #         * sysdeps/powerpc/powerpc64/dl-machine.h (elf_machine_rela): Likewise.
 # 
-diff --git a/sysdeps/powerpc/powerpc32/dl-machine.c b/sysdeps/powerpc/powerpc32/dl-machine.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c
 index f81899a..aba3618 100644
---- a/sysdeps/powerpc/powerpc32/dl-machine.c
-+++ b/sysdeps/powerpc/powerpc32/dl-machine.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/dl-machine.c
 @@ -418,8 +418,8 @@ __process_machine_rela (struct link_map *map,
  {
    union unaligned
@@ -24,10 +24,10 @@ index f81899a..aba3618 100644
      } __attribute__((__packed__));
  
    switch (rinfo)
-diff --git a/sysdeps/powerpc/powerpc64/dl-machine.h b/sysdeps/powerpc/powerpc64/dl-machine.h
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
 index b69a1ce..18cf157 100644
---- a/sysdeps/powerpc/powerpc64/dl-machine.h
-+++ b/sysdeps/powerpc/powerpc64/dl-machine.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
 @@ -563,10 +563,10 @@ elf_machine_rela (struct link_map *map,
    const Elf64_Sym *const refsym = sym;
    union unaligned

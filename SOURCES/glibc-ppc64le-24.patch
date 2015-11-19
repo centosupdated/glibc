@@ -12,9 +12,9 @@
 #         conditional form of branch and link when obtaining pc.
 #         * sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S: Likewise.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S
---- glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S	2014-05-28 12:25:49.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S	2014-05-28 12:25:51.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S	2014-05-28 12:25:49.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc32/makecontext.S	2014-05-28 12:25:51.000000000 -0500
 @@ -47,7 +47,9 @@
  #ifdef PIC
  	mflr	r0
@@ -37,9 +37,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/mak
  1:	mflr	r6
  	addi	r6,r6,L(novec_exitcode)-1b
  	mtlr	r0
-diff -urN glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S
---- glibc-2.17-c758a686.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-28 12:25:49.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-28 12:25:51.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-28 12:25:49.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/makecontext.S	2014-05-28 12:25:51.000000000 -0500
 @@ -124,8 +124,10 @@
  
    /* If the target function returns we need to do some cleanup.  We use a

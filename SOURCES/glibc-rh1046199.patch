@@ -1,6 +1,6 @@
-diff -pruN glibc-2.18-488-gd674f0e/nscd/netgroupcache.c glibc-2.18-488-gd674f0e.patched/nscd/netgroupcache.c
---- glibc-2.18-488-gd674f0e/nscd/netgroupcache.c	2013-12-20 04:38:40.432000000 -0500
-+++ glibc-2.18-488-gd674f0e.patched/nscd/netgroupcache.c	2013-12-20 04:37:29.945000000 -0500
+diff -pruN glibc-2.17-c758a686/nscd/netgroupcache.c glibc-2.17-c758a686/nscd/netgroupcache.c
+--- glibc-2.17-c758a686/nscd/netgroupcache.c	2013-12-20 04:38:40.432000000 -0500
++++ glibc-2.17-c758a686/nscd/netgroupcache.c	2013-12-20 04:37:29.945000000 -0500
 @@ -204,9 +204,10 @@ addgetnetgrentX (struct database_dyn *db
  		    int e;
  		    status = getfct.f (&data, buffer + buffilled,

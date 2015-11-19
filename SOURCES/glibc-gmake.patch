@@ -11,9 +11,9 @@
 #
 #    Accept make versions 4.0 and greater
 #
-diff -urN glibc-2.17-c758a686/configure glibc-2.17-c758a686.mod/configure
+diff -urN glibc-2.17-c758a686/configure glibc-2.17-c758a686/configure
 --- glibc-2.17-c758a686/configure	2015-01-15 16:32:14.983435268 -0500
-+++ glibc-2.17-c758a686.mod/configure	2015-01-15 16:32:45.396495266 -0500
++++ glibc-2.17-c758a686/configure	2015-01-15 16:32:45.396495266 -0500
 @@ -4991,7 +4991,7 @@
    ac_prog_version=`$MAKE --version 2>&1 | sed -n 's/^.*GNU Make[^0-9]*\([0-9][0-9.]*\).*$/\1/p'`
    case $ac_prog_version in
@@ -23,9 +23,9 @@ diff -urN glibc-2.17-c758a686/configure glibc-2.17-c758a686.mod/configure
         ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
      *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
  
-diff -urN glibc-2.17-c758a686/configure.in glibc-2.17-c758a686.mod/configure.in
+diff -urN glibc-2.17-c758a686/configure.in glibc-2.17-c758a686/configure.in
 --- glibc-2.17-c758a686/configure.in	2015-01-15 16:32:14.781441511 -0500
-+++ glibc-2.17-c758a686.mod/configure.in	2015-01-15 16:32:34.970817501 -0500
++++ glibc-2.17-c758a686/configure.in	2015-01-15 16:32:34.970817501 -0500
 @@ -945,7 +945,7 @@
    critic_missing="$critic_missing gcc")
  AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,

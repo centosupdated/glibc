@@ -23,10 +23,10 @@ string/strchrnul.c apart from original commit.
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c
  create mode 100644 sysdeps/powerpc/powerpc64/multiarch/strchrnul.c
 
-diff --git a/string/strchrnul.c b/string/strchrnul.c
+diff --git glibc-2.17-c758a686/string/strchrnul.c glibc-2.17-c758a686/string/strchrnul.c
 index 0db5e23..39540a3 100644
---- a/string/strchrnul.c
-+++ b/string/strchrnul.c
+--- glibc-2.17-c758a686/string/strchrnul.c
++++ glibc-2.17-c758a686/string/strchrnul.c
 @@ -27,9 +27,13 @@
  #undef __strchrnul
  #undef strchrnul
@@ -42,11 +42,11 @@ index 0db5e23..39540a3 100644
       const char *s;
       int c_in;
  {
-diff --git a/sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c b/sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c
 new file mode 100644
 index 0000000..950643a
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c
 @@ -0,0 +1,28 @@
 +/* PowerPC32 default implementation of strchrnul.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -76,10 +76,10 @@ index 0000000..950643a
 +extern __typeof (strchrnul) __strchrnul_ppc attribute_hidden;
 +
 +#include <string/strchrnul.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/Makefile b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 index f7c5853..15b86bd 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/Makefile
-+++ b/sysdeps/powerpc/powerpc64/multiarch/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/Makefile
 @@ -8,7 +8,8 @@ sysdep_routines += memcpy-power7 memcpy-a2 memcpy-power6 memcpy-cell \
                    rawmemchr-ppc64 strlen-power7 strlen-ppc64 strnlen-power7 \
                    strnlen-ppc64 strcasecmp-power7 strcasecmp_l-power7 \
@@ -90,10 +90,10 @@ index f7c5853..15b86bd 100644
  
  CFLAGS-strncase-power7.c += -mcpu=power7 -funroll-loops
  CFLAGS-strncase_l-power7.c += -mcpu=power7 -funroll-loops
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 index 3b005ea..9e3b89d 100644
---- a/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
-+++ b/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/ifunc-impl-list.c
 @@ -94,6 +94,14 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
                               __strchr_power7)
               IFUNC_IMPL_ADD (array, i, strchr, 1,
@@ -109,11 +109,11 @@ index 3b005ea..9e3b89d 100644
  #endif
  
    /* Support sysdeps/powerpc/powerpc64/multiarch/memcmp.c.  */
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strchrnul-power7.S b/sysdeps/powerpc/powerpc64/multiarch/strchrnul-power7.S
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul-power7.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul-power7.S
 new file mode 100644
 index 0000000..87d7c03
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strchrnul-power7.S
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul-power7.S
 @@ -0,0 +1,38 @@
 +/* Optimized strchrnul implementation for POWER7.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -153,11 +153,11 @@ index 0000000..87d7c03
 +#define libc_hidden_builtin_def(name)
 +
 +#include <sysdeps/powerpc/powerpc64/power7/strchrnul.S>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c b/sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c
 new file mode 100644
 index 0000000..a76b335
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul-ppc64.c
 @@ -0,0 +1,19 @@
 +/* PowerPC64 default implementation of strchrnul.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.
@@ -178,11 +178,11 @@ index 0000000..a76b335
 +   <http://www.gnu.org/licenses/>.  */
 +
 +#include <sysdeps/powerpc/powerpc32/power4/multiarch/strchrnul-ppc32.c>
-diff --git a/sysdeps/powerpc/powerpc64/multiarch/strchrnul.c b/sysdeps/powerpc/powerpc64/multiarch/strchrnul.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul.c
 new file mode 100644
 index 0000000..dab1cbf
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/multiarch/strchrnul.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/multiarch/strchrnul.c
 @@ -0,0 +1,37 @@
 +/* Multiple versions of strchrnul.
 +   Copyright (C) 2013-2014 Free Software Foundation, Inc.

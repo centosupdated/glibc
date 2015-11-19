@@ -22,10 +22,10 @@ Date:   Fri Aug 16 09:38:52 2013 +0200
     	NAME_MAX, PATH_MAX.
     	(Pathconf): Add portability note for _PC_NAME_MAX, _PC_PATH_MAX.
 
-diff --git a/manual/conf.texi b/manual/conf.texi
+diff --git glibc-2.17-c758a686/manual/conf.texi glibc-2.17-c758a686/manual/conf.texi
 index 7eb8b36..c720063 100644
---- a/manual/conf.texi
-+++ b/manual/conf.texi
+--- glibc-2.17-c758a686/manual/conf.texi
++++ glibc-2.17-c758a686/manual/conf.texi
 @@ -1149,6 +1149,9 @@ typed ahead as input.  @xref{I/O Queues}.
  @deftypevr Macro int NAME_MAX
  The uniform system limit (if any) for the length of a file name component, not
@@ -56,10 +56,10 @@ index 7eb8b36..c720063 100644
  @node Utility Limits
  @section Utility Program Capacity Limits
  
-diff --git a/manual/filesys.texi b/manual/filesys.texi
+diff --git glibc-2.17-c758a686/manual/filesys.texi glibc-2.17-c758a686/manual/filesys.texi
 index 1df9cf2..814c210 100644
---- a/manual/filesys.texi
-+++ b/manual/filesys.texi
+--- glibc-2.17-c758a686/manual/filesys.texi
++++ glibc-2.17-c758a686/manual/filesys.texi
 @@ -444,9 +444,9 @@ symbols are declared in the header file @file{dirent.h}.
  @comment POSIX.1
  @deftypefun {struct dirent *} readdir (DIR *@var{dirstream})
@@ -159,10 +159,10 @@ index 1df9cf2..814c210 100644
  It is also important to look at the definition of the @code{struct
  dirent} type.  Simply passing a pointer to an object of this type for
  the second parameter of @code{readdir_r} might not be enough.  Some
-diff --git a/sysdeps/posix/dirstream.h b/sysdeps/posix/dirstream.h
+diff --git glibc-2.17-c758a686/sysdeps/posix/dirstream.h glibc-2.17-c758a686/sysdeps/posix/dirstream.h
 index a7a074d..8e8570d 100644
---- a/sysdeps/posix/dirstream.h
-+++ b/sysdeps/posix/dirstream.h
+--- glibc-2.17-c758a686/sysdeps/posix/dirstream.h
++++ glibc-2.17-c758a686/sysdeps/posix/dirstream.h
 @@ -39,6 +39,8 @@ struct __dirstream
  
      off_t filepos;		/* Position of next entry to read.  */
@@ -172,10 +172,10 @@ index a7a074d..8e8570d 100644
      /* Directory block.  */
      char data[0] __attribute__ ((aligned (__alignof__ (void*))));
    };
-diff --git a/sysdeps/posix/opendir.c b/sysdeps/posix/opendir.c
+diff --git glibc-2.17-c758a686/sysdeps/posix/opendir.c glibc-2.17-c758a686/sysdeps/posix/opendir.c
 index ddfc3a7..fc05b0f 100644
---- a/sysdeps/posix/opendir.c
-+++ b/sysdeps/posix/opendir.c
+--- glibc-2.17-c758a686/sysdeps/posix/opendir.c
++++ glibc-2.17-c758a686/sysdeps/posix/opendir.c
 @@ -231,6 +231,7 @@ __alloc_dir (int fd, bool close_fd, int flags, const struct stat64 *statp)
    dirp->size = 0;
    dirp->offset = 0;
@@ -184,10 +184,10 @@ index ddfc3a7..fc05b0f 100644
  
    return dirp;
  }
-diff --git a/sysdeps/posix/readdir_r.c b/sysdeps/posix/readdir_r.c
+diff --git glibc-2.17-c758a686/sysdeps/posix/readdir_r.c glibc-2.17-c758a686/sysdeps/posix/readdir_r.c
 index b5a8e2e..8ed5c3f 100644
---- a/sysdeps/posix/readdir_r.c
-+++ b/sysdeps/posix/readdir_r.c
+--- glibc-2.17-c758a686/sysdeps/posix/readdir_r.c
++++ glibc-2.17-c758a686/sysdeps/posix/readdir_r.c
 @@ -40,6 +40,7 @@ __READDIR_R (DIR *dirp, DIRENT_TYPE *entry, DIRENT_TYPE **result)
    DIRENT_TYPE *dp;
    size_t reclen;
@@ -266,10 +266,10 @@ index b5a8e2e..8ed5c3f 100644
  }
  
  #ifdef __READDIR_R_ALIAS
-diff --git a/sysdeps/posix/rewinddir.c b/sysdeps/posix/rewinddir.c
+diff --git glibc-2.17-c758a686/sysdeps/posix/rewinddir.c glibc-2.17-c758a686/sysdeps/posix/rewinddir.c
 index 2935a8e..d4991ad 100644
---- a/sysdeps/posix/rewinddir.c
-+++ b/sysdeps/posix/rewinddir.c
+--- glibc-2.17-c758a686/sysdeps/posix/rewinddir.c
++++ glibc-2.17-c758a686/sysdeps/posix/rewinddir.c
 @@ -33,6 +33,7 @@ rewinddir (dirp)
    dirp->filepos = 0;
    dirp->offset = 0;
@@ -278,10 +278,10 @@ index 2935a8e..d4991ad 100644
  #ifndef NOT_IN_libc
    __libc_lock_unlock (dirp->lock);
  #endif
-diff --git a/sysdeps/unix/sysv/linux/i386/readdir64_r.c b/sysdeps/unix/sysv/linux/i386/readdir64_r.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/readdir64_r.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/readdir64_r.c
 index 8ebbcfd..a7d114e 100644
---- a/sysdeps/unix/sysv/linux/i386/readdir64_r.c
-+++ b/sysdeps/unix/sysv/linux/i386/readdir64_r.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/readdir64_r.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/i386/readdir64_r.c
 @@ -18,7 +18,6 @@
  #define __READDIR_R __readdir64_r
  #define __GETDENTS __getdents64
@@ -290,10 +290,10 @@ index 8ebbcfd..a7d114e 100644
  
  #include <sysdeps/posix/readdir_r.c>
  
-diff --git a/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c b/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
 index 5ed8e95..290f2c8 100644
---- a/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
-+++ b/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
 @@ -1,5 +1,4 @@
  #define readdir64_r __no_readdir64_r_decl
 -#define GETDENTS_64BIT_ALIGNED 1

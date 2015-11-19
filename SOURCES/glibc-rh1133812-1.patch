@@ -5,10 +5,10 @@
 	trans_compare, open_translit, __gconv_translit_find):
 	Remove module loading code.
 
-diff --git a/iconv/gconv_trans.c b/iconv/gconv_trans.c
+diff --git glibc-2.17-c758a686/iconv/gconv_trans.c glibc-2.17-c758a686/iconv/gconv_trans.c
 index 1e25854..d71c029 100644
---- a/iconv/gconv_trans.c
-+++ b/iconv/gconv_trans.c
+--- glibc-2.17-c758a686/iconv/gconv_trans.c
++++ glibc-2.17-c758a686/iconv/gconv_trans.c
 @@ -238,181 +238,11 @@ __gconv_transliterate (struct __gconv_step *step,
    return __GCONV_ILLEGAL_INPUT;
  }

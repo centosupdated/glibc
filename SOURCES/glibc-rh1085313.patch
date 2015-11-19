@@ -16,10 +16,10 @@ Date:   Wed Sep 10 21:51:50 2014 +0530
     	* inet/getnetgrent_r.c (__internal_getnetgrent_r): Try next
     	group if the current group is empty.
 
-diff --git a/inet/getnetgrent_r.c b/inet/getnetgrent_r.c
+diff --git glibc-2.17-c758a686/inet/getnetgrent_r.c glibc-2.17-c758a686/inet/getnetgrent_r.c
 index f6d064d..e101537 100644
---- a/inet/getnetgrent_r.c
-+++ b/inet/getnetgrent_r.c
+--- glibc-2.17-c758a686/inet/getnetgrent_r.c
++++ glibc-2.17-c758a686/inet/getnetgrent_r.c
 @@ -297,7 +297,10 @@ __internal_getnetgrent_r (char **hostp, char **userp, char **domainp,
      {
        status = DL_CALL_FCT (*fct, (datap, buffer, buflen, &errno));

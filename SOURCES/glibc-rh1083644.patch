@@ -20,10 +20,10 @@ Date:   Thu Mar 27 19:48:15 2014 +0530
     
     Fix this by using memmove instead of stpcpy.
 
-diff --git a/nscd/netgroupcache.c b/nscd/netgroupcache.c
+diff --git glibc-2.17-c758a686/nscd/netgroupcache.c glibc-2.17-c758a686/nscd/netgroupcache.c
 index 5d15aa4..820d823 100644
---- a/nscd/netgroupcache.c
-+++ b/nscd/netgroupcache.c
+--- glibc-2.17-c758a686/nscd/netgroupcache.c
++++ glibc-2.17-c758a686/nscd/netgroupcache.c
 @@ -216,6 +216,10 @@ addgetnetgrentX (struct database_dyn *db, int fd, request_header *req,
  			    const char *nuser = data.val.triple.user;
  			    const char *ndomain = data.val.triple.domain;

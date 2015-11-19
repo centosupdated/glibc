@@ -7,10 +7,10 @@ Date:   Thu May 23 13:28:00 2013 -0600
             just NFS file systems.
             * sysdeps/gnu/errlist.c: Regenerated.
 
-diff --git a/manual/errno.texi b/manual/errno.texi
+diff --git glibc-2.17-c758a686/manual/errno.texi glibc-2.17-c758a686/manual/errno.texi
 index 2a3c004..6c9fa86 100644
---- a/manual/errno.texi
-+++ b/manual/errno.texi
+--- glibc-2.17-c758a686/manual/errno.texi
++++ glibc-2.17-c758a686/manual/errno.texi
 @@ -739,13 +739,14 @@ The user's disk quota was exceeded.
  @end deftypevr
  
@@ -31,10 +31,10 @@ index 2a3c004..6c9fa86 100644
  @end deftypevr
  
  @comment errno.h
-diff --git a/sysdeps/gnu/errlist.c b/sysdeps/gnu/errlist.c
+diff --git glibc-2.17-c758a686/sysdeps/gnu/errlist.c glibc-2.17-c758a686/sysdeps/gnu/errlist.c
 index e3d2faf..bbd45f2 100644
---- a/sysdeps/gnu/errlist.c
-+++ b/sysdeps/gnu/errlist.c
+--- glibc-2.17-c758a686/sysdeps/gnu/errlist.c
++++ glibc-2.17-c758a686/sysdeps/gnu/errlist.c
 @@ -780,11 +780,12 @@ TRANS The user's disk quota was exceeded. */
  #endif
  #ifdef ESTALE

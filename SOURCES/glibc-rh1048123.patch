@@ -31,10 +31,10 @@ Date:   Mon Mar 3 22:51:39 2014 +0530
     service is ready and is accepting connections.
 
 
-diff --git a/nscd/connections.c b/nscd/connections.c
+diff --git glibc-2.17-c758a686/nscd/connections.c glibc-2.17-c758a686/nscd/connections.c
 index f463f45..180ae77 100644
---- a/nscd/connections.c
-+++ b/nscd/connections.c
+--- glibc-2.17-c758a686/nscd/connections.c
++++ glibc-2.17-c758a686/nscd/connections.c
 @@ -649,8 +649,8 @@ cannot create read-only descriptor for \"%s\"; no mmap"),
  		  close (fd);
  	      }
@@ -215,10 +215,10 @@ index f463f45..180ae77 100644
      }
  
  #if defined HAVE_LIBAUDIT && defined HAVE_LIBCAP
-diff --git a/nscd/nscd.c b/nscd/nscd.c
+diff --git glibc-2.17-c758a686/nscd/nscd.c glibc-2.17-c758a686/nscd/nscd.c
 index 63d9d83..5680378 100644
---- a/nscd/nscd.c
-+++ b/nscd/nscd.c
+--- glibc-2.17-c758a686/nscd/nscd.c
++++ glibc-2.17-c758a686/nscd/nscd.c
 @@ -39,6 +39,8 @@
  #include <sys/stat.h>
  #include <sys/uio.h>
@@ -390,10 +390,10 @@ index 63d9d83..5680378 100644
 +  close (parent_fd);
 +  parent_fd = -1;
 +}
-diff --git a/nscd/nscd.h b/nscd/nscd.h
+diff --git glibc-2.17-c758a686/nscd/nscd.h glibc-2.17-c758a686/nscd/nscd.h
 index 972f462..529b3f5 100644
---- a/nscd/nscd.h
-+++ b/nscd/nscd.h
+--- glibc-2.17-c758a686/nscd/nscd.h
++++ glibc-2.17-c758a686/nscd/nscd.h
 @@ -205,6 +205,8 @@ extern gid_t old_gid;
  /* nscd.c */
  extern void termination_handler (int signum) __attribute__ ((__noreturn__));
@@ -403,10 +403,10 @@ index 972f462..529b3f5 100644
  
  /* connections.c */
  extern void nscd_init (void);
-diff --git a/nscd/selinux.c b/nscd/selinux.c
+diff --git glibc-2.17-c758a686/nscd/selinux.c glibc-2.17-c758a686/nscd/selinux.c
 index e477254..46b0ea9 100644
---- a/nscd/selinux.c
-+++ b/nscd/selinux.c
+--- glibc-2.17-c758a686/nscd/selinux.c
++++ glibc-2.17-c758a686/nscd/selinux.c
 @@ -179,7 +179,7 @@ preserve_capabilities (void)
    if (prctl (PR_SET_KEEPCAPS, 1) == -1)
      {
@@ -488,8 +488,8 @@ index e477254..46b0ea9 100644
    else
      dbg_log (_("Access Vector Cache (AVC) started"));
  #ifdef HAVE_LIBAUDIT
---- a/releng/nscd.service	2012-11-06 03:03:19.000000000 +0530
-+++ b/releng/nscd.service	2014-02-28 16:59:51.096630222 +0530
+--- glibc-2.17-c758a686/releng/nscd.service	2012-11-06 03:03:19.000000000 +0530
++++ glibc-2.17-c758a686/releng/nscd.service	2014-02-28 16:59:51.096630222 +0530
 @@ -1,10 +1,13 @@
 +# systemd service file for nscd
 +

@@ -4,10 +4,10 @@ Date:   Thu Mar 21 15:50:27 2013 +0100
 
     Fix stack overflow in getaddrinfo with many results
 
-diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
+diff --git glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 index d95c2d1..2309281 100644
---- a/sysdeps/posix/getaddrinfo.c
-+++ b/sysdeps/posix/getaddrinfo.c
+--- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
++++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 @@ -2489,11 +2489,27 @@ getaddrinfo (const char *name, const char *service,
        __typeof (once) old_once = once;
        __libc_once (once, gaiconf_init);

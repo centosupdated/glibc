@@ -1,6 +1,6 @@
-diff -pruN glibc-2.18-488-gd674f0e/nscd/netgroupcache.c glibc-2.18-488-gd674f0e.patched/nscd/netgroupcache.c
---- glibc-2.18-488-gd674f0e/nscd/netgroupcache.c	2013-12-03 20:41:12.000000000 -0500
-+++ glibc-2.18-488-gd674f0e.patched/nscd/netgroupcache.c	2013-12-19 08:36:52.253000000 -0500
+diff -pruN glibc-2.17-c758a686/nscd/netgroupcache.c glibc-2.17-c758a686/nscd/netgroupcache.c
+--- glibc-2.17-c758a686/nscd/netgroupcache.c	2013-12-03 20:41:12.000000000 -0500
++++ glibc-2.17-c758a686/nscd/netgroupcache.c	2013-12-19 08:36:52.253000000 -0500
 @@ -65,6 +65,55 @@ struct dataset
    char strdata[0];
  };

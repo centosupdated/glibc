@@ -18,10 +18,10 @@ successfully since __GI___isnanf is missing.This wll be fixed later in master.
  math/s_cprojf.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/math/s_cprojf.c b/math/s_cprojf.c
+diff --git glibc-2.17-c758a686/math/s_cprojf.c glibc-2.17-c758a686/math/s_cprojf.c
 index 6cbc93b..a0f0af9 100644
---- a/math/s_cprojf.c
-+++ b/math/s_cprojf.c
+--- glibc-2.17-c758a686/math/s_cprojf.c
++++ glibc-2.17-c758a686/math/s_cprojf.c
 @@ -1,5 +1,5 @@
  /* Compute projection of complex float value to Riemann sphere.
 -   Copyright (C) 1997, 1999, 2010 Free Software Foundation, Inc.

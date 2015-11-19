@@ -1,7 +1,7 @@
-diff --git a/nscd/selinux.c b/nscd/selinux.c
+diff --git glibc-2.17-c758a686/nscd/selinux.c glibc-2.17-c758a686/nscd/selinux.c
 index 0866c44..ba55b04 100644
---- a/nscd/selinux.c
-+++ b/nscd/selinux.c
+--- glibc-2.17-c758a686/nscd/selinux.c
++++ glibc-2.17-c758a686/nscd/selinux.c
 @@ -44,35 +44,31 @@
  /* Global variable to tell if the kernel has SELinux support.  */
  int selinux_enabled;

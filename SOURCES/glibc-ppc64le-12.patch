@@ -11,9 +11,9 @@
 #         (lrint): Correct for little-endian.
 #         (lrintf): Call lrint.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/fpu/bits/mathinline.h glibc-2.17-c758a686.diff/sysdeps/powerpc/fpu/bits/mathinline.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/fpu/bits/mathinline.h	2014-05-27 22:28:12.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/fpu/bits/mathinline.h	2014-05-27 22:28:37.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/fpu/bits/mathinline.h glibc-2.17-c758a686/sysdeps/powerpc/fpu/bits/mathinline.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/fpu/bits/mathinline.h	2014-05-27 22:28:12.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/fpu/bits/mathinline.h	2014-05-27 22:28:37.000000000 -0500
 @@ -62,21 +62,28 @@
  __MATH_INLINE int
  __NTH (__signbitf (float __x))

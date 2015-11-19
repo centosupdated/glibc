@@ -7,9 +7,9 @@ Subject: [PATCH] Enable SETENT_BATCH_READ nis/nss option by default
 - SETENT_BATCH_READ /etc/default/nss option for speeding up
   some usages of NIS+ (#188246)
 
-diff --git a/nis/nss b/nis/nss
---- a/nis/nss
-+++ b/nis/nss
+diff --git glibc-2.17-c758a686/nis/nss glibc-2.17-c758a686/nis/nss
+--- glibc-2.17-c758a686/nis/nss
++++ glibc-2.17-c758a686/nis/nss
 @@ -25,7 +25,7 @@
  #  memory with every getXXent() call.  Otherwise each getXXent() call
  #  might result into a network communication with the server to get

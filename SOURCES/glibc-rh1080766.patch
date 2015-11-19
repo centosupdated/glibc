@@ -28,10 +28,10 @@ Date:   Thu Mar 27 07:15:22 2014 +0530
     	* nscd/netgroupcache.c (addinnetgrX): Succeed if triplet has
     	blank values.
 
-diff --git a/nscd/netgroupcache.c b/nscd/netgroupcache.c
+diff --git glibc-2.17-c758a686/nscd/netgroupcache.c glibc-2.17-c758a686/nscd/netgroupcache.c
 index 5ba1e1f..5d15aa4 100644
---- a/nscd/netgroupcache.c
-+++ b/nscd/netgroupcache.c
+--- glibc-2.17-c758a686/nscd/netgroupcache.c
++++ glibc-2.17-c758a686/nscd/netgroupcache.c
 @@ -560,15 +560,19 @@ addinnetgrX (struct database_dyn *db, int fd, request_header *req,
  	{
  	  bool success = true;

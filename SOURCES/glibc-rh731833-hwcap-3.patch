@@ -9,10 +9,10 @@ Subject: [PATCH 38/42] Add AT_HWCAP2 as a new auxv_t a_type to elf.h. (cherry
  elf/elf.h | 5 ++++-
  2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/elf/elf.h b/elf/elf.h
+diff --git glibc-2.17-c758a686/elf/elf.h glibc-2.17-c758a686/elf/elf.h
 index b07e6ad..8686fd5 100644
---- a/elf/elf.h
-+++ b/elf/elf.h
+--- glibc-2.17-c758a686/elf/elf.h
++++ glibc-2.17-c758a686/elf/elf.h
 @@ -987,7 +987,7 @@ typedef struct
  
  /* Some more special a_type values describing the hardware.  */

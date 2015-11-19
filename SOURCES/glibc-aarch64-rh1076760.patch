@@ -1,5 +1,5 @@
---- a/ports/sysdeps/aarch64/nptl/tls.h
-+++ b/ports/sysdeps/aarch64/nptl/tls.h
+--- glibc-2.17-c758a686/ports/sysdeps/aarch64/nptl/tls.h
++++ glibc-2.17-c758a686/ports/sysdeps/aarch64/nptl/tls.h
 @@ -63,7 +63,7 @@ typedef struct
  # define TLS_INIT_TCB_SIZE	sizeof (tcbhead_t)
  

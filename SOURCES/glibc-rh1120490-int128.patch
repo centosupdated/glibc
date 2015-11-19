@@ -23,9 +23,9 @@ Date:   Fri Apr 25 09:33:41 2014 -0700
         with __int128_t.
         (La_x86_64_retval): Likewise.
 
-diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686.mod/sysdeps/x86/bits/link.h
+diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686/sysdeps/x86/bits/link.h
 --- glibc-2.17-c758a686/sysdeps/x86/bits/link.h	2014-11-05 13:39:09.888988366 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/x86/bits/link.h	2014-11-05 13:39:52.800863646 -0500
++++ glibc-2.17-c758a686/sysdeps/x86/bits/link.h	2014-11-05 13:39:52.800863646 -0500
 @@ -94,7 +94,7 @@
    La_x86_64_xmm lr_xmm[8];
    La_x86_64_vector lr_vector[8];
@@ -46,9 +46,9 @@ diff -urN glibc-2.17-c758a686/sysdeps/x86/bits/link.h glibc-2.17-c758a686.mod/sy
  #endif
  } La_x86_64_retval;
  
-diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a686.mod/sysdeps/x86_64/link-defines.sym
+diff -urN glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym
 --- glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym	2014-11-05 13:39:09.889988363 -0500
-+++ glibc-2.17-c758a686.mod/sysdeps/x86_64/link-defines.sym	2014-11-05 13:39:52.800863646 -0500
++++ glibc-2.17-c758a686/sysdeps/x86_64/link-defines.sym	2014-11-05 13:39:52.800863646 -0500
 @@ -6,7 +6,7 @@
  XMM_SIZE		sizeof (La_x86_64_xmm)
  YMM_SIZE		sizeof (La_x86_64_ymm)

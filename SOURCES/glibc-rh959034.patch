@@ -6,10 +6,10 @@
 	* intl/loadmsgcat.c (_nl_load_domain): If _nl_find_msg returns -1 abort
 	loading the domain.
 
-diff --git a/intl/dcigettext.c b/intl/dcigettext.c
+diff --git glibc-2.17-c758a686/intl/dcigettext.c glibc-2.17-c758a686/intl/dcigettext.c
 index 110307b..f4aa215 100644
---- a/intl/dcigettext.c
-+++ b/intl/dcigettext.c
+--- glibc-2.17-c758a686/intl/dcigettext.c
++++ glibc-2.17-c758a686/intl/dcigettext.c
 @@ -638,6 +638,11 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
  		  retval = _nl_find_msg (domain->successor[cnt], binding,
  					 msgid1, 1, &retlen);
@@ -53,10 +53,10 @@ index 110307b..f4aa215 100644
  # endif
  		    }
  		  if (__builtin_expect (newmem == NULL, 0))
-diff --git a/intl/loadmsgcat.c b/intl/loadmsgcat.c
+diff --git glibc-2.17-c758a686/intl/loadmsgcat.c glibc-2.17-c758a686/intl/loadmsgcat.c
 index e4b7b38..ac90ed1 100644
---- a/intl/loadmsgcat.c
-+++ b/intl/loadmsgcat.c
+--- glibc-2.17-c758a686/intl/loadmsgcat.c
++++ glibc-2.17-c758a686/intl/loadmsgcat.c
 @@ -1237,7 +1237,7 @@ _nl_load_domain (domain_file, domainbinding)
      default:
        /* This is an invalid revision.  */

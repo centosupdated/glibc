@@ -14,10 +14,10 @@ Date:   Tue May 21 21:54:41 2013 +0530
     found', we set h_errno as NETDB_INTERNAL and let errno be the
     identifier for the exact error.
 
-diff --git a/nss/getXXbyYY_r.c b/nss/getXXbyYY_r.c
+diff --git glibc-2.17-c758a686/nss/getXXbyYY_r.c glibc-2.17-c758a686/nss/getXXbyYY_r.c
 index 44d00f4..33e63d4 100644
---- a/nss/getXXbyYY_r.c
-+++ b/nss/getXXbyYY_r.c
+--- glibc-2.17-c758a686/nss/getXXbyYY_r.c
++++ glibc-2.17-c758a686/nss/getXXbyYY_r.c
 @@ -287,10 +287,10 @@ done:
  #endif
    *result = status == NSS_STATUS_SUCCESS ? resbuf : NULL;
@@ -33,10 +33,10 @@ index 44d00f4..33e63d4 100644
        *h_errnop = NETDB_INTERNAL;
    else if (status != NSS_STATUS_SUCCESS && !any_service)
      /* We were not able to use any service.  */
-diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
+diff --git glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 index ab135ad..7bb3ded 100644
---- a/sysdeps/posix/getaddrinfo.c
-+++ b/sysdeps/posix/getaddrinfo.c
+--- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
++++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 @@ -1036,7 +1036,15 @@ gaih_inet (const char *name, const struct gaih_service *service,
  			}
  		    }

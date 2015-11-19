@@ -10,10 +10,10 @@ Date:   Fri Oct 25 10:22:12 2013 +0530
     called with AF_INET6.  The AF_UNSPEC case was fixed as CVE-2013-1914,
     but the AF_INET6 case went undetected back then.
 
-diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
+diff --git glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 index e6ce4cf..8ff74b4 100644
---- a/sysdeps/posix/getaddrinfo.c
-+++ b/sysdeps/posix/getaddrinfo.c
+--- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
++++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 @@ -197,7 +197,22 @@ gaih_inet_serv (const char *servicename, const struct gaih_typeproto *tp,
  				&rc, &herrno, NULL, &localcanon));	      \
      if (rc != ERANGE || herrno != NETDB_INTERNAL)			      \

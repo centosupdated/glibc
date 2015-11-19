@@ -10,10 +10,10 @@ Date:   Thu Mar 7 12:15:08 2013 +0530
     since the number of bytes that are atomically written is still
     PIPE_BUF on Linux.
 
-diff --git a/posix/Makefile b/posix/Makefile
+diff --git glibc-2.17-c758a686/posix/Makefile glibc-2.17-c758a686/posix/Makefile
 index 2cacd21..658c47e 100644
---- a/posix/Makefile
-+++ b/posix/Makefile
+--- glibc-2.17-c758a686/posix/Makefile
++++ glibc-2.17-c758a686/posix/Makefile
 @@ -86,7 +86,8 @@ tests		:= tstgetopt testfnm runtests runptests	     \
  		   tst-rfc3484-3 \
  		   tst-getaddrinfo3 tst-fnmatch2 tst-cpucount tst-cpuset \
@@ -24,11 +24,11 @@ index 2cacd21..658c47e 100644
  xtests		:= bug-ga2
  ifeq (yes,$(build-shared))
  test-srcs	:= globtest
-diff --git a/posix/tst-pathconf.c b/posix/tst-pathconf.c
+diff --git glibc-2.17-c758a686/posix/tst-pathconf.c glibc-2.17-c758a686/posix/tst-pathconf.c
 new file mode 100644
 index 0000000..7627a24
 --- /dev/null
-+++ b/posix/tst-pathconf.c
++++ glibc-2.17-c758a686/posix/tst-pathconf.c
 @@ -0,0 +1,176 @@
 +/* Test that values of pathconf and fpathconf are consistent for a file.
 +   Copyright (C) 2013 Free Software Foundation, Inc.
@@ -206,10 +206,10 @@ index 0000000..7627a24
 +
 +  return ret;
 +}
-diff --git a/sysdeps/unix/sysv/linux/fpathconf.c b/sysdeps/unix/sysv/linux/fpathconf.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/fpathconf.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/fpathconf.c
 index c971644..e8c4dc9 100644
---- a/sysdeps/unix/sysv/linux/fpathconf.c
-+++ b/sysdeps/unix/sysv/linux/fpathconf.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/fpathconf.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/fpathconf.c
 @@ -33,7 +33,6 @@ __fpathconf (fd, name)
       int name;
  {
@@ -231,10 +231,10 @@ index c971644..e8c4dc9 100644
      default:
        return posix_fpathconf (fd, name);
      }
-diff --git a/sysdeps/unix/sysv/linux/pathconf.c b/sysdeps/unix/sysv/linux/pathconf.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/pathconf.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/pathconf.c
 index edc691e..de91a45 100644
---- a/sysdeps/unix/sysv/linux/pathconf.c
-+++ b/sysdeps/unix/sysv/linux/pathconf.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/pathconf.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/pathconf.c
 @@ -39,8 +39,6 @@ long int
  __pathconf (const char *file, int name)
  {

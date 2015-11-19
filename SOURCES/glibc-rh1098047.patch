@@ -192,9 +192,9 @@ Date:   Tue Jul 8 16:40:24 2014 +0530
  resolv/res_query.c | 9 +++++----
  2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff -pruN a/resolv/res_query.c b/resolv/res_query.c
---- a/resolv/res_query.c	2012-12-25 08:32:13.000000000 +0530
-+++ b/resolv/res_query.c	2014-09-05 14:28:06.439191017 +0530
+diff -pruN glibc-2.17-c758a686/resolv/res_query.c glibc-2.17-c758a686/resolv/res_query.c
+--- glibc-2.17-c758a686/resolv/res_query.c	2012-12-25 08:32:13.000000000 +0530
++++ glibc-2.17-c758a686/resolv/res_query.c	2014-09-05 14:28:06.439191017 +0530
 @@ -378,7 +378,9 @@ __libc_res_nsearch(res_state statp,
  		ret = __libc_res_nquerydomain(statp, name, NULL, class, type,
  					      answer, anslen, answerp,
@@ -226,9 +226,9 @@ diff -pruN a/resolv/res_query.c b/resolv/res_query.c
  			return (ret);
  	}
  
-diff -pruN a/resolv/res_send.c b/resolv/res_send.c
---- a/resolv/res_send.c	2014-09-05 14:28:30.039337246 +0530
-+++ b/resolv/res_send.c	2014-09-05 14:28:06.439191017 +0530
+diff -pruN glibc-2.17-c758a686/resolv/res_send.c glibc-2.17-c758a686/resolv/res_send.c
+--- glibc-2.17-c758a686/resolv/res_send.c	2014-09-05 14:28:30.039337246 +0530
++++ glibc-2.17-c758a686/resolv/res_send.c	2014-09-05 14:28:06.439191017 +0530
 @@ -1343,6 +1343,7 @@ send_dg(res_state statp,
  				(*thisresplenp > *thisanssizp)
  				? *thisanssizp : *thisresplenp);

@@ -4,10 +4,10 @@ Date:   Fri Dec 28 11:53:01 2012 +0530
 
     Add __glibc_likely as an alias for __builtin_expect when available
 
-diff --git a/misc/sys/cdefs.h b/misc/sys/cdefs.h
+diff --git glibc-2.17-c758a686/misc/sys/cdefs.h glibc-2.17-c758a686/misc/sys/cdefs.h
 index fb6c959..1eee54e 100644
---- a/misc/sys/cdefs.h
-+++ b/misc/sys/cdefs.h
+--- glibc-2.17-c758a686/misc/sys/cdefs.h
++++ glibc-2.17-c758a686/misc/sys/cdefs.h
 @@ -378,8 +378,10 @@
  
  #if __GNUC__ >= 3

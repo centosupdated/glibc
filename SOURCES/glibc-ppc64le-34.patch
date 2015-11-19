@@ -18,9 +18,9 @@
 # 
 #     PowerPC: Change powerpc64le start ABI to 2.17.
 # 
-diff -urN glibc-2.17-c758a686.orig/configure glibc-2.17-c758a686.diff/configure
---- glibc-2.17-c758a686.orig/configure	2014-05-26 19:52:31.000000000 -0500
-+++ glibc-2.17-c758a686.diff/configure	2014-05-26 19:54:13.000000000 -0500
+diff -urN glibc-2.17-c758a686/configure glibc-2.17-c758a686/configure
+--- glibc-2.17-c758a686/configure	2014-05-26 19:52:31.000000000 -0500
++++ glibc-2.17-c758a686/configure	2014-05-26 19:54:13.000000000 -0500
 @@ -4195,8 +4195,8 @@
  # base_machine, we don't change it.
  test -n "$base_machine" || case "$machine" in
@@ -32,9 +32,9 @@ diff -urN glibc-2.17-c758a686.orig/configure glibc-2.17-c758a686.diff/configure
  s390)           base_machine=s390 machine=s390/s390-32 ;;
  s390x)          base_machine=s390 machine=s390/s390-64 ;;
  sh3*)		base_machine=sh machine=sh/sh3 ;;
-diff -urN glibc-2.17-c758a686.orig/configure.in glibc-2.17-c758a686.diff/configure.in
---- glibc-2.17-c758a686.orig/configure.in	2014-05-26 19:52:30.000000000 -0500
-+++ glibc-2.17-c758a686.diff/configure.in	2014-05-26 19:54:45.000000000 -0500
+diff -urN glibc-2.17-c758a686/configure.in glibc-2.17-c758a686/configure.in
+--- glibc-2.17-c758a686/configure.in	2014-05-26 19:52:30.000000000 -0500
++++ glibc-2.17-c758a686/configure.in	2014-05-26 19:54:45.000000000 -0500
 @@ -549,8 +549,8 @@
  # base_machine, we don't change it.
  test -n "$base_machine" || case "$machine" in
@@ -46,18 +46,18 @@ diff -urN glibc-2.17-c758a686.orig/configure.in glibc-2.17-c758a686.diff/configu
  s390)           base_machine=s390 machine=s390/s390-32 ;;
  s390x)          base_machine=s390 machine=s390/s390-64 ;;
  sh3*)		base_machine=sh machine=sh/sh3 ;;
-diff -urN glibc-2.17-c758a686.orig/nptl/shlib-versions glibc-2.17-c758a686.diff/nptl/shlib-versions
---- glibc-2.17-c758a686.orig/nptl/shlib-versions	2014-05-26 19:52:31.000000000 -0500
-+++ glibc-2.17-c758a686.diff/nptl/shlib-versions	2014-05-26 19:53:31.000000000 -0500
+diff -urN glibc-2.17-c758a686/nptl/shlib-versions glibc-2.17-c758a686/nptl/shlib-versions
+--- glibc-2.17-c758a686/nptl/shlib-versions	2014-05-26 19:52:31.000000000 -0500
++++ glibc-2.17-c758a686/nptl/shlib-versions	2014-05-26 19:53:31.000000000 -0500
 @@ -2,4 +2,5 @@
  sh.*-.*-linux.*		libpthread=0		GLIBC_2.2
  s390x-.*-linux.*	libpthread=0		GLIBC_2.2
  powerpc64-.*-linux.*	libpthread=0		GLIBC_2.3
 +powerpc.*le-.*-linux.*	libpthread=0		GLIBC_2.17
  .*-.*-linux.*		libpthread=0
-diff -urN glibc-2.17-c758a686.orig/shlib-versions glibc-2.17-c758a686.diff/shlib-versions
---- glibc-2.17-c758a686.orig/shlib-versions	2014-05-26 19:52:31.000000000 -0500
-+++ glibc-2.17-c758a686.diff/shlib-versions	2014-05-26 19:53:31.000000000 -0500
+diff -urN glibc-2.17-c758a686/shlib-versions glibc-2.17-c758a686/shlib-versions
+--- glibc-2.17-c758a686/shlib-versions	2014-05-26 19:52:31.000000000 -0500
++++ glibc-2.17-c758a686/shlib-versions	2014-05-26 19:53:31.000000000 -0500
 @@ -23,6 +23,7 @@
  
  s390x-.*-linux.*        DEFAULT			GLIBC_2.2

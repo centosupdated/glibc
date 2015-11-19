@@ -12,8 +12,8 @@ elements compare against the byte sequence of it, not its name.
  posix/regcomp.c |   72 ++++++++++++++++++++----------------------------------
  2 files changed, 31 insertions(+), 45 deletions(-)
 
---- a/posix/regcomp.c
-+++ b/posix/regcomp.c
+--- glibc-2.17-c758a686/posix/regcomp.c
++++ glibc-2.17-c758a686/posix/regcomp.c
 @@ -2772,40 +2772,29 @@ parse_bracket_exp (re_string_t *regexp, re_dfa_t *dfa, re_token_t *token,
  
    /* Local function for parse_bracket_exp used in _LIBC environement.

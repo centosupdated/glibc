@@ -25,22 +25,22 @@ identical copies in powerpc32 and powerpc64.
  delete mode 100644 sysdeps/powerpc/powerpc64/power4/fpu/Makefile
  delete mode 100644 sysdeps/powerpc/powerpc64/power4/fpu/mpa.c
 
-diff --git a/sysdeps/powerpc/power4/fpu/Makefile b/sysdeps/powerpc/power4/fpu/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power4/fpu/Makefile glibc-2.17-c758a686/sysdeps/powerpc/power4/fpu/Makefile
 new file mode 100644
 index 0000000..f487ed6
 --- /dev/null
-+++ b/sysdeps/powerpc/power4/fpu/Makefile
++++ glibc-2.17-c758a686/sysdeps/powerpc/power4/fpu/Makefile
 @@ -0,0 +1,5 @@
 +# Makefile fragment for POWER4/5/5+ with FPU.
 +
 +ifeq ($(subdir),math)
 +CFLAGS-mpa.c += --param max-unroll-times=4 -funroll-loops -fpeel-loops
 +endif
-diff --git a/sysdeps/powerpc/power4/fpu/mpa.c b/sysdeps/powerpc/power4/fpu/mpa.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/power4/fpu/mpa.c glibc-2.17-c758a686/sysdeps/powerpc/power4/fpu/mpa.c
 new file mode 100644
 index 0000000..d15680e
 --- /dev/null
-+++ b/sysdeps/powerpc/power4/fpu/mpa.c
++++ glibc-2.17-c758a686/sysdeps/powerpc/power4/fpu/mpa.c
 @@ -0,0 +1,548 @@
 +
 +/*
@@ -590,18 +590,18 @@ index 0000000..d15680e
 +  else                {__inv(y,&w,p);   __mul(x,&w,z,p);}
 +  return;
 +}
-diff --git a/sysdeps/powerpc/powerpc32/power4/Implies b/sysdeps/powerpc/powerpc32/power4/Implies
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/Implies glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/Implies
 new file mode 100644
 index 0000000..a372141
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc32/power4/Implies
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/Implies
 @@ -0,0 +1,2 @@
 +powerpc/power4/fpu
 +powerpc/power4
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/Makefile b/sysdeps/powerpc/powerpc32/power4/fpu/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/Makefile
 deleted file mode 100644
 index f487ed6..0000000
---- a/sysdeps/powerpc/powerpc32/power4/fpu/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/Makefile
 +++ /dev/null
 @@ -1,5 +0,0 @@
 -# Makefile fragment for POWER4/5/5+ with FPU.
@@ -609,10 +609,10 @@ index f487ed6..0000000
 -ifeq ($(subdir),math)
 -CFLAGS-mpa.c += --param max-unroll-times=4 -funroll-loops -fpeel-loops
 -endif
-diff --git a/sysdeps/powerpc/powerpc32/power4/fpu/mpa.c b/sysdeps/powerpc/powerpc32/power4/fpu/mpa.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/mpa.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/mpa.c
 deleted file mode 100644
 index d15680e..0000000
---- a/sysdeps/powerpc/powerpc32/power4/fpu/mpa.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power4/fpu/mpa.c
 +++ /dev/null
 @@ -1,548 +0,0 @@
 -
@@ -1163,18 +1163,18 @@ index d15680e..0000000
 -  else                {__inv(y,&w,p);   __mul(x,&w,z,p);}
 -  return;
 -}
-diff --git a/sysdeps/powerpc/powerpc64/power4/Implies b/sysdeps/powerpc/powerpc64/power4/Implies
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/Implies glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/Implies
 new file mode 100644
 index 0000000..a372141
 --- /dev/null
-+++ b/sysdeps/powerpc/powerpc64/power4/Implies
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/Implies
 @@ -0,0 +1,2 @@
 +powerpc/power4/fpu
 +powerpc/power4
-diff --git a/sysdeps/powerpc/powerpc64/power4/fpu/Makefile b/sysdeps/powerpc/powerpc64/power4/fpu/Makefile
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/fpu/Makefile glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/fpu/Makefile
 deleted file mode 100644
 index f8bb3ef..0000000
---- a/sysdeps/powerpc/powerpc64/power4/fpu/Makefile
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/fpu/Makefile
 +++ /dev/null
 @@ -1,5 +0,0 @@
 -# Makefile fragment for POWER4/5/5+ platforms with FPU.
@@ -1182,10 +1182,10 @@ index f8bb3ef..0000000
 -ifeq ($(subdir),math)
 -CFLAGS-mpa.c += --param max-unroll-times=4 -funroll-loops -fpeel-loops
 -endif
-diff --git a/sysdeps/powerpc/powerpc64/power4/fpu/mpa.c b/sysdeps/powerpc/powerpc64/power4/fpu/mpa.c
+diff --git glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/fpu/mpa.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/fpu/mpa.c
 deleted file mode 100644
 index d15680e..0000000
---- a/sysdeps/powerpc/powerpc64/power4/fpu/mpa.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/power4/fpu/mpa.c
 +++ /dev/null
 @@ -1,548 +0,0 @@
 -

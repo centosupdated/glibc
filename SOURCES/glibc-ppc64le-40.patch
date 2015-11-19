@@ -27,9 +27,9 @@
 #     the target function for the first time, since it assumed that function
 #     would always reload its own TOC anyway ...
 # 
-diff -urN glibc-2.17-c758a686.orig/elf/elf.h glibc-2.17-c758a686.diff/elf/elf.h
---- glibc-2.17-c758a686.orig/elf/elf.h	2014-05-29 14:08:44.000000000 -0500
-+++ glibc-2.17-c758a686.diff/elf/elf.h	2014-05-29 14:08:44.000000000 -0500
+diff -urN glibc-2.17-c758a686/elf/elf.h glibc-2.17-c758a686/elf/elf.h
+--- glibc-2.17-c758a686/elf/elf.h	2014-05-29 14:08:44.000000000 -0500
++++ glibc-2.17-c758a686/elf/elf.h	2014-05-29 14:08:44.000000000 -0500
 @@ -2273,8 +2273,19 @@
  #define DT_PPC64_GLINK  (DT_LOPROC + 0)
  #define DT_PPC64_OPD	(DT_LOPROC + 1)
@@ -50,9 +50,9 @@ diff -urN glibc-2.17-c758a686.orig/elf/elf.h glibc-2.17-c758a686.diff/elf/elf.h
  
  /* ARM specific declarations */
  
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-machine.h
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:08:40.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:08:44.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:08:40.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-machine.h	2014-05-29 14:08:44.000000000 -0500
 @@ -425,6 +425,42 @@
    return lazy;
  }
@@ -132,9 +132,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-machine.h glibc-
  #else
        elf_machine_fixup_plt (map, sym_map, reloc, reloc_addr, value);
  #endif
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-trampoline.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-trampoline.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:08:40.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:08:44.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:08:40.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/dl-trampoline.S	2014-05-29 14:08:44.000000000 -0500
 @@ -74,6 +74,10 @@
  /* Prepare for calling the function returned by fixup.  */
  	PPC64_LOAD_FUNCPTR r3

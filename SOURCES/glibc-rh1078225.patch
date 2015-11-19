@@ -14,7 +14,7 @@ AAPCS.
 
 Index: glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
 ===================================================================
---- glibc-2.17-c758a686.orig/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
+--- glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
 +++ glibc-2.17-c758a686/ports/sysdeps/unix/sysv/linux/aarch64/clone.S
 @@ -63,6 +63,7 @@ ENTRY(__clone)
  	mov	x8, #SYS_ify(clone)

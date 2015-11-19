@@ -17,10 +17,10 @@ the default non vDSO time on PowerPC to use sysdeps/posix/time.c
  5 files changed, 81 insertions(+), 3 deletions(-)
  create mode 100644 sysdeps/unix/sysv/linux/powerpc/time.c
 
-diff --git a/sysdeps/unix/sysv/linux/powerpc/Versions b/sysdeps/unix/sysv/linux/powerpc/Versions
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions
 index 396a423..289c4fe 100644
---- a/sysdeps/unix/sysv/linux/powerpc/Versions
-+++ b/sysdeps/unix/sysv/linux/powerpc/Versions
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/Versions
 @@ -4,5 +4,6 @@ libc {
      __vdso_clock_gettime;
      __vdso_clock_getres;
@@ -28,10 +28,10 @@ index 396a423..289c4fe 100644
 +    __vdso_time;
    }
  }
-diff --git a/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h b/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
 index e4ae630..f7f635e 100644
---- a/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
-+++ b/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
 @@ -32,14 +32,16 @@ extern void *__vdso_get_tbfreq;
  
  extern void *__vdso_getcpu;
@@ -51,10 +51,10 @@ index e4ae630..f7f635e 100644
  #endif
  
  #endif
-diff --git a/sysdeps/unix/sysv/linux/powerpc/init-first.c b/sysdeps/unix/sysv/linux/powerpc/init-first.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c
 index 5587e2a..3cefd9b 100644
---- a/sysdeps/unix/sysv/linux/powerpc/init-first.c
-+++ b/sysdeps/unix/sysv/linux/powerpc/init-first.c
+--- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/init-first.c
 @@ -28,7 +28,7 @@ void *__vdso_clock_gettime;
  void *__vdso_clock_getres;
  void *__vdso_get_tbfreq;
@@ -73,11 +73,11 @@ index 5587e2a..3cefd9b 100644
  }
  
  # define VDSO_SETUP _libc_vdso_platform_setup
-diff --git a/sysdeps/unix/sysv/linux/powerpc/time.c b/sysdeps/unix/sysv/linux/powerpc/time.c
+diff --git glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c
 new file mode 100644
 index 0000000..66b4eb3
 --- /dev/null
-+++ b/sysdeps/unix/sysv/linux/powerpc/time.c
++++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/time.c
 @@ -0,0 +1,62 @@
 +/* time system call for Linux/PowerPC.
 +   Copyright (C) 2013 Free Software Foundation, Inc.

@@ -7,10 +7,10 @@ Date:   Wed Jun 5 13:56:19 2013 +0530
     We only need to set/restore rounding mode to ensure correct
     computation for non-default rounding modes.
 
-diff --git a/sysdeps/generic/math_private.h b/sysdeps/generic/math_private.h
+diff --git glibc-2.17-c758a686/sysdeps/generic/math_private.h glibc-2.17-c758a686/sysdeps/generic/math_private.h
 index 9d6ecad..e98360d 100644
---- a/sysdeps/generic/math_private.h
-+++ b/sysdeps/generic/math_private.h
+--- glibc-2.17-c758a686/sysdeps/generic/math_private.h
++++ glibc-2.17-c758a686/sysdeps/generic/math_private.h
 @@ -446,8 +446,8 @@ default_libc_feholdexcept_setround (fenv_t *e, int r)
  # define libc_feholdexcept_setroundl default_libc_feholdexcept_setround
  #endif

@@ -4,9 +4,9 @@
 # 
 #     Update miscellaneous scripts from upstream.
 # 
-diff -urN glibc-2.17-c758a686.orig/scripts/config.guess glibc-2.17-c758a686.diff/scripts/config.guess
---- glibc-2.17-c758a686.orig/scripts/config.guess	2014-05-26 15:59:45.000000000 -0500
-+++ glibc-2.17-c758a686.diff/scripts/config.guess	2014-05-26 16:01:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/scripts/config.guess glibc-2.17-c758a686/scripts/config.guess
+--- glibc-2.17-c758a686/scripts/config.guess	2014-05-26 15:59:45.000000000 -0500
++++ glibc-2.17-c758a686/scripts/config.guess	2014-05-26 16:01:00.000000000 -0500
 @@ -1,14 +1,12 @@
  #! /bin/sh
  # Attempt to guess a canonical system name.
@@ -320,9 +320,9 @@ diff -urN glibc-2.17-c758a686.orig/scripts/config.guess glibc-2.17-c758a686.diff
  	echo ${UNAME_PROCESSOR}-apple-darwin${UNAME_RELEASE}
  	exit ;;
      *:procnto*:*:* | *:QNX:[0123456789]*:*)
-diff -urN glibc-2.17-c758a686.orig/scripts/config.sub glibc-2.17-c758a686.diff/scripts/config.sub
---- glibc-2.17-c758a686.orig/scripts/config.sub	2014-05-26 15:59:45.000000000 -0500
-+++ glibc-2.17-c758a686.diff/scripts/config.sub	2014-05-26 16:00:52.000000000 -0500
+diff -urN glibc-2.17-c758a686/scripts/config.sub glibc-2.17-c758a686/scripts/config.sub
+--- glibc-2.17-c758a686/scripts/config.sub	2014-05-26 15:59:45.000000000 -0500
++++ glibc-2.17-c758a686/scripts/config.sub	2014-05-26 16:00:52.000000000 -0500
 @@ -1,24 +1,18 @@
  #! /bin/sh
  # Configuration validation subroutine script.
@@ -578,9 +578,9 @@ diff -urN glibc-2.17-c758a686.orig/scripts/config.sub glibc-2.17-c758a686.diff/s
  	or32-*)
  		os=-coff
  		;;
-diff -urN glibc-2.17-c758a686.orig/scripts/install-sh glibc-2.17-c758a686.diff/scripts/install-sh
---- glibc-2.17-c758a686.orig/scripts/install-sh	2014-05-26 15:59:45.000000000 -0500
-+++ glibc-2.17-c758a686.diff/scripts/install-sh	2014-05-26 16:00:34.000000000 -0500
+diff -urN glibc-2.17-c758a686/scripts/install-sh glibc-2.17-c758a686/scripts/install-sh
+--- glibc-2.17-c758a686/scripts/install-sh	2014-05-26 15:59:45.000000000 -0500
++++ glibc-2.17-c758a686/scripts/install-sh	2014-05-26 16:00:34.000000000 -0500
 @@ -1,250 +1,527 @@
 -#! /bin/sh
 -#
@@ -1324,9 +1324,9 @@ diff -urN glibc-2.17-c758a686.orig/scripts/install-sh glibc-2.17-c758a686.diff/s
 +# time-stamp-time-zone: "UTC"
 +# time-stamp-end: "; # UTC"
 +# End:
-diff -urN glibc-2.17-c758a686.orig/scripts/mkinstalldirs glibc-2.17-c758a686.diff/scripts/mkinstalldirs
---- glibc-2.17-c758a686.orig/scripts/mkinstalldirs	2014-05-26 15:59:45.000000000 -0500
-+++ glibc-2.17-c758a686.diff/scripts/mkinstalldirs	2014-05-26 16:00:34.000000000 -0500
+diff -urN glibc-2.17-c758a686/scripts/mkinstalldirs glibc-2.17-c758a686/scripts/mkinstalldirs
+--- glibc-2.17-c758a686/scripts/mkinstalldirs	2014-05-26 15:59:45.000000000 -0500
++++ glibc-2.17-c758a686/scripts/mkinstalldirs	2014-05-26 16:00:34.000000000 -0500
 @@ -1,38 +1,162 @@
  #! /bin/sh
  # mkinstalldirs --- make directory hierarchy
@@ -1515,9 +1515,9 @@ diff -urN glibc-2.17-c758a686.orig/scripts/mkinstalldirs glibc-2.17-c758a686.dif
 +# time-stamp-time-zone: "UTC"
 +# time-stamp-end: "; # UTC"
 +# End:
-diff -urN glibc-2.17-c758a686.orig/scripts/move-if-change glibc-2.17-c758a686.diff/scripts/move-if-change
---- glibc-2.17-c758a686.orig/scripts/move-if-change	2014-05-26 15:59:45.000000000 -0500
-+++ glibc-2.17-c758a686.diff/scripts/move-if-change	2014-05-26 16:00:34.000000000 -0500
+diff -urN glibc-2.17-c758a686/scripts/move-if-change glibc-2.17-c758a686/scripts/move-if-change
+--- glibc-2.17-c758a686/scripts/move-if-change	2014-05-26 15:59:45.000000000 -0500
++++ glibc-2.17-c758a686/scripts/move-if-change	2014-05-26 16:00:34.000000000 -0500
 @@ -1,17 +1,83 @@
  #!/bin/sh
  # Like mv $1 $2, but if the files are the same, just delete $1.

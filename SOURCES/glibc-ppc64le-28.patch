@@ -16,9 +16,9 @@
 #         * sysdeps/powerpc/powerpc64/stpcpy.S: Likewise.
 #         * sysdeps/powerpc/powerpc32/stpcpy.S: Likewise.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/stpcpy.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/stpcpy.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/stpcpy.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/stpcpy.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
 @@ -74,7 +74,22 @@
  
  	mr	rALT, rWORD
@@ -51,9 +51,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/stpcpy.S glibc-2.17
  
  /* Oh well.  In this case, we just do a byte-by-byte copy.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strcpy.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/strcpy.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strcpy.S	2014-05-28 13:40:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/strcpy.S	2014-05-28 13:40:01.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcpy.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcpy.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcpy.S	2014-05-28 13:40:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/strcpy.S	2014-05-28 13:40:01.000000000 -0500
 @@ -78,7 +78,22 @@
  
  	mr	rALT, rWORD
@@ -86,9 +86,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/strcpy.S glibc-2.17
  
  /* Oh well.  In this case, we just do a byte-by-byte copy.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/stpcpy.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/stpcpy.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/stpcpy.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/stpcpy.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/stpcpy.S	2014-05-28 13:40:01.000000000 -0500
 @@ -75,7 +75,22 @@
  
  	mr	rALT, rWORD
@@ -121,9 +121,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/stpcpy.S glibc-2.17
  
  /* Oh well.  In this case, we just do a byte-by-byte copy.  */
  	.align 4
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strcpy.S glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/strcpy.S
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc64/strcpy.S	2014-05-28 13:40:01.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc64/strcpy.S	2014-05-28 13:40:01.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcpy.S glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcpy.S
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcpy.S	2014-05-28 13:40:01.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc64/strcpy.S	2014-05-28 13:40:01.000000000 -0500
 @@ -90,6 +90,32 @@
  	mr	rALT, rWORD
  /* We've hit the end of the string.  Do the rest byte-by-byte.  */

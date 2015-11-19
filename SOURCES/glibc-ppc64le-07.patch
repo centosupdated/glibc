@@ -42,9 +42,9 @@
 #         * sysdeps/ieee754/ldbl-128ibm/s_tanl.c (__tanl): Likewise.
 #         * sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c (__logbl): Likewise.
 # 
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -36,8 +36,12 @@
  {
  	long double t;
@@ -60,9 +60,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_acoshl.c glibc-
  	if(hx<0x3ff0000000000000LL) {		/* x < 1 */
  	    return (x-x)/(x-x);
  	} else if(hx >=0x41b0000000000000LL) {	/* x > 2**28 */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_acosl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_acosl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_acosl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_acosl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acosl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acosl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acosl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_acosl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -151,26 +151,25 @@
  long double
  __ieee754_acosl (long double x)
@@ -147,9 +147,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_acosl.c glibc-2
        w = w - f2 * f2;
        w = w / (2.0 * s);
        /* Arcsine of s.  */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_asinl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_asinl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_asinl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_asinl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_asinl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_asinl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_asinl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_asinl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -131,19 +131,18 @@
  long double
  __ieee754_asinl (long double x)
@@ -217,9 +217,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_asinl.c glibc-2
        c = (t - w * w) / (s + w);
        r = p / q;
        p = 2.0 * s * r - (pio2_lo - 2.0 * c);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -40,8 +40,10 @@
  {
  	long double t;
@@ -233,9 +233,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_atanhl.c glibc-
  	ix = hx&0x7fffffffffffffffLL;
  	if (ix >= 0x3ff0000000000000LL) { /* |x|>=1 */
  	    if (ix > 0x3ff0000000000000LL)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_coshl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_coshl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_coshl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_coshl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_coshl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_coshl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_coshl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_coshl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -41,9 +41,11 @@
  {
  	long double t,w;
@@ -249,9 +249,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_coshl.c glibc-2
  	ix &= 0x7fffffffffffffffLL;
  
      /* x is INF or NaN */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_log2l.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_log2l.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_log2l.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_log2l.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_log2l.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_log2l.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_log2l.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_log2l.c	2014-05-27 19:59:00.000000000 -0500
 @@ -177,11 +177,13 @@
    long double z;
    long double y;
@@ -269,9 +269,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_log2l.c glibc-2
      return (-1.0L / (x - x));
    if (hx < 0)
      return (x - x) / (x - x);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c	2014-05-27 19:59:00.000000000 -0500
 @@ -200,10 +200,11 @@
    double tx[8];
    int exp;
@@ -286,9 +286,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_rem_pio2l.c gli
    ix = hx & 0x7fffffffffffffffLL;
    if (ix <= 0x3fe921fb54442d10LL)	/* x in <-pi/4, pi/4> */
      {
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -38,9 +38,11 @@
  {
  	long double t,w,h;
@@ -302,9 +302,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/e_sinhl.c glibc-2
  	ix = jx&0x7fffffffffffffffLL;
  
      /* x is INF or NaN */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_cosl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/k_cosl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_cosl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/k_cosl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_cosl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_cosl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_cosl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_cosl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -81,8 +81,11 @@
  {
    long double h, l, z, sin_l, cos_l_m1;
@@ -329,9 +329,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_cosl.c glibc-2.
        l = y - (h - x);
        z = l * l;
        sin_l = l*(ONE+z*(SSIN1+z*(SSIN2+z*(SSIN3+z*(SSIN4+z*SSIN5)))));
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -100,9 +100,12 @@
  {
    long double h, l, z, sin_l, cos_l_m1;
@@ -358,9 +358,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_sincosl.c glibc
        if (iy)
  	l = y - (h - x);
        else
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_sinl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/k_sinl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_sinl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/k_sinl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sinl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sinl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sinl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/k_sinl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -82,7 +82,10 @@
    long double h, l, z, sin_l, cos_l_m1;
    int64_t ix;
@@ -383,9 +383,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/k_sinl.c glibc-2.
        if (iy)
  	l = (ix < 0 ? -y : y) - (h - x);
        else
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -38,7 +38,10 @@
  {
  	long double t,w;
@@ -398,9 +398,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_asinhl.c glibc-
  	ix = hx&0x7fffffffffffffffLL;
  	if(ix>=0x7ff0000000000000LL) return x+x;	/* x is inf or NaN */
  	if(ix< 0x3e20000000000000LL) {	/* |x|<2**-29 */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_atanl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_atanl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_atanl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_atanl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_atanl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_atanl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_atanl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_atanl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -173,23 +173,20 @@
  long double
  __atanl (long double x)
@@ -431,9 +431,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_atanl.c glibc-2
  	return (x + x);
  
        /* Infinity. */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_cosl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_cosl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_cosl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_cosl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_cosl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_cosl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_cosl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_cosl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -53,9 +53,11 @@
  {
  	long double y[2],z=0.0L;
@@ -447,9 +447,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_cosl.c glibc-2.
  
      /* |x| ~< pi/4 */
  	ix &= 0x7fffffffffffffffLL;
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -29,10 +29,16 @@
  long double __fabsl(long double x)
  {
@@ -469,9 +469,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_fabsl.c glibc-2
  	return x;
  }
  long_double_symbol (libm, __fabsl, fabsl);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_finitel.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_finitel.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_finitel.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_finitel.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_finitel.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_finitel.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_finitel.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_finitel.c	2014-05-27 19:59:00.000000000 -0500
 @@ -29,10 +29,14 @@
  int
  ___finitel (long double x)
@@ -491,9 +491,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_finitel.c glibc
  }
  hidden_ver (___finitel, __finitel)
  weak_alias (___finitel, ____finitel)
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -46,8 +46,10 @@
  {
    u_int64_t hx, lx;
@@ -514,9 +514,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_fpclassifyl.c g
  		  if ((lx & 0x7fffffffffffffff)	/* lower is non-zero */
  		  && ((lx^hx) & 0x8000000000000000ULL)) { /* and sign differs */
  		      /* +/- denormal */
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c	2014-05-27 19:59:00.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c	2014-05-27 19:59:00.000000000 -0500
 @@ -29,12 +29,14 @@
  int
  ___isnanl (long double x)
@@ -538,9 +538,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_isnanl.c glibc-
  }
  hidden_ver (___isnanl, __isnanl)
  #ifndef IS_IN_libm
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_logbl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_logbl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_logbl.c	2014-05-27 19:59:19.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_logbl.c	2014-05-27 19:59:19.000000000 -0500
 @@ -27,9 +27,10 @@
  __logbl (long double x)
  {
@@ -554,9 +554,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_logbl.c glibc-2
    hx &= 0x7fffffffffffffffLL;	/* high |x| */
    if (hx == 0)
      return -1.0 / fabs (x);
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c	2014-05-27 19:59:19.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c	2014-05-27 19:59:19.000000000 -0500
 @@ -25,8 +25,10 @@
  ___signbitl (long double x)
  {
@@ -569,9 +569,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_signbitl.c glib
    return e < 0;
  }
  #ifdef IS_IN_libm
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c	2014-05-27 19:59:19.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c	2014-05-27 19:59:19.000000000 -0500
 @@ -27,9 +27,11 @@
  __sincosl (long double x, long double *sinx, long double *cosx)
  {
@@ -585,9 +585,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_sincosl.c glibc
  
    /* |x| ~< pi/4 */
    ix &= 0x7fffffffffffffffLL;
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_sinl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_sinl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_sinl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_sinl.c	2014-05-27 19:59:19.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sinl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sinl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sinl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_sinl.c	2014-05-27 19:59:19.000000000 -0500
 @@ -53,9 +53,11 @@
  {
  	long double y[2],z=0.0L;
@@ -601,9 +601,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_sinl.c glibc-2.
  
      /* |x| ~< pi/4 */
  	ix &= 0x7fffffffffffffffLL;
-diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_tanl.c glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_tanl.c
---- glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_tanl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/ieee754/ldbl-128ibm/s_tanl.c	2014-05-27 19:59:19.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_tanl.c glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_tanl.c
+--- glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_tanl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/ieee754/ldbl-128ibm/s_tanl.c	2014-05-27 19:59:19.000000000 -0500
 @@ -53,9 +53,11 @@
  {
  	long double y[2],z=0.0L;
@@ -617,9 +617,9 @@ diff -urN glibc-2.17-c758a686.orig/sysdeps/ieee754/ldbl-128ibm/s_tanl.c glibc-2.
  
      /* |x| ~< pi/4 */
  	ix &= 0x7fffffffffffffffLL;
-diff -urN glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c
---- glibc-2.17-c758a686.orig/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c	2014-05-27 19:58:07.000000000 -0500
-+++ glibc-2.17-c758a686.diff/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c	2014-05-27 19:59:19.000000000 -0500
+diff -urN glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c
+--- glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c	2014-05-27 19:58:07.000000000 -0500
++++ glibc-2.17-c758a686/sysdeps/powerpc/powerpc32/power7/fpu/s_logbl.c	2014-05-27 19:59:19.000000000 -0500
 @@ -35,14 +35,14 @@
  long double
  __logbl (long double x)

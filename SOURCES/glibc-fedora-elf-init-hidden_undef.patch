@@ -1,9 +1,9 @@
 * Fri May 29 2003 Jakub Jelinek <jakub@redhat.com> 2.3.2-44
 - make __init_array_start etc. symbols in elf-init.oS hidden undefined
 
-diff -Nrup a/csu/elf-init.c b/csu/elf-init.c
---- a/csu/elf-init.c	2012-06-05 07:42:49.000000000 -0600
-+++ b/csu/elf-init.c	2012-06-07 12:15:21.570319597 -0600
+diff -Nru glibc-2.17-c758a686/csu/elf-init.c glibc-2.17-c758a686/csu/elf-init.c
+--- glibc-2.17-c758a686/csu/elf-init.c	2012-06-05 07:42:49.000000000 -0600
++++ glibc-2.17-c758a686/csu/elf-init.c	2012-06-07 12:15:21.570319597 -0600
 @@ -63,6 +63,23 @@ extern void (*__init_array_end []) (int,
  extern void (*__fini_array_start []) (void) attribute_hidden;
  extern void (*__fini_array_end []) (void) attribute_hidden;
