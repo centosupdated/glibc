@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 105%{?dist}
+%define glibcrelease 106%{?dist}.4
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -88,8 +88,8 @@ URL: http://www.gnu.org/software/glibc/
 # We do not use usptream source tarballs as the start place for our package.
 # We should use upstream source tarballs for official releases though and
 # it will look like this:
-# Source0: http://ftp.gnu.org/gnu/glibc/%{glibcsrcdir}.tar.gz
-# Source1: %{glibcsrcdir}-releng.tar.gz
+# Source0: http://ftp.gnu.org/gnu/glibc/%%{glibcsrcdir}.tar.gz
+# Source1: %%{glibcsrcdir}-releng.tar.gz
 # TODO:
 # The Source1 URL will never reference an upstream URL. In fact the plan
 # should be to merge the entire release engineering tarball into upstream
@@ -200,6 +200,9 @@ Patch0063: glibc-rh1120490-int128.patch
 
 # Workaround to extend DTV_SURPLUS. Not to go upstream.
 Patch0066: glibc-rh1227699.patch
+
+# CVE-2015-7547
+Patch0067: glibc-rh1296031.patch
 
 ##############################################################################
 #
@@ -652,6 +655,23 @@ Patch1610: glibc-rh1234622.patch
 
 # Fix 32-bit POWER assembly to use only 32-bit instructions.
 Patch1611: glibc-rh1240796.patch
+
+# CVE-2015-5229 and regression test.
+Patch1612: glibc-rh1293976.patch
+Patch1613: glibc-rh1293976-2.patch
+
+# BZ #16574
+Patch1614: glibc-rh1296031-0.patch
+# BZ #13928
+Patch1616: glibc-rh1296031-2.patch
+
+# Malloc trim fixes: #17195, #18502.
+Patch1617: glibc-rh1284959-1.patch
+Patch1618: glibc-rh1284959-2.patch
+Patch1619: glibc-rh1284959-3.patch
+
+# ppc64le monstartup fix:
+Patch1620: glibc-rh1249102.patch
 
 ##############################################################################
 #
@@ -1291,6 +1311,15 @@ package or when debugging this package.
 %patch1611 -p1
 %patch1123 -p1
 %patch1124 -p1
+%patch1612 -p1
+%patch1613 -p1
+%patch1614 -p1
+%patch1616 -p1
+%patch0067 -p1
+%patch1617 -p1
+%patch1618 -p1
+%patch1619 -p1
+%patch1620 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -2360,6 +2389,24 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri Feb  5 2016 Florian Weimer <fweimer@redhat.com> - 2.17-106.4
+- Revert problematic libresolv change, not needed for the
+  CVE-2015-7547 fix (#1296030).
+
+* Fri Jan 15 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.3
+- Fix CVE-2015-7547: getaddrinfo() stack-based buffer overflow (#1296030).
+- Fix madvise performance issues (#1298930).
+- Avoid "monstartup: out of memory" error on powerpc64le (#1298956).
+
+* Wed Jan 13 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.2
+- Fix CVE-2015-5229: calloc() may return non-zero memory (#1296453).
+
+* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106.1
+- Rebuild with corrected release.
+
+* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106
+- Add fix for CVE-2015-5277 (#1275920).
+
 * Fri Aug 14 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-105
 - Fix up test case for initial-exec fix (#1248208).
 
