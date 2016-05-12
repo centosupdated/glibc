@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 106%{?dist}.4
+%define glibcrelease 106%{?dist}.6
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -673,6 +673,16 @@ Patch1619: glibc-rh1284959-3.patch
 # ppc64le monstartup fix:
 Patch1620: glibc-rh1249102.patch
 
+# Fix race in free() of fastbin chunk: BZ #15073.
+Patch1621: glibc-rh1027101.patch
+
+# BZ #17370: Memory leak in wide-oriented ftell.
+Patch1622: glibc-rh1310530.patch 
+
+# BZ #19791: NULL pointer dereference in stub resolver with unconnectable
+# name server addresses
+Patch1623: glibc-rh1320596.patch
+
 ##############################################################################
 #
 # Patches submitted, but not yet approved upstream.
@@ -1320,6 +1330,9 @@ package or when debugging this package.
 %patch1618 -p1
 %patch1619 -p1
 %patch1620 -p1
+%patch1621 -p1
+%patch1622 -p1
+%patch1623 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -2389,6 +2402,14 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Mon Apr  4 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.6
+- Fix NULL pointer dereference in stub resolver with unconnectable name
+  server addresses (#1323839).
+
+* Mon Apr  4 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.5
+- Fix memory leak in ftell for wide-oriented streams (#1323781).
+- Avoid race condition in _int_free involving fastbins (#1313308).
+
 * Fri Feb  5 2016 Florian Weimer <fweimer@redhat.com> - 2.17-106.4
 - Revert problematic libresolv change, not needed for the
   CVE-2015-7547 fix (#1296030).
