@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 106%{?dist}.6
+%define glibcrelease 106%{?dist}.8
 ##############################################################################
 # If run_glibc_tests is zero then tests are not run for the build.
 # You must always set run_glibc_tests to one for production builds.
@@ -683,6 +683,13 @@ Patch1622: glibc-rh1310530.patch
 # name server addresses
 Patch1623: glibc-rh1320596.patch
 
+# RHBZ #1331283 - Backport "Coordinate IPv6 definitions for Linux and glibc"
+Patch1624: glibc-rh1331283.patch
+Patch1625: glibc-rh1331283-1.patch
+Patch1626: glibc-rh1331283-2.patch
+Patch1627: glibc-rh1331283-3.patch
+Patch1628: glibc-rh1331283-4.patch
+
 ##############################################################################
 #
 # Patches submitted, but not yet approved upstream.
@@ -1333,6 +1340,13 @@ package or when debugging this package.
 %patch1621 -p1
 %patch1622 -p1
 %patch1623 -p1
+
+# RHBZ #1331283 - Backport "Coordinate IPv6 definitions for Linux and glibc"
+%patch1624 -p1
+%patch1625 -p1
+%patch1626 -p1
+%patch1627 -p1
+%patch1628 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -2402,6 +2416,12 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Thu Jun 16 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.8
+- Fix Linux kernel UAPI header synchronization for IPv6 (#1331283).
+
+* Fri May 20 2016 Martin Sebor <msebor@redhat.com> - 2.17-106.7
+- Make minor compatibility adjustments in headers (#1331283).
+
 * Mon Apr  4 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.6
 - Fix NULL pointer dereference in stub resolver with unconnectable name
   server addresses (#1323839).
