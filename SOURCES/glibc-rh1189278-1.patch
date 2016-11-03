@@ -10,6 +10,16 @@
 # when constructing an application or DSO. We do not adjust the link
 # lines used to build lib* targets.
 #
+# The rest of this patch is brought in by glibc-rh1292018-0a.patch
+# where we need to link against ld.so from libm.so.
+#
+
+commit fab7ce3f5b4060bf62659e8b58529de4156b5a2f
+Author: Joseph Myers <joseph@codesourcery.com>
+Date:   Fri May 31 16:16:33 2013 +0000
+
+    Link extra-libs consistently with libc and ld.so.
+
 diff -urN glibc-2.17-c758a686/Makerules glibc-2.17-c758a686/Makerules
 --- glibc-2.17-c758a686/Makerules	2015-02-18 19:53:00.000000000 -0500
 +++ glibc-2.17-c758a686/Makerules	2015-02-18 20:08:33.299000028 -0500

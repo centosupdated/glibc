@@ -213,7 +213,7 @@
 +  dlerror ();
 +
 +  /* Lookup func.  */
-+  *(void **) (&func) = dlsym (dso, func_name);
++  func = (int (*) (void)) dlsym (dso, func_name);
 +  if (func == NULL)
 +    {
 +      err = dlerror ();

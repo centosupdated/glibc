@@ -1,10 +1,51 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 106%{?dist}.8
+%define glibcrelease 157%{?dist}
 ##############################################################################
-# If run_glibc_tests is zero then tests are not run for the build.
-# You must always set run_glibc_tests to one for production builds.
-%define run_glibc_tests 1
+# We support the following options:
+# --with/--without,
+# * testsuite - Running the testsuite.
+# * benchtests - Running and building benchmark subpackage.
+# * bootstrap - Bootstrapping the package.
+# * werror - Build with -Werror
+# * docs - Build with documentation and the required dependencies.
+# * valgrind - Run smoke tests with valgrind to verify dynamic loader.
+#
+# You must always run the testsuite for production builds.
+# Default: Always run the testsuite.
+%bcond_without testsuite
+# Default: Always build the benchtests.
+%bcond_without benchtests
+# Default: Not bootstrapping.
+%bcond_with bootstrap
+# Default: Enable using -Werror
+%bcond_without werror
+# Default: Always build documentation.
+%bcond_without docs
+# Default: Don't run valgrind tests
+%bcond_with valgrind
+
+# Run a valgrind smoke test to ensure that the release is compatible and
+# doesn't any new feature that might cause valgrind to abort.
+%if %{with valgrind}
+%ifarch s390
+# There is no valgrind support for 31-bit s390.
+%undefine with_valgrind
+%endif
+%endif
+%if %{with werror}
+%ifarch s390x
+# The 64-bit s390x builds are not -Werror clean yet.
+%undefine with_werror
+%endif
+%endif
+%if %{with bootstrap}
+# Disable benchtests, -Werror, docs, and valgrind if we're bootstrapping
+%undefine with_benchtests
+%undefine with_werror
+%undefine with_docs
+%undefine with_valgrind
+%endif
 ##############################################################################
 # Auxiliary arches are those arches that can be built in addition
 # to the core supported arches. You either install an auxarch or
@@ -24,25 +65,33 @@
 %define xenpackage 0
 %endif
 ##############################################################################
-# In RHEL7 for 32-bit and 64-bit POWER the following runtimes are provided:
-# - POWER7 (-mcpu=power7 -mtune=power7)
-# - POWER8 (-mcpu=power7 -mtune=power8)
-#
-# We will eventually make the POWER8-tuned runtime into a POWER8 runtime when
-# there is enough POWER8 hardware in the build farm to ensure that all
-# builds are done on POWER8.
+# We support 32-bit and 64-bit POWER with the following runtimes:
+# 64-bit BE:
+# - POWER7 (default)
+# DISABLED - POWER8 (enabled via AT_PLATFORM)
+#            See: https://projects.engineering.redhat.com/browse/RCMPROJ-5774
+#	     The ppc64 builders still have POWER7 hardware.
+# 64-bit LE:
+# - POWER8 LE (default)
+# 32-bit BE:
+# - POWER7 (default)
+# - POWER8 (enabled via AT_PLATFORM)
 #
 # The POWER5 and POWER6 runtimes are now deprecated and no longer provided
-# or supported. This means that RHEL7 will only run on POWER7 or newer
-# hardware.
+# or supported. This means that RHEL7 BE will only run on POWER7 or newer
+# hardware, and LE will only run on POWER8 or newer hardware.
 #
-%ifarch ppc %{power64}
+%ifarch ppc ppc64
+# Build the additional runtimes for 32-bit and 64-bit BE POWER.
 %define buildpower6 0
-%define buildpower8 1
+# Disabled - %%define buildpower8 1 - See note above.
+%define buildpower8 0
 %else
+# No additional runtimes for ppc64le or ppc64p7, just the default.
 %define buildpower6 0
 %define buildpower8 0
 %endif
+
 ##############################################################################
 # We build librtkaio for all rtkaioarches. The library is installed into
 # a distinct subdirectory in the lib dir. This define enables the rtkaio
@@ -656,39 +705,225 @@ Patch1610: glibc-rh1234622.patch
 # Fix 32-bit POWER assembly to use only 32-bit instructions.
 Patch1611: glibc-rh1240796.patch
 
+# Fix for RHBZ #1213267 as a prerequisite for the patches below.
+Patch1612: glibc-rh1240351-1.patch
+
+# Backport of POWER8 glibc optimizations for RHEL7.3: math functions
+Patch1613: glibc-rh1240351-2.patch
+Patch1614: glibc-rh1240351-3.patch
+
+# Backport of POWER8 glibc optimizations for RHEL7.3: string functions
+Patch1615: glibc-rh1240351-4.patch
+Patch1616: glibc-rh1240351-5.patch
+Patch1617: glibc-rh1240351-6.patch
+Patch1618: glibc-rh1240351-7.patch
+Patch1619: glibc-rh1240351-8.patch
+Patch1620: glibc-rh1240351-9.patch
+Patch1621: glibc-rh1240351-10.patch
+Patch1622: glibc-rh1240351-11.patch
+Patch1623: glibc-rh1240351-12.patch
+
+# Backport of upstream IBM z13 patches for RHEL 7.3
+Patch1624: glibc-rh1268008-1.patch
+Patch1625: glibc-rh1268008-2.patch
+Patch1626: glibc-rh1268008-3.patch
+Patch1627: glibc-rh1268008-4.patch
+Patch1628: glibc-rh1268008-5.patch
+Patch1629: glibc-rh1268008-6.patch
+Patch1630: glibc-rh1268008-7.patch
+Patch1631: glibc-rh1268008-8.patch
+Patch1632: glibc-rh1268008-9.patch
+Patch1633: glibc-rh1268008-10.patch
+Patch1634: glibc-rh1268008-11.patch
+Patch1635: glibc-rh1268008-12.patch
+Patch1636: glibc-rh1268008-13.patch
+Patch1637: glibc-rh1268008-14.patch
+Patch1638: glibc-rh1268008-15.patch
+Patch1639: glibc-rh1268008-16.patch
+Patch1640: glibc-rh1268008-17.patch
+Patch1641: glibc-rh1268008-18.patch
+Patch1642: glibc-rh1268008-19.patch
+Patch1643: glibc-rh1268008-20.patch
+Patch1644: glibc-rh1268008-21.patch
+Patch1645: glibc-rh1268008-22.patch
+Patch1646: glibc-rh1268008-23.patch
+Patch1647: glibc-rh1268008-24.patch
+Patch1648: glibc-rh1268008-25.patch
+Patch1649: glibc-rh1268008-26.patch
+Patch1650: glibc-rh1268008-27.patch
+Patch1651: glibc-rh1268008-28.patch
+Patch1652: glibc-rh1268008-29.patch
+Patch1653: glibc-rh1268008-30.patch
+
+Patch1654: glibc-rh1249102.patch
+
 # CVE-2015-5229 and regression test.
-Patch1612: glibc-rh1293976.patch
-Patch1613: glibc-rh1293976-2.patch
+Patch1656: glibc-rh1293976.patch
+Patch1657: glibc-rh1293976-2.patch
 
 # BZ #16574
-Patch1614: glibc-rh1296031-0.patch
+Patch1658: glibc-rh1296031-0.patch
 # BZ #13928
-Patch1616: glibc-rh1296031-2.patch
+Patch1660: glibc-rh1296031-2.patch
 
 # Malloc trim fixes: #17195, #18502.
-Patch1617: glibc-rh1284959-1.patch
-Patch1618: glibc-rh1284959-2.patch
-Patch1619: glibc-rh1284959-3.patch
+Patch1661: glibc-rh1284959-1.patch
+Patch1662: glibc-rh1284959-2.patch
+Patch1663: glibc-rh1284959-3.patch
 
-# ppc64le monstartup fix:
-Patch1620: glibc-rh1249102.patch
+# RHBZ #1293916 - iconv appears to be adding a duplicate "SI"
+#                 to the output for certain inputs 
+Patch1664: glibc-rh1293916.patch
 
-# Fix race in free() of fastbin chunk: BZ #15073.
-Patch1621: glibc-rh1027101.patch
+# Race condition in _int_free involving fastbins: #15073
+Patch1665: glibc-rh1027101.patch
 
 # BZ #17370: Memory leak in wide-oriented ftell.
-Patch1622: glibc-rh1310530.patch 
+Patch1666: glibc-rh1310530.patch
 
 # BZ #19791: NULL pointer dereference in stub resolver with unconnectable
 # name server addresses
-Patch1623: glibc-rh1320596.patch
+Patch1667: glibc-rh1320596.patch
 
-# RHBZ #1331283 - Backport "Coordinate IPv6 definitions for Linux and glibc"
-Patch1624: glibc-rh1331283.patch
-Patch1625: glibc-rh1331283-1.patch
-Patch1626: glibc-rh1331283-2.patch
-Patch1627: glibc-rh1331283-3.patch
-Patch1628: glibc-rh1331283-4.patch
+# RHBZ #1298349 - Backport tst-getpw enhancements
+Patch1668: glibc-rh1298349.patch
+
+# RHBZ #1293433 - Test suite failure: Fix bug17079
+Patch1669: glibc-rh1293433.patch
+
+# RHBZ #1298354 - Backport test-skeleton.c conversions
+Patch1670: glibc-rh1298354.patch
+
+# RHBZ #1288613 - gethostbyname_r hangs forever
+Patch1671: glibc-rh1288613.patch
+
+# RHBZ #1064063 - Test suite failure: tst-mqueue5
+Patch1672: glibc-rh1064063.patch
+
+# RHBZ #140250 - Unexpected results from using posix_fallocate
+#                with nfs target 
+Patch1675: glibc-rh1140250.patch
+
+# RHBZ #1324427 - RHEL7.3 - S390: fprs/vrs are not saved/restored while
+#                 resolving symbols
+Patch1676: glibc-rh1324427-1.patch
+Patch1677: glibc-rh1324427-2.patch
+Patch1678: glibc-rh1324427-3.patch
+
+# RHBZ #1234449 - glibc: backport upstream hardening patches
+Patch1679: glibc-rh1234449-1.patch
+Patch1680: glibc-rh1234449-2.patch
+Patch1681: glibc-rh1234449-3.patch
+Patch1682: glibc-rh1234449-4.patch
+
+# RHBZ #1221046 - make bits/stat.h FTM guards consistent on all arches
+Patch1683: glibc-rh1221046.patch
+
+# RHBZ #971416 - Locale alias no_NO.ISO-8859-1 not working
+Patch1684: glibc-rh971416-1.patch
+Patch1685: glibc-rh971416-2.patch
+Patch1686: glibc-rh971416-3.patch
+
+# RHBZ 1302086 -  Improve libm performance AArch64
+Patch1687: glibc-rh1302086-1.patch
+Patch1688: glibc-rh1302086-2.patch
+Patch1689: glibc-rh1302086-3.patch
+Patch1690: glibc-rh1302086-4.patch
+Patch1691: glibc-rh1302086-5.patch
+Patch1692: glibc-rh1302086-6.patch
+Patch1693: glibc-rh1302086-7.patch
+Patch1694: glibc-rh1302086-8.patch
+Patch1695: glibc-rh1302086-9.patch
+Patch1696: glibc-rh1302086-10.patch
+Patch1697: glibc-rh1302086-11.patch
+
+# RHBZ 1346397 debug/tst-longjump_chk2 calls printf from a signal handler
+Patch1698: glibc-rh1346397.patch
+
+# RHBZ #1211823 Update BIG5-HKSCS charmap to HKSCS-2008
+Patch1699: glibc-rh1211823.patch
+
+# RHBZ #1268050 Backport "Coordinate IPv6 definitions for Linux and glibc"
+Patch1700: glibc-rh1331283.patch
+Patch1701: glibc-rh1331283-1.patch
+Patch1702: glibc-rh1331283-2.patch
+Patch1703: glibc-rh1331283-3.patch
+Patch1704: glibc-rh1331283-4.patch
+
+# RHBZ #1296297 enable (backport) instLangs in RHEL glibc
+Patch1705: glibc-rh1296297.patch
+Patch1706: glibc-rh1296297-1.patch
+
+# RHBZ #1027348 sem_post/sem_wait race causing sem_post to return EINVAL
+Patch1707: glibc-rh1027348.patch
+Patch1708: glibc-rh1027348-1.patch
+Patch1709: glibc-rh1027348-2.patch
+Patch1710: glibc-rh1027348-3.patch
+Patch1711: glibc-rh1027348-4.patch
+
+# RHBZ #1308728 Fix __times() handling of EFAULT when buf is NULL
+Patch1712: glibc-rh1308728.patch
+
+# RHBZ #1249114 [s390] setcontext/swapcontext does not restore signal mask
+Patch1713: glibc-rh1249114.patch
+# RHBZ #1249115 S390: backtrace() returns infinitely deep stack ...
+Patch1714: glibc-rh1249115.patch
+
+# RHBZ #1321993: CVE-2016-3075: Stack overflow in nss_dns_getnetbyname_r
+Patch1715: glibc-rh1321993.patch
+
+# RHBZ #1256317 - IS_IN backports.
+Patch1716: glibc-rh1256317-21.patch
+Patch1717: glibc-rh1256317-20.patch
+Patch1718: glibc-rh1256317-19.patch
+Patch1719: glibc-rh1256317-18.patch
+Patch1720: glibc-rh1256317-17.patch
+Patch1721: glibc-rh1256317-16.patch
+Patch1722: glibc-rh1256317-15.patch
+Patch1723: glibc-rh1256317-14.patch
+Patch1724: glibc-rh1256317-13.patch
+Patch1725: glibc-rh1256317-12.patch
+Patch1726: glibc-rh1256317-11.patch
+Patch1727: glibc-rh1256317-10.patch
+Patch1728: glibc-rh1256317-9.patch
+Patch1729: glibc-rh1256317-8.patch
+Patch1730: glibc-rh1256317-7.patch
+Patch1731: glibc-rh1256317-6.patch
+Patch1732: glibc-rh1256317-5.patch
+Patch1733: glibc-rh1256317-4.patch
+Patch1734: glibc-rh1256317-3.patch
+Patch1735: glibc-rh1256317-2.patch
+Patch1736: glibc-rh1256317-1.patch
+Patch1737: glibc-rh1256317-0.patch
+
+# RHBZ #1335286 [Intel 7.3 Bug] (Purley) Backport 64-bit memset from glibc 2.18
+Patch1738: glibc-rh1335286-0.patch
+Patch1739: glibc-rh1335286.patch
+
+# RHBZ #1292018 [Intel 7.3 Bug] Improve branch prediction on Knights Landing/Silvermont
+Patch1740: glibc-rh1292018-0.patch
+Patch1741: glibc-rh1292018-0a.patch
+Patch1742: glibc-rh1292018-0b.patch
+Patch1743: glibc-rh1292018-1.patch
+Patch1744: glibc-rh1292018-2.patch
+Patch1745: glibc-rh1292018-3.patch
+Patch1746: glibc-rh1292018-4.patch
+Patch1747: glibc-rh1292018-5.patch
+Patch1748: glibc-rh1292018-6.patch
+Patch1749: glibc-rh1292018-7.patch
+
+# RHBZ #1255822 glibc: malloc may fall back to calling mmap prematurely if arenas are contended
+Patch1750: glibc-rh1255822.patch
+
+# RHBZ #1298526 [Intel 7.3 FEAT] glibc: AVX-512 optimized memcpy
+Patch1751: glibc-rh1298526-0.patch
+Patch1752: glibc-rh1298526-1.patch
+Patch1753: glibc-rh1298526-2.patch
+Patch1754: glibc-rh1298526-3.patch
+Patch1755: glibc-rh1298526-4.patch
+
+# RHBZ #1350733 locale-archive.tmpl cannot be processed by build-locale-archive
+Patch1756: glibc-rh1350733-1.patch
 
 ##############################################################################
 #
@@ -747,6 +982,21 @@ Patch2065: glibc-rh1156331.patch
 # Upstream BZ 18557: Fix ruserok scalability issues.
 Patch2066: glibc-rh1216246.patch
 
+# Backport of fix for malloc arena free list management (upstream bug 19048)
+# The preparatory patch removes !PER_THREAD conditional code.
+Patch20670: glibc-rh1276753-0.patch
+Patch2067: glibc-rh1276753.patch
+
+# Backport to fix ld.so crash when audit modules provide path (upstream bug 18251)
+Patch2068: glibc-rh1211100.patch
+
+# aarch64 MINSIGSTKSZ/SIGSTKSZ fix
+Patch2069: glibc-rh1335629.patch
+Patch2070: glibc-rh1335925-1.patch
+Patch2071: glibc-rh1335925-2.patch
+Patch2072: glibc-rh1335925-3.patch
+Patch2073: glibc-rh1335925-4.patch
+
 ##############################################################################
 # End of glibc patches.
 ##############################################################################
@@ -776,10 +1026,25 @@ Requires(pre): basesystem, libgcc
 
 # This is for building auxiliary programs like memusage, nscd
 # For initial glibc bootstraps it can be commented out
-BuildRequires: gd-devel libpng-devel zlib-devel texinfo, libselinux-devel >= 1.33.4-3
-BuildRequires: audit-libs-devel >= 1.1.3, sed >= 3.95, libcap-devel, gettext, nss-devel
+BuildRequires: gd-devel libpng-devel zlib-devel
+%if %{with docs}
+# Removing texinfo will cause check-safety.sh test to fail because it seems to
+# trigger documentation generation based on dependencies.  We need to fix this
+# upstream in some way that doesn't depend on generating docs to validate the
+# texinfo.  I expect it's simply the wrong dependency for that target.
+BuildRequires: texinfo
+%endif
+%if %{without bootstrap}
+BuildRequires: libselinux-devel >= 1.33.4-3
+BuildRequires: nss-devel
+%endif
+BuildRequires: audit-libs-devel >= 1.1.3, sed >= 3.95, libcap-devel, gettext
 BuildRequires: /bin/ps, /bin/kill, /bin/awk
 BuildRequires: systemtap-sdt-devel
+
+%if %{with valgrind}
+BuildRequires: /usr/bin/valgrind
+%endif
 
 # This is needed to get the _tmpfilesdir macro we use for nscd.
 BuildRequires: systemd
@@ -834,9 +1099,16 @@ BuildRequires: elfutils >= 0.72
 BuildRequires: rpm >= 4.2-0.56
 %endif
 
-# The testsuite builds static C++ binaries that require a static
-# C++ runtime from libstdc++-static.
+%if %{without boostrap}
+%if %{with testsuite}
+# The testsuite builds static C++ binaries that require a C++ compiler
+# and static C++ runtime from libstdc++-static.
+BuildRequires: gcc-c++
 BuildRequires: libstdc++-static
+BuildRequires: glibc-static
+%endif
+%endif
+
 
 # Filter out all GLIBC_PRIVATE symbols since they are internal to
 # the package and should be examined by any other tool.
@@ -958,7 +1230,10 @@ libraries, as well as national language (locale) support.
 Summary: A Name Service Caching Daemon (nscd).
 Group: System Environment/Daemons
 Requires: %{name} = %{version}-%{release}
-Requires: libselinux >= 1.17.10-1, audit-libs >= 1.1.3
+%if %{without bootstrap}
+Requires: libselinux >= 1.17.10-1
+%endif
+Requires: audit-libs >= 1.1.3
 Requires(pre): /usr/sbin/useradd, coreutils
 Requires(post): systemd-units
 Requires(preun): systemd-units
@@ -1037,6 +1312,7 @@ package or when debugging this package.
 # Prepare for the build.
 ##############################################################################
 %prep
+
 %setup -q -n %{glibcsrcdir} -b1
 
 # Patch order is important as some patches depend on other patches and
@@ -1321,18 +1597,26 @@ package or when debugging this package.
 %patch1605 -p1
 %patch1606 -p1
 %patch2066 -p1
+%patch20670 -p1
+%patch2067 -p1
+%patch2068 -p1
+%patch2069 -p1
+%patch2070 -p1
+%patch2071 -p1
+%patch2072 -p1
+%patch2073 -p1
 # Rebase of microbenchmarks.
 %patch1607 -p1
 %patch1609 -p1
 %patch1610 -p1
 %patch1611 -p1
-%patch1123 -p1
-%patch1124 -p1
+
+# Backport of POWER8 glibc optimizations for RHEL7.3
 %patch1612 -p1
 %patch1613 -p1
 %patch1614 -p1
+%patch1615 -p1
 %patch1616 -p1
-%patch0067 -p1
 %patch1617 -p1
 %patch1618 -p1
 %patch1619 -p1
@@ -1341,12 +1625,173 @@ package or when debugging this package.
 %patch1622 -p1
 %patch1623 -p1
 
-# RHBZ #1331283 - Backport "Coordinate IPv6 definitions for Linux and glibc"
+# Backport of upstream IBM z13 patches for RHEL 7.3
 %patch1624 -p1
 %patch1625 -p1
 %patch1626 -p1
 %patch1627 -p1
 %patch1628 -p1
+%patch1629 -p1
+%patch1630 -p1
+%patch1631 -p1
+%patch1632 -p1
+%patch1633 -p1
+%patch1634 -p1
+%patch1635 -p1
+%patch1636 -p1
+%patch1637 -p1
+%patch1638 -p1
+%patch1639 -p1
+%patch1640 -p1
+%patch1641 -p1
+%patch1642 -p1
+%patch1643 -p1
+%patch1644 -p1
+%patch1645 -p1
+%patch1646 -p1
+%patch1647 -p1
+%patch1648 -p1
+%patch1649 -p1
+%patch1650 -p1
+%patch1651 -p1
+%patch1652 -p1
+%patch1653 -p1
+%patch1654 -p1
+
+%patch1123 -p1
+%patch1124 -p1
+
+%patch1656 -p1
+%patch1657 -p1
+%patch1658 -p1
+%patch1660 -p1
+%patch0067 -p1
+%patch1661 -p1
+%patch1662 -p1
+%patch1663 -p1
+
+%patch1664 -p1
+%patch1665 -p1
+%patch1666 -p1
+%patch1667 -p1
+%patch1668 -p1
+%patch1669 -p1
+%patch1670 -p1
+%patch1671 -p1
+%patch1672 -p1
+
+%patch1675 -p1
+
+# RHBZ #1324427, parts 1 through 3
+%patch1676 -p1
+%patch1677 -p1
+%patch1678 -p1
+
+# RHBZ #1234449, parts 1 through 4
+%patch1679 -p1
+%patch1680 -p1
+%patch1681 -p1
+%patch1682 -p1
+
+# RHBZ #1221046
+%patch1683 -p1
+
+# RHBZ #971416
+%patch1684 -p1
+%patch1685 -p1
+%patch1686 -p1
+
+# RHBZ #1302086
+%patch1687 -p1
+%patch1688 -p1
+%patch1689 -p1
+%patch1690 -p1
+%patch1691 -p1
+%patch1692 -p1
+%patch1693 -p1
+%patch1694 -p1
+%patch1695 -p1
+%patch1696 -p1
+%patch1697 -p1
+
+# RHBZ #1346397
+%patch1698 -p1
+
+# RHBZ #1211823
+%patch1699 -p1
+
+# RHBZ #1268050, parts 1 through 5
+%patch1700 -p1
+%patch1701 -p1
+%patch1702 -p1
+%patch1703 -p1
+%patch1704 -p1
+
+# RHBz #1296297, part 1 and 2.
+%patch1705 -p1
+%patch1706 -p1
+
+# RHBZ #1027348, part 1 through 5.
+%patch1707 -p1
+%patch1708 -p1
+%patch1709 -p1
+%patch1710 -p1
+%patch1711 -p1
+
+%patch1712 -p1
+%patch1713 -p1
+%patch1714 -p1
+
+%patch1715 -p1
+
+# RHBZ #1256317, IS_IN backports, parts 1 through 22.
+%patch1716 -p1
+%patch1717 -p1
+%patch1718 -p1
+%patch1719 -p1
+%patch1720 -p1
+%patch1721 -p1
+%patch1722 -p1
+%patch1723 -p1
+%patch1724 -p1
+%patch1725 -p1
+%patch1726 -p1
+%patch1727 -p1
+%patch1728 -p1
+%patch1729 -p1
+%patch1730 -p1
+%patch1731 -p1
+%patch1732 -p1
+%patch1733 -p1
+%patch1734 -p1
+%patch1735 -p1
+%patch1736 -p1
+%patch1737 -p1
+
+%patch1738 -p1
+%patch1739 -p1
+
+# RHBZ #1292018, patches 1 through 10.
+%patch1740 -p1
+%patch1741 -p1
+%patch1742 -p1
+%patch1743 -p1
+%patch1744 -p1
+%patch1745 -p1
+%patch1746 -p1
+%patch1747 -p1
+%patch1748 -p1
+%patch1749 -p1
+
+%patch1750 -p1
+
+# RHBZ #1298526, patch 1 of 5.
+%patch1751 -p1
+%patch1752 -p1
+%patch1753 -p1
+%patch1754 -p1
+%patch1755 -p1
+%patch1756 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -1380,9 +1825,15 @@ touch locale/programs/*-kw.h
 ##############################################################################
 %build
 
-# We built using the native system compilers.
+# We build using the native system compilers.
 GCC=gcc
 GXX=g++
+
+# Log system information.
+uname -a
+cat /proc/cpuinfo
+cat /proc/meminfo
+df
 
 ##############################################################################
 # %%build - x86 options.
@@ -1406,38 +1857,50 @@ BuildFlags="-mtune=generic"
 ##############################################################################
 %ifarch sparc
 BuildFlags="-fcall-used-g6"
-GCC="gcc -m32"
-GXX="g++ -m32"
+GCC="$GCC -m32"
+GXX="$GXX -m32"
 %endif
 %ifarch sparcv9
 BuildFlags="-mcpu=ultrasparc -fcall-used-g6"
-GCC="gcc -m32"
-GXX="g++ -m32"
+GCC="$GCC -m32"
+GXX="$GXX -m32"
 %endif
 %ifarch sparcv9v
 BuildFlags="-mcpu=niagara -fcall-used-g6"
-GCC="gcc -m32"
-GXX="g++ -m32"
+GCC="$GCC -m32"
+GXX="$GXX -m32"
 %endif
 %ifarch sparc64
 BuildFlags="-mcpu=ultrasparc -mvis -fcall-used-g6"
-GCC="gcc -m64"
-GXX="g++ -m64"
+GCC="$GCC -m64"
+GXX="$GXX -m64"
 %endif
 %ifarch sparc64v
 BuildFlags="-mcpu=niagara -mvis -fcall-used-g6"
-GCC="gcc -m64"
-GXX="g++ -m64"
+GCC="$GCC -m64"
+GXX="$GXX -m64"
 %endif
+
+##############################################################################
+# %%build - POWER options.
+##############################################################################
 %ifarch ppc
 BuildFlags=""
-GCC="gcc -mcpu=power7 -mtune=power7"
-GXX="g++ -mcpu=power7 -mtune=power7"
+GCC="$GCC -mcpu=power7 -mtune=power7"
+GXX="$GXX -mcpu=power7 -mtune=power7"
+core_with_options="--with-cpu=power7"
 %endif
 %ifarch %{power64}
 BuildFlags=""
-GCC="gcc -m64 -mcpu=power7 -mtune=power7"
-GXX="g++ -m64 -mcpu=power7 -mtune=power7"
+%ifarch ppc64le
+GCC="$GCC -mcpu=power8 -mtune=power8"
+GXX="$GXX -mcpu=power8 -mtune=power8"
+core_with_options="--with-cpu=power8"
+%else
+GCC="$GCC -m64 -mcpu=power7 -mtune=power7"
+GXX="$GXX -m64 -mcpu=power7 -mtune=power7"
+core_with_options="--with-cpu=power7"
+%endif
 %endif
 
 ##############################################################################
@@ -1488,12 +1951,17 @@ configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
 %endif
 	--enable-obsolete-rpc \
 	--enable-systemtap \
-%ifarch ppc %{power64}
-%ifnarch ppc64le
-	--with-cpu=power7 \
+	${core_with_options} \
+%if %{without werror}
+	--disable-werror \
 %endif
+	--disable-profile \
+%if %{with bootstrap}
+	--without-selinux \
+	--disable-nss-crypt ||
+%else
+	--enable-nss-crypt ||
 %endif
-	--disable-profile --enable-nss-crypt ||
 { cat config.log; false; }
 
 make %{?_smp_mflags} -r CFLAGS="$build_CFLAGS" %{silentrules}
@@ -1533,18 +2001,18 @@ if [ "$platform" != power6 ]; then
 %endif
   export LD_PRELOAD=`pwd`/power6emul/\$LIB/power6emul.so
 fi
-AddOns="$AddOns --with-cpu=power6"
 GCC="$GCC -mcpu=power6"
 GXX="$GXX -mcpu=power6"
+core_with_options="--with-cpu=power6"
 build power6
 )
 %endif
 
 %if %{buildpower8}
 (
-  AddOns="$AddOns --with-cpu=power7"
-  GCC="$GCC -mcpu=power7 -mtune=power8"
-  GXX="$GXX -mcpu=power7 -mtune=power8"
+  GCC="$GCC -mcpu=power8 -mtune=power8"
+  GXX="$GXX -mcpu=power8 -mtune=power8"
+  core_with_options="--with-cpu=power8"
   build power8
 )
 %endif
@@ -1714,6 +2182,7 @@ cp -a bits/stdio-lock.h $RPM_BUILD_ROOT%{_prefix}/include/bits/stdio-lock.h
 # And <bits/libc-lock.h> needs sanitizing as well.
 cp -a releng/libc-lock.h $RPM_BUILD_ROOT%{_prefix}/include/bits/libc-lock.h
 
+%if %{with docs}
 # Move the info files if glibc installed them into the wrong location.
 if [ -d $RPM_BUILD_ROOT%{_prefix}/info -a "%{_infodir}" != "%{_prefix}/info" ]; then
   mkdir -p $RPM_BUILD_ROOT%{_infodir}
@@ -1723,6 +2192,11 @@ fi
 
 # Compress all of the info files.
 gzip -9nvf $RPM_BUILD_ROOT%{_infodir}/libc*
+
+%else
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+rm -f $RPM_BUILD_ROOT%{_infodir}/libc.info*
+%endif
 
 # XXX: What is this for?
 ln -sf libbsd-compat.a $RPM_BUILD_ROOT%{_prefix}/%{_lib}/libbsd.a
@@ -1852,7 +2326,10 @@ rm -f $RPM_BUILD_ROOT%{_sbindir}/rpcinfo
 	 , \
 	 ! -path "*/lib/debug/*" -printf "/%%P\n" \)
   find $RPM_BUILD_ROOT -type d \
-       \( -path '*%{_prefix}/share/*' ! -path '*%{_infodir}' -o \
+       \( -path '*%{_prefix}/share/*' \
+%if %{with docs}
+	! -path '*%{_infodir}' -o \
+%endif
 	  -path "*%{_prefix}/include/*" \
        \) -printf "%%%%dir /%%P\n"
 } | {
@@ -1883,8 +2360,10 @@ for i in $RPM_BUILD_ROOT%{_prefix}/bin/{xtrace,memusage}; do
       -i $i
 done
 
+%if %{with docs}
 # Put the info files into the devel file list.
 grep '%{_infodir}' < rpm.filelist | grep -v '%{_infodir}/dir' > devel.filelist
+%endif
 
 # The glibc-headers package includes only common files which are identical
 # across all multilib packages. We must keep gnu/stubs.h and gnu/lib-names.h
@@ -1903,7 +2382,8 @@ grep '%{_prefix}/include' < rpm.filelist \
 # the core glibc package.
 sed -i -e '\|%{_prefix}/%{_lib}/lib.*_p.a|d' \
        -e '\|%{_prefix}/include|d' \
-       -e '\|%{_infodir}|d' rpm.filelist
+       -e '\|%{_infodir}|d' \
+	rpm.filelist
 
 # Put some static files into the devel package.
 grep '%{_prefix}/%{_lib}/lib.*\.a' < rpm.filelist \
@@ -2005,6 +2485,30 @@ $GCC -Os -g -static -o build-locale-archive build-locale-archive.c \
   -L../build-%{target} \
   -Wl,--allow-shlib-undefined \
   -B../build-%{target}/csu/ -lc -lc_nonshared
+
+%ifnarch %{auxarches}
+# Test run, to make sure the locale archive is not corrupt.  The test
+# runs against a directory tree under tmp-proot, using --prefix option
+# of build-locale-archive.
+mkdir -p tmp-root/usr/{lib,share}/locale
+touch tmp-root/usr/share/locale/locale.alias
+cp ${RPM_BUILD_ROOT}%{_prefix}/lib/locale/locale-archive.tmpl \
+  tmp-root/usr/lib/locale/locale-archive.tmpl
+# Capture locale list, before build-locale-archive destroys the input file.
+../build-%{target}/testrun.sh ../build-%{target}/locale/localedef \
+    --list-archive tmp-root/usr/lib/locale/locale-archive.tmpl \
+  | sort -o tmp-root/tmpl.list
+
+./build-locale-archive --verbose --install-langs all --prefix tmp-root
+
+# Compare the results, to check that no locales were dropped.
+../build-%{target}/testrun.sh ../build-%{target}/locale/localedef \
+    --list-archive tmp-root/usr/lib/locale/locale-archive \
+  | sort -o tmp-root/list
+diff -u tmp-root/tmpl.list tmp-root/list
+rm -rf tmp-root
+%endif
+
 install -m 700 build-locale-archive $RPM_BUILD_ROOT/usr/sbin/build-locale-archive
 popd
 
@@ -2032,7 +2536,7 @@ ln -sf /lib/ld-linux-armhf.so.3 $RPM_BUILD_ROOT/lib/ld-linux.so.3
 ##############################################################################
 # Run the glibc testsuite
 ##############################################################################
-%if %{run_glibc_tests}
+%if %{with testsuite}
 # Increase timeouts
 export TIMEOUTFACTOR=16
 parent=$$
@@ -2103,6 +2607,17 @@ readelf -Wr $RPM_BUILD_ROOT/%{_lib}/ld-*.so | sed -n -e "$PLTCMD"
 echo ====================PLT RELOCS LIBC.SO==============
 readelf -Wr $RPM_BUILD_ROOT/%{_lib}/libc-*.so | sed -n -e "$PLTCMD"
 echo ====================PLT RELOCS END==================
+
+%if %{with valgrind}
+# Finally, check if valgrind runs with the new glibc.
+# We want to fail building if valgrind is not able to run with this glibc so
+# that we can then coordinate with valgrind to get it fixed before we update
+# glibc.
+pushd build-%{target}
+elf/ld.so --library-path .:elf:nptl:dlfcn /usr/bin/valgrind \
+        elf/ld.so --library-path .:elf:nptl:dlfcn /usr/bin/true
+popd
+%endif
 
 %endif # %{run_glibc_tests}
 
@@ -2200,9 +2715,11 @@ list_debug_archives >> debuginfocommon.filelist
 
 %endif # 0%{?_enable_debug_packages}
 
+%if %{with docs}
 # Remove the `dir' info-heirarchy file which will be maintained
 # by the system as it adds info files to the install.
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+%endif
 
 %ifarch %{auxarches}
 
@@ -2244,7 +2761,8 @@ end
 if posix.stat("%{_prefix}/lib/locale/locale-archive.tmpl", "size") > 0 then
   pid = posix.fork()
   if pid == 0 then
-    posix.exec("%{_prefix}/sbin/build-locale-archive")
+    posix.exec("%{_prefix}/sbin/build-locale-archive", "--install-langs",
+               rpm.expand("%%{_install_langs}"))
   elseif pid > 0 then
     posix.wait(pid)
   end
@@ -2255,15 +2773,18 @@ if posix.access("/etc/ld.so.cache") then
   if posix.stat("%{_prefix}/lib/locale/locale-archive.tmpl", "size") > 0 then
     pid = posix.fork()
     if pid == 0 then
-      posix.exec("%{_prefix}/sbin/build-locale-archive")
+      posix.exec("%{_prefix}/sbin/build-locale-archive", "--install-langs",
+                 rpm.expand("%%{_install_langs}"))
     elseif pid > 0 then
       posix.wait(pid)
     end
   end
 end
 
+%if %{with docs}
 %post devel
 /sbin/install-info %{_infodir}/libc.info.gz %{_infodir}/dir > /dev/null 2>&1 || :
+%endif
 
 %pre headers
 # this used to be a link and it is causing nightmares now
@@ -2271,10 +2792,12 @@ if [ -L %{_prefix}/include/scsi ] ; then
   rm -f %{_prefix}/include/scsi
 fi
 
+%if %{with docs}
 %preun devel
 if [ "$1" = 0 ]; then
   /sbin/install-info --delete %{_infodir}/libc.info.gz %{_infodir}/dir > /dev/null 2>&1 || :
 fi
+%endif
 
 %post utils -p /sbin/ldconfig
 
@@ -2416,37 +2939,181 @@ rm -f *.filelist*
 %endif
 
 %changelog
-* Thu Jun 16 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.8
-- Fix Linux kernel UAPI header synchronization for IPv6 (#1331283).
+* Thu Aug 11 2016 Florian Weimer <fweimer@redhat.com> - 2.17-157
+- Rebuild with updated binutils (#1268008)
 
-* Fri May 20 2016 Martin Sebor <msebor@redhat.com> - 2.17-106.7
-- Make minor compatibility adjustments in headers (#1331283).
+* Tue Jul 19 2016 Florian Weimer <fweimer@redhat.com> - 2.17-156
+- malloc arena free free list management fix (#1276753)
 
-* Mon Apr  4 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.6
+* Wed Jun 29 2016 Florian Weimer <fweimer@redhat.com> - 2.17-155
+- Basic validity check for locale-archive.tmpl (#1350733)
+
+* Wed Jun 22 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-153
+- Add Intel AVX-512 optimized routines (#1298526).
+
+* Wed Jun 22 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-151
+- Improve malloc peformance in low-memory situations (#1255822).
+
+* Wed Jun 22 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-150
+- Improve performance on Intel Knights Landing/Silvermont (#1292018).
+
+* Tue Jun 21 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-149
+- Improve performance on Intel Purley (#1335286).
+
+* Mon Jun 20 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-148
+- Support upstream build infrastrucutre changes (#1256317).
+
+* Sun Jun 19 2016 Florian Weimer <fweimer@redhat.com> - 2.17-147
+- CVE-2016-3075: Stack overflow in nss_dns_getnetbyname_r (#1321993)
+
+* Sun Jun 19 2016 Carlos O'Donell <carlso@redhat.com> - 2.17-146
+- s390: Restore signal mask on setcontext/swapcontext (#1249114).
+- s390: Fix backtrace in the presence of makecontext (#1249115).
+
+* Fri Jun 17 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-145
+- Fix times() handling of EFAULT when buf is NULL (#1308728).
+
+* Fri Jun 17 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-144
+- Fix sem_post/sem_wait race causing sem_post to return EINVAL (#1027348).
+
+* Fri Jun 17 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-143
+- Support installing only those locales specified by the RPM macro
+  %%_install_langs (#1296297).
+
+* Fri Jun 17 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-142
+- Fix Linux kernel UAPI header synchronization for IPv6 (#1268050).
+
+* Fri Jun 17 2016 Florian Weimer <fweimer@redhat.com> - 2.17-141
+- Update BIG5-HKSCS charmap to HKSCS-2008 (#1211823)
+
+* Thu Jun 16 2016 Florian Weimer <fweimer@redhat.com> - 2.17-140
+- Remove printf from signal handler in tst-longjump_chk2 (#1346397)
+
+* Thu Jun 16 2016 Florian Weimer <fweimer@redhat.com> - 2.17-139
+- Improve libm performance AArch64 (#1302086)
+
+* Wed Jun 15 2016 Florian Weimer <fweimer@redhat.com> - 2.17-138
+- Search locale archive again after alias expansion (#971416)
+
+* Wed Jun 15 2016 Florian Weimer <fweimer@redhat.com> - 2.17-137
+- Revert IPv6 name server management changes (#1305132)
+
+* Fri Jun 10 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 2.17-136
+- aarch64: Fix bits/stat.h FTM guards (#1221046)
+
+* Fri May 13 2016 Florian Weimer <fweimer@redhat.com> - 2.17-135
+- aarch64: Fix various minor ABI incompatibilities (#1335925)
+
+* Fri May 13 2016 Florian Weimer <fweimer@redhat.com> - 2.17-134
+- aarch64: Correct definition of MINSIGSTKSZ/SIGSTKSZ (#1335629)
+
+* Tue May 3 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-133
+- Require libselinux for nscd in non-bootstrap configuration (#1255847).
+
+* Thu Apr 28 2016 Martin Sebor <msebor@redhat.com> - 2.17-132
+- Fix a number of long-standing issues in the TZ parser (#1234449).
+
+* Mon Apr 25 2016 Florian Weimer <fweimer@redhat.com> - 2.17-131
+- Remove PER_THREAD preprocessor macro from malloc
+- Use final upstream patch for arena free list fix (#1276753)
+
+* Thu Apr 14 2016 Martin Sebor <msebor@redhat.com> - 2.17-130
+- Prevent the compiler from clobbering floating point and vector
+  registers in S390 symbol resolution functions (#1324427).
+- Improve posix_fallocate behavior with NFS file descriptors (#1140250).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-129
+- Remove a race condition from tst-mqueue5.c test to prevent spurious
+  failures (#1064063).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-128
+- Prevent a deadlock in gethostbyname_r (#1288613).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-127
+- Use test-skeleton.c in tests (#1298354).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-126
+- Fix inconsistent passwd compensation in nss/bug17079.c (#1293433).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-125
+- Backport tst-getpw enhancement to limit the time the test takes up
+  (#1298349).
+
+* Mon Apr 04 2016 Florian Weimer <fweimer@redhat.com> - 2.17-124
+- Log system information during build (#1307028).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-123
+- Avoid appending duplicate shift sequences in iconv (#1293916).
+
+* Mon Apr 04 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-122
+- Reorganize POWER7 and POWER8 support (#1213267).
+  - Only build POWER7 runtime for ppc64p7.
+  - Only build POWER8 runtime for ppc64le.
+  - Configure with --with-cpu=power8 for ppc64le.
+  - Configure with --with-cpu=power8 for ppc.
+  - Configure with --with-cpu=power7 for ppc64 default runtime.
+
+* Mon Apr 04 2016 DJ Delorie <dj@redhat.com> - 2.17-121
+- Build require gcc-c++ for the C++ tests.
+- Add --with/--without controls for building glibc (#1255847)
+  - Support --without testsuite option to disable testing after build.
+  - Support --without benchtests option to disable microbenchmarks
+    (placeholder for upstream compatibility only)
+  - Update --with bootstrap to disable valgrind, documentation,
+    selinux, and nss-crypt during bootstrap.
+  - Support --without werror to disable building with -Werror.
+  - Support --without docs to disable build requirement on texinfo.
+  - Support --with valgrind to enable testing with valgrind.
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-120
+- Make minor compatibility adjustments in headers (#1268050).
+
+* Mon Apr 04 2016 Florian Weimer <fweimer@redhat.com> - 2.17-119
+- Avoid aliasing issue in tst-rec-dlopen (#1292224)
+
+* Mon Apr 04 2016 Florian Weimer <fweimer@redhat.com> - 2.17-118
+- Suppress expected backtrace in tst-malloc-backtrace (#1276631).
+
+* Mon Apr 04 2016 Florian Weimer <fweimer@redhat.com> - 2.17-117
+- Avoid ld.so crash when audit modules provide path (#1211100)
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-116
+- Avoid "monstartup: out of memory" error on powerpc64le (#1249102).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-115
+- Configure --with-cpu=power8 on powerpc64 to generate POWER8
+  instructions for POWER8 runtime (#1183088, #1213267).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-114
+- Add enhanced and optimized support for IBM z13 systems (#1268008).
+
+* Mon Apr 04 2016 Florian Weimer <fweimer@redhat.com> - 2.17-113
+- Prevent the malloc arena free list form turning cyclic (#1276753).
+
+* Mon Apr 04 2016 Martin Sebor <msebor@redhat.com> - 2.17-112
+- Backported POWER8 optimizations for math and string functions (#1240351).
+
+* Mon Apr 04 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-111
 - Fix NULL pointer dereference in stub resolver with unconnectable name
-  server addresses (#1323839).
+  server addresses (#1320596).
 
-* Mon Apr  4 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.5
-- Fix memory leak in ftell for wide-oriented streams (#1323781).
-- Avoid race condition in _int_free involving fastbins (#1313308).
+* Thu Mar 31 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-110
+- Fix memory leak in ftell for wide-oriented streams (#1310530).
 
-* Fri Feb  5 2016 Florian Weimer <fweimer@redhat.com> - 2.17-106.4
-- Revert problematic libresolv change, not needed for the
-  CVE-2015-7547 fix (#1296030).
+* Fri Feb 12 2016 Florian Weimer <fweimer@redhat.com> - 2.17-109
+- Avoid race condition in _int_free involving fastbins (#1305406).
 
-* Fri Jan 15 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.3
-- Fix CVE-2015-7547: getaddrinfo() stack-based buffer overflow (#1296030).
-- Fix madvise performance issues (#1298930).
-- Avoid "monstartup: out of memory" error on powerpc64le (#1298956).
+* Fri Jan 15 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-108
+- Fix CVE-2015-7547: getaddrinfo() stack-based buffer overflow (#1296031).
+- Fix madvise performance issues (#1284959).
+- Avoid "monstartup: out of memory" error on powerpc64le (#1249102).
+- Update malloc testing for 32-bit POWER (#1293976).
 
-* Wed Jan 13 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-106.2
-- Fix CVE-2015-5229: calloc() may return non-zero memory (#1296453).
+* Wed Jan 13 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-107
+- Fix CVE-2015-5229: calloc() may return non-zero memory (#1293976).
 
-* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106.1
-- Rebuild with corrected release.
-
-* Wed Oct 28 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106
-- Add fix for CVE-2015-5277 (#1275920).
+* Tue Oct 27 2015 Florian Weimer <fweimer@redhat.com> - 2.17-106
+- Add fix for CVE-2015-5277 (#1263134).
 
 * Fri Aug 14 2015 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-105
 - Fix up test case for initial-exec fix (#1248208).
