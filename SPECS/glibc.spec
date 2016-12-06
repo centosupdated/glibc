@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 157%{?dist}
+%define glibcrelease 157%{?dist}.1
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -997,6 +997,14 @@ Patch2071: glibc-rh1335925-2.patch
 Patch2072: glibc-rh1335925-3.patch
 Patch2073: glibc-rh1335925-4.patch
 
+# Do not set initgroups in default nsswitch.conf
+Patch2074: glibc-rh1366569.patch
+
+# Various nss_db fixes
+Patch2075: glibc-rh1318890.patch
+Patch2076: glibc-rh1213603.patch
+Patch2077: glibc-rh1370630.patch
+
 ##############################################################################
 # End of glibc patches.
 ##############################################################################
@@ -1605,6 +1613,10 @@ package or when debugging this package.
 %patch2071 -p1
 %patch2072 -p1
 %patch2073 -p1
+%patch2074 -p1
+%patch2075 -p1
+%patch2076 -p1
+%patch2077 -p1
 # Rebase of microbenchmarks.
 %patch1607 -p1
 %patch1609 -p1
@@ -2939,6 +2951,12 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Thu Oct 27 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-157.1
+- Do not set initgroups in default nsswitch.conf (#1388638)
+- nss_db: Request larger buffers for long group entries (#1388637)
+- nss_db: Fix get*ent crash without preceding set*ent (#1388635)
+- nss_db: Fix endless loop in services database processing (#1388639)
+
 * Thu Aug 11 2016 Florian Weimer <fweimer@redhat.com> - 2.17-157
 - Rebuild with updated binutils (#1268008)
 
