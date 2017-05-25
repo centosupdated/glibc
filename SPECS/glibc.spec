@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 157%{?dist}.1
+%define glibcrelease 157%{?dist}.2
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1005,6 +1005,10 @@ Patch2075: glibc-rh1318890.patch
 Patch2076: glibc-rh1213603.patch
 Patch2077: glibc-rh1370630.patch
 
+# getaddrinfo with nscd fixes
+Patch2078: glibc-rh1436312.patch
+
+
 ##############################################################################
 # End of glibc patches.
 ##############################################################################
@@ -1617,6 +1621,7 @@ package or when debugging this package.
 %patch2075 -p1
 %patch2076 -p1
 %patch2077 -p1
+%patch2078 -p1
 # Rebase of microbenchmarks.
 %patch1607 -p1
 %patch1609 -p1
@@ -2951,6 +2956,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Mar 28 2017 DJ Delorie <dj@redhat.com> - 2.17-157.2
+- Fix use of uninitialized data in getaddrinfo with nscd (#1436312)
+
 * Thu Oct 27 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-157.1
 - Do not set initgroups in default nsswitch.conf (#1388638)
 - nss_db: Request larger buffers for long group entries (#1388637)
