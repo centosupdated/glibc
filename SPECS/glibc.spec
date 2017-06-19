@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 157%{?dist}.2
+%define glibcrelease 157%{?dist}.4
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1008,6 +1008,10 @@ Patch2077: glibc-rh1370630.patch
 # getaddrinfo with nscd fixes
 Patch2078: glibc-rh1436312.patch
 
+Patch2079: glibc-rh1452720-1.patch
+Patch2080: glibc-rh1452720-2.patch
+Patch2081: glibc-rh1452720-3.patch
+Patch2082: glibc-rh1452720-4.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -1622,6 +1626,11 @@ package or when debugging this package.
 %patch2076 -p1
 %patch2077 -p1
 %patch2078 -p1
+%patch2079 -p1
+%patch2080 -p1
+%patch2081 -p1
+%patch2082 -p1
+
 # Rebase of microbenchmarks.
 %patch1607 -p1
 %patch1609 -p1
@@ -2956,6 +2965,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri May 26 2017 Florian Weimer <fweimer@redhat.com> - 2.17-157.4
+- Avoid large allocas in the dynamic linker (#1452720)
+
 * Tue Mar 28 2017 DJ Delorie <dj@redhat.com> - 2.17-157.2
 - Fix use of uninitialized data in getaddrinfo with nscd (#1436312)
 
