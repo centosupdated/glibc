@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 157%{?dist}.4
+%define glibcrelease 157%{?dist}.5
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -925,6 +925,12 @@ Patch1755: glibc-rh1298526-4.patch
 # RHBZ #1350733 locale-archive.tmpl cannot be processed by build-locale-archive
 Patch1756: glibc-rh1350733-1.patch
 
+# RHBZ #:1463274 Rounding issues on POWER
+Patch1857: glibc-rh1463274-1.patch
+Patch1858: glibc-rh1463274-2.patch
+Patch1859: glibc-rh1463274-3.patch
+Patch1860: glibc-rh1463274-4.patch
+
 ##############################################################################
 #
 # Patches submitted, but not yet approved upstream.
@@ -1818,6 +1824,11 @@ package or when debugging this package.
 %patch1754 -p1
 %patch1755 -p1
 %patch1756 -p1
+
+%patch1857 -p1
+%patch1858 -p1
+%patch1859 -p1
+%patch1860 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -2965,6 +2976,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Jun 20 2017 Florian Weimer <fweimer@redhat.com> - 2.17-157.5
+- Rounding issues on POWER (#1463274)
+
 * Fri May 26 2017 Florian Weimer <fweimer@redhat.com> - 2.17-157.4
 - Avoid large allocas in the dynamic linker (#1452720)
 
