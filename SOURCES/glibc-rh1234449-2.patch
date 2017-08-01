@@ -4,6 +4,35 @@ Date:   Fri Apr 24 17:34:47 2015 +0200
 
     Make time zone file parser more robust [BZ #17715]
 
+commit 6807b1db8233ed84671f061b5d825622233df303
+Author: Kevin Easton <kevin@guarana.org>
+Date:   Tue Feb 24 23:57:07 2015 -0500
+
+    Reduce lock contention in __tz_convert() [BZ #16145] (partial fix)
+
+commit 9d46370ca338054cb6ea7ebeddcf06c7ac7ad1a9
+Author: Joseph Myers <joseph@codesourcery.com>
+Date:   Fri Oct 16 20:21:49 2015 +0000
+
+    Convert 703 function definitions to prototype style.
+    (A subset of these changes (tzset.c) were applied as part of this patch.)
+
+commit 0748546f660d27a2ad29fa6174d456e2f6490758
+Author: Paul Eggert <eggert@cs.ucla.edu>
+Date:   Wed Sep 18 13:15:12 2013 -0700
+
+    Support TZ transition times < 00:00:00.
+
+    This is needed for version-3 tz-format files; it supports time
+    stamps past 2037 for America/Godthab (the only entry in the tz
+    database for which this change is relevant).
+    * manual/time.texi (TZ Variable): Document transition times
+    from -167:59:59 through -00:00:01.
+    * time/tzset.c (tz_rule): Time of day is now signed.
+    (__tzset_parse_tz): Parse negative time of day.
+    (A subset of these changes were applied as part of this patch.)
+
+
 diff --git a/time/tzfile.c b/time/tzfile.c
 --- a/time/tzfile.c
 +++ b/time/tzfile.c

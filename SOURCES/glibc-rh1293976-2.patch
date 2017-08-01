@@ -1,9 +1,9 @@
 Short description: malloc: Test various special cases related to allocation failures
 Author(s): Florian Weimer <fweimer@redhat.com>
 Origin: git://sourceware.org/git/glibc.git
-Bug-RHEL: #1296453 (rhel-7.2.z),  #1293976 (rhel-7.3), #1256285 (SRT)
+Bug-RHEL: #1296453 (rhel-7.2.z),  #1293976 (rhel-7.3), #1256285 (SRT), #1418978
 Bug-Fedora: NA
-Bug-Upstream: NA
+Bug-Upstream: #19469
 Upstream status: committed
 #
 # commit 1bd5483e104c8bde6e61dc5e3f8a848bc861872d
@@ -23,13 +23,21 @@ Upstream status: committed
 #     
 #     (a) and (b) appear specific to a faulty downstream backport.
 #     (c) was fixed as part of commit 10ad46bc6526edc5c7afcc57112da96917ff3629.
-#     
-#     The test for (a) was inspired by a reproducer supplied by Jeff Layton.
+#
+# commit f690b56979dea81340a397c1b5e44827a6fb06e7
+# Author: Florian Weimer <fweimer@redhat.com>
+# Date:   Tue Aug 2 17:01:02 2016 +0200
 # 
-Index: glibc-2.17-c758a686/malloc/Makefile
+#     malloc: Run tests without calling mallopt [BZ #19469]
+#     
+#     The compiled tests no longer refer to the mallopt symbol
+#     from their main functions.  (Some tests still call mallopt
+#     explicitly, which is fine.)
+
+Index: b/malloc/Makefile
 ===================================================================
---- glibc-2.17-c758a686.orig/malloc/Makefile
-+++ glibc-2.17-c758a686/malloc/Makefile
+--- a/malloc/Makefile
++++ b/malloc/Makefile
 @@ -27,7 +27,8 @@ headers := $(dist-headers) obstack.h mch
  tests := mallocbug tst-malloc tst-valloc tst-calloc tst-obstack \
  	 tst-mallocstate tst-mcheck tst-mallocfork tst-trim1 \
@@ -49,11 +57,19 @@ Index: glibc-2.17-c758a686/malloc/Makefile
  $(objpfx)tst-malloc-thread-exit: $(common-objpfx)nptl/libpthread.so \
  			       $(common-objpfx)nptl/libpthread_nonshared.a
  
-Index: glibc-2.17-c758a686/malloc/tst-malloc-thread-fail.c
+@@ -149,3 +152,7 @@ $(objpfx)libmemusage.so: $(common-objpfx
+ 
+ # Extra dependencies
+ $(foreach o,$(all-object-suffixes),$(objpfx)malloc$(o)): arena.c hooks.c
++
++# Compile the tests with a flag which suppresses the mallopt call in
++# the test skeleton.
++$(tests:%=$(objpfx)%.o): CPPFLAGS += -DTEST_NO_MALLOPT
+Index: b/malloc/tst-malloc-thread-fail.c
 ===================================================================
 --- /dev/null
-+++ glibc-2.17-c758a686/malloc/tst-malloc-thread-fail.c
-@@ -0,0 +1,468 @@
++++ b/malloc/tst-malloc-thread-fail.c
+@@ -0,0 +1,464 @@
 +/* Test allocation function behavior on allocation failure.
 +   Copyright (C) 2015 Free Software Foundation, Inc.
 +   This file is part of the GNU C Library.
@@ -516,25 +532,20 @@ Index: glibc-2.17-c758a686/malloc/tst-malloc-thread-fail.c
 +/* The repeated allocations take some time on slow machines.  */
 +#define TIMEOUT 20
 +
-+/* No malloc perturbation should be used. We are testing that
-+   default 0 perturbation values work.  */
-+#define MALLOC_PERTURB 0
-+
 +#define TEST_FUNCTION do_test ()
 +#include "../test-skeleton.c"
-Index: glibc-2.17-c758a686/test-skeleton.c
+Index: b/test-skeleton.c
 ===================================================================
---- glibc-2.17-c758a686.orig/test-skeleton.c
-+++ glibc-2.17-c758a686/test-skeleton.c
-@@ -233,7 +233,10 @@ main (int argc, char *argv[])
+--- a/test-skeleton.c
++++ b/test-skeleton.c
+@@ -247,8 +247,10 @@ main (int argc, char *argv[])
+   unsigned int timeoutfactor = 1;
    pid_t termpid;
  
++#ifndef TEST_NO_MALLOPT
    /* Make uses of freed and uninitialized memory known.  */
--  mallopt (M_PERTURB, 42);
-+#ifndef MALLOC_PERTURB
-+# define MALLOC_PERTURB 42
+   mallopt (M_PERTURB, 42);
 +#endif
-+  mallopt (M_PERTURB, MALLOC_PERTURB);
  
  #ifdef STDOUT_UNBUFFERED
    setbuf (stdout, NULL);

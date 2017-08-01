@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 157%{?dist}.5
+%define glibcrelease 196%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -75,7 +75,6 @@
 # - POWER8 LE (default)
 # 32-bit BE:
 # - POWER7 (default)
-# - POWER8 (enabled via AT_PLATFORM)
 #
 # The POWER5 and POWER6 runtimes are now deprecated and no longer provided
 # or supported. This means that RHEL7 BE will only run on POWER7 or newer
@@ -116,6 +115,13 @@
 # detected by glibc. The underlying support for function selection and
 # execution is provided by STT_GNU_IFUNC.
 %define multiarcharches ppc %{power64} %{ix86} x86_64 %{sparc} s390 s390x
+##############################################################################
+# If the architecture has elision support in glibc then it should be listed
+# here to enable elision for default pthread mutexes and rwlocks. The elision
+# is not enabled automatically and each process has to opt-in to elision via
+# the environment variable RHEL_GLIBC_TUNABLES by setting it to enabled e.g.
+# RHEL_GLIBC_TUNABLES="glibc.elision.enable=1".
+%define elisionarches x86_64 %{power64}
 ##############################################################################
 # Add -s for a less verbose build output.
 %define silentrules PARALLELMFLAGS=
@@ -925,11 +931,173 @@ Patch1755: glibc-rh1298526-4.patch
 # RHBZ #1350733 locale-archive.tmpl cannot be processed by build-locale-archive
 Patch1756: glibc-rh1350733-1.patch
 
-# RHBZ #:1463274 Rounding issues on POWER
-Patch1857: glibc-rh1463274-1.patch
-Patch1858: glibc-rh1463274-2.patch
-Patch1859: glibc-rh1463274-3.patch
-Patch1860: glibc-rh1463274-4.patch
+# Fix tst-cancel17/tst-cancelx17, which sometimes segfaults while exiting.
+Patch1757: glibc-rh1337242.patch
+
+# RHBZ #1418978: backport upstream support/ directory
+Patch1758: glibc-rh1418978-0.patch
+Patch1759: glibc-rh1418978-1.patch
+Patch1760: glibc-rh1418978-2-1.patch
+Patch1761: glibc-rh1418978-2-2.patch
+Patch1762: glibc-rh1418978-2-3.patch
+Patch1763: glibc-rh1418978-2-4.patch
+Patch1764: glibc-rh1418978-2-5.patch
+Patch1765: glibc-rh1418978-2-6.patch
+Patch1766: glibc-rh1418978-3-1.patch
+Patch1767: glibc-rh1418978-3-2.patch
+
+# RHBZ #906468: Fix deadlock between fork, malloc, flush (NULL)
+Patch1768: glibc-rh906468-1.patch
+Patch1769: glibc-rh906468-2.patch
+
+# RHBZ #988869: stdio buffer auto-tuning should reject large buffer sizes
+Patch1770: glibc-rh988869.patch
+
+# RHBZ #1398244 - RHEL7.3 - glibc: Fix TOC stub on powerpc64 clone()
+Patch1771: glibc-rh1398244.patch
+
+# RHBZ #1228114: Fix sunrpc UDP client timeout handling
+Patch1772: glibc-rh1228114-1.patch
+Patch1773: glibc-rh1228114-2.patch
+
+# RHBZ #1298975 - [RFE] Backport the groups merging feature
+Patch1774: glibc-rh1298975.patch
+
+# RHBZ #1318877 - Per C11 and C++11, <stdint.h> should not look at
+# __STDC_LIMIT_MACROS or __STDC_CONSTANT_MACROS
+Patch1775: glibc-rh1318877.patch
+
+# RHBZ #1417205: Add AF_VSOCK/PF_VSOCK, TCP_TIMESTAMP
+Patch1776: glibc-rh1417205.patch
+
+# RHBZ #1338672: GCC 6 enablement for struct sockaddr_storage
+Patch1777: glibc-rh1338672.patch
+
+# RHBZ #1325138 - glibc: Corrupted aux-cache causes ldconfig to segfault
+Patch1778: glibc-rh1325138.patch
+
+# RHBZ #1374652: Unbounded stack allocation in nan* functions
+Patch1779: glibc-rh1374652.patch
+
+# RHBZ #1374654: Unbounded stack allocation in nan* functions
+Patch1780: glibc-rh1374654.patch
+
+# RHBZ #1322544: Segmentation violation can occur within glibc if fork()
+# is used in a multi-threaded application
+Patch1781: glibc-rh1322544.patch
+
+# RHBZ #1418997: does not build with binutils 2.27 due to misuse of the cmpli instruction on ppc64
+Patch1782: glibc-rh1418997.patch
+
+# RHBZ #1383951: LD_POINTER_GUARD in the environment is not sanitized
+Patch1783: glibc-rh1383951.patch
+
+# RHBZ #1385004: [7.4 FEAT] POWER8 IFUNC update from upstream
+Patch1784: glibc-rh1385004-1.patch
+Patch1785: glibc-rh1385004-2.patch
+Patch1786: glibc-rh1385004-3.patch
+Patch1787: glibc-rh1385004-4.patch
+Patch1788: glibc-rh1385004-5.patch
+Patch1789: glibc-rh1385004-6.patch
+Patch1790: glibc-rh1385004-7.patch
+Patch1791: glibc-rh1385004-8.patch
+Patch1792: glibc-rh1385004-9.patch
+Patch1793: glibc-rh1385004-10.patch
+Patch1794: glibc-rh1385004-11.patch
+Patch1795: glibc-rh1385004-12.patch
+Patch1796: glibc-rh1385004-13.patch
+Patch1797: glibc-rh1385004-14.patch
+Patch1798: glibc-rh1385004-15.patch
+Patch1799: glibc-rh1385004-16.patch
+Patch1800: glibc-rh1385004-17.patch
+Patch1801: glibc-rh1385004-18.patch
+Patch1802: glibc-rh1385004-19.patch
+Patch1803: glibc-rh1385004-20.patch
+Patch1804: glibc-rh1385004-21.patch
+Patch1805: glibc-rh1385004-22.patch
+Patch1806: glibc-rh1385004-23.patch
+Patch1807: glibc-rh1385004-24.patch
+
+# RHBZ 1380680 - [7.4 FEAT] z13 exploitation in glibc - stage 2
+Patch1808: glibc-rh1380680-1.patch
+Patch1809: glibc-rh1380680-2.patch
+Patch1810: glibc-rh1380680-3.patch
+Patch1811: glibc-rh1380680-4.patch
+Patch1812: glibc-rh1380680-5.patch
+Patch1813: glibc-rh1380680-6.patch
+Patch1814: glibc-rh1380680-7.patch
+Patch1815: glibc-rh1380680-8.patch
+Patch1816: glibc-rh1380680-9.patch
+Patch1817: glibc-rh1380680-10.patch
+Patch1818: glibc-rh1380680-11.patch
+Patch1819: glibc-rh1380680-12.patch
+Patch1820: glibc-rh1380680-13.patch
+Patch1821: glibc-rh1380680-14.patch
+Patch1822: glibc-rh1380680-15.patch
+Patch1823: glibc-rh1380680-16.patch
+Patch1824: glibc-rh1380680-17.patch
+
+# RHBZ #1326739: malloc: additional unlink hardening for non-small bins
+Patch1825: glibc-rh1326739.patch
+
+# RHBZ #1374657: CVE-2015-8778: Integer overflow in hcreate and hcreate_r
+Patch1826: glibc-rh1374657.patch
+
+# RHBZ #1374658 - CVE-2015-8776: Segmentation fault caused by passing
+# out-of-range data to strftime()
+Patch1827: glibc-rh1374658.patch
+
+# RHBZ #1385003 - SIZE_MAX evaluates to an expression of the wrong type
+# on s390
+Patch1828: glibc-rh1385003.patch
+
+# RHBZ #1387874 - MSG_FASTOPEN definition missing
+Patch1829: glibc-rh1387874.patch
+
+# RHBZ #1409611 - poor performance with exp()
+Patch1830: glibc-rh1409611.patch
+
+# RHBZ #1421155 - Update dynamic loader trampoline for Intel SSE, AVX, and AVX512 usage.
+Patch1831: glibc-rh1421155.patch
+
+# RHBZ #841653 - [Intel 7.0 FEAT] [RFE] TSX-baed lock elision enabled in glibc.
+Patch1832: glibc-rh841653-0.patch
+Patch1833: glibc-rh841653-1.patch
+Patch1834: glibc-rh841653-2.patch
+Patch1835: glibc-rh841653-3.patch
+Patch1836: glibc-rh841653-4.patch
+Patch1837: glibc-rh841653-5.patch
+Patch1838: glibc-rh841653-6.patch
+Patch1839: glibc-rh841653-7.patch
+Patch1840: glibc-rh841653-8.patch
+Patch1841: glibc-rh841653-9.patch
+Patch1842: glibc-rh841653-10.patch
+Patch1843: glibc-rh841653-11.patch
+Patch1844: glibc-rh841653-12.patch
+Patch1845: glibc-rh841653-13.patch
+Patch1846: glibc-rh841653-14.patch
+Patch1847: glibc-rh841653-15.patch
+Patch1848: glibc-rh841653-16.patch
+Patch1849: glibc-rh841653-17.patch
+
+# RHBZ #731835 - [RFE] [7.4 FEAT] Hardware Transactional Memory in GLIBC
+Patch1850: glibc-rh731835-0.patch
+Patch1851: glibc-rh731835-1.patch
+Patch1852: glibc-rh731835-2.patch
+
+# RHBZ #1413638: Inhibit FMA while compiling sqrt, pow
+Patch1853: glibc-rh1413638-1.patch
+Patch1854: glibc-rh1413638-2.patch
+
+# RHBZ #1439165: Use a built-in list of known syscalls for <bits/syscall.h>
+Patch1855: glibc-rh1439165.patch
+Patch1856: syscall-names.list
+
+# RHBZ #1457177: Rounding issues on POWER
+Patch1857: glibc-rh1457177-1.patch
+Patch1858: glibc-rh1457177-2.patch
+Patch1859: glibc-rh1457177-3.patch
+Patch1860: glibc-rh1457177-4.patch
 
 ##############################################################################
 #
@@ -1011,13 +1179,32 @@ Patch2075: glibc-rh1318890.patch
 Patch2076: glibc-rh1213603.patch
 Patch2077: glibc-rh1370630.patch
 
-# getaddrinfo with nscd fixes
-Patch2078: glibc-rh1436312.patch
+# Add internal-only support for O_TMPFILE.
+Patch2078: glibc-rh1330705-1.patch
+Patch2079: glibc-rh1330705-2.patch
+Patch2080: glibc-rh1330705-3.patch
+Patch2081: glibc-rh1330705-4.patch
+Patch2082: glibc-rh1330705-5.patch
+# The following patch *removes* the public definition of O_TMPFILE.
+Patch2083: glibc-rh1330705-6.patch
 
-Patch2079: glibc-rh1452720-1.patch
-Patch2080: glibc-rh1452720-2.patch
-Patch2081: glibc-rh1452720-3.patch
-Patch2082: glibc-rh1452720-4.patch
+# getaddrinfo with nscd fixes
+Patch2084: glibc-rh1324568.patch
+
+# RHBZ #1404435 - Remove power8 platform directory
+Patch2085: glibc-rh1404435.patch
+
+# RHBZ #1144516 - aarch64 profil fix
+Patch2086: glibc-rh1144516.patch
+
+# RHBZ #1392540 - Add "sss" service to the automount database in nsswitch.conf
+Patch2087: glibc-rh1392540.patch
+
+# RHBZ #1452721: Avoid large allocas in the dynamic linker
+Patch2088: glibc-rh1452721-1.patch
+Patch2089: glibc-rh1452721-2.patch
+Patch2090: glibc-rh1452721-3.patch
+Patch2091: glibc-rh1452721-4.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -1636,6 +1823,15 @@ package or when debugging this package.
 %patch2080 -p1
 %patch2081 -p1
 %patch2082 -p1
+%patch2083 -p1
+%patch2084 -p1
+%patch2085 -p1
+%patch2086 -p1
+%patch2087 -p1
+%patch2088 -p1
+%patch2089 -p1
+%patch2090 -p1
+%patch2091 -p1
 
 # Rebase of microbenchmarks.
 %patch1607 -p1
@@ -1824,6 +2020,113 @@ package or when debugging this package.
 %patch1754 -p1
 %patch1755 -p1
 %patch1756 -p1
+%patch1757 -p1
+%patch1758 -p1
+%patch1759 -p1
+%patch1760 -p1
+%patch1761 -p1
+%patch1762 -p1
+%patch1763 -p1
+%patch1764 -p1
+%patch1765 -p1
+%patch1766 -p1
+%patch1767 -p1
+%patch1768 -p1
+%patch1769 -p1
+%patch1770 -p1
+%patch1771 -p1
+%patch1772 -p1
+%patch1773 -p1
+%patch1774 -p1
+%patch1775 -p1
+%patch1776 -p1
+%patch1777 -p1
+%patch1778 -p1
+%patch1779 -p1
+%patch1780 -p1
+%patch1781 -p1
+%patch1782 -p1
+%patch1783 -p1
+%patch1784 -p1
+%patch1785 -p1
+%patch1786 -p1
+%patch1787 -p1
+%patch1788 -p1
+%patch1789 -p1
+%patch1790 -p1
+%patch1791 -p1
+%patch1792 -p1
+%patch1793 -p1
+%patch1794 -p1
+%patch1795 -p1
+%patch1796 -p1
+%patch1797 -p1
+%patch1798 -p1
+%patch1799 -p1
+%patch1800 -p1
+%patch1801 -p1
+%patch1802 -p1
+%patch1803 -p1
+%patch1804 -p1
+%patch1805 -p1
+%patch1806 -p1
+%patch1807 -p1
+%patch1808 -p1
+%patch1809 -p1
+%patch1810 -p1
+%patch1811 -p1
+%patch1812 -p1
+%patch1813 -p1
+%patch1814 -p1
+%patch1815 -p1
+%patch1816 -p1
+%patch1817 -p1
+%patch1818 -p1
+%patch1819 -p1
+%patch1820 -p1
+%patch1821 -p1
+%patch1822 -p1
+%patch1823 -p1
+%patch1824 -p1
+%patch1825 -p1
+%patch1826 -p1
+%patch1827 -p1
+%patch1828 -p1
+%patch1829 -p1
+%patch1830 -p1
+%patch1831 -p1
+# RHBZ #841653 - Intel lock elision patch set.
+%patch1832 -p1
+%patch1833 -p1
+%patch1834 -p1
+%patch1835 -p1
+%patch1836 -p1
+%patch1837 -p1
+%patch1838 -p1
+%patch1839 -p1
+%patch1840 -p1
+%patch1841 -p1
+%patch1842 -p1
+%patch1843 -p1
+%patch1844 -p1
+%patch1845 -p1
+%patch1846 -p1
+%patch1847 -p1
+%patch1848 -p1
+%patch1849 -p1
+# End of Intel lock elision patch set.
+# RHBZ #731835 - IBM POWER lock elision patch set.
+%patch1850 -p1
+%patch1851 -p1
+%patch1852 -p1
+# End of IBM POWER lock elision patch set.
+
+%patch1853 -p1
+%patch1854 -p1
+
+# Built-in list of syscall names.
+%patch1855 -p1
+cp %{_sourcedir}/syscall-names.list sysdeps/unix/sysv/linux/
 
 %patch1857 -p1
 %patch1858 -p1
@@ -1985,6 +2288,9 @@ configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
 	--build=%{target} \
 %ifarch %{multiarcharches}
 	--enable-multi-arch \
+%endif
+%ifarch %{elisionarches}
+	--enable-lock-elision=yes \
 %endif
 	--enable-obsolete-rpc \
 	--enable-systemtap \
@@ -2976,20 +3282,134 @@ rm -f *.filelist*
 %endif
 
 %changelog
-* Tue Jun 20 2017 Florian Weimer <fweimer@redhat.com> - 2.17-157.5
-- Rounding issues on POWER (#1463274)
+* Fri Jun 16 2017 Florian Weimer <fweimer@redhat.com> - 2.17-196
+- Avoid large allocas in the dynamic linker (#1452721)
 
-* Fri May 26 2017 Florian Weimer <fweimer@redhat.com> - 2.17-157.4
-- Avoid large allocas in the dynamic linker (#1452720)
+* Fri Jun  9 2017 Florian Weimer <fweimer@redhat.com> - 2.17-195
+- Rounding issues on POWER (#1457177)
 
-* Tue Mar 28 2017 DJ Delorie <dj@redhat.com> - 2.17-157.2
-- Fix use of uninitialized data in getaddrinfo with nscd (#1436312)
+* Wed Apr 26 2017 Florian Weimer <fweimer@redhat.com> - 2.17-194
+- Use a built-in list of system call names (#1439165)
 
-* Thu Oct 27 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-157.1
-- Do not set initgroups in default nsswitch.conf (#1388638)
-- nss_db: Request larger buffers for long group entries (#1388637)
-- nss_db: Fix get*ent crash without preceding set*ent (#1388635)
-- nss_db: Fix endless loop in services database processing (#1388639)
+* Tue Apr 18 2017 Florian Weimer <fweimer@redhat.com> - 2.17-193
+- Inhibit FMA while compiling sqrt, pow (#1413638)
+
+* Wed Mar 29 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-192
+- Exclude lock elision support for older Intel hardware with
+  Intel TSX that has hardware errata (#841653).
+
+* Tue Mar 28 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-191
+- Add transparent lock elision for default POSIX mutexes on
+  IBM POWER hardware with support for IBM POWER HTM (#731835).
+
+* Tue Mar 28 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-190
+- Add transparent lock elision for default POSIX mutexes on
+  Intel hardware with support for Intel TSX (#841653).
+- Update dynamic loader trampoline for Intel Skylake server (#1421155).
+
+* Wed Mar 15 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-189
+- Update dynamic loader trampoline for Intel SSE, AVX, and AVX512 usage (#1421155)
+
+* Wed Mar 15 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-188
+- Improve exp() and pow() performance in libm (#1409611)
+- Add optimized strcmp and strncmp for IBM POWER9 hardware (#1320947)
+
+* Tue Mar 14 2017 Patsy Franklin <pfrankl@redhat.com> - 2.17-187
+- Define MSG_FASTOPEN. (#1387874)
+
+* Tue Mar 14 2017 Patsy Franklin <pfrankl@redhat.com> - 2.17-186
+- Update patch for glibc-rh1288613.patch to include tst-res_hconf_reorder
+  in the list of tests to be built and run. (#1367804)
+
+* Tue Mar 14 2017 Florian Weimer <fweimer@redhat.com> - 2.17-185
+- math: Regenerate ULPs for POWER (#1385004)
+
+* Thu Mar  9 2017 Martin Sebor <msebor@redhat.com> - 2.17-184
+- Correct s390 definition of SIZE_MAX (#1385003)
+
+* Thu Mar  9 2017 Martin Sebor <msebor@redhat.com> - 2.17-183
+- Fix CVE-2015-8776 glibc: Segmentation fault caused by passing
+  out-of-range data to strftime() (#1374658)
+
+* Thu Mar  9 2017 Martin Sebor <msebor@redhat.com> - 2.17-182
+- Fix CVE-2015-8778: Integer overflow in hcreate and hcreate_r (#1374657)
+
+* Wed Mar  8 2017 DJ Delorie <dj@redhat.com> - 2.17-181
+- Fix rare case where calloc may not zero memory properly (#1430477)
+
+* Wed Mar  8 2017 Florian Weimer <fweimer@redhat.com> - 2.17-180
+- malloc: additional unlink hardening for non-small bins (#1326739)
+
+* Wed Mar  8 2017 Martin Sebor <msebor@redhat.com> - 2.17-179
+- Add improvements and optimizations to take advantage of the new
+  z13 processor design (#1380680)
+
+* Wed Mar  8 2017 Martin Sebor <msebor@redhat.com> - 2.17-178
+- Backport the latest POWER8 performance optimizations (#1385004)
+
+* Tue Mar  7 2017 DJ Delorie <dj@redhat.com> - 2.17-177
+- LD_POINTER_GUARD in the environment is not sanitized (#1383951)
+
+* Tue Mar  7 2017 DJ Delorie <dj@redhat.com> - 2.17-176
+- Fix cmpli usage in power6 memset. (#1418997)
+
+* Mon Mar  6 2017 Martin Sebor <msebor@redhat.com> - 2.17-175
+- Avoid accessing user-controlled stdio locks in forked child (#1322544)
+
+* Mon Mar  6 2017 DJ Delorie <dj@redhat.com> - 2.17-174
+- Fix unbounded stack allocation in catopen function (#1374654)
+
+* Mon Mar  6 2017 DJ Delorie <dj@redhat.com> - 2.17-173
+- Fix unbounded stack allocation in nan* functions (#1374652)
+
+* Fri Mar  3 2017 Martin Sebor <msebor@redhat.com> - 2.17-172
+- Handle /var/cache/ldconfig/aux-cache corruption (#1325138)
+
+* Wed Mar  1 2017 DJ Delorie <dj@redhat.com> - 2.17-171
+- Make padding in struct sockaddr_storage explicit (#1338672)
+
+* Wed Mar  1 2017 Florian Weimer <fweimer@redhat.com> - 2.17-170
+- Add AF_VSOCK/PF_VSOCK, TCP_TIMESTAMP (#1417205)
+
+* Tue Feb 28 2017 Martin Sebor <msebor@redhat.com> - 2.17-169
+- Define <inttypes.h> and <stdint.h> macros unconditionally (#1318877)
+
+* Tue Feb 28 2017 Martin Sebor <msebor@redhat.com> - 2.17-168
+- Backport the groups merging feature (#1298975)
+
+* Tue Feb 28 2017 Florian Weimer <fweimer@redhat.com> - 2.17-167
+- Fix sunrpc UDP client timeout handling (#1228114)
+
+* Tue Feb 28 2017 Florian Weimer <fweimer@redhat.com> - 2.17-166
+- Add "sss" service to the automount database in nsswitch.conf (#1392540)
+
+* Mon Feb 27 2017 Florian Weimer <fweimer@redhat.com> - 2.17-165
+- Fix use of uninitialized data in getaddrinfo with nscd (#1324568)
+- Remove the "power8" AT_PLATFORM directory (#1404435)
+- Fix profil on aarch64 (#1144516)
+
+* Tue Feb 21 2017 Martin Sebor <msebor@redhat.com> - 2.17-164
+- Fix TOC stub on powerpc64 clone() (#1398244)
+
+* Wed Feb 15 2017 Florian Weimer <fweimer@redhat.com> - 2.17-163
+- stdio buffer auto-tuning should reject large buffer sizes (#988869)
+
+* Tue Feb 14 2017 Florian Weimer <fweimer@redhat.com> - 2.17-162
+- Backport support/ subdirectory from upstream (#1418978)
+- Fix deadlock between fork, malloc, flush (NULL) (#906468)
+
+* Fri Jan 27 2017 Patsy Franklin <pfrankl@redhat.com> - 2.17-161
+- Fix tst-cancel17/tst-cancelx17 was sometimes segfaulting.
+  Wait for the read to finish before returning. (#1337242)
+
+* Wed Jan 25 2017 Florian Weimer <fweimer@redhat.com> - 2.17-160
+- Add internal-only support for O_TMPFILE (#1330705)
+
+* Thu Oct 20 2016 Carlos O'Donell <carlos@redhat.com> - 2.17-158
+- Do not set initgroups in default nsswitch.conf (#1366569)
+- nss_db: Request larger buffers for long group entries (#1318890)
+- nss_db: Fix get*ent crash without preceding set*ent (#1213603)
+- nss_db: Fix endless loop in services database processing (#1370630)
 
 * Thu Aug 11 2016 Florian Weimer <fweimer@redhat.com> - 2.17-157
 - Rebuild with updated binutils (#1268008)

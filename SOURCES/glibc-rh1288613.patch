@@ -25,10 +25,11 @@ Date:   Thu Jun 18 21:40:46 2015 +0000
     and $(shared-thread-library).
     (tst-res_hconf_reorder-ENV): New variable.
 
-diff --git a/resolv/Makefile b/resolv/Makefile
-index f62eea4..3509d98 100644
---- a/resolv/Makefile
-+++ b/resolv/Makefile
+Index: glibc-2.17-c758a686/resolv/Makefile
+===================================================================
+--- glibc-2.17-c758a686.orig/resolv/Makefile
++++ glibc-2.17-c758a686/resolv/Makefile
+@@ -40,6 +40,7 @@ extra-libs := libresolv libnss_dns
  ifeq ($(have-thread-library),yes)
  extra-libs += libanl
  routines += gai_sigqueue
@@ -36,7 +37,7 @@ index f62eea4..3509d98 100644
  endif
  extra-libs-others = $(extra-libs)
  libresolv-routines := gethnamaddr res_comp res_debug	\
-@@ -108,6 +109,9 @@
+@@ -108,6 +108,9 @@ $(objpfx)libanl.so: $(common-objpfx)libc
  
  $(objpfx)ga_test: $(objpfx)libanl.so $(shared-thread-library)
  
@@ -46,12 +47,11 @@ index f62eea4..3509d98 100644
  $(objpfx)tst-leaks: $(objpfx)libresolv.so
  tst-leaks-ENV = MALLOC_TRACE=$(objpfx)tst-leaks.mtrace
  $(objpfx)mtrace-tst-leaks: $(objpfx)tst-leaks.out
-
-diff --git a/resolv/res_hconf.c b/resolv/res_hconf.c
-index c9642ce..0d4f3f4 100644
---- a/resolv/res_hconf.c
-+++ b/resolv/res_hconf.c
-@@ -462,10 +462,10 @@
+Index: glibc-2.17-c758a686/resolv/res_hconf.c
+===================================================================
+--- glibc-2.17-c758a686.orig/resolv/res_hconf.c
++++ glibc-2.17-c758a686/resolv/res_hconf.c
+@@ -462,10 +462,10 @@ _res_hconf_reorder_addrs (struct hostent
  	  errno = save;
  
  	  num_ifs = new_num_ifs;
@@ -64,11 +64,10 @@ index c9642ce..0d4f3f4 100644
        __close (sd);
      }
  
-diff --git a/resolv/tst-res_hconf_reorder.c b/resolv/tst-res_hconf_reorder.c
-new file mode 100644
-index 0000000..1e7e0e2
+Index: glibc-2.17-c758a686/resolv/tst-res_hconf_reorder.c
+===================================================================
 --- /dev/null
-+++ b/resolv/tst-res_hconf_reorder.c
++++ glibc-2.17-c758a686/resolv/tst-res_hconf_reorder.c
 @@ -0,0 +1,112 @@
 +/* BZ #17977 _res_hconf_reorder_addrs test.
 +

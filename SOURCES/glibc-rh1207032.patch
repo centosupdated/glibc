@@ -391,7 +391,7 @@ Index: b/malloc/malloc.c
    assert(!p || chunk_is_mmapped(mem2chunk(p)) ||
  	 ar_ptr == arena_for_chunk(mem2chunk(p)));
  
-@@ -3184,43 +3200,48 @@ __libc_calloc(size_t n, size_t elem_size
+@@ -3184,43 +3200,54 @@ __libc_calloc(size_t n, size_t elem_size
    sz = bytes;
  
    arena_get(av, sz);
@@ -435,6 +435,12 @@ Index: b/malloc/malloc.c
 -	oldtopsize = (char *) heap + heap->mprotect_size - (char *) oldtop;
      }
 -#endif
++  else
++    {
++      /* No usable arenas.  */
++      oldtop = 0;
++      oldtopsize = 0;
++    }
    mem = _int_malloc(av, sz);
  
  
@@ -464,7 +470,7 @@ Index: b/malloc/malloc.c
    p = mem2chunk(mem);
  
    /* Two optional cases in which clearing not necessary */
-@@ -3310,6 +3331,16 @@ _int_malloc(mstate av, size_t bytes)
+@@ -3310,6 +3337,16 @@ _int_malloc(mstate av, size_t bytes)
  
    checked_request2size(bytes, nb);
  
@@ -481,7 +487,7 @@ Index: b/malloc/malloc.c
    /*
      If the size qualifies as a fastbin, first check corresponding bin.
      This code is safe to execute even if av is not yet initialized, so we
-@@ -3334,7 +3365,7 @@ _int_malloc(mstate av, size_t bytes)
+@@ -3334,7 +3371,7 @@ _int_malloc(mstate av, size_t bytes)
  	  errstr = "malloc(): memory corruption (fast)";
  	errout:
  	  mutex_unlock(&av->mutex);
@@ -490,7 +496,7 @@ Index: b/malloc/malloc.c
  	  mutex_lock(&av->mutex);
  	  return NULL;
  	}
-@@ -3421,9 +3452,9 @@ _int_malloc(mstate av, size_t bytes)
+@@ -3421,9 +3458,9 @@ _int_malloc(mstate av, size_t bytes)
        if (__builtin_expect (victim->size <= 2 * SIZE_SZ, 0)
  	  || __builtin_expect (victim->size > av->system_mem, 0))
  	{
@@ -502,7 +508,7 @@ Index: b/malloc/malloc.c
  	  mutex_lock(&av->mutex);
  	}
        size = chunksize(victim);
-@@ -3801,7 +3832,7 @@ _int_free(mstate av, mchunkptr p, int ha
+@@ -3801,7 +3838,7 @@ _int_free(mstate av, mchunkptr p, int ha
      errout:
        if (have_lock || locked)
  	(void)mutex_unlock(&av->mutex);
@@ -511,7 +517,7 @@ Index: b/malloc/malloc.c
        if (have_lock)
  	mutex_lock(&av->mutex);
        return;
-@@ -4196,7 +4227,7 @@ _int_realloc(mstate av, mchunkptr oldp,
+@@ -4196,7 +4233,7 @@ _int_realloc(mstate av, mchunkptr oldp,
        errstr = "realloc(): invalid old size";
      errout:
        mutex_unlock(&av->mutex);
@@ -520,7 +526,7 @@ Index: b/malloc/malloc.c
        mutex_lock(&av->mutex);
        return NULL;
      }
-@@ -4436,7 +4467,7 @@ static void*
+@@ -4436,7 +4473,7 @@ static void*
  _int_valloc(mstate av, size_t bytes)
  {
    /* Ensure initialization/consolidation */
@@ -529,7 +535,7 @@ Index: b/malloc/malloc.c
    return _int_memalign(av, GLRO(dl_pagesize), bytes);
  }
  
-@@ -4451,7 +4482,7 @@ _int_pvalloc(mstate av, size_t bytes)
+@@ -4451,7 +4488,7 @@ _int_pvalloc(mstate av, size_t bytes)
    size_t pagesz;
  
    /* Ensure initialization/consolidation */
@@ -538,7 +544,7 @@ Index: b/malloc/malloc.c
    pagesz = GLRO(dl_pagesize);
    return _int_memalign(av, pagesz, (bytes + pagesz - 1) & ~(pagesz - 1));
  }
-@@ -4463,6 +4494,10 @@ _int_pvalloc(mstate av, size_t bytes)
+@@ -4463,6 +4500,10 @@ _int_pvalloc(mstate av, size_t bytes)
  
  static int mtrim(mstate av, size_t pad)
  {
@@ -549,7 +555,7 @@ Index: b/malloc/malloc.c
    /* Ensure initialization/consolidation */
    malloc_consolidate (av);
  
-@@ -4956,8 +4991,14 @@ libc_hidden_def (__libc_mallopt)
+@@ -4956,8 +4997,14 @@ libc_hidden_def (__libc_mallopt)
  extern char **__libc_argv attribute_hidden;
  
  static void
