@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 196%{?dist}
+%define glibcrelease 196%{?dist}.2
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1099,6 +1099,17 @@ Patch1858: glibc-rh1457177-2.patch
 Patch1859: glibc-rh1457177-3.patch
 Patch1860: glibc-rh1457177-4.patch
 
+Patch1861: glibc-rh1504969.patch
+
+# RHBZ #1515114: Pegas1.0 - Update HWCAP bits for POWER9 DD2.1
+Patch1862: glibc-rh1515114-1.patch
+Patch1863: glibc-rh1515114-2.patch
+Patch1864: glibc-rh1515114-3.patch
+
+# RHBZ #1516402: Pegas1.0 - Workaround performance regressions on VSX loads on POWER9 DD2.1
+Patch1865: glibc-rh1516402-1.patch
+Patch1866: glibc-rh1516402-2.patch
+
 ##############################################################################
 #
 # Patches submitted, but not yet approved upstream.
@@ -2132,6 +2143,12 @@ cp %{_sourcedir}/syscall-names.list sysdeps/unix/sysv/linux/
 %patch1858 -p1
 %patch1859 -p1
 %patch1860 -p1
+%patch1861 -p1
+%patch1862 -p1
+%patch1863 -p1
+%patch1864 -p1
+%patch1865 -p1
+%patch1866 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -3282,6 +3299,13 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Wed Nov 22 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-196.2
+- Update HWCAP bits for IBM POWER9 DD2.1 (#1515114)
+- Improve memcpy performance for POWER9 DD2.1 (#1516402)
+
+* Tue Nov 14 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-196.1
+- x86-64: Use XSAVE/XSAVEC in the ld.so trampoline (#1513070)
+
 * Fri Jun 16 2017 Florian Weimer <fweimer@redhat.com> - 2.17-196
 - Avoid large allocas in the dynamic linker (#1452721)
 
