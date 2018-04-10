@@ -1,6 +1,6 @@
-commit d0df3cfd9ffa32b85abae180127dc2a57db51f03
+commit 602f80ec8b966cfad3b61914cbe14ee606cedf6e
 Author: Siddhesh Poyarekar <siddhesh@redhat.com>
-Date:   Tue Sep 16 21:57:25 2014 +0530
+Date:   Tue Sep 16 22:16:01 2014 +0530
 
     Make __extern_always_inline usable on clang++ again
     

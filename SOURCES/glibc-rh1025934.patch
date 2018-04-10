@@ -1,3 +1,11 @@
+Mostly equivalent upstream commit:
+
+commit 0699f766b10c86912b75f35bef697106b70c1cf6
+Author: Carlos O'Donell <carlos@redhat.com>
+Date:   Thu Apr 10 18:31:53 2014 -0400
+
+    nscd: Make SELinux checks dynamic.
+
 diff --git glibc-2.17-c758a686/nscd/selinux.c glibc-2.17-c758a686/nscd/selinux.c
 index 0866c44..ba55b04 100644
 --- glibc-2.17-c758a686/nscd/selinux.c

@@ -32,6 +32,26 @@ Date:   Wed Sep 18 13:15:12 2013 -0700
     (__tzset_parse_tz): Parse negative time of day.
     (A subset of these changes were applied as part of this patch.)
 
+commit 3cc652e951c71785032019fec82e3b8543d85305
+Author: Mike Frysinger <vapier@gentoo.org>
+Date:   Fri Sep 18 13:49:08 2015 -0400
+ 
+   timezone: fix parallel check failures
+   
+   The XT testdata install rules expect the testdata dir to already exist in
+   the build tree, but it doesn't actually create it.  Instead, it relies on
+   the build-testdata define happening to be executed before it (which runs
+   zic which creates the dir).  When we run in parallel though, it's easy to
+   hit a failure:
+   $ cd timezone
+   $ rm -rf $objdir/timezone/testdata
+   $ make check -j
+   ...
+   cp testdata/XT1 .../timezone/testdata/XT1
+   cp: cannot create regular file '.../timezone/testdata/XT1': No such file or directory
+   Makefile:116: recipe for target '.../timezone/testdata/XT1' failed
+   make: *** [.../timezone/testdata/XT1] Error 1
+   make: *** Waiting for unfinished jobs....
 
 diff --git a/time/tzfile.c b/time/tzfile.c
 --- a/time/tzfile.c
@@ -679,25 +699,6 @@ index 7a5e31c..2268f8e 100644
 +
 +The subdirectory testdata contains manually edited data files for
 +regression testing purposes.
-diff --git a/timezone/testdata/XT1 b/timezone/testdata/XT1
-new file mode 100644
-index 0000000..67d7ee0
-Binary files /dev/null and b/timezone/testdata/XT1 differ
-diff --git a/timezone/testdata/XT2 b/timezone/testdata/XT2
-new file mode 100644
-index 0000000..069189e
-Binary files /dev/null and b/timezone/testdata/XT2 differ
-diff --git a/timezone/testdata/XT3 b/timezone/testdata/XT3
-new file mode 100644
-index 0000000..fbf5eff
-Binary files /dev/null and b/timezone/testdata/XT3 differ
-diff --git a/timezone/testdata/XT4 b/timezone/testdata/XT4
-new file mode 100644
-index 0000000..990a976
-Binary files /dev/null and b/timezone/testdata/XT4 differ
-diff --git a/timezone/tst-tzset.c b/timezone/tst-tzset.c
-new file mode 100644
-index 0000000..aefcc76
 --- /dev/null
 +++ b/timezone/tst-tzset.c
 @@ -0,0 +1,200 @@
@@ -901,3 +902,39 @@ index 0000000..aefcc76
 +
 +  return errors > 0;
 +}
+diff --git a/timezone/Makefile b/timezone/Makefile
+index 81d4a3e..bfb3463 100644
+--- a/timezone/Makefile
++++ b/timezone/Makefile
+@@ -113,6 +113,7 @@ $(testdata)/Asia/Tokyo: asia $(zic-deps)
+ 	$(build-testdata)
+ 
+ $(testdata)/XT%: testdata/XT%
++	$(make-target-directory)
+ 	cp $< $@
+ 
+ $(objpfx)tzselect: tzselect.ksh $(common-objpfx)config.make
+diff -Nrup -a a/timezone/testdata/XT1 b/timezone/testdata/XT1
+--- a/timezone/testdata/XT1	1969-12-31 19:00:00.000000000 -0500
++++ b/timezone/testdata/XT1	2017-09-14 10:19:11.382923956 -0400
+@@ -0,0 +1,2 @@
++TZif2               ÿÿÿÿ                       XT1   TZif2               ÿÿÿÿ                ø              XT1   
++XT10
+diff -Nrup -a a/timezone/testdata/XT2 b/timezone/testdata/XT2
+--- a/timezone/testdata/XT2	1969-12-31 19:00:00.000000000 -0500
++++ b/timezone/testdata/XT2	2017-09-14 10:19:11.382923956 -0400
+@@ -0,0 +1,2 @@
++TZif2                  ÿÿÿÿ                    XT2   TZif2                  ÿÿÿÿ             ø              XT2   
++XT20
+diff -Nrup -a a/timezone/testdata/XT3 b/timezone/testdata/XT3
+--- a/timezone/testdata/XT3	1969-12-31 19:00:00.000000000 -0500
++++ b/timezone/testdata/XT3	2017-09-14 10:19:11.382923956 -0400
+@@ -0,0 +1,2 @@
++TZif2                                         XT3   TZif2                                  ø              XT3   
++XT30
+diff -Nrup -a a/timezone/testdata/XT4 b/timezone/testdata/XT4
+--- a/timezone/testdata/XT4	1969-12-31 19:00:00.000000000 -0500
++++ b/timezone/testdata/XT4	2017-09-14 10:19:11.383923953 -0400
+@@ -0,0 +1,2 @@
++TZif2                                         XT4   TZif2                                  ø              XT4   
++XT40

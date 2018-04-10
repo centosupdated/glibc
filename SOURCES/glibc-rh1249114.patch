@@ -1,24 +1,10 @@
-commit c283946eb7d25a856563cc5cd7d09a151b6801d0
+commit 2e807f29595eb5b1e5d0decc6e356a3562ecc58e
 Author: Stefan Liebler <stli@linux.vnet.ibm.com>
-Date:   Fri Jul 31 13:23:12 2015 +0200
+Date:   Thu Mar 12 11:08:11 2015 +0100
 
     S/390: Fix setcontext/swapcontext which are not restoring sigmask.
-    
-         2015-03-12  Stefan Liebler  <stli@linux.vnet.ibm.com>
-    
-        	[BZ #18080]
-        	* sysdeps/unix/sysv/linux/s390/s390-32/setcontext.S
-        	(__setcontext): Use SIG_SETMASK instead of SIG_BLOCK.
-        	* sysdeps/unix/sysv/linux/s390/s390-64/setcontext.S
-        	(__setcontext): Likewise.
-        	* sysdeps/unix/sysv/linux/s390/s390-32/swapcontext.S
-        	(__swapcontext): Use SIG_SETMASK instead of SIG_BLOCK.
-        	Call rt_sigprocmask syscall one time to set new signal mask
-        	and retrieve the current signal mask instead of two calls.
-        	* sysdeps/unix/sysv/linux/s390/s390-64/swapcontext.S
-        	(__swapcontext): Likewise.
-        	* stdlib/Makefile (tests): Add new testcase tst-setcontext2.
-        	* stdlib/tst-setcontext2.c: New file.
+
+    [BZ #18080]
 
 diff --git a/stdlib/Makefile b/stdlib/Makefile
 index 5e99d7f..8f22c8d 100644

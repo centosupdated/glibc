@@ -1,3 +1,5 @@
+(Not needed anymore.)
+
 diff -Nru glibc-2.17-c758a686/elf/dl-load.c glibc-2.17-c758a686/elf/dl-load.c
 --- glibc-2.17-c758a686/elf/dl-load.c	2012-06-06 13:07:41.727524312 -0600
 +++ glibc-2.17-c758a686/elf/dl-load.c	2012-06-06 13:11:19.308681002 -0600

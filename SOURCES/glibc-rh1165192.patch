@@ -1,14 +1,9 @@
-#
-# EMARGOED!!! -- EMBARGOED!!! -- EMBARGOED!!!
-# EMARGOED!!! -- EMBARGOED!!! -- EMBARGOED!!!
-# EMARGOED!!! -- EMBARGOED!!! -- EMBARGOED!!!
-# Release date is RHEL 7.1 RC.
-# CVE-2014-8121:
-# Unexpected closing of nss_files databases after lookups causes denial of service 
-# EMARGOED!!! -- EMBARGOED!!! -- EMBARGOED!!!
-# EMARGOED!!! -- EMBARGOED!!! -- EMBARGOED!!!
-# EMARGOED!!! -- EMBARGOED!!! -- EMBARGOED!!!
-#
+commit 03d2730b44cc2236318fd978afa2651753666c55
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Wed Apr 29 14:41:25 2015 +0200
+
+    CVE-2014-8121: Do not close NSS files database during iteration [BZ #18007]
+
 diff -up glibc-2.17-c758a686/nss/Makefile.rh1165192 glibc-2.17-c758a686/nss/Makefile
 --- glibc-2.17-c758a686/nss/Makefile.rh1165192	2015-01-14 21:22:57.558006945 +0100
 +++ glibc-2.17-c758a686/nss/Makefile	2015-01-14 21:44:59.657777124 +0100

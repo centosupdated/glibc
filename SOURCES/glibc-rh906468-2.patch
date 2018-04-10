@@ -16,8 +16,8 @@ Adjustments: __libc_memalign is defined.  <support/xthread.h> is
 included because libsupport provides definitions of xthread_*
 functions, but not our version of the test skeleton.
 
-Index: b/include/libc-symbols.h
-===================================================================
+diff --git a/include/libc-symbols.h b/include/libc-symbols.h
+index 836fec8c0681ae49..0f47900922d4099b 100644
 --- a/include/libc-symbols.h
 +++ b/include/libc-symbols.h
 @@ -119,6 +119,21 @@
@@ -42,11 +42,11 @@ Index: b/include/libc-symbols.h
  
  #else /* __ASSEMBLER__ */
  
-Index: b/malloc/Makefile
-===================================================================
+diff --git a/malloc/Makefile b/malloc/Makefile
+index bb7f455f79ea0be2..71883c2055b8067c 100644
 --- a/malloc/Makefile
 +++ b/malloc/Makefile
-@@ -28,7 +28,16 @@ tests := mallocbug tst-malloc tst-valloc
+@@ -28,7 +28,16 @@ tests := mallocbug tst-malloc tst-valloc tst-calloc tst-obstack \
  	 tst-mallocstate tst-mcheck tst-mallocfork tst-trim1 \
  	 tst-malloc-usable \
  	 tst-malloc-backtrace tst-malloc-thread-exit \
@@ -80,14 +80,10 @@ Index: b/malloc/Makefile
  libmemusage-routines = memusage
  libmemusage-inhibit-o = $(filter-out .os,$(object-suffixes))
  
-@@ -157,6 +175,17 @@ $(objpfx)libmemusage.so: $(common-objpfx
+@@ -157,6 +175,13 @@ $(objpfx)libmemusage.so: $(common-objpfx)dlfcn/libdl.so
  # Extra dependencies
  $(foreach o,$(all-object-suffixes),$(objpfx)malloc$(o)): arena.c hooks.c
  
-+# max_align_t requires C11.
-+CFLAGS-tst-interpose-aux-nothread.c = -std=gnu11
-+CFLAGS-tst-interpose-aux-thread.c = -std=gnu11
-+
 +$(objpfx)tst-interpose-nothread: $(objpfx)tst-interpose-aux-nothread.o
 +$(objpfx)tst-interpose-thread: \
 +  $(objpfx)tst-interpose-aux-thread.o $(shared-thread-library)
@@ -98,8 +94,9 @@ Index: b/malloc/Makefile
  # Compile the tests with a flag which suppresses the mallopt call in
  # the test skeleton.
  $(tests:%=$(objpfx)%.o): CPPFLAGS += -DTEST_NO_MALLOPT
-Index: b/malloc/tst-interpose-aux-nothread.c
-===================================================================
+diff --git a/malloc/tst-interpose-aux-nothread.c b/malloc/tst-interpose-aux-nothread.c
+new file mode 100644
+index 0000000000000000..0eae66fa6c5260e5
 --- /dev/null
 +++ b/malloc/tst-interpose-aux-nothread.c
 @@ -0,0 +1,20 @@
@@ -123,8 +120,9 @@ Index: b/malloc/tst-interpose-aux-nothread.c
 +
 +#define INTERPOSE_THREADS 0
 +#include "tst-interpose-aux.c"
-Index: b/malloc/tst-interpose-aux-thread.c
-===================================================================
+diff --git a/malloc/tst-interpose-aux-thread.c b/malloc/tst-interpose-aux-thread.c
+new file mode 100644
+index 0000000000000000..354e4d8ed1d4f9c1
 --- /dev/null
 +++ b/malloc/tst-interpose-aux-thread.c
 @@ -0,0 +1,20 @@
@@ -148,8 +146,9 @@ Index: b/malloc/tst-interpose-aux-thread.c
 +
 +#define INTERPOSE_THREADS 1
 +#include "tst-interpose-aux.c"
-Index: b/malloc/tst-interpose-aux.c
-===================================================================
+diff --git a/malloc/tst-interpose-aux.c b/malloc/tst-interpose-aux.c
+new file mode 100644
+index 0000000000000000..5e8a9b9f5262e363
 --- /dev/null
 +++ b/malloc/tst-interpose-aux.c
 @@ -0,0 +1,283 @@
@@ -436,8 +435,9 @@ Index: b/malloc/tst-interpose-aux.c
 +    fail ("could not fulfill requested alignment %zu", alignment);
 +  return result;
 +}
-Index: b/malloc/tst-interpose-aux.h
-===================================================================
+diff --git a/malloc/tst-interpose-aux.h b/malloc/tst-interpose-aux.h
+new file mode 100644
+index 0000000000000000..2fb22d312a65bff8
 --- /dev/null
 +++ b/malloc/tst-interpose-aux.h
 @@ -0,0 +1,30 @@
@@ -471,8 +471,9 @@ Index: b/malloc/tst-interpose-aux.h
 +size_t malloc_deallocation_count (void);
 +
 +#endif /* TST_INTERPOSE_AUX_H */
-Index: b/malloc/tst-interpose-nothread.c
-===================================================================
+diff --git a/malloc/tst-interpose-nothread.c b/malloc/tst-interpose-nothread.c
+new file mode 100644
+index 0000000000000000..9acb57209899c8ee
 --- /dev/null
 +++ b/malloc/tst-interpose-nothread.c
 @@ -0,0 +1,20 @@
@@ -496,8 +497,9 @@ Index: b/malloc/tst-interpose-nothread.c
 +
 +#define INTERPOSE_THREADS 0
 +#include "tst-interpose-skeleton.c"
-Index: b/malloc/tst-interpose-skeleton.c
-===================================================================
+diff --git a/malloc/tst-interpose-skeleton.c b/malloc/tst-interpose-skeleton.c
+new file mode 100644
+index 0000000000000000..418e82465bc719d7
 --- /dev/null
 +++ b/malloc/tst-interpose-skeleton.c
 @@ -0,0 +1,204 @@
@@ -705,8 +707,9 @@ Index: b/malloc/tst-interpose-skeleton.c
 +
 +  return 0;
 +}
-Index: b/malloc/tst-interpose-static-nothread.c
-===================================================================
+diff --git a/malloc/tst-interpose-static-nothread.c b/malloc/tst-interpose-static-nothread.c
+new file mode 100644
+index 0000000000000000..3fb2dd8777e61ab5
 --- /dev/null
 +++ b/malloc/tst-interpose-static-nothread.c
 @@ -0,0 +1,19 @@
@@ -729,8 +732,9 @@ Index: b/malloc/tst-interpose-static-nothread.c
 +   not, see <http://www.gnu.org/licenses/>.  */
 +
 +#include "tst-interpose-nothread.c"
-Index: b/malloc/tst-interpose-static-thread.c
-===================================================================
+diff --git a/malloc/tst-interpose-static-thread.c b/malloc/tst-interpose-static-thread.c
+new file mode 100644
+index 0000000000000000..c78ebc70ba05c890
 --- /dev/null
 +++ b/malloc/tst-interpose-static-thread.c
 @@ -0,0 +1,19 @@
@@ -753,8 +757,9 @@ Index: b/malloc/tst-interpose-static-thread.c
 +   not, see <http://www.gnu.org/licenses/>.  */
 +
 +#include "tst-interpose-nothread.c"
-Index: b/malloc/tst-interpose-thread.c
-===================================================================
+diff --git a/malloc/tst-interpose-thread.c b/malloc/tst-interpose-thread.c
+new file mode 100644
+index 0000000000000000..d3e20c745767d6ff
 --- /dev/null
 +++ b/malloc/tst-interpose-thread.c
 @@ -0,0 +1,20 @@
@@ -778,8 +783,8 @@ Index: b/malloc/tst-interpose-thread.c
 +
 +#define INTERPOSE_THREADS 1
 +#include "tst-interpose-skeleton.c"
-Index: b/nptl/sysdeps/unix/sysv/linux/fork.c
-===================================================================
+diff --git a/nptl/sysdeps/unix/sysv/linux/fork.c b/nptl/sysdeps/unix/sysv/linux/fork.c
+index 9cc3ff8bf667817f..d404d135bc172555 100644
 --- a/nptl/sysdeps/unix/sysv/linux/fork.c
 +++ b/nptl/sysdeps/unix/sysv/linux/fork.c
 @@ -119,7 +119,7 @@ __libc_fork (void)

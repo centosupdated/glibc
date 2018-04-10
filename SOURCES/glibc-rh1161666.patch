@@ -1,3 +1,20 @@
+commit 533bb7c2ae156ff2d49b2e0b20b33810ba5e2721
+Author: Siddhesh Poyarekar <siddhesh@redhat.com>
+Date:   Wed Nov 12 19:30:24 2014 +0530
+
+    Fix stack alignment when loader is invoked directly
+    
+    The s390 ABI requires the stack pointer to be aligned at 8-bytes.
+    When a program is invoked as an argument to the dynamic linker,
+    _dl_start_user adjusts the stack to remove the dynamic linker
+    arguments so that the program sees only its name and arguments.  This
+    may result in the stack being misaligned since each argument shift is
+    only a word and not a double-word.
+    
+    This is now fixed shifting argv and envp down instead of shifting argc
+    up and reclaiming the stack.  This requires _dl_argv to be adjusted
+    and hence, is no longer relro.
+
 diff --git glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h
 index c56185c..79f8ef9 100644
 --- glibc-2.17-c758a686/sysdeps/s390/s390-32/dl-machine.h

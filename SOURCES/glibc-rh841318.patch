@@ -1,3 +1,15 @@
+Corresponds to:
+
+commit a5357b7ce2a2982c5778435704bcdb55ce3667a0
+Author: Jeff Law <law@redhat.com>
+Date:   Mon Dec 15 10:09:32 2014 +0100
+
+    CVE-2012-3406: Stack overflow in vfprintf [BZ #16617]
+    
+    A larger number of format specifiers coudld cause a stack overflow,
+    potentially allowing to bypass _FORTIFY_SOURCE format string
+    protection.
+
 diff -Nru glibc-2.17-c758a686/stdio-common/Makefile glibc-2.17-c758a686/stdio-common/Makefile
 --- glibc-2.17-c758a686/stdio-common/Makefile	2012-09-14 14:31:29.000000000 -0600
 +++ glibc-2.17-c758a686/stdio-common/Makefile	2012-09-14 14:41:50.837749196 -0600

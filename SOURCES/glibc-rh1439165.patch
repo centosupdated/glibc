@@ -2,19 +2,20 @@ Posted upstream at:
 
   https://sourceware.org/ml/libc-alpha/2017-04/msg00082.html
 
-sysdeps/unix/sysv/linux/syscall-names.list is stored as a separate
-file (syscall-names.list) in the source RPM for easier updates.
+sysdeps/unix/sysv/linux/syscall-names.list is stored as a separate patch
+(glibc-rh1439165-syscall-names.patch) in the source RPM for easier
+updates.
 
 Author: Florian Weimer <fweimer@redhat.com>
 
     <bits/syscall.h>: Use an arch-independent system call list on Linux
-    
+
     This commit changes the way the list of SYS_* system call macros
     is created on Linux.  glibc now contains a list of all known system
     calls, and the generated <bits/syscall.h> file defines the SYS_
     macro only if the correspnding __NR_ macro is defined by the kernel
     headers.
-    
+
     As a result, there glibc does not have to be rebuilt to pick up
     system calls if the glibc sources already know about them.  This
     means that glibc can be built with older kernel headers, and if
@@ -22,28 +23,20 @@ Author: Florian Weimer <fweimer@redhat.com>
     SYS_ macros become available as long as glibc has a record for
     those system calls.
 
-Index: b/sysdeps/unix/sysv/linux/Makefile
-===================================================================
+The explicit system call list for system call management was not
+accepted upstream.
+
+Fedora bug: https://bugzilla.redhat.com/show_bug.cgi?id=1484729
+diff --git a/sysdeps/unix/sysv/linux/Makefile b/sysdeps/unix/sysv/linux/Makefile
+index 366b1d7..95cff0e 100644
 --- a/sysdeps/unix/sysv/linux/Makefile
 +++ b/sysdeps/unix/sysv/linux/Makefile
-@@ -39,75 +39,46 @@ sysdep_headers += sys/mount.h sys/acct.h
+@@ -39,75 +39,46 @@ sysdep_headers += sys/mount.h sys/acct.h sys/sysctl.h \
  
  tests += tst-clone
  
 -# Generate the list of SYS_* macros for the system calls (__NR_* macros).
-+# Generate the list of SYS_* macros for the system calls (__NR_*
-+# macros).  The file syscall-names.list contains all possible system
-+# call names, and the generated header file produces SYS_* macros for
-+# the __NR_* macros which are actually defined.
-+
-+generated += bits/syscall.h
-+$(objpfx)bits/syscall.h: \
-+  ../sysdeps/unix/sysv/linux/gen-syscall-h.awk \
-+  ../sysdeps/unix/sysv/linux/syscall-names.list
-+	$(make-target-directory)
-+	$(AWK) -f $^ > $@-tmp
-+	$(move-if-change) $@-tmp $@
- 
+-
 -# If there is more than one syscall list for different architecture
 -# variants, the CPU/Makefile defines abi-variants to be a list of names
 -# for those variants (e.g. 32 64), and, for each variant, defines
@@ -59,34 +52,18 @@ Index: b/sysdeps/unix/sysv/linux/Makefile
 -# installed before the generated header could be built (See bug 15711).
 -# In current practice the generated header dependencies do not include
 -# any of the implementation headers removed by the use of `-ffreestanding'.
-+# All macros defined by <sys/syscall.h>.  Include <bits/syscall.h>
-+# explicitly because <sys/sycall.h> skips it if _LIBC is defined.
-+$(objpfx)tst-syscall-list-macros.list: \
-+  $(objpfx)bits/syscall.h ../sysdeps/unix/sysv/linux/sys/syscall.h
-+	printf '#include <sys/syscall.h>\n#include <bits/syscall.h>\n' | \
-+	  $(CC) -E -o $@-tmp $(CFLAGS) $(CPPFLAGS) -x c - -dM
-+	$(move-if-change) $@-tmp $@
-+
-+# __NR_* system call names.  Used by the test below.
-+$(objpfx)tst-syscall-list-nr.list: \
-+  ../sysdeps/unix/sysv/linux/filter-nr-syscalls.awk \
-+  $(objpfx)tst-syscall-list-macros.list
-+	$(AWK) -f $^ > $@-tmp
-+	$(move-if-change) $@-tmp $@
-+
-+# SYS_* system call names.  Used by the test below.
-+$(objpfx)tst-syscall-list-sys.list: $(objpfx)tst-syscall-list-macros.list
-+	$(AWK) '/^#define SYS_/ { print substr($$2, 5) }' $< > $@-tmp
-+	$(move-if-change) $@-tmp $@
-+
-+tests: $(objpfx)tst-syscall-list.out
-+$(objpfx)tst-syscall-list.out: \
-+  ../sysdeps/unix/sysv/linux/tst-syscall-list.sh \
-+  $(objpfx)tst-syscall-list-nr.list $(objpfx)tst-syscall-list-sys.list
-+	$(BASH) $^ > $@
- 
+-
 -$(objpfx)bits/syscall%h $(objpfx)bits/syscall%d: ../sysdeps/unix/sysv/linux/sys/syscall.h
--	$(make-target-directory)
++# Generate the list of SYS_* macros for the system calls (__NR_*
++# macros).  The file syscall-names.list contains all possible system
++# call names, and the generated header file produces SYS_* macros for
++# the __NR_* macros which are actually defined.
++
++generated += bits/syscall.h
++$(objpfx)bits/syscall.h: \
++  ../sysdeps/unix/sysv/linux/gen-syscall-h.awk \
++  ../sysdeps/unix/sysv/linux/syscall-names.list
+ 	$(make-target-directory)
 -	{ \
 -	 echo '/* Generated at libc build time from kernel syscall list.  */';\
 -	 echo ''; \
@@ -136,12 +113,42 @@ Index: b/sysdeps/unix/sysv/linux/Makefile
 -endif
 -generated += bits/syscall.h bits/syscall.d
 -endif
++	$(AWK) -f $^ > $@-tmp
++	$(move-if-change) $@-tmp $@
++
++# All macros defined by <sys/syscall.h>.  Include <bits/syscall.h>
++# explicitly because <sys/sycall.h> skips it if _LIBC is defined.
++$(objpfx)tst-syscall-list-macros.list: \
++  $(objpfx)bits/syscall.h ../sysdeps/unix/sysv/linux/sys/syscall.h
++	printf '#include <sys/syscall.h>\n#include <bits/syscall.h>\n' | \
++	  $(CC) -E -o $@-tmp $(CFLAGS) $(CPPFLAGS) -x c - -dM
++	$(move-if-change) $@-tmp $@
++
++# __NR_* system call names.  Used by the test below.
++$(objpfx)tst-syscall-list-nr.list: \
++  ../sysdeps/unix/sysv/linux/filter-nr-syscalls.awk \
++  $(objpfx)tst-syscall-list-macros.list
++	$(AWK) -f $^ > $@-tmp
++	$(move-if-change) $@-tmp $@
++
++# SYS_* system call names.  Used by the test below.
++$(objpfx)tst-syscall-list-sys.list: $(objpfx)tst-syscall-list-macros.list
++	$(AWK) '/^#define SYS_/ { print substr($$2, 5) }' $< > $@-tmp
++	$(move-if-change) $@-tmp $@
++
++tests: $(objpfx)tst-syscall-list.out
++$(objpfx)tst-syscall-list.out: \
++  ../sysdeps/unix/sysv/linux/tst-syscall-list.sh \
++  $(objpfx)tst-syscall-list-nr.list $(objpfx)tst-syscall-list-sys.list
++	$(BASH) $^ > $@
++
 +endif # $(subdir) == misc
  
  ifeq ($(subdir),time)
  sysdep_headers += sys/timex.h bits/timex.h
-Index: b/sysdeps/unix/sysv/linux/filter-nr-syscalls.awk
-===================================================================
+diff --git a/sysdeps/unix/sysv/linux/filter-nr-syscalls.awk b/sysdeps/unix/sysv/linux/filter-nr-syscalls.awk
+new file mode 100644
+index 0000000..15b052a
 --- /dev/null
 +++ b/sysdeps/unix/sysv/linux/filter-nr-syscalls.awk
 @@ -0,0 +1,35 @@
@@ -180,8 +187,9 @@ Index: b/sysdeps/unix/sysv/linux/filter-nr-syscalls.awk
 +/^#define __NR_/ {
 +    print substr($2, 6);
 +}
-Index: b/sysdeps/unix/sysv/linux/gen-syscall-h.awk
-===================================================================
+diff --git a/sysdeps/unix/sysv/linux/gen-syscall-h.awk b/sysdeps/unix/sysv/linux/gen-syscall-h.awk
+new file mode 100644
+index 0000000..0a27b3c
 --- /dev/null
 +++ b/sysdeps/unix/sysv/linux/gen-syscall-h.awk
 @@ -0,0 +1,75 @@
@@ -260,8 +268,9 @@ Index: b/sysdeps/unix/sysv/linux/gen-syscall-h.awk
 +// {
 +    fatal("unrecognized syntax");
 +}
-Index: b/sysdeps/unix/sysv/linux/tst-syscall-list.sh
-===================================================================
+diff --git a/sysdeps/unix/sysv/linux/tst-syscall-list.sh b/sysdeps/unix/sysv/linux/tst-syscall-list.sh
+new file mode 100644
+index 0000000..f48b7cd
 --- /dev/null
 +++ b/sysdeps/unix/sysv/linux/tst-syscall-list.sh
 @@ -0,0 +1,72 @@

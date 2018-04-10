@@ -1,22 +1,13 @@
-From cde99cd2b7b16a6113acb054e89d490047932a9f Mon Sep 17 00:00:00 2001
-From: Andreas Schwab <schwab@redhat.com>
-Date: Thu, 8 Apr 2010 11:18:26 +0200
-Subject: [PATCH] Don't call uname or getrlimit in libpthread init function
+Related upstream commit:
 
-* sysdeps/unix/sysv/linux/i386/Versions: Export __uname under
-GLIBC_PRIVATE.
-* nptl/Versions: Export __getrlimit under GLIBC_PRIVATE.
-* sysdeps/unix/sysv/linux/i386/smp.h: Call __uname instead of uname.
-* nptl/nptl-init.c: Call __getrlimit instead of getrlimit.
+commit c5c2b7c3fd823fc5c4a52506292a90eba60b0c62
+Author: Joseph Myers <joseph@codesourcery.com>
+Date:   Sat Dec 6 23:40:48 2014 +0000
 
----
- ChangeLog                                  |    8 ++++++++
- nptl/Versions                              |    1 +
- nptl/nptl-init.c                           |    2 +-
- nptl/sysdeps/unix/sysv/linux/i386/Versions |    6 ++++++
- nptl/sysdeps/unix/sysv/linux/i386/smp.h    |    2 +-
- 5 files changed, 17 insertions(+), 2 deletions(-)
- create mode 100644 nptl/sysdeps/unix/sysv/linux/i386/Versions
+    Fix pthreads getrlimit, gettimeofday namespace (bug 17682).
+
+The uname call is again present in Fedora because UTS namespaces can
+be used nowadays to change the uname result.
 
 --- glibc-2.17-c758a686/nptl/Version
 +++ glibc-2.17-c758a686/nptl/Versions

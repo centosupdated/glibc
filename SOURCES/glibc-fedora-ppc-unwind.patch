@@ -1,3 +1,6 @@
+(This patch is no longer needed because we currently build all of
+glibc with -fno-asynchronous-unwind-tables.)
+
 glibc-2.3.3-1478-g37582bc
 
 * Thu Nov 30 2006 Jakub Jelinek <jakub@redhat.com> 2.5.90-9

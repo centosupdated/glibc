@@ -1,3 +1,12 @@
+commit a1a6a401ab0a3c9f15fb7eaebbdcee24192254e8
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Tue Aug 26 19:38:59 2014 +0200
+
+    __gconv_translit_find: Disable function [BZ #17187]
+    
+    This functionality has never worked correctly, and the implementation
+    contained a security vulnerability (CVE-2014-5119).
+
 2014-08-21  Florian Weimer  <fweimer@redhat.com>
 
 	[BZ #17187]

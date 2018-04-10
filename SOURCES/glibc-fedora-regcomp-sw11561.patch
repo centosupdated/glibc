@@ -1,3 +1,11 @@
+Upstream commit:
+
+commit 7e2f0d2d77e4bc273fe00f99d970605d8e38d4d6
+Author: Andreas Schwab <schwab@suse.de>
+Date:   Mon Feb 4 10:16:33 2013 +0100
+
+    Fix handling of collating symbols in regexps
+
 From c1b97d6d896b1f22fdf5d28471ef7859ec840a57 Mon Sep 17 00:00:00 2001
 From: Andreas Schwab <schwab@redhat.com>
 Date: Wed, 1 Sep 2010 17:26:15 +0200

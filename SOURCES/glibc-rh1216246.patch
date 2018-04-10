@@ -1,7 +1,11 @@
-#
-# Posted upstream 2015-06-18:
-# https://www.sourceware.org/ml/libc-alpha/2015-06/msg00629.html
-#
+commit 8b59c73386ddb64331ee03c29925a18dae547733
+Author: Carlos O'Donell <carlos@systemhalted.org>
+Date:   Wed Jul 8 02:42:11 2015 -0400
+
+    Fix ruserok scalability with large ~/.rhosts file.
+    
+    Fixes bug 18557.
+
 diff --git glibc-2.17-c758a686/inet/rcmd.c glibc-2.17-c758a686/inet/rcmd.c
 index 98b3735..91623b0 100644
 --- glibc-2.17-c758a686/inet/rcmd.c

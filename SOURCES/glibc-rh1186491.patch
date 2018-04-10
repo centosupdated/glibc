@@ -1,3 +1,6 @@
+Patch not applicable to upstream, but the test failures not visible
+there anymore.  (The math tests have been reorganized.)
+
 --- glibc-2.17-c758a686/math/libm-test.inc	2015-01-22 10:53:11.015331338 -0500
 +++ glibc-2.17-c758a686/math/libm-test.inc	2015-01-26 16:46:24.631769811 -0500
 @@ -521,7 +521,7 @@

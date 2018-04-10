@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 196%{?dist}.2
+%define glibcrelease 222%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -152,6 +152,7 @@ URL: http://www.gnu.org/software/glibc/
 # changes should then be a very very small patch set.
 Source0: %{?glibc_release_url}%{glibcsrcdir}.tar.gz
 Source1: %{glibcsrcdir}-releng.tar.gz
+Source2: verify.md5
 
 ##############################################################################
 # Start of glibc patches
@@ -935,6 +936,7 @@ Patch1756: glibc-rh1350733-1.patch
 Patch1757: glibc-rh1337242.patch
 
 # RHBZ #1418978: backport upstream support/ directory
+Patch17580: glibc-rh1418978-max_align_t.patch
 Patch1758: glibc-rh1418978-0.patch
 Patch1759: glibc-rh1418978-1.patch
 Patch1760: glibc-rh1418978-2-1.patch
@@ -1091,7 +1093,7 @@ Patch1854: glibc-rh1413638-2.patch
 
 # RHBZ #1439165: Use a built-in list of known syscalls for <bits/syscall.h>
 Patch1855: glibc-rh1439165.patch
-Patch1856: syscall-names.list
+Patch1856: glibc-rh1439165-syscall-names.patch
 
 # RHBZ #1457177: Rounding issues on POWER
 Patch1857: glibc-rh1457177-1.patch
@@ -1099,16 +1101,66 @@ Patch1858: glibc-rh1457177-2.patch
 Patch1859: glibc-rh1457177-3.patch
 Patch1860: glibc-rh1457177-4.patch
 
-Patch1861: glibc-rh1504969.patch
+Patch1861: glibc-rh1348000.patch
+Patch1862: glibc-rh1443236.patch
+Patch1863: glibc-rh1447556.patch
+Patch1864: glibc-rh1463692-1.patch
+Patch1865: glibc-rh1463692-2.patch
+Patch1866: glibc-rh1347277.patch
 
-# RHBZ #1515114: Pegas1.0 - Update HWCAP bits for POWER9 DD2.1
-Patch1862: glibc-rh1515114-1.patch
-Patch1863: glibc-rh1515114-2.patch
-Patch1864: glibc-rh1515114-3.patch
+# RHBZ #1375235: Add new s390x instruction support
+Patch1867: glibc-rh1375235-1.patch
+Patch1868: glibc-rh1375235-2.patch
+Patch1869: glibc-rh1375235-3.patch
+Patch1870: glibc-rh1375235-4.patch
+Patch1871: glibc-rh1375235-5.patch
+Patch1872: glibc-rh1375235-6.patch
+Patch1873: glibc-rh1375235-7.patch
+Patch1874: glibc-rh1375235-8.patch
+Patch1875: glibc-rh1375235-9.patch
+Patch1876: glibc-rh1375235-10.patch
 
-# RHBZ #1516402: Pegas1.0 - Workaround performance regressions on VSX loads on POWER9 DD2.1
-Patch1865: glibc-rh1516402-1.patch
-Patch1866: glibc-rh1516402-2.patch
+# RHBZ #1435615: nscd cache thread hangs
+Patch1877: glibc-rh1435615.patch
+
+# RHBZ #1398413: libio: Implement vtable verification
+Patch1878: glibc-rh1398413.patch
+
+# RHBZ #1445781:  elf/tst-audit set of tests fails with "no PLTREL"
+Patch1879: glibc-rh1445781-1.patch
+Patch1880: glibc-rh1445781-2.patch
+
+Patch1881: glibc-rh1500908.patch
+Patch1882: glibc-rh1448822.patch
+Patch1883: glibc-rh1468807.patch
+Patch1884: glibc-rh1372305.patch
+Patch1885: glibc-rh1349962.patch
+Patch1886: glibc-rh1349964.patch
+Patch1887: glibc-rh1440250.patch
+Patch1888: glibc-rh1504809-1.patch
+Patch1889: glibc-rh1504809-2.patch
+Patch1890: glibc-rh1504969.patch
+Patch1891: glibc-rh1498925-1.patch
+Patch1892: glibc-rh1498925-2.patch
+
+# RHBZ #1503854: Pegas1.0 - Update HWCAP bits for POWER9 DD2.1
+Patch1893: glibc-rh1503854-1.patch
+Patch1894: glibc-rh1503854-2.patch
+Patch1895: glibc-rh1503854-3.patch
+
+# RHBZ #1527904: PTHREAD_STACK_MIN is too small on x86_64
+Patch1896: glibc-rh1527904-1.patch
+Patch1897: glibc-rh1527904-2.patch
+Patch1898: glibc-rh1527904-3.patch
+Patch1899: glibc-rh1527904-4.patch
+
+# RHBZ #1534635: CVE-2018-1000001 glibc: realpath() buffer underflow.
+Patch1900: glibc-rh1534635.patch
+
+# RHBZ #1529982: recompile glibc to fix incorrect CFI information on i386.
+Patch1901: glibc-rh1529982.patch
+
+Patch1902: glibc-rh1523119-compat-symbols.patch
 
 ##############################################################################
 #
@@ -1217,6 +1269,30 @@ Patch2089: glibc-rh1452721-2.patch
 Patch2090: glibc-rh1452721-3.patch
 Patch2091: glibc-rh1452721-4.patch
 
+Patch2092: glibc-rh677316-libc-pointer-arith.patch
+Patch2093: glibc-rh677316-libc-lock.patch
+Patch2094: glibc-rh677316-libc-diag.patch
+Patch2095: glibc-rh677316-check_mul_overflow_size_t.patch
+Patch2096: glibc-rh677316-res_state.patch
+Patch2097: glibc-rh677316-qsort_r.patch
+Patch2098: glibc-rh677316-fgets_unlocked.patch
+Patch2099: glibc-rh677316-in6addr_any.patch
+Patch2100: glibc-rh677316-netdb-reentrant.patch
+Patch2101: glibc-rh677316-h_errno.patch
+Patch2102: glibc-rh677316-scratch_buffer.patch
+Patch2103: glibc-rh677316-mtrace.patch
+Patch2104: glibc-rh677316-dynarray.patch
+Patch2105: glibc-rh677316-alloc_buffer.patch
+Patch2106: glibc-rh677316-RES_USE_INET6.patch
+Patch2107: glibc-rh677316-inet_pton.patch
+Patch2108: glibc-rh677316-inet_pton-zeros.patch
+Patch2109: glibc-rh677316-hesiod.patch
+Patch2110: glibc-rh677316-resolv.patch
+Patch2111: glibc-rh677316-legacy.patch
+
+Patch2112: glibc-rh1498566.patch
+Patch2113: glibc-rh1445644.patch
+
 ##############################################################################
 # End of glibc patches.
 ##############################################################################
@@ -1269,9 +1345,10 @@ BuildRequires: /usr/bin/valgrind
 # This is needed to get the _tmpfilesdir macro we use for nscd.
 BuildRequires: systemd
 
-# This is to ensure that __frame_state_for is exported by glibc
-# will be compatible with egcs 1.x.y
-BuildRequires: gcc >= 3.2
+# This GCC version introduced the -fstack-clash-protection option with
+# the required semantics.
+BuildRequires: gcc >= 4.8.5-25
+
 %define enablekernel 2.6.32
 Conflicts: kernel < %{enablekernel}
 %define target %{_target_cpu}-redhat-linux
@@ -2032,6 +2109,7 @@ package or when debugging this package.
 %patch1755 -p1
 %patch1756 -p1
 %patch1757 -p1
+%patch17580 -p1
 %patch1758 -p1
 %patch1759 -p1
 %patch1760 -p1
@@ -2137,12 +2215,13 @@ package or when debugging this package.
 
 # Built-in list of syscall names.
 %patch1855 -p1
-cp %{_sourcedir}/syscall-names.list sysdeps/unix/sysv/linux/
+%patch1856 -p1
 
 %patch1857 -p1
 %patch1858 -p1
 %patch1859 -p1
 %patch1860 -p1
+
 %patch1861 -p1
 %patch1862 -p1
 %patch1863 -p1
@@ -2150,9 +2229,84 @@ cp %{_sourcedir}/syscall-names.list sysdeps/unix/sysv/linux/
 %patch1865 -p1
 %patch1866 -p1
 
+%patch1867 -p1
+%patch1868 -p1
+%patch1869 -p1
+%patch1870 -p1
+%patch1871 -p1
+%patch1872 -p1
+%patch1873 -p1
+%patch1874 -p1
+%patch1875 -p1
+%patch1876 -p1
+
+%patch1877 -p1
+%patch2092 -p1
+%patch2093 -p1
+%patch2094 -p1
+%patch2095 -p1
+%patch2096 -p1
+%patch2097 -p1
+%patch2098 -p1
+%patch2099 -p1
+%patch2100 -p1
+%patch2101 -p1
+%patch2102 -p1
+%patch2103 -p1
+%patch2104 -p1
+%patch2105 -p1
+%patch2106 -p1
+%patch2107 -p1
+%patch2108 -p1
+%patch2109 -p1
+%patch2110 -p1
+%patch2111 -p1
+%patch2112 -p1
+%patch2113 -p1
+
+%patch1878 -p1
+%patch1879 -p1
+%patch1880 -p1
+
+%patch1881 -p1
+%patch1882 -p1
+%patch1883 -p1
+%patch1884 -p1
+%patch1885 -p1
+%patch1886 -p1
+%patch1887 -p1
+%patch1888 -p1
+%patch1889 -p1
+%patch1890 -p1
+%patch1891 -p1
+%patch1892 -p1
+
+%patch1893 -p1
+%patch1894 -p1
+%patch1895 -p1
+%patch1896 -p1
+%patch1897 -p1
+%patch1898 -p1
+%patch1899 -p1
+%patch1900 -p1
+%patch1901 -p1
+%patch1902 -p1
+
 ##############################################################################
 # %%prep - Additional prep required...
 ##############################################################################
+
+# Verify checksum of certain files in the source tree and exit
+# with a failure if they don't match expected values. The most
+# important purpose for this verification is patched binary files
+# which may get corrupted by editors. Check them here to make sure
+# they are OK after patching.
+if md5sum -c %{SOURCE2}; then
+    continue
+else
+    echo "md5sum: Verification of md5 sum for binary source files failed."
+    exit 1
+fi
 
 # XXX: This sounds entirely out of date, particularly in light of the fact
 #      that we want to be building newer Power support. We should review this
@@ -2264,6 +2418,7 @@ core_with_options="--with-cpu=power7"
 # %%build - Generic options.
 ##############################################################################
 BuildFlags="$BuildFlags -fasynchronous-unwind-tables"
+BuildFlags="$BuildFlags -fstack-clash-protection"
 # Add -DNDEBUG unless using a prerelease
 case %{version} in
   *.*.9[0-9]*) ;;
@@ -3299,15 +3454,110 @@ rm -f *.filelist*
 %endif
 
 %changelog
-* Wed Nov 22 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-196.2
-- Update HWCAP bits for IBM POWER9 DD2.1 (#1515114)
-- Improve memcpy performance for POWER9 DD2.1 (#1516402)
+* Thu Feb  1 2018 Florian Weimer <fweimer@redhat.com> - 2.17-222
+- Restore internal GLIBC_PRIVATE symbols for use during upgrades (#1523119)
 
-* Tue Nov 14 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-196.1
-- x86-64: Use XSAVE/XSAVEC in the ld.so trampoline (#1513070)
+* Fri Jan 19 2018 Carlos O'Donell <carlos@redhat.com> - 2.17-221
+- CVE-2018-1000001: Fix realpath() buffer underflow (#1534635)
+- i386: Fix unwinding for 32-bit C++ application (#1529982)
+- Reduce thread and dynamic loader stack usage (#1527904)
+- x86-64: Use XSAVE/XSAVEC more often during lazy symbol binding (#1528418)
+
+* Fri Nov 17 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-220
+- Update HWCAP bits for IBM POWER9 DD2.1 (#1503854)
+
+* Fri Nov 17 2017 Florian Weimer <fweimer@redhat.com> - 2.17-219
+- Rebuild with newer gcc for aarch64 stack probing fixes (#1500475)
+
+* Tue Nov  7 2017 Carlos O'Donell <carlos@redhat.com> - 2.17-218
+- Improve memcpy performance for POWER9 DD2.1 (#1498925)
+
+* Thu Nov  2 2017 Florian Weimer <fweimer@redhat.com> - 2.17-217
+- Update Linux system call list to kernel 4.13 (#1508895)
+
+* Thu Nov  2 2017 Florian Weimer <fweimer@redhat.com> - 2.17-216
+- x86-64: Use XSAVE/XSAVEC in the ld.so trampoline (#1504969)
+
+* Thu Nov  2 2017 Florian Weimer <fweimer@redhat.com> - 2.17-215
+- CVE-2017-15670: glob: Fix one-byte overflow with GLOB_TILDE (#1504809)
+- CVE-2017-15804: glob: Fix buffer overflow in GLOB_TILDE unescaping (#1504809)
+
+* Sat Oct 21 2017 Patsy Franklin <pfrankli@redhat.com> - 2.17-214
+- Fix check-localplt test failure. 
+- Include ld.so in check-localplt test. (#1440250)
+
+* Thu Oct 19 2017 Florian Weimer <fweimer@redhat.com> - 2.17-213
+- Fix build warning in locarchive.c (#1349964)
+
+* Wed Oct 18 2017 Florian Weimer <fweimer@redhat.com> - 2.17-212
+- Hide reference to mktemp in libpthread (#1349962)
+
+* Wed Oct 18 2017 Florian Weimer <fweimer@redhat.com> - 2.17-211
+- Implement fopencookie hardening (#1372305)
+
+* Wed Oct 18 2017 Florian Weimer <fweimer@redhat.com> - 2.17-210
+- x86-64: Support __tls_get_addr with an unaligned stack (#1468807)
+
+* Wed Oct 18 2017 Florian Weimer <fweimer@redhat.com> - 2.17-209
+- Define CLOCK_TAI in <time.h> (#1448822)
+
+* Mon Oct 16 2017 Florian Weimer <fweimer@redhat.com> - 2.17-208
+- Compile glibc with -fstack-clash-protection (#1500475)
+
+* Thu Oct 12 2017 Florian Weimer <fweimer@redhat.com> - 2.17-207
+- aarch64: Avoid invalid relocations in the startup code (#1500908)
+
+* Fri Oct  6 2017 Patsy Franklin <pfrankli@redhat.com> - 2.17-206
+- Fix timezone test failures on large parallel builds. (#1234449, #1378329)  
+
+* Fri Oct  6 2017 DJ Delorie <dj@redhat.com> - 2.17-205
+- Handle DSOs with no PLT (#1445781)
+
+* Fri Oct  6 2017 DJ Delorie <dj@redhat.com> - 2.17-204
+- libio: Implement vtable verification (#1398413)
+
+* Thu Oct  5 2017 Arjun Shankar <arjun@redhat.com> - 2.17-203
+- Fix socket system call selection on s390x (#1498566).
+- Use different construct for protected visibility in IFUNC tests (#1445644)
+
+* Fri Sep 29 2017 Florian Weimer <fweimer@redhat.com> - 2.17-202
+- Rebase the DNS stub resolver and getaddrinfo to the glibc 2.26 version
+- Support an arbitrary number of search domains in the stub resolver (#677316)
+- Detect and apply /etc/resolv.conf changes in libresolv (#1432085)
+- CVE-2017-1213: Fragmentation attacks possible when ENDS0 is enabled
+  (#1487063)
+- CVE-2016-3706: Stack (frame) overflow in getaddrinfo when called
+  with AF_INET, AF_INET6 (#1329674)
+- CVE-2015-5180: resolv: Fix crash with internal QTYPE (#1497131)
+- CVE-2014-9402: denial of service in getnetbyname function (#1497132)
+- Fix getaddrinfo to handle certain long lines in /etc/hosts (#1452034)
+- Make RES_ROTATE start with a random name server (#1257639)
+- Stricter IPv6 address parser (#1484034)
+- Remove noip6dotint support from the stub resolver (#1482988)
+- Remove partial bitstring label support from the stub resolver
+- Remove unsupported resolver hook functions from the API
+- Remove outdated RR type classification macros from the API
+- hesiod: Always use TLS resolver state
+- hesiod: Avoid non-trust-boundary crossing heap overflow in get_txt_records
+
+* Tue Sep 26 2017 DJ Delorie <dj@redhat.com> - 2.17.201
+- Fix hang in nscd cache prune thread (#1435615)
+
+* Thu Sep 21 2017 Patsy Franklin <pfrankli@redhat.com> - 2.17-200
+- Add binary timezone test data files (#1234449, #1378329)
+
+* Wed Sep 20 2017 DJ Delorie <dj@redhat.com> - 2.17.198
+- Add support for new IBM z14 (s390x) instructions (#1375235)
+
+* Wed Aug 16 2017 DJ Delorie <dj@redhat.com> - 2.17-197
+- Fix compile warnings in malloc (#1347277)
+- Fix occasional tst-malloc-usable failures (#1348000)
+- Additional chunk hardening in malloc (#1447556)
+- Pointer alignment fix in nss group merge (#1463692)
+- Fix SIGSEGV when LD_LIBRARY_PATH only has non-existing paths (#1443236)
 
 * Fri Jun 16 2017 Florian Weimer <fweimer@redhat.com> - 2.17-196
-- Avoid large allocas in the dynamic linker (#1452721)
+- CVE-2017-1000366: Avoid large allocas in the dynamic linker (#1452721)
 
 * Fri Jun  9 2017 Florian Weimer <fweimer@redhat.com> - 2.17-195
 - Rounding issues on POWER (#1457177)
