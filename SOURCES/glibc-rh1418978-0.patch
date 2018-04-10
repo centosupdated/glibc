@@ -8,8 +8,8 @@ libsupport as make dependency).
 The actual contents of the support/ subdirectory is kept in a separate
 patch, so that it can be updated separately.
 
-Index: b/Makeconfig
-===================================================================
+diff --git a/Makeconfig b/Makeconfig
+index 1673eea7f2667aae..948c46420193051d 100644
 --- a/Makeconfig
 +++ b/Makeconfig
 @@ -384,6 +384,9 @@ LDFLAGS.so += $(hashstyle-LDFLAGS)
@@ -22,7 +22,7 @@ Index: b/Makeconfig
  # Command for linking PIE programs with the C library.
  ifndef +link-pie
  +link-pie = $(CC) -pie -Wl,-O1 -nostdlib -nostartfiles -o $@ \
-@@ -464,7 +467,7 @@ link-libc-before-gnulib = -Wl,-rpath-lin
+@@ -464,7 +467,7 @@ link-libc-before-gnulib = -Wl,-rpath-link=$(rpath-link) \
  link-libc = $(link-libc-before-gnulib) $(gnulib)
  link-libc-tests = $(link-libc-before-gnulib) $(gnulib-tests)
  # This is how to find at build-time things that will be installed there.
@@ -53,7 +53,7 @@ Index: b/Makeconfig
  # These are the subdirectories containing the library source.  The order
  # is more or less arbitrary.  The sorting step will take care of the
  # dependencies.
-@@ -1029,7 +1038,7 @@ all-subdirs = csu assert ctype locale in
+@@ -1029,7 +1038,7 @@ all-subdirs = csu assert ctype locale intl catgets math setjmp signal	    \
  	      stdlib stdio-common libio malloc string wcsmbs time dirent    \
  	      grp pwd posix io termios resource misc socket sysvipc gmon    \
  	      gnulib iconv iconvdata wctype manual shadow gshadow po argp   \
@@ -62,8 +62,8 @@ Index: b/Makeconfig
  	      $(add-on-subdirs) dlfcn elf
  
  ifndef avoid-generated
-Index: b/Rules
-===================================================================
+diff --git a/Rules b/Rules
+index 25a16d1a4f001a95..b18fb12b1711c0fc 100644
 --- a/Rules
 +++ b/Rules
 @@ -142,6 +142,7 @@ endif
@@ -82,8 +82,8 @@ Index: b/Rules
    $(sort $(filter $(common-objpfx)lib%,$(link-libc-static-tests))) \
    $(addprefix $(csu-objpfx),start.o) $(+preinit) $(+postinit)
  	$(+link-static-tests)
-Index: b/extra-lib.mk
-===================================================================
+diff --git a/extra-lib.mk b/extra-lib.mk
+index af1d6fc888f43d1c..6b87e52db3666cca 100644
 --- a/extra-lib.mk
 +++ b/extra-lib.mk
 @@ -5,6 +5,9 @@

@@ -1,3 +1,11 @@
+Related upstream commit:
+
+commit 10e1cf6b73f1598e57d24933a0949dbeffa2c8a0
+Author: Siddhesh Poyarekar <siddhesh@redhat.com>
+Date:   Fri Oct 11 22:37:53 2013 +0530
+
+    Add systemtap markers to math function slow paths
+
 diff -rup glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c
 --- glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c	2012-05-20 19:47:38.000000000 -0600
 +++ glibc-2.17-c758a686/sysdeps/ieee754/dbl-64/slowexp.c	2012-05-21 10:02:51.693957300 -0600

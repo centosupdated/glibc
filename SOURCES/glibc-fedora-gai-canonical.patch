@@ -1,15 +1,11 @@
-From bf18f175afdb59cdcd1016995b351e2bbb1d6ba7 Mon Sep 17 00:00:00 2001
-From: Andreas Schwab <schwab@redhat.com>
-Date: Tue, 21 Jun 2011 17:28:57 +0200
-Subject: [PATCH] Don't use gethostbyaddr to determine canonical name
+Upstream commit, fixing [BZ #15218]:
 
-* sysdeps/posix/getaddrinfo.c (gaih_inet): Don't use gethostbyaddr
-to determine canonical name.
+commit b957ced8890a4438c8efe2c15e5abf4e327f25cf
+Author: Andreas Schwab <schwab@suse.de>
+Date:   Tue Oct 15 10:21:13 2013 +0200
 
----
- ChangeLog                   |    5 +++
- sysdeps/posix/getaddrinfo.c |   77 +++----------------------------------------
- 2 files changed, 10 insertions(+), 72 deletions(-)
+    Don't use gethostbyaddr to determine canonical name
+
 
 --- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 +++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c

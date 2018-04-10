@@ -1,3 +1,5 @@
+Cannot be upstreamed.  rtkaio was removed from Fedora.
+
 diff -u --new-file glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/nptl/librtkaio-le.abilist glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/nptl/librtkaio-le.abilist
 --- glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/nptl/librtkaio-le.abilist                 1969-12-31 19:00:00.000000000 -0500
 +++ glibc-2.17-c758a686/sysdeps/unix/sysv/linux/powerpc/powerpc64/nptl/librtkaio-le.abilist 2015-04-28 19:44:03.038050864 -0400

@@ -1,3 +1,9 @@
+commit cf9313e7d1dd42addd6cf8c9277f0f18a62cdeff
+Author: Carlos O'Donell <carlos@systemhalted.org>
+Date:   Fri Mar 13 09:49:24 2015 -0400
+
+    Enhance nscd's inotify support (Bug 14906).
+
 --- glibc-2.17-c758a686/nscd/cache.c	2012-12-24 22:02:13.000000000 -0500
 +++ glibc-2.17-c758a686/nscd/cache.c	2015-05-13 13:45:57.259958374 -0400
 @@ -272,28 +272,38 @@

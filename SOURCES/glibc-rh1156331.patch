@@ -1,6 +1,6 @@
-commit e276f4f310a89a925dd59e583f7a1bef2114d9a7
+commit be349d7042de84c3c5157a5c1fbcad580aed33e1
 Author: Siddhesh Poyarekar <siddhesh@redhat.com>
-Date:   Tue Nov 25 21:15:16 2014 +0530
+Date:   Thu Dec 4 08:08:37 2014 +0530
 
     ftell: seek to end only when there are unflushed bytes (BZ #17647)
     
@@ -20,13 +20,13 @@ Date:   Tue Nov 25 21:15:16 2014 +0530
     patch and succeeds with it, and that there are no additional
     regressions due to it.
     
-    	[BZ #17647]
-    	* libio/fileops.c (do_ftell): Seek only when there are
-    	unflushed writes.
-    	* libio/wfileops.c (do_ftell_wide): Likewise.
-    	* libio/tst-ftell-active-handler.c (do_ftruncate_test): New
-    	test case.
-    	(do_one_test): Call it.
+            [BZ #17647]
+            * libio/fileops.c (do_ftell): Seek only when there are
+            unflushed writes.
+            * libio/wfileops.c (do_ftell_wide): Likewise.
+            * libio/tst-ftell-active-handler.c (do_ftruncate_test): New
+            test case.
+            (do_one_test): Call it.
 
 diff --git glibc-2.17-c758a686/libio/fileops.c glibc-2.17-c758a686/libio/fileops.c
 index e0d7b76..1fc5719 100644

@@ -1,38 +1,8 @@
-commit 7cdd140cbccc8eb62a20d12a03bed83765cbc066
+commit 890b7a4b33d482b5c768ab47d70758b80227e9bc
 Author: Stefan Liebler <stli@linux.vnet.ibm.com>
-Date:   Fri Jul 31 13:42:52 2015 +0200
+Date:   Tue Jul 7 16:11:14 2015 +0200
 
     S390: Fix "backtrace() returns infinitely deep stack frames with makecontext()" [BZ #18508].
-    
-        On s390/s390x backtrace(buffer, size) returns the series of called functions until
-        "makecontext_ret" and additional entries (up to "size") with "makecontext_ret".
-        GDB-backtrace is also warning:
-        "Backtrace stopped: previous frame identical to this frame (corrupt stack?)"
-    
-        To reproduce this scenario you have to setup a new context with makecontext()
-        and activate it with setcontext(). See e.g. cf() function in testcase stdlib/tst-makecontext.c.
-        Or see bug in libgo "Bug 66303 - runtime.Caller() returns infinitely deep stack frames
-        on s390x " (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66303).
-    
-        This patch omits the cfi_startproc/cfi_endproc directives in ENTRY/END macro of
-        __makecontext_ret. Thus no frame information is generated in .eh_frame and backtrace
-        stops after __makecontext_ret. There is also no .eh_frame info for _start or
-        thread_start functions.
-    
-        ChangeLog:
-    
-        	[BZ #18508]
-        	* stdlib/Makefile ($(objpfx)tst-makecontext3):
-        	Depend on $(libdl).
-        	* stdlib/tst-makecontext.c (cf): Test if _Unwind_Backtrace
-        	is not called infinitely times.
-        	(backtrace_helper): New function.
-        	(trace_arg): New struct.
-        	(st1): Enlarge stack size.
-        	* sysdeps/unix/sysv/linux/s390/s390-32/__makecontext_ret.S:
-        	(__makecontext_ret): Omit cfi_startproc and cfi_endproc.
-        	* sysdeps/unix/sysv/linux/s390/s390-64/__makecontext_ret.S:
-        	Likewise.
 
 diff --git a/stdlib/Makefile b/stdlib/Makefile
 index 8f22c8d..c1e80d7 100644

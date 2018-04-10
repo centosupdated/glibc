@@ -1,3 +1,17 @@
+Related upstream commit (this bug has been fixed upstream in a
+different way):
+
+commit 2212c1420c92a33b0e0bd9a34938c9814a56c0f7
+Author: Andreas Schwab <schwab@suse.de>
+Date:   Thu Feb 19 15:52:08 2015 +0100
+
+    Simplify handling of nameserver configuration in resolver
+    
+    Remove use of ext.nsmap member of struct __res_state and always use
+    an identity mapping betwen the nsaddr_list array and the ext.nsaddrs
+    array.  The fact that a nameserver has an IPv6 address is signalled by
+    setting nsaddr_list[].sin_family to zero.
+
 diff -rup glibc-2.17-c758a686/resolv/res_init.c glibc-2.17-c758a686/resolv/res_init.c
 --- glibc-2.17-c758a686/resolv/res_init.c	2012-07-26 15:10:45.655638776 -0600
 +++ glibc-2.17-c758a686/resolv/res_init.c	2012-07-26 15:11:27.731423002 -0600

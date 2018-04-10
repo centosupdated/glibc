@@ -1,3 +1,19 @@
+This patch provides a compatibility kludge for legacy applications
+which do not provide proper stack alignment.  It cannot be upstreamed.
+
+The kludge is active for both i386 and x86-64, but it is actually only
+needed on i386.
+
+In Fedora, the same effect was achieved by disabling multi-arch
+altogether:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=1471427
+
+Further discussion is on this internal bug:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=1478332
+
+
 --- glibc-2.17-c758a686/sysdeps/x86_64/multiarch/ifunc-impl-list.c	2012-12-24 20:02:13.000000000 -0700
 +++ glibc-2.17-c758a686/sysdeps/x86_64/multiarch/ifunc-impl-list.c	2015-04-20 09:04:11.826569951 -0600
 @@ -212,6 +212,8 @@

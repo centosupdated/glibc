@@ -1,3 +1,11 @@
+Upstream commit:
+
+commit e9db92d3acfe1822d56d11abcea5bfc4c41cf6ca
+Author: Carlos O'Donell <carlos@systemhalted.org>
+Date:   Tue Feb 16 21:26:37 2016 -0500
+
+    CVE-2015-7547: getaddrinfo() stack-based buffer overflow (Bug 18665).
+
 Index: b/resolv/nss_dns/dns-host.c
 ===================================================================
 --- a/resolv/nss_dns/dns-host.c

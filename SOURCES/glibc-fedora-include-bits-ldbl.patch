@@ -1,3 +1,9 @@
+Only needed for glibc builds with -mlong-double-64:
+
+  https://sourceware.org/ml/libc-alpha/2017-08/msg01139.html
+
+This means the patch is no longer needed.
+
 From 5eb4509a6651d19c7a28c4506d6aa582c9ee095a Mon Sep 17 00:00:00 2001
 From: Jakub Jelinek <jakub@redhat.com>
 Date: Wed, 1 Feb 2006 09:30:43 +0000

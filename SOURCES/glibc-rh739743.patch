@@ -1,11 +1,12 @@
-2009-04-26  Aurelien Jarno  <aurelien@aurel32.net>
+Upstream commit:
 
-	* sysdeps/posix/getaddrinfo.c (rfc3484_sort): don't assign native
-	result if the result has no associated interface.
+commit 894f3f1049135dcbeaab8f18690973663ef3147c
+Author: Allan McRae <allan@archlinux.org>
+Date:   Fri Oct 25 14:25:38 2013 +1000
 
----
- sysdeps/posix/getaddrinfo.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+    Fix incorrect getaddrinfo assertion trigger
+    
+    [BZ #9954]
 
 --- glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c
 +++ glibc-2.17-c758a686/sysdeps/posix/getaddrinfo.c

@@ -1,3 +1,14 @@
+Comprehensive stack protector support was added to upstream glibc with
+this commit:
+
+commit cecbc7967f0bcac718b6f8f8942b58403c0e917c
+Author: Nick Alcock <nick.alcock@oracle.com>
+Date:   Mon Dec 26 10:09:10 2016 +0100
+
+    Enable -fstack-protector=* when requested by configure [BZ #7065]
+
+It is a superset of the functionality in this patch.
+
 diff -urN glibc-2.17-c758a686/config.make.in glibc-2.17-c758a686/config.make.in
 --- glibc-2.17-c758a686/config.make.in	2014-02-27 10:33:11.466763885 -0500
 +++ glibc-2.17-c758a686/config.make.in	2014-02-27 10:36:44.481320149 -0500

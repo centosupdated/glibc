@@ -1,14 +1,10 @@
-From 83e5edd390eabe8f8e8e0d051f929b77a30c0767 Mon Sep 17 00:00:00 2001
-From: Andreas Schwab <schwab@redhat.com>
-Date: Fri, 18 Mar 2011 16:22:52 +0100
-Subject: [PATCH] ldd: never run file directly
+Upstream commit:
 
-* elf/ldd.bash.in: Never run file directly.
+commit eedca9772e99c72ab4c3c34e43cc764250aa3e3c (HEAD -> master)
+Author: Andreas Schwab <schwab@suse.de>
+Date:   Wed Aug 16 15:59:55 2017 +0200
 
----
- ChangeLog       |    4 ++++
- elf/ldd.bash.in |   14 +-------------
- 2 files changed, 5 insertions(+), 13 deletions(-)
+    ldd: never run file directly
 
 --- glibc-2.17-c758a686/elf/ldd.bash.in
 +++ glibc-2.17-c758a686/elf/ldd.bash.in

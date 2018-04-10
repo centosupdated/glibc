@@ -1,3 +1,9 @@
+commit 42d6443faf5e8b5c70474923bfcc021b77ee0095
+Author: Andreas Schwab <schwab@suse.de>
+Date:   Thu Jul 24 17:32:56 2014 +0200
+
+    Don't emit invalid extra shift character at block boundary by iconv (bug 17197)
+
 --- a/iconvdata/Makefile
 +++ b/iconvdata/Makefile
 @@ -67,7 +67,8 @@

@@ -1,20 +1,10 @@
-From 70d0a630700f602a457832383161d261fe222db5 Mon Sep 17 00:00:00 2001
-From: Andreas Schwab <schwab@redhat.com>
-Date: Thu, 1 Jul 2010 13:14:26 +0200
-Subject: [PATCH] Fix PLT reference
+Related upstream commit:
 
-* include/sys/resource.h (__getrlimit): Add hidden proto.
-* sysdeps/unix/sysv/linux/i386/getrlimit.c: Add libc_hidden_weak.
-* sysdeps/mach/hurd/getrlimit.c: Add libc_hidden_def.
-* resource/getrlimit.c: Likewise.
+commit c5c2b7c3fd823fc5c4a52506292a90eba60b0c62
+Author: Joseph Myers <joseph@codesourcery.com>
+Date:   Sat Dec 6 23:40:48 2014 +0000
 
----
- ChangeLog                                |    7 +++++++
- include/sys/resource.h                   |    1 +
- resource/getrlimit.c                     |    1 +
- sysdeps/mach/hurd/getrlimit.c            |    1 +
- sysdeps/unix/sysv/linux/i386/getrlimit.c |    1 +
- 5 files changed, 11 insertions(+), 0 deletions(-)
+    Fix pthreads getrlimit, gettimeofday namespace (bug 17682).
 
 --- glibc-2.17-c758a686/include/sys/resource.h
 +++ glibc-2.17-c758a686/include/sys/resource.h
