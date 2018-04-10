@@ -260,6 +260,9 @@ Patch0066: glibc-rh1227699.patch
 # CVE-2015-7547
 Patch0067: glibc-rh1296031.patch
 
+# Armhfp build issue
+Patch0068: glibc-rh1256317-armhfp-build-issue.patch
+
 ##############################################################################
 #
 # Patches from upstream
@@ -1650,6 +1653,7 @@ package or when debugging this package.
 %patch0035 -p1
 %patch0036 -p1
 %patch0037 -p1
+%patch0068 -p1
 %patch1000 -p1
 %patch0038 -p1
 %patch1052 -p1
@@ -3454,6 +3458,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Apr 10 2018 Johnny Hughes <johnny@centos.org> - 2.17-222
+- Added patch for armhfp build issue (jacco@redsleeve.org)
+
 * Thu Feb  1 2018 Florian Weimer <fweimer@redhat.com> - 2.17-222
 - Restore internal GLIBC_PRIVATE symbols for use during upgrades (#1523119)
 
