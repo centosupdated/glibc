@@ -258,6 +258,11 @@ Patch0068: glibc-rh1349982.patch
 
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
+
+# Armhfp build issue
+
+Patch0070: glibc-rh1256317-armhfp-build-issue.patch
+
 ##############################################################################
 #
 # Patches from upstream
@@ -2605,6 +2610,11 @@ package or when debugging this package.
 %patch2542 -p1
 %patch2543 -p1
 %patch0069 -p1
+
+%ifarch %{arm}
+%patch0070 -p1
+%endif
+
 %patch2544 -p1
 %patch2545 -p1
 %patch2546 -p1
@@ -3979,6 +3989,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Oct 30 2018 Johnny Hughes <johnny@centos.org> - 2.17-260
+- Added patch for armhfp build issue (jacco@redsleeve.org)
+
 * Wed Jun 27 2018 Patsy Franklin <pfrankli@redhat.com> - 2.17-260
 - Update glibc-rh1560641.patch to initialize pad outside
   the conditional eliminating an uninitialized byte warning from
