@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 222%{?dist}
+%define glibcrelease 260%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -31,12 +31,6 @@
 %ifarch s390
 # There is no valgrind support for 31-bit s390.
 %undefine with_valgrind
-%endif
-%endif
-%if %{with werror}
-%ifarch s390x
-# The 64-bit s390x builds are not -Werror clean yet.
-%undefine with_werror
 %endif
 %endif
 %if %{with bootstrap}
@@ -221,7 +215,6 @@ Patch0028: glibc-fedora-localedata-rh61908.patch
 Patch0030: glibc-fedora-uname-getrlimit.patch
 Patch0031: glibc-fedora-__libc_multiple_libcs.patch
 Patch0032: glibc-fedora-elf-rh737223.patch
-Patch0033: glibc-fedora-elf-ORIGIN.patch
 Patch0034: glibc-fedora-elf-init-hidden_undef.patch
 
 # Needs to be sent upstream
@@ -260,6 +253,11 @@ Patch0066: glibc-rh1227699.patch
 # CVE-2015-7547
 Patch0067: glibc-rh1296031.patch
 
+# releng patch from Fedora
+Patch0068: glibc-rh1349982.patch
+
+# These changes were brought forward from RHEL 6 for compatibility
+Patch0069: glibc-rh1448107.patch
 ##############################################################################
 #
 # Patches from upstream
@@ -1161,6 +1159,264 @@ Patch1900: glibc-rh1534635.patch
 Patch1901: glibc-rh1529982.patch
 
 Patch1902: glibc-rh1523119-compat-symbols.patch
+Patch2500: glibc-rh1505492-nscd_stat.patch
+Patch2501: glibc-rh1564638.patch
+Patch2502: glibc-rh1566623.patch
+Patch2503: glibc-rh1349967.patch
+Patch2504: glibc-rh1505492-undef-malloc.patch
+Patch2505: glibc-rh1505492-undef-elf-dtv-resize.patch
+Patch2506: glibc-rh1505492-undef-elision.patch
+Patch2507: glibc-rh1505492-undef-max_align_t.patch
+Patch2508: glibc-rh1505492-unused-tst-default-attr.patch
+Patch2509: glibc-rh1505492-prototypes-rtkaio.patch
+Patch2510: glibc-rh1505492-zerodiv-log.patch
+Patch2511: glibc-rh1505492-selinux.patch
+Patch2512: glibc-rh1505492-undef-abi.patch
+Patch2513: glibc-rh1505492-unused-math.patch
+Patch2514: glibc-rh1505492-prototypes-1.patch
+Patch2515: glibc-rh1505492-uninit-intl-plural.patch
+Patch2516: glibc-rh1505492-undef-1.patch
+Patch2517: glibc-rh1505492-undef-2.patch
+Patch2518: glibc-rh1505492-bounded-1.patch
+Patch2519: glibc-rh1505492-bounded-2.patch
+Patch2520: glibc-rh1505492-bounded-3.patch
+Patch2521: glibc-rh1505492-bounded-4.patch
+Patch2522: glibc-rh1505492-undef-3.patch
+Patch2523: glibc-rh1505492-bounded-5.patch
+Patch2524: glibc-rh1505492-bounded-6.patch
+Patch2525: glibc-rh1505492-bounded-7.patch
+Patch2526: glibc-rh1505492-bounded-8.patch
+Patch2527: glibc-rh1505492-unused-1.patch
+Patch2528: glibc-rh1505492-bounded-9.patch
+Patch2529: glibc-rh1505492-bounded-10.patch
+Patch2530: glibc-rh1505492-bounded-11.patch
+Patch2531: glibc-rh1505492-bounded-12.patch
+Patch2532: glibc-rh1505492-bounded-13.patch
+Patch2533: glibc-rh1505492-unused-2.patch
+Patch2534: glibc-rh1505492-bounded-14.patch
+Patch2535: glibc-rh1505492-bounded-15.patch
+Patch2536: glibc-rh1505492-bounded-16.patch
+Patch2537: glibc-rh1505492-bounded-17.patch
+Patch2538: glibc-rh1505492-malloc_size_t.patch
+Patch2539: glibc-rh1505492-malloc_ptrdiff_t.patch
+Patch2540: glibc-rh1505492-prototypes-2.patch
+Patch2541: glibc-rh1505492-prototypes-libc_fatal.patch
+Patch2542: glibc-rh1505492-getlogin.patch
+Patch2543: glibc-rh1505492-undef-4.patch
+Patch2544: glibc-rh1505492-register.patch
+Patch2545: glibc-rh1505492-prototypes-3.patch
+Patch2546: glibc-rh1505492-unused-3.patch
+Patch2547: glibc-rh1505492-ports-move-powerpc.patch
+Patch2548: glibc-rh1505492-unused-4.patch
+Patch2549: glibc-rh1505492-systemtap.patch
+Patch2550: glibc-rh1505492-prototypes-wcschr-1.patch
+Patch2551: glibc-rh1505492-prototypes-wcsrchr.patch
+Patch2552: glibc-rh1505492-prototypes-powerpc-wcscpy.patch
+Patch2553: glibc-rh1505492-prototypes-powerpc-wordcopy.patch
+Patch2554: glibc-rh1505492-bsd-flatten.patch
+Patch2555: glibc-rh1505492-unused-5.patch
+Patch2556: glibc-rh1505492-types-1.patch
+Patch2557: glibc-rh1505492-powerpc-sotruss.patch
+Patch2558: glibc-rh1505492-s390x-sotruss.patch
+Patch2559: glibc-rh1505492-ports-am33.patch
+Patch2560: glibc-rh1505492-ports-move-arm.patch
+Patch2561: glibc-rh1505492-undef-5.patch
+Patch2562: glibc-rh1505492-prototypes-4.patch
+Patch2563: glibc-rh1505492-ports-move-tile.patch
+Patch2564: glibc-rh1505492-ports-move-m68k.patch
+Patch2565: glibc-rh1505492-ports-move-mips.patch
+Patch2566: glibc-rh1505492-ports-move-aarch64.patch
+Patch2567: glibc-rh1505492-ports-move-alpha.patch
+Patch2568: glibc-rh1505492-ports-move-ia64.patch
+Patch2569: glibc-rh1505492-undef-6.patch
+Patch2570: glibc-rh1505492-undef-7.patch
+Patch2571: glibc-rh1505492-undef-intl.patch
+Patch2572: glibc-rh1505492-undef-obstack.patch
+Patch2573: glibc-rh1505492-undef-error.patch
+Patch2574: glibc-rh1505492-undef-string.patch
+Patch2575: glibc-rh1505492-undef-tempname.patch
+Patch2576: glibc-rh1505492-undef-8.patch
+Patch2577: glibc-rh1505492-undef-mktime.patch
+Patch2578: glibc-rh1505492-undef-sysconf.patch
+Patch2579: glibc-rh1505492-prototypes-Xat.patch
+Patch2580: glibc-rh1505492-undef-ipc64.patch
+Patch2581: glibc-rh1505492-undef-xfs-chown.patch
+Patch2582: glibc-rh1505492-undef-9.patch
+Patch2583: glibc-rh1505492-undef-10.patch
+Patch2584: glibc-rh1505492-undef-11.patch
+Patch2585: glibc-rh1505492-undef-12.patch
+Patch2586: glibc-rh1505492-prototypes-5.patch
+Patch2587: glibc-rh1505492-undef-13.patch
+Patch2588: glibc-rh1505492-undef-14.patch
+Patch2589: glibc-rh1505492-undef-15.patch
+Patch2590: glibc-rh1505492-ports-move-hppa.patch
+Patch2591: glibc-rh1505492-undef-16.patch
+Patch2592: glibc-rh1505492-undef-17.patch
+Patch2593: glibc-rh1505492-undef-18.patch
+Patch2594: glibc-rh1505492-undef-19.patch
+Patch2595: glibc-rh1505492-undef-20.patch
+Patch2596: glibc-rh1505492-undef-21.patch
+Patch2597: glibc-rh1505492-undef-22.patch
+Patch2598: glibc-rh1505492-undef-23.patch
+Patch2599: glibc-rh1505492-undef-24.patch
+Patch2600: glibc-rh1505492-prototypes-rwlock.patch
+Patch2601: glibc-rh1505492-undef-25.patch
+Patch2602: glibc-rh1505492-undef-26.patch
+Patch2603: glibc-rh1505492-undef-27.patch
+Patch2604: glibc-rh1505492-undef-28.patch
+Patch2605: glibc-rh1505492-undef-29.patch
+Patch2606: glibc-rh1505492-undef-30.patch
+Patch2607: glibc-rh1505492-undef-31.patch
+Patch2608: glibc-rh1505492-undef-32.patch
+Patch2609: glibc-rh1505492-undef-33.patch
+Patch2610: glibc-rh1505492-prototypes-memchr.patch
+Patch2611: glibc-rh1505492-undef-34.patch
+Patch2612: glibc-rh1505492-prototypes-powerpc-memmove.patch
+Patch2613: glibc-rh1505492-undef-35.patch
+Patch2614: glibc-rh1505492-undef-36.patch
+Patch2615: glibc-rh1505492-undef-37.patch
+Patch2616: glibc-rh1505492-uninit-1.patch
+Patch2617: glibc-rh1505492-undef-38.patch
+Patch2618: glibc-rh1505492-uninit-2.patch
+Patch2619: glibc-rh1505492-undef-39.patch
+Patch2620: glibc-rh1505492-undef-40.patch
+Patch2621: glibc-rh1505492-undef-41.patch
+Patch2622: glibc-rh1505492-undef-42.patch
+Patch2623: glibc-rh1505492-undef-43.patch
+Patch2624: glibc-rh1505492-undef-44.patch
+Patch2625: glibc-rh1505492-undef-45.patch
+Patch2626: glibc-rh1505492-undef-46.patch
+Patch2627: glibc-rh1505492-undef-47.patch
+Patch2628: glibc-rh1505492-prototypes-6.patch
+Patch2629: glibc-rh1505492-undef-48.patch
+Patch2630: glibc-rh1505492-prototypes-execve.patch
+Patch2631: glibc-rh1505492-prototypes-readv-writev.patch
+Patch2632: glibc-rh1505492-prototypes-7.patch
+Patch2633: glibc-rh1505492-prototypes-powerpc-pread-pwrite.patch
+Patch2634: glibc-rh1505492-s390-backtrace.patch
+Patch2635: glibc-rh1505492-unused-6.patch
+Patch2636: glibc-rh1505492-prototypes-8.patch
+Patch2637: glibc-rh1505492-prototypes-ctermid.patch
+Patch2638: glibc-rh1505492-unused-7.patch
+Patch2639: glibc-rh1505492-uninit-3.patch
+Patch2640: glibc-rh1505492-types-2.patch
+Patch2641: glibc-rh1505492-unused-8.patch
+Patch2642: glibc-rh1505492-unused-9.patch
+Patch2643: glibc-rh1505492-types-3.patch
+Patch2644: glibc-rh1505492-unused-10.patch
+Patch2645: glibc-rh1505492-types-5.patch
+Patch2646: glibc-rh1505492-unused-11.patch
+Patch2647: glibc-rh1505492-unused-12.patch
+Patch2648: glibc-rh1505492-unused-13.patch
+Patch2649: glibc-rh1505492-deprecated-1.patch
+Patch2650: glibc-rh1505492-unused-14.patch
+Patch2651: glibc-rh1505492-types-6.patch
+Patch2652: glibc-rh1505492-address.patch
+Patch2653: glibc-rh1505492-types-7.patch
+Patch2654: glibc-rh1505492-prototypes-9.patch
+Patch2655: glibc-rh1505492-diag.patch
+Patch2656: glibc-rh1505492-zerodiv-1.patch
+Patch2657: glibc-rh1505492-deprecated-2.patch
+Patch2658: glibc-rh1505492-unused-15.patch
+Patch2659: glibc-rh1505492-prototypes-sigvec.patch
+Patch2660: glibc-rh1505492-werror-activate.patch
+Patch2661: glibc-rh1505492-types-8.patch
+Patch2662: glibc-rh1505492-prototypes-intl.patch
+Patch2663: glibc-rh1505492-types-9.patch
+Patch2664: glibc-rh1505492-types-10.patch
+Patch2665: glibc-rh1505492-prototypes-sem_unlink.patch
+Patch2666: glibc-rh1505492-prototypes-s390-pthread_once.patch
+Patch2667: glibc-rh1505492-types-11.patch
+Patch2668: glibc-rh1505492-types-12.patch
+Patch2669: glibc-rh1505492-types-13.patch
+Patch2670: glibc-rh1505492-undef-49.patch
+Patch2671: glibc-rh1505492-undef-50.patch
+Patch2672: glibc-rh1505492-undef-51.patch
+Patch2673: glibc-rh1505492-undef-52.patch
+Patch2674: glibc-rh1505492-types-14.patch
+Patch2675: glibc-rh1505492-prototypes-10.patch
+Patch2676: glibc-rh1505492-prototypes-wcschr-2.patch
+Patch2677: glibc-rh1505492-prototypes-bzero.patch
+Patch2678: glibc-rh1505492-winline.patch
+Patch2679: glibc-rh1505492-prototypes-scandir.patch
+Patch2680: glibc-rh1505492-prototypes-timespec_get.patch
+Patch2681: glibc-rh1505492-prototypes-gettimeofday.patch
+Patch2682: glibc-rh1505492-prototypes-no_cancellation.patch
+Patch2683: glibc-rh1505492-prototypes-getttynam.patch
+Patch2684: glibc-rh1505492-undef-53.patch
+Patch2685: glibc-rh1505492-prototypes-stpcpy.patch
+Patch2686: glibc-rh1505492-undef-54.patch
+Patch2687: glibc-rh1505492-undef-55.patch
+Patch2688: glibc-rh1505492-undef-activate.patch
+Patch2689: glibc-rh1505492-prototypes-debug.patch
+Patch2690: glibc-rh1505492-prototypes-putXent.patch
+Patch2691: glibc-rh1505492-prototypes-11.patch
+Patch2692: glibc-rh1505492-prototypes-12.patch
+Patch2693: glibc-rh1505492-prototypes-13.patch
+Patch2694: glibc-rh1505492-prototypes-14.patch
+Patch2695: glibc-rh1505492-prototypes-15.patch
+Patch2696: glibc-rh1505492-prototypes-16.patch
+Patch2697: glibc-rh1505492-prototypes-17.patch
+Patch2698: glibc-rh1505492-prototypes-18.patch
+Patch2699: glibc-rh1505492-prototypes-activate.patch
+Patch2700: glibc-rh1505492-unused-16.patch
+Patch2701: glibc-rh1505492-unused-17.patch
+Patch2702: glibc-rh1505492-undef-56.patch
+Patch2703: glibc-rh1548002.patch
+Patch2704: glibc-rh1307241-1.patch
+Patch2705: glibc-rh1307241-2.patch
+
+Patch2706: glibc-rh1563747.patch
+Patch2707: glibc-rh1476120.patch
+Patch2708: glibc-rh1505647.patch
+
+Patch2709: glibc-rh1457479-1.patch
+Patch2710: glibc-rh1457479-2.patch
+Patch2711: glibc-rh1457479-3.patch
+Patch2712: glibc-rh1457479-4.patch
+Patch2713: glibc-rh1461231.patch
+
+Patch2714: glibc-rh1577333.patch
+Patch2715: glibc-rh1531168-1.patch
+Patch2716: glibc-rh1531168-2.patch
+Patch2717: glibc-rh1531168-3.patch
+Patch2718: glibc-rh1579742.patch
+Patch2719: glibc-rh1579727-1.patch
+Patch2720: glibc-rh1579727-2.patch
+Patch2721: glibc-rh1579809-1.patch
+Patch2722: glibc-rh1579809-2.patch
+Patch2723: glibc-rh1505451.patch
+Patch2724: glibc-rh1505477.patch
+Patch2725: glibc-rh1505500.patch
+Patch2726: glibc-rh1563046.patch
+
+# RHBZ 1560641 - backport of upstream sem_open patch
+Patch2727: glibc-rh1560641.patch
+
+Patch2728: glibc-rh1550080.patch
+Patch2729: glibc-rh1526193.patch
+Patch2730: glibc-rh1372304-1.patch
+Patch2731: glibc-rh1372304-2.patch
+Patch2732: glibc-rh1540480-0.patch
+Patch2733: glibc-rh1540480-1.patch
+Patch2734: glibc-rh1540480-2.patch
+Patch2735: glibc-rh1540480-3.patch
+Patch2736: glibc-rh1540480-4.patch
+Patch2737: glibc-rh1540480-5.patch
+Patch2738: glibc-rh1540480-6.patch
+Patch2739: glibc-rh1540480-7.patch
+Patch2740: glibc-rh1540480-8.patch
+Patch2741: glibc-rh1447808-0.patch
+Patch2742: glibc-rh1447808-1.patch
+Patch2743: glibc-rh1447808-2.patch
+Patch2744: glibc-rh1401665-0.patch
+Patch2745: glibc-rh1401665-1a.patch
+Patch2746: glibc-rh1401665-1b.patch
+Patch2747: glibc-rh1401665-1c.patch
+Patch2748: glibc-rh1401665-2.patch
+Patch2749: glibc-rh1401665-3.patch
+Patch2750: glibc-rh1401665-4.patch
+Patch2751: glibc-rh1401665-5.patch
 
 ##############################################################################
 #
@@ -1293,6 +1549,8 @@ Patch2111: glibc-rh677316-legacy.patch
 Patch2112: glibc-rh1498566.patch
 Patch2113: glibc-rh1445644.patch
 
+Patch2114: glibc-rh1471405.patch
+
 ##############################################################################
 # End of glibc patches.
 ##############################################################################
@@ -1314,6 +1572,16 @@ Provides: rtld(GNU_HASH)
 Provides: ld-linux.so.3
 Provides: ld-linux.so.3(GLIBC_2.4)
 %endif
+
+# This should remain "Provides: nss_db" (or become a subpackage) to allow easy
+# migration from old systems that previously had the old nss_db package
+# installed. Note that this doesn't make the migration that smooth, the
+# databases still need rebuilding because the formats were different.
+# The nss_db package was deprecated in F16 and onwards:
+# https://lists.fedoraproject.org/pipermail/devel/2011-July/153665.html
+# The different database format does cause some issues for users:
+# https://lists.fedoraproject.org/pipermail/devel/2011-December/160497.html
+Provides: nss_db
 
 Requires: glibc-common = %{version}-%{release}
 
@@ -1644,7 +1912,6 @@ package or when debugging this package.
 %patch0030 -p1
 %patch0031 -p1
 %patch0032 -p1
-%patch0033 -p1
 %patch0034 -p1
 %patch1051 -p1
 %patch0035 -p1
@@ -2108,6 +2375,7 @@ package or when debugging this package.
 %patch1754 -p1
 %patch1755 -p1
 %patch1756 -p1
+%patch0068 -p1
 %patch1757 -p1
 %patch17580 -p1
 %patch1758 -p1
@@ -2263,6 +2531,7 @@ package or when debugging this package.
 %patch2111 -p1
 %patch2112 -p1
 %patch2113 -p1
+%patch2114 -p1
 
 %patch1878 -p1
 %patch1879 -p1
@@ -2291,6 +2560,262 @@ package or when debugging this package.
 %patch1900 -p1
 %patch1901 -p1
 %patch1902 -p1
+%patch2500 -p1
+%patch2501 -p1
+%patch2502 -p1
+%patch2503 -p1
+%patch2504 -p1
+%patch2505 -p1
+%patch2506 -p1
+%patch2507 -p1
+%patch2508 -p1
+%patch2509 -p1
+%patch2510 -p1
+%patch2511 -p1
+%patch2512 -p1
+%patch2513 -p1
+%patch2514 -p1
+%patch2515 -p1
+%patch2516 -p1
+%patch2517 -p1
+%patch2518 -p1
+%patch2519 -p1
+%patch2520 -p1
+%patch2521 -p1
+%patch2522 -p1
+%patch2523 -p1
+%patch2524 -p1
+%patch2525 -p1
+%patch2526 -p1
+%patch2527 -p1
+%patch2528 -p1
+%patch2529 -p1
+%patch2530 -p1
+%patch2531 -p1
+%patch2532 -p1
+%patch2533 -p1
+%patch2534 -p1
+%patch2535 -p1
+%patch2536 -p1
+%patch2537 -p1
+%patch2538 -p1
+%patch2539 -p1
+%patch2540 -p1
+%patch2541 -p1
+%patch2542 -p1
+%patch2543 -p1
+%patch0069 -p1
+%patch2544 -p1
+%patch2545 -p1
+%patch2546 -p1
+%patch2547 -p1
+%patch2548 -p1
+%patch2549 -p1
+%patch2550 -p1
+%patch2551 -p1
+%patch2552 -p1
+%patch2553 -p1
+%patch2554 -p1
+%patch2555 -p1
+%patch2556 -p1
+%patch2557 -p1
+%patch2558 -p1
+%patch2559 -p1
+%patch2560 -p1
+%patch2561 -p1
+%patch2562 -p1
+%patch2563 -p1
+%patch2564 -p1
+%patch2565 -p1
+%patch2566 -p1
+%patch2567 -p1
+%patch2568 -p1
+%patch2569 -p1
+%patch2570 -p1
+%patch2571 -p1
+%patch2572 -p1
+%patch2573 -p1
+%patch2574 -p1
+%patch2575 -p1
+%patch2576 -p1
+%patch2577 -p1
+%patch2578 -p1
+%patch2579 -p1
+%patch2580 -p1
+%patch2581 -p1
+%patch2582 -p1
+%patch2583 -p1
+%patch2584 -p1
+%patch2585 -p1
+%patch2586 -p1
+%patch2587 -p1
+%patch2588 -p1
+%patch2589 -p1
+%patch2590 -p1
+%patch2591 -p1
+%patch2592 -p1
+%patch2593 -p1
+%patch2594 -p1
+%patch2595 -p1
+%patch2596 -p1
+%patch2597 -p1
+%patch2598 -p1
+%patch2599 -p1
+%patch2600 -p1
+%patch2601 -p1
+%patch2602 -p1
+%patch2603 -p1
+%patch2604 -p1
+%patch2605 -p1
+%patch2606 -p1
+%patch2607 -p1
+%patch2608 -p1
+%patch2609 -p1
+%patch2610 -p1
+%patch2611 -p1
+%patch2612 -p1
+%patch2613 -p1
+%patch2614 -p1
+%patch2615 -p1
+%patch2616 -p1
+%patch2617 -p1
+%patch2618 -p1
+%patch2619 -p1
+%patch2620 -p1
+%patch2621 -p1
+%patch2622 -p1
+%patch2623 -p1
+%patch2624 -p1
+%patch2625 -p1
+%patch2626 -p1
+%patch2627 -p1
+%patch2628 -p1
+%patch2629 -p1
+%patch2630 -p1
+%patch2631 -p1
+%patch2632 -p1
+%patch2633 -p1
+%patch2634 -p1
+%patch2635 -p1
+%patch2636 -p1
+%patch2637 -p1
+%patch2638 -p1
+%patch2639 -p1
+%patch2640 -p1
+%patch2641 -p1
+%patch2642 -p1
+%patch2643 -p1
+%patch2644 -p1
+%patch2645 -p1
+%patch2646 -p1
+%patch2647 -p1
+%patch2648 -p1
+%patch2649 -p1
+%patch2650 -p1
+%patch2651 -p1
+%patch2652 -p1
+%patch2653 -p1
+%patch2654 -p1
+%patch2655 -p1
+%patch2656 -p1
+%patch2657 -p1
+%patch2658 -p1
+%patch2659 -p1
+%patch2660 -p1
+%patch2661 -p1
+%patch2662 -p1
+%patch2663 -p1
+%patch2664 -p1
+%patch2665 -p1
+%patch2666 -p1
+%patch2667 -p1
+%patch2668 -p1
+%patch2669 -p1
+%patch2670 -p1
+%patch2671 -p1
+%patch2672 -p1
+%patch2673 -p1
+%patch2674 -p1
+%patch2675 -p1
+%patch2676 -p1
+%patch2677 -p1
+%patch2678 -p1
+%patch2679 -p1
+%patch2680 -p1
+%patch2681 -p1
+%patch2682 -p1
+%patch2683 -p1
+%patch2684 -p1
+%patch2685 -p1
+%patch2686 -p1
+%patch2687 -p1
+%patch2688 -p1
+%patch2689 -p1
+%patch2690 -p1
+%patch2691 -p1
+%patch2692 -p1
+%patch2693 -p1
+%patch2694 -p1
+%patch2695 -p1
+%patch2696 -p1
+%patch2697 -p1
+%patch2698 -p1
+%patch2699 -p1
+%patch2700 -p1
+%patch2701 -p1
+%patch2702 -p1
+%patch2703 -p1
+%patch2704 -p1
+%patch2705 -p1
+
+%patch2706 -p1
+%patch2707 -p1
+%patch2708 -p1
+
+%patch2709 -p1
+%patch2710 -p1
+%patch2711 -p1
+%patch2712 -p1
+%patch2713 -p1
+
+%patch2714 -p1
+%patch2715 -p1
+%patch2716 -p1
+%patch2717 -p1
+%patch2718 -p1
+%patch2719 -p1
+%patch2720 -p1
+%patch2721 -p1
+%patch2722 -p1
+%patch2723 -p1
+%patch2724 -p1
+%patch2725 -p1
+%patch2726 -p1
+%patch2727 -p1
+%patch2728 -p1
+%patch2729 -p1
+%patch2730 -p1
+%patch2731 -p1
+%patch2732 -p1
+%patch2733 -p1
+%patch2734 -p1
+%patch2735 -p1
+%patch2736 -p1
+%patch2737 -p1
+%patch2738 -p1
+%patch2739 -p1
+%patch2740 -p1
+%patch2741 -p1
+%patch2742 -p1
+%patch2743 -p1
+%patch2744 -p1
+%patch2745 -p1
+%patch2746 -p1
+%patch2747 -p1
+%patch2748 -p1
+%patch2749 -p1
+%patch2750 -p1
+%patch2751 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -2455,7 +2980,7 @@ build_CFLAGS="$BuildFlags -g -O3 $*"
 configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
 ../configure CC="$GCC" CXX="$GXX" CFLAGS="$configure_CFLAGS" \
 	--prefix=%{_prefix} \
-	--enable-add-ons=ports,nptl$AddOns \
+	--enable-add-ons=nptl$AddOns \
 	--with-headers=%{_prefix}/include $EnableKernel --enable-bind-now \
 	--build=%{target} \
 %ifarch %{multiarcharches}
@@ -3454,6 +3979,132 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Wed Jun 27 2018 Patsy Franklin <pfrankli@redhat.com> - 2.17-260
+- Update glibc-rh1560641.patch to initialize pad outside
+  the conditional eliminating an uninitialized byte warning from
+  valgrind. (#1560641)
+
+* Fri Jun 15 2018 Arjun Shankar <arjun@redhat.com> - 2.17-259
+- Correctly set errno when send() fails on i686 (#1550080)
+
+* Tue Jun 12 2018 Carlos O'Donell <carlos@redhat.com> - 2.17-258
+- Fix dynamic string token substitution in DT_RPATH etc. (#1447808, #1540480)
+- Additional robust mutex fixes (#1401665)
+
+* Tue Jun 12 2018 Carlos O'Donell <carlos@redhat.com> - 2.17-257
+- Improve process-shared robust mutex support (#1401665)
+
+* Tue Jun 12 2018 Carlos O'Donell <carlos@redhat.com> 2.17-256
+- CVE-2017-16997: Correctly handle DT_RPATH (#1540480).
+- Correctly process "$ORIGIN" element in DT_RPATH or DT_NEEDED (#1447808).
+
+* Tue Jun 12 2018 Carlos O'Donell <codonell@redhat.com> - 2.17-255
+- Make transition from legacy nss_db easier (#1408964)
+
+* Mon Jun 11 2018 Arjun Shankar <arjun@redhat.com> - 2.17-254
+- nptl: Avoid expected SIGALRM in most tests (#1372304)
+
+* Fri Jun  8 2018 Patsy Franklin <pfrankli@redhat.com> - 2.17-253
+- Add support for el_GR@euro locale.  Update el_GR, ur_IN and
+  wal_ET locales.  (#1448107)
+
+* Fri Jun  8 2018 Arjun Shankar <arjun@redhat.com> - 2.17-252
+- Do not scale NPTL tests with available number of CPUs (#1526193)
+
+* Thu Jun  7 2018 Arjun Shankar <arjun@redhat.com> - 2.17-251
+- Correctly set errno when send() fails on s390 and s390x (#1550080)
+
+* Wed Jun  6 2018 Patsy Franklin <pfrankli@redhat.com> - 2.17-250
+- Initialize pad field in sem_open. (#1560641)
+
+* Mon Jun  4 2018 Arjun Shankar <arjun@redhat.com> - 2.17-249
+- getlogin_r: Return early when process has no associated login UID (#1563046)
+
+* Mon Jun  4 2018 Arjun Shankar <arjun@redhat.com> - 2.17-248
+- Return static array, not local array from transliteration function (#1505500)
+
+* Mon Jun  4 2018 Arjun Shankar <arjun@redhat.com> - 2.17-247
+- Re-write multi-statement strftime_l macros using better style (#1505477)
+
+* Mon Jun  4 2018 Arjun Shankar <arjun@redhat.com> - 2.17-246
+- Fix pthread_barrier_init typo (#1505451)
+
+* Wed May 23 2018 Florian Weimer <fweimer@redhat.com> - 2.17-245
+- CVE-2018-11237: AVX-512 mempcpy for KNL buffer overflow (#1579809)
+
+* Wed May 23 2018 Florian Weimer <fweimer@redhat.com> - 2.17-244
+- resolv: Fix crash after memory allocation failure (#1579727)
+
+* Wed May 23 2018 Florian Weimer <fweimer@redhat.com> - 2.17-243
+- CVE-2018-11236: Path length overflow in realpath (#1579742)
+
+* Tue May 22 2018 DJ Delorie <dj@redhat.com> - 2.17-242
+- S390: fix sys/ptrace.h to make it includible again after
+  asm/ptrace.h (#1457479)
+
+* Tue May 22 2018 Florian Weimer <fweimer@redhat.com> - 2.17-241
+- x86: setcontext, makecontext alignment issues (#1531168)
+
+* Wed May 16 2018 DJ Delorie <dj@redhat.com> - 2.17-240
+- Remove abort() warning in manual (#1577333)
+
+* Wed May 16 2018 DJ Delorie <dj@redhat.com> - 2.17-239
+- Add Open File Description (OFL) locks. (#1461231)
+
+* Sun May 13 2018 Patsy Franklin <pfrankli@redhat.com> - 2.17-238
+- Properly handle more invalid --install-langs arguments. (#1349982)
+
+* Fri May 11 2018 DJ Delorie <dj@redhat.com> - 2.17-237
+- Add O_TMPFILE macro (#1471405)
+- Update syscall names list to kernel 4.16 (#1563747)
+- Include <linux/falloc.h> in bits/fcntl-linux.h. (#1476120)
+- Fix netgroup cache keys. (#1505647)
+- Update ptrace constants. (#1457479)
+
+* Thu May  3 2018 Arjun Shankar <arjun@redhat.com> - 2.17-236
+- Fix strfmon_l so that it groups digits (#1307241)
+
+* Thu May  3 2018 Arjun Shankar <arjun@redhat.com> - 2.17-235
+- CVE-2018-6485: Integer overflow in posix_memalign in memalign (#1548002)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-234
+- Adjust spec file for compiler warnings cleanup (#1505492)
+- Drop ports add-on
+- Do not attempt to disable warnings-as-errors on s390x
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-233
+- Compiler warnings cleanup, phase 7 (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-232
+- Compiler warnings cleanup, phase 6 (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-231
+- Compiler warnings cleanup, phase 5 (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-230
+- Compiler warnings cleanup, phase 4 (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-229
+- Compiler warnings cleanup, phase 3 (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-228
+- Compiler warnings cleanup, phase 2 (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-227
+- Fix downstream-specific compiler warnings (#1505492)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-226
+- rtkaio: Do not define IN_MODULE (#1349967)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-225
+- Fix K&R function definitions in libio (#1566623)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-224
+- Fix type errors in string tests (#1564638)
+
+* Fri Apr 13 2018 Florian Weimer <fweimer@redhat.com> - 2.17-223
+- Make nscd build reproducible for verification (#1505492)
+
 * Thu Feb  1 2018 Florian Weimer <fweimer@redhat.com> - 2.17-222
 - Restore internal GLIBC_PRIVATE symbols for use during upgrades (#1523119)
 
