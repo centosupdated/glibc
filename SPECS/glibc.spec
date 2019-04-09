@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 260%{?dist}.3
+%define glibcrelease 260%{?dist}.4
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1420,6 +1420,8 @@ Patch2751: glibc-rh1401665-5.patch
 Patch2752: glibc-rh1661244.patch
 Patch2753: glibc-rh1661242-1.patch
 Patch2754: glibc-rh1661242-2.patch
+Patch2755: glibc-rh1693152-1.patch
+Patch2756: glibc-rh1693152-2.patch
 
 ##############################################################################
 #
@@ -2822,6 +2824,8 @@ package or when debugging this package.
 %patch2752 -p1
 %patch2753 -p1
 %patch2754 -p1
+%patch2755 -p1
+%patch2756 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -3985,6 +3989,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Mon Apr  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.4
+- ja_JP: Add new Japanese Era name (#1693152)
+
 * Thu Jan  3 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.3
 - elf: Fix data race in _dl_profile_fixup (#1661242)
 
