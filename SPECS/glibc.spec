@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 260%{?dist}.4
+%define glibcrelease 260%{?dist}.5
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1566,7 +1566,6 @@ Patch2114: glibc-rh1471405.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Obsoletes: glibc-profile < 2.4
-Obsoletes: nss_db
 Provides: ldconfig
 # The dynamic linker supports DT_GNU_HASH
 Provides: rtld(GNU_HASH)
@@ -1578,7 +1577,7 @@ Provides: ld-linux.so.3
 Provides: ld-linux.so.3(GLIBC_2.4)
 %endif
 
-# This should remain "Provides: nss_db" (or become a subpackage) to allow easy
+# This should remain (or become a subpackage) to allow easy
 # migration from old systems that previously had the old nss_db package
 # installed. Note that this doesn't make the migration that smooth, the
 # databases still need rebuilding because the formats were different.
@@ -1586,7 +1585,9 @@ Provides: ld-linux.so.3(GLIBC_2.4)
 # https://lists.fedoraproject.org/pipermail/devel/2011-July/153665.html
 # The different database format does cause some issues for users:
 # https://lists.fedoraproject.org/pipermail/devel/2011-December/160497.html
-Provides: nss_db
+Obsoletes: nss_db < 2.17
+Provides: nss_db = %{version}-%{release}
+Provides: nss_db%{_isa} = %{version}-%{release}
 
 Requires: glibc-common = %{version}-%{release}
 
@@ -3989,6 +3990,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Apr 30 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.5
+- Use versioned Obsoletes: for nss_db (#1704593)
+
 * Mon Apr  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.4
 - ja_JP: Add new Japanese Era name (#1693152)
 
