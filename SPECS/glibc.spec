@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 42%{?dist}
+%define glibcrelease 42%{?dist}.1
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -206,6 +206,7 @@ Patch70: glibc-rh1642094-2.patch
 Patch71: glibc-rh1642094-3.patch
 Patch72: glibc-rh1654872-1.patch
 Patch73: glibc-rh1654872-2.patch
+Patch74: glibc-rh1692450.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1951,6 +1952,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Apr  1 2019 Florian Weimer <fweimer@redhat.com> - 2.28-42.1
+- ja_JP: Add new Japanese Era name (#1692450)
+
 * Fri Dec 14 2018 Florian Weimer <fweimer@redhat.com> - 2.28-42
 - Fix rdlock stall with PREFER_WRITER_NONRECURSIVE_NP (#1654872)
 
