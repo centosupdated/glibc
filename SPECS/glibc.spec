@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 260%{?dist}.5
+%define glibcrelease 260%{?dist}.6
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -258,11 +258,6 @@ Patch0068: glibc-rh1349982.patch
 
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
-
-# Armhfp build issue
-Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
-Patch9999: glibc-rh1256317-armhfp-build-issue.patch
-
 ##############################################################################
 #
 # Patches from upstream
@@ -1427,6 +1422,12 @@ Patch2753: glibc-rh1661242-1.patch
 Patch2754: glibc-rh1661242-2.patch
 Patch2755: glibc-rh1693152-1.patch
 Patch2756: glibc-rh1693152-2.patch
+Patch2757: glibc-rh1705899-1.patch
+Patch2758: glibc-rh1705899-2.patch
+Patch2759: glibc-rh1705899-3.patch
+Patch2760: glibc-rh1705899-4.patch
+Patch2761: glibc-rh1705899-5.patch
+Patch2762: glibc-rh1705899-6.patch
 
 ##############################################################################
 #
@@ -2832,11 +2833,12 @@ package or when debugging this package.
 %patch2754 -p1
 %patch2755 -p1
 %patch2756 -p1
-
-%ifarch %{arm}
-%patch9998 -p1
-%patch9999 -p1
-%endif
+%patch2757 -p1
+%patch2758 -p1
+%patch2759 -p1
+%patch2760 -p1
+%patch2761 -p1
+%patch2762 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -4000,6 +4002,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri May  3 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.6
+- Backport libio vtable validation improvements (#1705899)
+
 * Tue Apr 30 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.5
 - Use versioned Obsoletes: for nss_db (#1704593)
 

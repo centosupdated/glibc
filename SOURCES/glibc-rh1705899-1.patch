@@ -1,0 +1,466 @@
+commit 2afece36f6006844e87d7cb2fcb1ad8b220b2623
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Wed May 16 17:00:35 2018 +0200
+
+    support: Add TEST_COMPARE_BLOB, support_quote_blob
+    
+    The declaration of support_test_compare_blob uses unsigned long int,
+    to avoid including <stddef.h>.
+    
+    Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+
+(Adjusted for minor conflict in support/Makefile.)
+
+diff --git a/support/Makefile b/support/Makefile
+index 1bda81e55e519a57..fb9f4291d72156df 100644
+--- a/support/Makefile
++++ b/support/Makefile
+@@ -52,9 +52,11 @@ libsupport-routines = \
+   support_format_hostent \
+   support_format_netent \
+   support_isolate_in_subprocess \
++  support_quote_blob \
+   support_record_failure \
+   support_run_diff \
+   support_shared_allocate \
++  support_test_compare_blob \
+   support_test_compare_failure \
+   support_write_file_string \
+   support_test_main \
+@@ -150,8 +152,10 @@ tests = \
+   tst-support-namespace \
+   tst-support_capture_subprocess \
+   tst-support_format_dns_packet \
++  tst-support_quote_blob \
+   tst-support_record_failure \
+   tst-test_compare \
++  tst-test_compare_blob \
+   tst-xreadlink \
+ 
+ ifeq ($(run-built-tests),yes)
+diff --git a/support/check.h b/support/check.h
+index 2192f38941af2515..b3a4645e9255e90d 100644
+--- a/support/check.h
++++ b/support/check.h
+@@ -64,6 +64,8 @@ __BEGIN_DECLS
+         (1, __FILE__, __LINE__, #expr);                         \
+   })
+ 
++
++
+ int support_print_failure_impl (const char *file, int line,
+                                 const char *format, ...)
+   __attribute__ ((nonnull (1), format (printf, 3, 4)));
+@@ -141,6 +143,26 @@ void support_test_compare_failure (const char *file, int line,
+                                    int right_size);
+ 
+ 
++/* Compare [LEFT, LEFT + LEFT_LENGTH) with [RIGHT, RIGHT +
++   RIGHT_LENGTH) and report a test failure if the arrays are
++   different.  LEFT_LENGTH and RIGHT_LENGTH are measured in bytes.  If
++   the length is null, the corresponding pointer is ignored (i.e., it
++   can be NULL).  The blobs should be reasonably short because on
++   mismatch, both are printed.  */
++#define TEST_COMPARE_BLOB(left, left_length, right, right_length)       \
++  (support_test_compare_blob (left, left_length, right, right_length,   \
++                              __FILE__, __LINE__,                       \
++                              #left, #left_length, #right, #right_length))
++
++void support_test_compare_blob (const void *left,
++                                unsigned long int left_length,
++                                const void *right,
++                                unsigned long int right_length,
++                                const char *file, int line,
++                                const char *left_exp, const char *left_len_exp,
++                                const char *right_exp,
++                                const char *right_len_exp);
++
+ /* Internal function called by the test driver.  */
+ int support_report_failure (int status)
+   __attribute__ ((weak, warn_unused_result));
+diff --git a/support/support.h b/support/support.h
+index bc5827ed87d0d96c..b61fe0735c9204de 100644
+--- a/support/support.h
++++ b/support/support.h
+@@ -59,6 +59,12 @@ void support_shared_free (void *);
+    process on error.  */
+ void support_write_file_string (const char *path, const char *contents);
+ 
++/* Quote the contents of the byte array starting at BLOB, of LENGTH
++   bytes, in such a way that the result string can be included in a C
++   literal (in single/double quotes, without putting the quotes into
++   the result).  */
++char *support_quote_blob (const void *blob, size_t length);
++
+ /* Error-checking wrapper functions which terminate the process on
+    error.  */
+ 
+diff --git a/support/support_quote_blob.c b/support/support_quote_blob.c
+new file mode 100644
+index 0000000000000000..d6a678d8d69160a8
+--- /dev/null
++++ b/support/support_quote_blob.c
+@@ -0,0 +1,83 @@
++/* Quote a blob so that it can be used in C literals.
++   Copyright (C) 2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <support/support.h>
++#include <support/xmemstream.h>
++
++char *
++support_quote_blob (const void *blob, size_t length)
++{
++  struct xmemstream out;
++  xopen_memstream (&out);
++
++  const unsigned char *p = blob;
++  for (size_t i = 0; i < length; ++i)
++    {
++      unsigned char ch = p[i];
++
++      /* Use C backslash escapes for those control characters for
++         which they are defined.  */
++      switch (ch)
++        {
++          case '\a':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('a', out.out);
++            break;
++          case '\b':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('b', out.out);
++            break;
++          case '\f':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('f', out.out);
++            break;
++          case '\n':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('n', out.out);
++            break;
++          case '\r':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('r', out.out);
++            break;
++          case '\t':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('t', out.out);
++            break;
++          case '\v':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked ('v', out.out);
++            break;
++          case '\\':
++          case '\'':
++          case '\"':
++            putc_unlocked ('\\', out.out);
++            putc_unlocked (ch, out.out);
++            break;
++        default:
++          if (ch < ' ' || ch > '~')
++            /* Use octal sequences because they are fixed width,
++               unlike hexadecimal sequences.  */
++            fprintf (out.out, "\\%03o", ch);
++          else
++            putc_unlocked (ch, out.out);
++        }
++    }
++
++  xfclose_memstream (&out);
++  return out.buffer;
++}
+diff --git a/support/support_test_compare_blob.c b/support/support_test_compare_blob.c
+new file mode 100644
+index 0000000000000000..c5e63d1b9327c9fe
+--- /dev/null
++++ b/support/support_test_compare_blob.c
+@@ -0,0 +1,76 @@
++/* Check two binary blobs for equality.
++   Copyright (C) 2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <support/check.h>
++#include <support/support.h>
++#include <support/xmemstream.h>
++
++static void
++report_length (const char *what, unsigned long int length, const char *expr)
++{
++  printf ("  %s %lu bytes (from %s)\n", what, length, expr);
++}
++
++static void
++report_blob (const char *what, const unsigned char *blob,
++             unsigned long int length, const char *expr)
++{
++  if (length > 0)
++    {
++      printf ("  %s (evaluated from %s):\n", what, expr);
++      char *quoted = support_quote_blob (blob, length);
++      printf ("      \"%s\"\n", quoted);
++      free (quoted);
++
++      fputs ("     ", stdout);
++      for (unsigned long i = 0; i < length; ++i)
++        printf (" %02X", blob[i]);
++      putc ('\n', stdout);
++    }
++}
++
++void
++support_test_compare_blob (const void *left, unsigned long int left_length,
++                           const void *right, unsigned long int right_length,
++                           const char *file, int line,
++                           const char *left_expr, const char *left_len_expr,
++                           const char *right_expr, const char *right_len_expr)
++{
++  /* No differences are possible if both lengths are null.  */
++  if (left_length == 0 && right_length == 0)
++    return;
++
++  if (left_length != right_length || left == NULL || right == NULL
++      || memcmp (left, right, left_length) != 0)
++    {
++      support_record_failure ();
++      printf ("%s:%d: error: blob comparison failed\n", file, line);
++      if (left_length == right_length)
++        printf ("  blob length: %lu bytes\n", left_length);
++      else
++        {
++          report_length ("left length: ", left_length, left_len_expr);
++          report_length ("right length:", right_length, right_len_expr);
++        }
++      report_blob ("left", left, left_length, left_expr);
++      report_blob ("right", right, right_length, right_expr);
++    }
++}
+diff --git a/support/tst-support_quote_blob.c b/support/tst-support_quote_blob.c
+new file mode 100644
+index 0000000000000000..5467a190a6e0725c
+--- /dev/null
++++ b/support/tst-support_quote_blob.c
+@@ -0,0 +1,61 @@
++/* Test the support_quote_blob function.
++   Copyright (C) 2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <support/check.h>
++#include <support/support.h>
++#include <string.h>
++#include <stdlib.h>
++
++static int
++do_test (void)
++{
++  /* Check handling of the empty blob, both with and without trailing
++     NUL byte.  */
++  char *p = support_quote_blob ("", 0);
++  TEST_COMPARE (strlen (p), 0);
++  free (p);
++  p = support_quote_blob ("X", 0);
++  TEST_COMPARE (strlen (p), 0);
++  free (p);
++
++  /* Check escaping of backslash-escaped characters, and lack of
++     escaping for other shell meta-characters.  */
++  p = support_quote_blob ("$()*?`@[]{}~\'\"X", 14);
++  TEST_COMPARE (strcmp (p, "$()*?`@[]{}~\\'\\\""), 0);
++  free (p);
++
++  /* Check lack of escaping for letters and digits.  */
++#define LETTERS_AND_DIGTS                       \
++  "abcdefghijklmnopqrstuvwxyz"                  \
++  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"                  \
++  "0123456789"
++  p = support_quote_blob (LETTERS_AND_DIGTS "@", 2 * 26 + 10);
++  TEST_COMPARE (strcmp (p, LETTERS_AND_DIGTS), 0);
++  free (p);
++
++  /* Check escaping of control characters and other non-printable
++     characters.  */
++  p = support_quote_blob ("\r\n\t\a\b\f\v\1\177\200\377\0@", 14);
++  TEST_COMPARE (strcmp (p, "\\r\\n\\t\\a\\b\\f\\v\\001"
++                        "\\177\\200\\377\\000@\\000"), 0);
++  free (p);
++
++  return 0;
++}
++
++#include <support/test-driver.c>
+diff --git a/support/tst-test_compare_blob.c b/support/tst-test_compare_blob.c
+new file mode 100644
+index 0000000000000000..aa8643e18227da85
+--- /dev/null
++++ b/support/tst-test_compare_blob.c
+@@ -0,0 +1,125 @@
++/* Basic test for the TEST_COMPARE_BLOB macro.
++   Copyright (C) 2018 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <string.h>
++#include <support/check.h>
++#include <support/capture_subprocess.h>
++
++static void
++subprocess (void *closure)
++{
++  /* These tests should fail.  They were chosen to cover differences
++     in length (with the same contents), single-bit mismatches, and
++     mismatching null pointers.  */
++  TEST_COMPARE_BLOB ("", 0, "", 1);    /* Line 29.  */
++  TEST_COMPARE_BLOB ("X", 1, "", 1);   /* Line 30.  */
++  TEST_COMPARE_BLOB ("abcd", 3, "abcd", 4); /* Line 31.  */
++  TEST_COMPARE_BLOB ("abcd", 4, "abcD", 4); /* Line 32.  */
++  TEST_COMPARE_BLOB ("abcd", 4, NULL, 0); /* Line 33.  */
++  TEST_COMPARE_BLOB (NULL, 0, "abcd", 4); /* Line 34.  */
++}
++
++/* Same contents, different addresses.  */
++char buffer_abc_1[] = "abc";
++char buffer_abc_2[] = "abc";
++
++static int
++do_test (void)
++{
++  /* This should succeed.  Even if the pointers and array contents are
++     different, zero-length inputs are not different.  */
++  TEST_COMPARE_BLOB ("", 0, "", 0);
++  TEST_COMPARE_BLOB ("", 0, buffer_abc_1, 0);
++  TEST_COMPARE_BLOB (buffer_abc_1, 0, "", 0);
++  TEST_COMPARE_BLOB (NULL, 0, "", 0);
++  TEST_COMPARE_BLOB ("", 0, NULL, 0);
++  TEST_COMPARE_BLOB (NULL, 0, NULL, 0);
++
++  /* Check equality of blobs containing a single NUL byte.  */
++  TEST_COMPARE_BLOB ("", 1, "", 1);
++  TEST_COMPARE_BLOB ("", 1, &buffer_abc_1[3], 1);
++
++  /* Check equality of blobs of varying lengths.  */
++  for (size_t i = 0; i <= sizeof (buffer_abc_1); ++i)
++    TEST_COMPARE_BLOB (buffer_abc_1, i, buffer_abc_2, i);
++
++  struct support_capture_subprocess proc = support_capture_subprocess
++    (&subprocess, NULL);
++
++  /* Discard the reported error.  */
++  support_record_failure_reset ();
++
++  puts ("info: *** subprocess output starts ***");
++  fputs (proc.out.buffer, stdout);
++  puts ("info: *** subprocess output ends ***");
++
++  TEST_VERIFY
++    (strcmp (proc.out.buffer,
++"tst-test_compare_blob.c:29: error: blob comparison failed\n"
++"  left length:  0 bytes (from 0)\n"
++"  right length: 1 bytes (from 1)\n"
++"  right (evaluated from \"\"):\n"
++"      \"\\000\"\n"
++"      00\n"
++"tst-test_compare_blob.c:30: error: blob comparison failed\n"
++"  blob length: 1 bytes\n"
++"  left (evaluated from \"X\"):\n"
++"      \"X\"\n"
++"      58\n"
++"  right (evaluated from \"\"):\n"
++"      \"\\000\"\n"
++"      00\n"
++"tst-test_compare_blob.c:31: error: blob comparison failed\n"
++"  left length:  3 bytes (from 3)\n"
++"  right length: 4 bytes (from 4)\n"
++"  left (evaluated from \"abcd\"):\n"
++"      \"abc\"\n"
++"      61 62 63\n"
++"  right (evaluated from \"abcd\"):\n"
++"      \"abcd\"\n"
++"      61 62 63 64\n"
++"tst-test_compare_blob.c:32: error: blob comparison failed\n"
++"  blob length: 4 bytes\n"
++"  left (evaluated from \"abcd\"):\n"
++"      \"abcd\"\n"
++"      61 62 63 64\n"
++"  right (evaluated from \"abcD\"):\n"
++"      \"abcD\"\n"
++"      61 62 63 44\n"
++"tst-test_compare_blob.c:33: error: blob comparison failed\n"
++"  left length:  4 bytes (from 4)\n"
++"  right length: 0 bytes (from 0)\n"
++"  left (evaluated from \"abcd\"):\n"
++"      \"abcd\"\n"
++"      61 62 63 64\n"
++"tst-test_compare_blob.c:34: error: blob comparison failed\n"
++"  left length:  0 bytes (from 0)\n"
++"  right length: 4 bytes (from 4)\n"
++"  right (evaluated from \"abcd\"):\n"
++"      \"abcd\"\n"
++"      61 62 63 64\n"
++             ) == 0);
++
++  /* Check that there is no output on standard error.  */
++  support_capture_subprocess_check (&proc, "TEST_COMPARE_BLOB",
++                                    0, sc_allow_stdout);
++
++  return 0;
++}
++
++#include <support/test-driver.c>
