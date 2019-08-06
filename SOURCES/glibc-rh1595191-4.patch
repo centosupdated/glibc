@@ -3,7 +3,7 @@ Author: Florian Weimer <fweimer@redhat.com>
 Date:   Wed Jun 20 09:45:19 2018 +0200
 
     libio: Avoid ptrdiff_t overflow in IO_validate_vtable
-
+    
     If the candidate pointer is sufficiently far away from
     __start___libc_IO_vtables, the result might not fit into ptrdiff_t.
 

@@ -3,8 +3,8 @@ Posted upstream at:
   https://sourceware.org/ml/libc-alpha/2017-04/msg00082.html
 
 sysdeps/unix/sysv/linux/syscall-names.list is stored as a separate patch
-(glibc-rh1439165-syscall-names.patch) in the source RPM for easier
-updates.
+(glibc-rh1439165-syscall-names.patch) in the source RPM, and is the
+baseline for subsequent changes.
 
 Author: Florian Weimer <fweimer@redhat.com>
 

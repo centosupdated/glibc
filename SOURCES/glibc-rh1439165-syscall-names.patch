@@ -1,5 +1,6 @@
 This patch contains the sysdeps/unix/sysv/linux/syscall-names.list file
-from upstream and is continuously updated for new kernel versions.
+from upstream for Linux 4.13, and forms the baseline, subsequent changes
+are cherry picked from upstream.
 
 diff --git a/sysdeps/unix/sysv/linux/syscall-names.list b/sysdeps/unix/sysv/linux/syscall-names.list
 new file mode 100644

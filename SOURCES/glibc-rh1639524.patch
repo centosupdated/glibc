@@ -42,11 +42,10 @@ Date:   Wed Sep 27 16:55:14 2017 +0100
     	* sysdeps/aarch64/dl-machine.h (elf_machine_lazy_rel): Do symbol
     	binding and initialization non-lazily for R_AARCH64_TLSDESC.
 
-diff --git a/sysdeps/aarch64/dl-machine.h b/sysdeps/aarch64/dl-machine.h
-index 4faf818b710d6ed7..185402f6dc550dc1 100644
---- a/sysdeps/aarch64/dl-machine.h
-+++ b/sysdeps/aarch64/dl-machine.h
-@@ -376,12 +376,21 @@ elf_machine_lazy_rel (struct link_map *map,
+diff -rup a/sysdeps/aarch64/dl-machine.h b/sysdeps/aarch64/dl-machine.h
+--- a/sysdeps/aarch64/dl-machine.h	2018-10-16 12:07:31.588149003 -0400
++++ b/sysdeps/aarch64/dl-machine.h	2018-10-16 12:18:46.214078837 -0400
+@@ -376,12 +376,21 @@ elf_machine_lazy_rel (struct link_map *m
      }
    else if (__builtin_expect (r_type == R_AARCH64_TLSDESC, 1))
      {

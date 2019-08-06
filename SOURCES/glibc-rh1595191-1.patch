@@ -3,21 +3,21 @@ Author: Florian Weimer <fweimer@redhat.com>
 Date:   Fri Jun 1 10:43:06 2018 +0200
 
     libio: Avoid _allocate_buffer, _free_buffer function pointers [BZ #23236]
-
+    
     These unmangled function pointers reside on the heap and could
     be targeted by exploit writers, effectively bypassing libio vtable
     validation.  Instead, we ignore these pointers and always call
     malloc or free.
-
+    
     In theory, this is a backwards-incompatible change, but using the
     global heap instead of the user-supplied callback functions should
     have little application impact.  (The old libstdc++ implementation
     exposed this functionality via a public, undocumented constructor
     in its strstreambuf class.)
-
+    
     (cherry picked from commit 4e8a6346cd3da2d88bbad745a1769260d36f2783)
 
-Backported from the upstream release/2.27/master branch.
+Backported from the upstream release/2.26/master branch.
 
 diff --git a/debug/vasprintf_chk.c b/debug/vasprintf_chk.c
 index a8ca32bad57b4d13..113354749ccf8d9a 100644

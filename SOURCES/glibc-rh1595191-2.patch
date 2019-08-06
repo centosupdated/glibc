@@ -3,10 +3,10 @@ Author: Florian Weimer <fweimer@redhat.com>
 Date:   Tue Jul 3 15:54:49 2018 +0200
 
     libio: Disable vtable validation in case of interposition [BZ #23313]
-
+    
     (cherry picked from commit c402355dfa7807b8e0adb27c009135a7e2b9f1b0)
 
-Backported from the upstream release/2.27/master branch.
+Backported from the upstream release/2.26/master branch.
 
 diff --git a/libio/vtables.c b/libio/vtables.c
 index e364ea03edbfa75b..d6478e4bab9050ce 100644

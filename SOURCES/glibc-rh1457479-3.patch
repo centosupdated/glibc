@@ -1,3 +1,7 @@
+Note; the test is known to fail on the RHEL 7.7 kernel - the patch
+fixes PT_GETREGS (which we want) but adds PTRACE_SINGLEBLOCK (which we
+don't support yet).  So, the test case was not included.  - DJ
+
 commit b08a6a0dea63742313ed3d9577c1e2d83436b196
 Author: Stefan Liebler <stli@linux.vnet.ibm.com>
 Date:   Mon Jun 19 16:27:25 2017 +0200

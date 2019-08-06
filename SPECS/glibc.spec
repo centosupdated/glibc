@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 260%{?dist}.6
+%define glibcrelease 292%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -258,11 +258,6 @@ Patch0068: glibc-rh1349982.patch
 
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
-
-# Armhfp build issue
-Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
-Patch9999: glibc-rh1256317-armhfp-build-issue.patch
-
 ##############################################################################
 #
 # Patches from upstream
@@ -942,6 +937,7 @@ Patch1757: glibc-rh1337242.patch
 Patch17580: glibc-rh1418978-max_align_t.patch
 Patch1758: glibc-rh1418978-0.patch
 Patch1759: glibc-rh1418978-1.patch
+Patch2752: glibc-rh1418978-1a.patch
 Patch1760: glibc-rh1418978-2-1.patch
 Patch1761: glibc-rh1418978-2-2.patch
 Patch1762: glibc-rh1418978-2-3.patch
@@ -1164,6 +1160,10 @@ Patch1900: glibc-rh1534635.patch
 Patch1901: glibc-rh1529982.patch
 
 Patch1902: glibc-rh1523119-compat-symbols.patch
+
+# RHBZ #1609067: Backfort of upstream [#15804] - fix race condition in pldd
+Patch1903: glibc-rh1609067.patch
+
 Patch2500: glibc-rh1505492-nscd_stat.patch
 Patch2501: glibc-rh1564638.patch
 Patch2502: glibc-rh1566623.patch
@@ -1422,17 +1422,63 @@ Patch2748: glibc-rh1401665-2.patch
 Patch2749: glibc-rh1401665-3.patch
 Patch2750: glibc-rh1401665-4.patch
 Patch2751: glibc-rh1401665-5.patch
-Patch2752: glibc-rh1661244.patch
-Patch2753: glibc-rh1661242-1.patch
-Patch2754: glibc-rh1661242-2.patch
-Patch2755: glibc-rh1693152-1.patch
-Patch2756: glibc-rh1693152-2.patch
-Patch2757: glibc-rh1705899-1.patch
-Patch2758: glibc-rh1705899-2.patch
-Patch2759: glibc-rh1705899-3.patch
-Patch2760: glibc-rh1705899-4.patch
-Patch2761: glibc-rh1705899-5.patch
-Patch2762: glibc-rh1705899-6.patch
+Patch2753: glibc-rh1595191-1.patch
+Patch2754: glibc-rh1595191-2.patch
+Patch2755: glibc-rh1595191-3.patch
+Patch2756: glibc-rh1595191-4.patch
+Patch2757: glibc-rh1647490-1.patch
+Patch2758: glibc-rh1647490-2.patch
+Patch2759: glibc-rh1647490-3.patch
+Patch2760: glibc-rh1647490-4.patch
+Patch2761: glibc-rh1647490-5.patch
+Patch2762: glibc-rh1639524.patch
+Patch2763: glibc-rh1647490-6.patch
+Patch2764: glibc-rh1579730-1.patch
+Patch2765: glibc-rh1579730-2.patch
+Patch2766: glibc-rh1579730-3.patch
+Patch2767: glibc-rh1630440-1.patch
+Patch2768: glibc-rh1630440-2.patch
+Patch2769: glibc-rh1646373.patch
+Patch2770: glibc-rh1591268.patch
+Patch2771: glibc-rh1592475-1.patch
+Patch2772: glibc-rh1592475-2.patch
+Patch2773: glibc-rh1592475-3.patch
+Patch2774: glibc-rh1657015-1.patch
+Patch2775: glibc-rh1657015-2.patch
+Patch2776: glibc-rh1657015-3.patch
+Patch2777: glibc-rh1657015-4.patch
+Patch2778: glibc-rh1673465-1.patch
+Patch2779: glibc-rh1673465-2.patch
+Patch2780: glibc-rh1673465-3.patch
+Patch2781: glibc-rh1673465-4.patch
+Patch2782: glibc-rh1673465-5.patch
+Patch2783: glibc-rh1673465-6.patch
+Patch2784: glibc-rh1673465-7.patch
+Patch2785: glibc-rh1039304-1.patch
+Patch2786: glibc-rh1039304-2.patch
+Patch2787: glibc-rh1039304-3.patch
+Patch2788: glibc-rh1039304-4.patch
+Patch2789: glibc-rh1443872.patch
+Patch2790: glibc-rh1472832.patch
+Patch2791: glibc-rh1673465-8.patch
+Patch2792: glibc-rh1443872-2.patch
+Patch2793: glibc-rh1579354.patch
+Patch2794: glibc-rh1579739.patch
+Patch2795: glibc-rh1641981.patch
+Patch2796: glibc-rh1579739-2.patch
+Patch2797: glibc-rh1684874-1.patch
+Patch2798: glibc-rh1684874-2.patch
+Patch2799: glibc-rh1488370.patch
+Patch2800: glibc-rh1662842.patch
+Patch2801: glibc-rh1163509-1.patch
+Patch2802: glibc-rh1163509-2.patch
+Patch2803: glibc-rh1163509-3.patch
+Patch2804: glibc-rh1163509-4.patch
+Patch2805: glibc-rh1163509-5.patch
+Patch2806: glibc-rh1555189-1.patch
+Patch2807: glibc-rh1555189-2.patch
+Patch2808: glibc-rh1427734-1.patch
+Patch2809: glibc-rh1427734-2.patch
 
 ##############################################################################
 #
@@ -1633,6 +1679,9 @@ BuildRequires: systemd
 # This GCC version introduced the -fstack-clash-protection option with
 # the required semantics.
 BuildRequires: gcc >= 4.8.5-25
+
+# This RPM version introduced --g-libs.
+BuildRequires: rpm-build >= 4.11.3-38.el7
 
 %define enablekernel 2.6.32
 Conflicts: kernel < %{enablekernel}
@@ -2397,6 +2446,7 @@ package or when debugging this package.
 %patch17580 -p1
 %patch1758 -p1
 %patch1759 -p1
+%patch2752 -p1
 %patch1760 -p1
 %patch1761 -p1
 %patch1762 -p1
@@ -2577,6 +2627,7 @@ package or when debugging this package.
 %patch1900 -p1
 %patch1901 -p1
 %patch1902 -p1
+%patch1903 -p1
 %patch2500 -p1
 %patch2501 -p1
 %patch2502 -p1
@@ -2833,7 +2884,6 @@ package or when debugging this package.
 %patch2749 -p1
 %patch2750 -p1
 %patch2751 -p1
-%patch2752 -p1
 %patch2753 -p1
 %patch2754 -p1
 %patch2755 -p1
@@ -2844,11 +2894,53 @@ package or when debugging this package.
 %patch2760 -p1
 %patch2761 -p1
 %patch2762 -p1
-
-%ifarch %{arm}
-%patch9998 -p1
-%patch9999 -p1
-%endif
+%patch2763 -p1
+%patch2764 -p1
+%patch2765 -p1
+%patch2766 -p1
+%patch2767 -p1
+%patch2768 -p1
+%patch2769 -p1
+%patch2770 -p1
+%patch2771 -p1
+%patch2772 -p1
+%patch2773 -p1
+%patch2774 -p1
+%patch2775 -p1
+%patch2776 -p1
+%patch2777 -p1
+%patch2778 -p1
+%patch2779 -p1
+%patch2780 -p1
+%patch2781 -p1
+%patch2782 -p1
+%patch2783 -p1
+%patch2784 -p1
+%patch2785 -p1
+%patch2786 -p1
+%patch2787 -p1
+%patch2788 -p1
+%patch2789 -p1
+%patch2790 -p1
+%patch2791 -p1
+%patch2792 -p1
+%patch2793 -p1
+%patch2794 -p1
+%patch2795 -p1
+%patch2796 -p1
+%patch2797 -p1
+%patch2798 -p1
+%patch2799 -p1
+%patch2800 -p1
+%patch2801 -p1
+%patch2802 -p1
+%patch2803 -p1
+%patch2804 -p1
+%patch2805 -p1
+%patch2806 -p1
+%patch2807 -p1
+%patch2808 -p1
+%patch2809 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -2888,6 +2980,9 @@ touch `find . -name configure`
 
 # Ensure *-kw.h files are current to prevent regenerating them.
 touch locale/programs/*-kw.h
+
+# RHBZ #1640764: Ensure plural.c is current to prevent regenerating it (bison)
+touch intl/plural.c
 
 ##############################################################################
 # Build glibc...
@@ -3725,7 +3820,7 @@ ls -l $RPM_BUILD_ROOT/usr/bin/getconf
 ls -l $RPM_BUILD_ROOT/usr/libexec/getconf
 eu-readelf -hS $RPM_BUILD_ROOT/usr/bin/getconf $RPM_BUILD_ROOT/usr/libexec/getconf/*
 
-find_debuginfo_args='--strict-build-id -g'
+find_debuginfo_args='--strict-build-id --g-libs'
 %ifarch %{debuginfocommonarches}
 find_debuginfo_args="$find_debuginfo_args \
   -l common.filelist -l utils.filelist -l nscd.filelist \
@@ -4012,20 +4107,102 @@ rm -f *.filelist*
 %endif
 
 %changelog
-* Fri May  3 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.6
-- Backport libio vtable validation improvements (#1705899)
+* Tue Apr 30 2019 Arjun Shankar <arjun@redhat.com> - 2.17-292
+- Avoid iconv hang on invalid multi-byte sequences (#1427734)
 
-* Tue Apr 30 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.5
-- Use versioned Obsoletes: for nss_db (#1704593)
+* Tue Apr 30 2019 Florian Weimer <fweimer@redhat.com> - 2.17-291
+- Use versioned Obsoletes: for nss_db (#1703565)
 
-* Mon Apr  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.4
-- ja_JP: Add new Japanese Era name (#1693152)
+* Mon Apr  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-290
+- Adjust to find-debuginfo.sh changes (#1661508)
 
-* Thu Jan  3 2019 Florian Weimer <fweimer@redhat.com> - 2.17-260.3
-- elf: Fix data race in _dl_profile_fixup (#1661242)
+* Mon Apr  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-289
+- ja_JP: Add new Japanese Era name (#1555189)
 
-* Thu Dec 20 2018 Florian Weimer <fweimer@redhat.com> - 2.17-260.1
-- aarch64: Disable lazy symbol binding of TLSDESC (#1661244)
+* Wed Mar 27 2019 Arjun Shankar <arjun@redhat.com> - 2.17-288
+- Unify and improve pthread_once implementation for all architectures (#1163509)
+
+* Tue Mar 26 2019 DJ Delorie <dj@redhat.com> - 2.17.287
+- malloc: Always call memcpy in _int_realloc (#1662842)
+
+* Wed Mar 20 2019 Carlos O'Donell <carlos@redhat.com> - 2.17-286
+- Update comments in nscd.conf and nsswitch.conf (#1488370)
+
+* Tue Mar 19 2019 Arjun Shankar <arjun@redhat.com> - 2.17-285
+- intl: Ensure plural.c is current to prevent regenerating it (#1640764)
+
+* Tue Mar  5 2019 Florian Weimer <fweimer@redhat.com> - 2.17-284
+- Update <netinet/in.h> to include IP*_PMTUDISC_OMIT and others (#1684874)
+
+* Fri Mar  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-283
+- elf: Adjust the big PT_NOTE test to exercise the bug in more cases (#1579739)
+
+* Fri Mar  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-282
+- x86: Fix incorrect selection of string functions (#1641981)
+
+* Fri Mar  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-281
+- elf: Avoid stack overflow with large PT_NOTE segments (#1579739)
+
+* Fri Mar  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-280
+- resolv: Fully initialize sendmmsg argument data (#1579354)
+
+* Fri Mar  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-279
+- Improve formatting of Netlink error messages (#1443872)
+
+* Fri Mar  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-278
+- Run resolv/tst-inet_aton_exact test (#1673465)
+
+* Thu Feb 28 2019 Florian Weimer <fweimer@redhat.com> - 2.17-277
+- getifaddrs could return interfaces with ifa_name set to NULL (#1472832)
+
+* Thu Feb 28 2019 Florian Weimer <fweimer@redhat.com> - 2.17-276
+- Terminate process on invalid netlink response from kernel (#1443872)
+
+* Thu Feb 28 2019 Florian Weimer <fweimer@redhat.com> - 2.17-275
+- resolv: Support host names with trailing dashes (#1039304)
+
+* Thu Feb 28 2019 Florian Weimer <fweimer@redhat.com> - 2.17-274
+- CVE-2016-10739: Reject trailing characters in getaddrinfo (#1673465)
+
+* Thu Feb 28 2019 Carlos O'Donell <carlos@redhat.com> - 2.17-273
+- Update syscall list for Linux 4.20 (#1657015)
+
+* Wed Feb 20 2019 Arjun Shankar <arjun@redhat.com> - 2.17-272
+- glibc-headers: Add ipc STAT_ANY constants (#1592475)
+
+* Wed Feb 13 2019 Arjun Shankar <arjun@redhat.com> - 2.17-271
+- localedata: Make IBM273 compatible with ISO-8859-1 (#1591268)
+
+* Mon Jan 28 2019 Patsy Griffin Franklin <pfrankli@redhat.com> - 2.17-270
+- Fix pldd race condition that may leave the process stopped after
+  detaching. (#1609067)
+
+* Tue Jan 22 2019 DJ Delorie <dj@redhat.com> - 2.17-269
+- libanl: properly cleanup if first helper thread creation failed (#1646373)
+
+* Mon Jan 21 2019 DJ Delorie <dj@redhat.com> - 2.17-268
+- Add note about missing test case for BZ1457479 (#1635325)
+
+* Thu Dec 20 2018 Florian Weimer <fweimer@redhat.com> - 2.17-267
+- elf: Fix data race in _dl_profile_fixup (#1630440)
+
+* Wed Dec 19 2018 Florian Weimer <fweimer@redhat.com> - 2.17-266
+- Fix i386 sigaction sa_restorer initialization (#1579730)
+
+* Wed Dec 19 2018 Florian Weimer <fweimer@redhat.com> - 2.17-265
+- Fix compilation error in stdlib/tst-strtod-overflow.c (#1647490)
+
+* Thu Dec 13 2018 DJ Delorie <dj@redhat.com> - 2.17-264
+- aarch64: Disable lazy symbol binding of TLSDESC (#1639524)
+
+* Fri Nov  9 2018 Florian Weimer <fweimer@redhat.com> - 2.17-263
+- Reduce RAM requirements for stdlib/test-bz22786 (#1647490)
+
+* Wed Nov  7 2018 Florian Weimer <fweimer@redhat.com> - 2.17-262
+- libio vtable validation improvements (#1595191)
+
+* Wed Nov  7 2018 Florian Weimer <fweimer@redhat.com> - 2.17-261
+- Update support/ to the most recent upstream version (#1595191)
 
 * Wed Jun 27 2018 Patsy Franklin <pfrankli@redhat.com> - 2.17-260
 - Update glibc-rh1560641.patch to initialize pad outside
