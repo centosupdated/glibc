@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 72%{?dist}
+%define glibcrelease 72%{?dist}.1
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -315,6 +315,7 @@ Patch180: glibc-rh1717438.patch
 Patch181: glibc-rh1727152.patch
 Patch182: glibc-rh1724975.patch
 Patch183: glibc-rh1722215.patch
+Patch184: glibc-rh1777797.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2201,6 +2202,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Nov 28 2019 Florian Weimer <fweimer@redhat.com> - 2.28-72.1
+- s390x: Fix z15 strstr for patterns crossing pages (#1777797)
+
 * Mon Jul 22 2019 Carlos O'Donell <carlos@redhat.com> - 2.28-72
 - Skip wide buffer handling for legacy stdio handles (#1722215)
 
