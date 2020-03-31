@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 292%{?dist}
+%define glibcrelease 307%{?dist}.1
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -149,26 +149,16 @@ Source1: %{glibcsrcdir}-releng.tar.gz
 Source2: verify.md5
 
 ##############################################################################
-# Start of glibc patches
-##############################################################################
-# 0000-0999 for patches which are unlikely to ever go upstream or which
-# have not been analyzed to see if they ought to go upstream yet.
 #
-# 1000-2000 for patches that are already upstream.
+# Add your new glibc patches to the *end* of the list of patches.
+# Please treat the patch list as an immutable history.
 #
-# 2000-3000 for patches that are awaiting upstream approval
-#
-# Yes, I realize this means some gratutious changes as patches to from
-# one bucket to another, but I find this scheme makes it easier to track
-# the upstream divergence and patches needing approval.
-#
-# Note that we can still apply the patches in any order we see fit, so
-# the changes from one bucket to another won't necessarily result in needing
-# to twiddle the patch because of dependencies on prior patches and the like.
-
-##############################################################################
-#
-# Patches that are unlikely to go upstream or not yet analyzed.
+# During the initial development of RHEL7 we used to have patch group numbers
+# but these turned out to be insufficient to manage the patch list and we no
+# longer use them, but it does mean that early patches are listed in one
+# order and applied in another. We could renumber all the patches in the right
+# order but it is not required, just add patches to the *end* of the list of
+# patches and include all relevant information inside the patch header.
 #
 ##############################################################################
 
@@ -258,11 +248,6 @@ Patch0068: glibc-rh1349982.patch
 
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
-##############################################################################
-#
-# Patches from upstream
-#
-##############################################################################
 
 Patch1000: glibc-rh905877.patch
 Patch1001: glibc-rh958652.patch
@@ -1164,6 +1149,132 @@ Patch1902: glibc-rh1523119-compat-symbols.patch
 # RHBZ #1609067: Backfort of upstream [#15804] - fix race condition in pldd
 Patch1903: glibc-rh1609067.patch
 
+# RHBZ #1672771: 
+Patch1904: glibc-rh1672771.patch
+
+# http://sourceware.org/ml/libc-alpha/2012-12/msg00103.html
+# Not upstream as of 2014-02-27
+Patch2007: glibc-rh697421.patch
+
+# Not upstream as of 2014-02-27
+Patch2011: glibc-rh757881.patch
+
+# Not upstream as of 2014-02-27
+Patch2013: glibc-rh741105.patch
+
+# Upstream BZ 14247
+# Not upstream as of 2014-02-27.
+Patch2023: glibc-rh827510.patch
+
+# Upstream BZ 14185
+# Not upstream as of 2014-02-27.
+Patch2027: glibc-rh819430.patch
+
+# Fix nscd to use permission names not constants.
+# Not upstream as of 2014-02-27.
+Patch2048: glibc-rh1025934.patch
+
+# Upstream BZ 16398.
+Patch2051: glibc-rh1048036.patch
+Patch2052: glibc-rh1048123.patch
+
+# Upstream BZ 16680
+Patch2053: glibc-rh1074410-2.patch
+
+# Upstream BZ 15493.
+# Upstream as of 2013-03-20
+Patch2055: glibc-rh1073667.patch
+
+Patch2060: glibc-aarch64-rh1076760.patch
+
+# Include pthread.h in rtkaio/tst-aiod2.c and rtkaio/tst-aiod3.c.
+Patch2062: glibc-rtkaio-inc-pthread.patch
+
+Patch2063: glibc-rh1084089.patch
+
+Patch2064: glibc-rh1161666.patch
+
+Patch2065: glibc-rh1156331.patch
+
+# Upstream BZ 18557: Fix ruserok scalability issues.
+Patch2066: glibc-rh1216246.patch
+
+# Backport of fix for malloc arena free list management (upstream bug 19048)
+# The preparatory patch removes !PER_THREAD conditional code.
+Patch20670: glibc-rh1276753-0.patch
+Patch2067: glibc-rh1276753.patch
+
+# Backport to fix ld.so crash when audit modules provide path (upstream bug 18251)
+Patch2068: glibc-rh1211100.patch
+
+# aarch64 MINSIGSTKSZ/SIGSTKSZ fix
+Patch2069: glibc-rh1335629.patch
+Patch2070: glibc-rh1335925-1.patch
+Patch2071: glibc-rh1335925-2.patch
+Patch2072: glibc-rh1335925-3.patch
+Patch2073: glibc-rh1335925-4.patch
+
+# Do not set initgroups in default nsswitch.conf
+Patch2074: glibc-rh1366569.patch
+
+# Various nss_db fixes
+Patch2075: glibc-rh1318890.patch
+Patch2076: glibc-rh1213603.patch
+Patch2077: glibc-rh1370630.patch
+
+# Add internal-only support for O_TMPFILE.
+Patch2078: glibc-rh1330705-1.patch
+Patch2079: glibc-rh1330705-2.patch
+Patch2080: glibc-rh1330705-3.patch
+Patch2081: glibc-rh1330705-4.patch
+Patch2082: glibc-rh1330705-5.patch
+# The following patch *removes* the public definition of O_TMPFILE.
+Patch2083: glibc-rh1330705-6.patch
+
+# getaddrinfo with nscd fixes
+Patch2084: glibc-rh1324568.patch
+
+# RHBZ #1404435 - Remove power8 platform directory
+Patch2085: glibc-rh1404435.patch
+
+# RHBZ #1144516 - aarch64 profil fix
+Patch2086: glibc-rh1144516.patch
+
+# RHBZ #1392540 - Add "sss" service to the automount database in nsswitch.conf
+Patch2087: glibc-rh1392540.patch
+
+# RHBZ #1452721: Avoid large allocas in the dynamic linker
+Patch2088: glibc-rh1452721-1.patch
+Patch2089: glibc-rh1452721-2.patch
+Patch2090: glibc-rh1452721-3.patch
+Patch2091: glibc-rh1452721-4.patch
+
+Patch2092: glibc-rh677316-libc-pointer-arith.patch
+Patch2093: glibc-rh677316-libc-lock.patch
+Patch2094: glibc-rh677316-libc-diag.patch
+Patch2095: glibc-rh677316-check_mul_overflow_size_t.patch
+Patch2096: glibc-rh677316-res_state.patch
+Patch2097: glibc-rh677316-qsort_r.patch
+Patch2098: glibc-rh677316-fgets_unlocked.patch
+Patch2099: glibc-rh677316-in6addr_any.patch
+Patch2100: glibc-rh677316-netdb-reentrant.patch
+Patch2101: glibc-rh677316-h_errno.patch
+Patch2102: glibc-rh677316-scratch_buffer.patch
+Patch2103: glibc-rh677316-mtrace.patch
+Patch2104: glibc-rh677316-dynarray.patch
+Patch2105: glibc-rh677316-alloc_buffer.patch
+Patch2106: glibc-rh677316-RES_USE_INET6.patch
+Patch2107: glibc-rh677316-inet_pton.patch
+Patch2108: glibc-rh677316-inet_pton-zeros.patch
+Patch2109: glibc-rh677316-hesiod.patch
+Patch2110: glibc-rh677316-resolv.patch
+Patch2111: glibc-rh677316-legacy.patch
+
+Patch2112: glibc-rh1498566.patch
+Patch2113: glibc-rh1445644.patch
+
+Patch2114: glibc-rh1471405.patch
+
 Patch2500: glibc-rh1505492-nscd_stat.patch
 Patch2501: glibc-rh1564638.patch
 Patch2502: glibc-rh1566623.patch
@@ -1479,139 +1590,34 @@ Patch2806: glibc-rh1555189-1.patch
 Patch2807: glibc-rh1555189-2.patch
 Patch2808: glibc-rh1427734-1.patch
 Patch2809: glibc-rh1427734-2.patch
-
-##############################################################################
-#
-# Patches submitted, but not yet approved upstream.
-#
-##############################################################################
-#
-# Each should be associated with a BZ.
-# Obviously we're not there right now, but that's the goal
-#
-
-# http://sourceware.org/ml/libc-alpha/2012-12/msg00103.html
-# Not upstream as of 2014-02-27
-Patch2007: glibc-rh697421.patch
-
-# Not upstream as of 2014-02-27
-Patch2011: glibc-rh757881.patch
-
-# Not upstream as of 2014-02-27
-Patch2013: glibc-rh741105.patch
-
-# Upstream BZ 14247
-# Not upstream as of 2014-02-27.
-Patch2023: glibc-rh827510.patch
-
-# Upstream BZ 14185
-# Not upstream as of 2014-02-27.
-Patch2027: glibc-rh819430.patch
-
-# Fix nscd to use permission names not constants.
-# Not upstream as of 2014-02-27.
-Patch2048: glibc-rh1025934.patch
-
-# Upstream BZ 16398.
-Patch2051: glibc-rh1048036.patch
-Patch2052: glibc-rh1048123.patch
-
-# Upstream BZ 16680
-Patch2053: glibc-rh1074410-2.patch
-
-# Upstream BZ 15493.
-# Upstream as of 2013-03-20
-Patch2055: glibc-rh1073667.patch
-
-Patch2060: glibc-aarch64-rh1076760.patch
-
-# Include pthread.h in rtkaio/tst-aiod2.c and rtkaio/tst-aiod3.c.
-Patch2062: glibc-rtkaio-inc-pthread.patch
-
-Patch2063: glibc-rh1084089.patch
-
-Patch2064: glibc-rh1161666.patch
-
-Patch2065: glibc-rh1156331.patch
-
-# Upstream BZ 18557: Fix ruserok scalability issues.
-Patch2066: glibc-rh1216246.patch
-
-# Backport of fix for malloc arena free list management (upstream bug 19048)
-# The preparatory patch removes !PER_THREAD conditional code.
-Patch20670: glibc-rh1276753-0.patch
-Patch2067: glibc-rh1276753.patch
-
-# Backport to fix ld.so crash when audit modules provide path (upstream bug 18251)
-Patch2068: glibc-rh1211100.patch
-
-# aarch64 MINSIGSTKSZ/SIGSTKSZ fix
-Patch2069: glibc-rh1335629.patch
-Patch2070: glibc-rh1335925-1.patch
-Patch2071: glibc-rh1335925-2.patch
-Patch2072: glibc-rh1335925-3.patch
-Patch2073: glibc-rh1335925-4.patch
-
-# Do not set initgroups in default nsswitch.conf
-Patch2074: glibc-rh1366569.patch
-
-# Various nss_db fixes
-Patch2075: glibc-rh1318890.patch
-Patch2076: glibc-rh1213603.patch
-Patch2077: glibc-rh1370630.patch
-
-# Add internal-only support for O_TMPFILE.
-Patch2078: glibc-rh1330705-1.patch
-Patch2079: glibc-rh1330705-2.patch
-Patch2080: glibc-rh1330705-3.patch
-Patch2081: glibc-rh1330705-4.patch
-Patch2082: glibc-rh1330705-5.patch
-# The following patch *removes* the public definition of O_TMPFILE.
-Patch2083: glibc-rh1330705-6.patch
-
-# getaddrinfo with nscd fixes
-Patch2084: glibc-rh1324568.patch
-
-# RHBZ #1404435 - Remove power8 platform directory
-Patch2085: glibc-rh1404435.patch
-
-# RHBZ #1144516 - aarch64 profil fix
-Patch2086: glibc-rh1144516.patch
-
-# RHBZ #1392540 - Add "sss" service to the automount database in nsswitch.conf
-Patch2087: glibc-rh1392540.patch
-
-# RHBZ #1452721: Avoid large allocas in the dynamic linker
-Patch2088: glibc-rh1452721-1.patch
-Patch2089: glibc-rh1452721-2.patch
-Patch2090: glibc-rh1452721-3.patch
-Patch2091: glibc-rh1452721-4.patch
-
-Patch2092: glibc-rh677316-libc-pointer-arith.patch
-Patch2093: glibc-rh677316-libc-lock.patch
-Patch2094: glibc-rh677316-libc-diag.patch
-Patch2095: glibc-rh677316-check_mul_overflow_size_t.patch
-Patch2096: glibc-rh677316-res_state.patch
-Patch2097: glibc-rh677316-qsort_r.patch
-Patch2098: glibc-rh677316-fgets_unlocked.patch
-Patch2099: glibc-rh677316-in6addr_any.patch
-Patch2100: glibc-rh677316-netdb-reentrant.patch
-Patch2101: glibc-rh677316-h_errno.patch
-Patch2102: glibc-rh677316-scratch_buffer.patch
-Patch2103: glibc-rh677316-mtrace.patch
-Patch2104: glibc-rh677316-dynarray.patch
-Patch2105: glibc-rh677316-alloc_buffer.patch
-Patch2106: glibc-rh677316-RES_USE_INET6.patch
-Patch2107: glibc-rh677316-inet_pton.patch
-Patch2108: glibc-rh677316-inet_pton-zeros.patch
-Patch2109: glibc-rh677316-hesiod.patch
-Patch2110: glibc-rh677316-resolv.patch
-Patch2111: glibc-rh677316-legacy.patch
-
-Patch2112: glibc-rh1498566.patch
-Patch2113: glibc-rh1445644.patch
-
-Patch2114: glibc-rh1471405.patch
+Patch2810: glibc-rh1414263.patch
+Patch2811: glibc-rh1406732-1.patch
+Patch2812: glibc-rh1406732-2.patch
+Patch2813: glibc-rh1406732-3.patch
+Patch2814: glibc-rh1406732-4.patch
+Patch2815: glibc-rh1406732-5.patch
+Patch2816: glibc-rh1670041.patch
+Patch2817: glibc-rh1451308.patch
+Patch2818: glibc-rh1636229-1.patch
+Patch2819: glibc-rh1636229-2.patch
+Patch2820: glibc-rh1636229-3.patch
+Patch2821: glibc-rh1636229-4.patch
+Patch2822: glibc-rh1579451.patch
+Patch2823: glibc-rh1634021.patch
+Patch2824: glibc-rh1691534-1.patch
+Patch2825: glibc-rh1691534-2.patch
+Patch2826: glibc-rh1698015.patch
+Patch2827: glibc-rh1065574-1.patch
+Patch2828: glibc-rh1065574-2.patch
+Patch2829: glibc-rh1065574-3.patch
+Patch2830: glibc-rh1065574-4.patch
+Patch2831: glibc-rh1065574-5.patch
+Patch2832: glibc-rh1065574-6.patch
+Patch2833: glibc-rh1065574-7.patch
+Patch2834: glibc-rh1484832.patch
+Patch2835: glibc-rh1740039-1.patch
+Patch2836: glibc-rh1740039-2.patch
+Patch2837: glibc-rh1406732-6.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -2628,6 +2634,7 @@ package or when debugging this package.
 %patch1901 -p1
 %patch1902 -p1
 %patch1903 -p1
+%patch1904 -p1
 %patch2500 -p1
 %patch2501 -p1
 %patch2502 -p1
@@ -2941,6 +2948,34 @@ package or when debugging this package.
 %patch2807 -p1
 %patch2808 -p1
 %patch2809 -p1
+%patch2810 -p1
+%patch2811 -p1
+%patch2812 -p1
+%patch2813 -p1
+%patch2814 -p1
+%patch2815 -p1
+%patch2816 -p1
+%patch2817 -p1
+%patch2818 -p1
+%patch2819 -p1
+%patch2820 -p1
+%patch2821 -p1
+%patch2822 -p1
+%patch2823 -p1
+%patch2824 -p1
+%patch2825 -p1
+%patch2826 -p1
+%patch2827 -p1
+%patch2828 -p1
+%patch2829 -p1
+%patch2830 -p1
+%patch2831 -p1
+%patch2832 -p1
+%patch2833 -p1
+%patch2834 -p1
+%patch2835 -p1
+%patch2836 -p1
+%patch2837 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -3106,10 +3141,23 @@ build_CFLAGS="$BuildFlags -g -O3 $*"
 # Some configure checks can spuriously fail for some architectures if
 # unwind info is present
 configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
+
+# See bug 1790475 for the history behind --disable-bind-now for ppc64.
+# In summary: COPY relocations and BIND_NOW are incompatible on ppc64.
+# The solution is to globally disable BIND_NOW hardening on ppc64 with
+# --disable-bind-now and then use a downstream-only patch
+# (glibc-rh1406732-6.patch) to partially enable BIND_NOW hardening for
+# ppc64 to the level of hardening that works given the toolchain.
+
 ../configure CC="$GCC" CXX="$GXX" CFLAGS="$configure_CFLAGS" \
 	--prefix=%{_prefix} \
 	--enable-add-ons=nptl$AddOns \
-	--with-headers=%{_prefix}/include $EnableKernel --enable-bind-now \
+	--with-headers=%{_prefix}/include $EnableKernel \
+%ifarch ppc64
+	--disable-bind-now \
+%else
+	--enable-bind-now \
+%endif
 	--build=%{target} \
 %ifarch %{multiarcharches}
 	--enable-multi-arch \
@@ -3441,7 +3489,19 @@ $olddir/build-%{target}/elf/ld.so \
     --prefix ${RPM_BUILD_ROOT} --add-to-archive \
     *_*
 rm -rf *_*
-mv locale-archive{,.tmpl}
+# Setup the locale-archive template.  We copy the archive in place to
+# keep the size of the file. Even though we mark the file with "ghost"
+# the size is used by rpm to compute the required free space (see
+# rhbz#1714888). We do this because there is a point in the install
+# when build-locale-archive has copied 100% of the template into the
+# new locale archive and so this consumes twice the amount of
+# diskspace. Note that this doesn't account for copying existing
+# compiled locales into the archive, this may consume even more disk
+# space and we can't fix that issue. In upstream we have moved away
+# from this process, removing build-locale-archive and installing a
+# default locale-archive without modification, and leaving compiled
+# locales as they are (without inclusion into the archive).
+cp locale-archive{,.tmpl}
 popd
 %endif
 
@@ -3906,10 +3966,6 @@ touch $RPM_BUILD_ROOT/var/{db,run}/nscd/{passwd,group,hosts,services}
 touch $RPM_BUILD_ROOT/var/run/nscd/{socket,nscd.pid}
 %endif
 
-%ifnarch %{auxarches}
-> $RPM_BUILD_ROOT/%{_prefix}/lib/locale/locale-archive
-%endif
-
 mkdir -p $RPM_BUILD_ROOT/var/cache/ldconfig
 > $RPM_BUILD_ROOT/var/cache/ldconfig/aux-cache
 
@@ -4057,7 +4113,7 @@ rm -f *.filelist*
 %files -f common.filelist common
 %defattr(-,root,root)
 %attr(0644,root,root) %verify(not md5 size mtime) %{_prefix}/lib/locale/locale-archive.tmpl
-%attr(0644,root,root) %verify(not md5 size mtime mode) %ghost %config(missingok,noreplace) %{_prefix}/lib/locale/locale-archive
+%attr(0644,root,root) %verify(not md5 size mtime mode) %ghost %{_prefix}/lib/locale/locale-archive
 %dir %attr(755,root,root) /etc/default
 %verify(not md5 size mtime) %config(noreplace) /etc/default/nss
 %doc documentation/*
@@ -4107,6 +4163,57 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Jan 21 2020 Carlos O'Donell <carlos@redhat.com> - 2.17-307.1
+- Adjust security hardening changes for 64-bit POWER BE due to
+  toolchain limitations (#1790475)
+
+* Tue Oct 22 2019 Florian Weimer <fweimer@redhat.com> - 2.17-307
+- Fix assert after attempting to dlopen main programs (#1740039)
+
+* Fri Aug  2 2019 Carlos O'Donell <carlos@redhat.com> - 2.17-306
+- Fix dlopen crash when LD_LIBRARY_PATH is set (#1484832)
+
+* Thu Aug  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-305
+- Fix race condition in malloc_info (#1065574)
+
+* Thu Aug  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-304
+- Account for size of locale-archive in RPM package (#1714888)
+
+* Thu Aug  1 2019 Florian Weimer <fweimer@redhat.com> - 2.17-303
+- Do not mark locale archive as %%config (#1717512)
+
+* Wed Jul 31 2019 DJ Delorie <dj@redhat.com> - 2.17-302
+- Allow endpwent without getpwent (#1698015)
+
+* Wed Jul 31 2019 DJ Delorie <dj@redhat.com> - 2.17-301
+- Ensure binary locale files are identical across multilibs (#1691534)
+
+* Wed Jul 31 2019 DJ Delorie <dj@redhat.com> - 2.17-300
+- Fix off-by-one in nscd getservbyport call (#1634021)
+
+* Tue Jul 30 2019 Patsy Griffin <pfrankli@redhat.com> - 2.17-299
+- Update glibc headers for Linux 4.0, 4.1 definitions and 
+  Linux 4.2 netinet/in.h values. (#1579451)
+
+* Mon Jul 29 2019 Patsy Griffin <pfrankli@redhat.com> - 2.17-298
+- Improve NSS testing including new MERGE feature testing (#1636229)
+
+* Fri Jul 26 2019 Patsy Griffin <pfrankli@redhat.com> - 2.17-297
+- Add compiler barriers around modifications of the robust mutex list
+  for pthread_mutex_trylock. (#1672771)
+
+* Fri Jul 26 2019 Arjun Shankar <arjun@redhat.com> - 2.17-296
+- Fix crash in posix/bug-ga2 test when there is no IPv6 interface (#1451308)
+
+* Fri Jul 26 2019 Arjun Shankar <arjun@redhat.com> - 2.17-295
+- resolv: Switch DNS servers on all ICMP errors (#1670041)
+
+* Thu Jul 25 2019 Arjun Shankar <arjun@redhat.com> - 2.17-294
+- Build glibc with additional hardening (#1406732)
+
+* Wed Jul 24 2019 Arjun Shankar <arjun@redhat.com> - 2.17-293
+- iconv: Add support for IBM858 character encoding (#1414263)
+
 * Tue Apr 30 2019 Arjun Shankar <arjun@redhat.com> - 2.17-292
 - Avoid iconv hang on invalid multi-byte sequences (#1427734)
 

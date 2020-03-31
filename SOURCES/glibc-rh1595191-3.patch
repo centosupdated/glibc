@@ -9,7 +9,7 @@ Date:   Tue Jul 3 17:57:14 2018 +0200
     Some adjustments were needed for a tricky multi-inclusion issue related
     to libioP.h.
 
-Backported from the upsteam release/2.26/master branch, adjusted for
+Backported from the upsteam release/2.27/master branch, adjusted for
 lack of tests-internal support downstream.
 
 diff --git a/libio/Makefile b/libio/Makefile
