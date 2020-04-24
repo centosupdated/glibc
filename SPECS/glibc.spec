@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 101%{?dist}
+%define glibcrelease 121%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -396,6 +396,84 @@ Patch262: glibc-rh1410154-13.patch
 Patch263: glibc-rh1410154-14.patch
 Patch264: glibc-rh1410154-15.patch
 Patch265: glibc-rh1410154-16.patch
+Patch266: glibc-rh1810142-1.patch
+Patch267: glibc-rh1810142-2.patch
+Patch268: glibc-rh1810142-3.patch
+Patch269: glibc-rh1810142-4.patch
+Patch270: glibc-rh1810142-5.patch
+Patch271: glibc-rh1810142-6.patch
+Patch272: glibc-rh1743445-1.patch
+Patch273: glibc-rh1743445-2.patch
+Patch274: glibc-rh1780204-01.patch
+Patch275: glibc-rh1780204-02.patch
+Patch276: glibc-rh1780204-03.patch
+Patch277: glibc-rh1780204-04.patch
+Patch278: glibc-rh1780204-05.patch
+Patch279: glibc-rh1780204-06.patch
+Patch280: glibc-rh1780204-07.patch
+Patch281: glibc-rh1780204-08.patch
+Patch282: glibc-rh1780204-09.patch
+Patch283: glibc-rh1780204-10.patch
+Patch284: glibc-rh1780204-11.patch
+Patch285: glibc-rh1780204-12.patch
+Patch286: glibc-rh1780204-13.patch
+Patch287: glibc-rh1780204-14.patch
+Patch288: glibc-rh1780204-15.patch
+Patch289: glibc-rh1780204-16.patch
+Patch290: glibc-rh1780204-17.patch
+Patch291: glibc-rh1780204-18.patch
+Patch292: glibc-rh1780204-19.patch
+Patch293: glibc-rh1780204-20.patch
+Patch294: glibc-rh1780204-21.patch
+Patch295: glibc-rh1780204-22.patch
+Patch296: glibc-rh1780204-23.patch
+Patch297: glibc-rh1780204-24.patch
+Patch298: glibc-rh1780204-25.patch
+Patch299: glibc-rh1780204-26.patch
+Patch300: glibc-rh1780204-27.patch
+Patch301: glibc-rh1780204-28.patch
+Patch302: glibc-rh1784519.patch
+Patch303: glibc-rh1775819.patch
+Patch304: glibc-rh1774114.patch
+Patch305: glibc-rh1812756-1.patch
+Patch306: glibc-rh1812756-2.patch
+Patch307: glibc-rh1812756-3.patch
+Patch308: glibc-rh1757354.patch
+Patch309: glibc-rh1784520.patch
+Patch310: glibc-rh1784525.patch
+Patch311: glibc-rh1810146.patch
+Patch312: glibc-rh1810223-1.patch
+Patch313: glibc-rh1810223-2.patch
+Patch314: glibc-rh1811796-1.patch
+Patch315: glibc-rh1811796-2.patch
+Patch316: glibc-rh1813398.patch
+Patch317: glibc-rh1813399.patch
+Patch318: glibc-rh1810224-1.patch
+Patch319: glibc-rh1810224-2.patch
+Patch320: glibc-rh1810224-3.patch
+Patch321: glibc-rh1810224-4.patch
+Patch322: glibc-rh1783303-1.patch
+Patch323: glibc-rh1783303-2.patch
+Patch324: glibc-rh1783303-3.patch
+Patch325: glibc-rh1783303-4.patch
+Patch326: glibc-rh1783303-5.patch
+Patch327: glibc-rh1783303-6.patch
+Patch328: glibc-rh1783303-7.patch
+Patch329: glibc-rh1783303-8.patch
+Patch330: glibc-rh1783303-9.patch
+Patch331: glibc-rh1783303-10.patch
+Patch332: glibc-rh1783303-11.patch
+Patch333: glibc-rh1783303-12.patch
+Patch334: glibc-rh1783303-13.patch
+Patch335: glibc-rh1783303-14.patch
+Patch336: glibc-rh1783303-15.patch
+Patch337: glibc-rh1783303-16.patch
+Patch338: glibc-rh1783303-17.patch
+Patch339: glibc-rh1783303-18.patch
+Patch340: glibc-rh1642150-1.patch
+Patch341: glibc-rh1642150-2.patch
+Patch342: glibc-rh1642150-3.patch
+Patch343: glibc-rh1774115.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -411,6 +489,13 @@ Requires: glibc-common = %{version}-%{release}
 Provides: bundled(gnulib)
 
 Requires(pre): basesystem
+
+%ifarch %{ix86}
+# Automatically install the 32-bit variant if the 64-bit variant has
+# been installed.  This covers the case when glibc.i686 is installed
+# after nss_db.x86_64.  (See below for the other ordering.)
+Recommends: (nss_db(x86-32) if nss_db(x86-64))
+%endif
 
 # This is for building auxiliary programs like memusage, nscd
 # For initial glibc bootstraps it can be commented out
@@ -803,6 +888,12 @@ performance with LDAP, and may help with DNS as well.
 %package -n nss_db
 Summary: Name Service Switch (NSS) module using hash-indexed files
 Requires: %{name}%{_isa} = %{version}-%{release}
+%ifarch x86_64
+# Automatically install the 32-bit variant if the 64-bit variant has
+# been installed.  This covers the case when glibc.i686 is installed
+# before nss_db.x86_64.  (See above for the other ordering.)
+Recommends: (nss_db(x86-32) if glibc(x86-32))
+%endif
 
 %description -n nss_db
 The nss_db Name Service Switch module uses hash-indexed files in /var/db
@@ -2282,6 +2373,67 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Apr  8 2020 Florian Weimer <fweimer@redhat.com> - 2.28-121
+- elf: Assign TLS modid later during dlopen (#1774115)
+
+* Wed Apr  8 2020 Florian Weimer <fweimer@redhat.com> - 2.28-120
+- x86-64: Automatically install nss_db.i686 for 32-bit environments (#1807824)
+
+* Tue Apr  7 2020 Florian Weimer <fweimer@redhat.com> - 2.28-119
+- ppc64le: Enable protection key support (#1642150)
+
+* Tue Apr  7 2020 Florian Weimer <fweimer@redhat.com> - 2.28-118
+- ppc64le: floating-point status and exception optimizations (#1783303)
+
+* Fri Apr  3 2020 Patsy Griffin <patsy@redhat.com> - 2.28-117
+- Update to Linux 5.6 syscall-names.list. (#1810224)
+
+* Fri Apr  3 2020 Patsy Griffin <patsy@redhat.com> - 2.28-116
+- CVE-2020-1751: Fix an array overflow in backtrace on PowerPC. (#1813399)
+
+* Fri Apr  3 2020 Patsy Griffin <patsy@redhat.com> - 2.28-115
+- CVE:2020-1752: Fix a use after free in glob when expanding ~user. (#1813398)
+
+* Fri Apr  3 2020 Patsy Griffin <patsy@redhat.com> - 2.28-114
+- CVE-2020-10029: Prevent stack corruption from crafted input in cosl, sinl,
+  sincosl, and tanl function. (#1811796)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-113
+- Improve elf/ and nptl/ testsuites (#1810223)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-112
+- Fix resource leak in getaddrinfo (#1810146)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-111
+- Protect locale archive against corruption (#1784525)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-110
+- Properly handle signed vs. unsigned values in mallopt (#1784520)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-109
+- Update and harmonize locale names with CLDR (#1757354)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-108
+- Fix filter and auxiliary filter implementation (#1812756)
+
+* Thu Apr  2 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-107
+- Handle .dynstr located in separate segment (#1774114)
+
+* Fri Mar 27 2020 Patsy Griffin <patsy@redhat.com> - 2.28-106
+- Disable vtable validation for pre-2.1 interposed handles (#1775819)
+
+* Fri Mar 27 2020 Patsy Griffin <patsy@redhat.com> - 2.28-105
+- Define __CORRECT_ISO_CPP_STRING_H_PROTO for Clang. (#1784519)
+
+* Wed Mar 25 2020 DJ Delorie <dj@redhat.com> - 2.28-104
+- Math library optimizations for IBM Z (#1780204)
+
+* Wed Mar 25 2020 DJ Delorie <dj@redhat.com> - 2.28-103
+- Filter "ignore" autofs mount entries in getmntent (#1743445)
+
+* Wed Mar 25 2020 DJ Delorie <dj@redhat.com> - 2.28-102
+- Fix /etc/resolv.conf reloading defects (#1810142)
+
 * Thu Jan 16 2020 Florian Weimer <fweimer@redhat.com> - 2.28-101
 - ld.so: Reset GL (dl_initfirst) pointer on dlopen failure (#1410154)
 
