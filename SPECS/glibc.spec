@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 72%{?dist}.1
+%define glibcrelease 101%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -121,7 +121,6 @@ URL: http://www.gnu.org/software/glibc/
 Source0: %{?glibc_release_url}%{glibcsrcdir}.tar.xz
 Source1: build-locale-archive.c
 Source4: nscd.conf
-Source7: nsswitch.conf
 Source8: power6emul.c
 Source9: bench.mk
 Source10: glibc-bench-compare
@@ -315,7 +314,88 @@ Patch180: glibc-rh1717438.patch
 Patch181: glibc-rh1727152.patch
 Patch182: glibc-rh1724975.patch
 Patch183: glibc-rh1722215.patch
-Patch184: glibc-rh1777797.patch
+Patch184: glibc-rh1764234-1.patch
+Patch185: glibc-rh1764234-2.patch
+Patch186: glibc-rh1764234-3.patch
+Patch187: glibc-rh1764234-4.patch
+Patch188: glibc-rh1764234-5.patch
+Patch189: glibc-rh1764234-6.patch
+Patch190: glibc-rh1764234-7.patch
+Patch191: glibc-rh1764234-8.patch
+Patch192: glibc-rh1747505-1.patch
+Patch193: glibc-rh1747505-2.patch
+Patch194: glibc-rh1747505-3.patch
+Patch195: glibc-rh1747505-4.patch
+Patch196: glibc-rh1747453.patch
+Patch197: glibc-rh1764241.patch
+Patch198: glibc-rh1746933-1.patch
+Patch199: glibc-rh1746933-2.patch
+Patch200: glibc-rh1746933-3.patch
+Patch201: glibc-rh1735747-1.patch
+Patch202: glibc-rh1735747-2.patch
+Patch203: glibc-rh1764226-1.patch
+Patch204: glibc-rh1764226-2.patch
+Patch205: glibc-rh1764226-3.patch
+Patch206: glibc-rh1764218-1.patch
+Patch207: glibc-rh1764218-2.patch
+Patch208: glibc-rh1764218-3.patch
+Patch209: glibc-rh1682954.patch
+Patch210: glibc-rh1746928.patch
+Patch211: glibc-rh1747502.patch
+Patch212: glibc-rh1747502-1.patch
+Patch213: glibc-rh1747502-2.patch
+Patch214: glibc-rh1747502-3.patch
+Patch215: glibc-rh1747502-4.patch
+Patch216: glibc-rh1747502-5.patch
+Patch217: glibc-rh1747502-6.patch
+Patch218: glibc-rh1747502-7.patch
+Patch219: glibc-rh1747502-8.patch
+Patch220: glibc-rh1747502-9.patch
+Patch221: glibc-rh1726638-1.patch
+Patch222: glibc-rh1726638-2.patch
+Patch223: glibc-rh1726638-3.patch
+Patch224: glibc-rh1764238-1.patch
+Patch225: glibc-rh1764238-2.patch
+Patch226: glibc-rh1764242.patch
+Patch227: glibc-rh1769304.patch
+Patch228: glibc-rh1749439-1.patch
+Patch229: glibc-rh1749439-2.patch
+Patch230: glibc-rh1749439-3.patch
+Patch231: glibc-rh1749439-4.patch
+Patch232: glibc-rh1749439-5.patch
+Patch233: glibc-rh1749439-6.patch
+Patch234: glibc-rh1749439-7.patch
+Patch235: glibc-rh1749439-8.patch
+Patch236: glibc-rh1749439-9.patch
+Patch237: glibc-rh1749439-10.patch
+Patch238: glibc-rh1749439-11.patch
+Patch239: glibc-rh1749439-12.patch
+Patch240: glibc-rh1749439-13.patch
+Patch241: glibc-rh1764231-1.patch
+Patch242: glibc-rh1764231-2.patch
+Patch243: glibc-rh1764235.patch
+Patch244: glibc-rh1361965.patch
+Patch245: glibc-rh1764223.patch
+Patch246: glibc-rh1764214.patch
+Patch247: glibc-rh1774021.patch
+Patch248: glibc-rh1775294.patch
+Patch249: glibc-rh1777241.patch
+Patch250: glibc-rh1410154-1.patch
+Patch251: glibc-rh1410154-2.patch
+Patch252: glibc-rh1410154-3.patch
+Patch253: glibc-rh1410154-4.patch
+Patch254: glibc-rh1410154-5.patch
+Patch255: glibc-rh1410154-6.patch
+Patch256: glibc-rh1410154-7.patch
+Patch257: glibc-rh1410154-8.patch
+Patch258: glibc-rh1410154-9.patch
+Patch259: glibc-rh1410154-10.patch
+Patch260: glibc-rh1410154-11.patch
+Patch261: glibc-rh1410154-12.patch
+Patch262: glibc-rh1410154-13.patch
+Patch263: glibc-rh1410154-14.patch
+Patch264: glibc-rh1410154-15.patch
+Patch265: glibc-rh1410154-16.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1238,7 +1318,7 @@ mv  %{glibc_sysroot}%{_prefix}/lib/locale/*.filelist .
 # Install configuration files for services
 ##############################################################################
 
-install -p -m 644 %{SOURCE7} %{glibc_sysroot}/etc/nsswitch.conf
+install -p -m 644 nss/nsswitch.conf %{glibc_sysroot}/etc/nsswitch.conf
 
 %ifnarch %{auxarches}
 # This is for ncsd - in glibc 2.2
@@ -2202,8 +2282,95 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Thu Nov 28 2019 Florian Weimer <fweimer@redhat.com> - 2.28-72.1
-- s390x: Fix z15 strstr for patterns crossing pages (#1777797)
+* Thu Jan 16 2020 Florian Weimer <fweimer@redhat.com> - 2.28-101
+- ld.so: Reset GL (dl_initfirst) pointer on dlopen failure (#1410154)
+
+* Fri Dec 13 2019 Florian Weimer <fweimer@redhat.com> - 2.28-100
+- Roll back dynamic linker state on dlopen failure (#1410154)
+
+* Wed Nov 27 2019 Florian Weimer <fweimer@redhat.com> - 2.28-99
+- s390x: Fix z15 strstr for patterns crossing pages (#1777241)
+
+* Wed Nov 27 2019 Florian Weimer <fweimer@redhat.com> - 2.28-98
+- Rebuild with new rpm (#1654901)
+
+* Fri Nov 22 2019 Florian Weimer <fweimer@redhat.com> - 2.28-97
+- Avoid invalid __has_include in <sys/stat.h> (#1775294)
+
+* Fri Nov 22 2019 Florian Weimer <fweimer@redhat.com> - 2.28-96
+- x86-64: Ignore LD_PREFER_MAP_32BIT_EXEC in SUID binaries (#1774021)
+
+* Thu Nov 14 2019 DJ Delorie <dj@redhat.com> - 2.28-95
+- Fix alignment of TLS variables for tls variant TLS_TCB_AT_TP (#1764214)
+
+* Thu Nov 14 2019 DJ Delorie <dj@redhat.com> - 2.28-94
+- Refuse to dlopen PIE objects (#1764223)
+
+* Thu Nov 14 2019 Carlos O'Donell <carlos@redhat.com> - 2.28-93
+- Fix C.UTF-8 locale source ellipsis expressions (#1361965)
+
+* Thu Nov 14 2019 Carlos O'Donell <carlos@redhat.com> - 2.28-92
+- Fix hangs during malloc tracing (#1764235)
+
+* Thu Nov 14 2019 Carlos O'Donell <carlos@redhat.com> - 2.28-91
+- Support moving versioned symbols between sonames (#1764231)
+
+* Wed Nov 13 2019 Florian Weimer <fweimer@redhat.com> - 2.28-90
+- Avoid creating stale utmp entries for repeated pututxline (#1749439)
+
+* Wed Nov  6 2019 Florian Weimer <fweimer@redhat.com> - 2.28-89
+- Backport more precise tokenizer for installed headers test (#1769304)
+
+* Wed Nov  6 2019 Florian Weimer <fweimer@redhat.com> - 2.28-88
+- math: Enable some math builtins for clang in LLVM Toolset (#1764242)
+
+* Wed Nov  6 2019 Florian Weimer <fweimer@redhat.com> - 2.28-87
+- Support Fortran vectorized math functions with GCC Toolset 9 (#1764238)
+
+* Wed Nov  6 2019 Florian Weimer <fweimer@redhat.com> - 2.28-86
+- aarch64: Support STO_AARCH64_VARIANT_PCS, DT_AARCH64_VARIANT_PCS (#1726638)
+
+* Mon Nov  4 2019 DJ Delorie <dj@redhat.com> - 2.28-85
+- Add more test-in-container support (#1747502)
+
+* Fri Nov  1 2019 DJ Delorie <dj@redhat.com> - 2.28-84
+- Fix calling getpwent after endpwent (#1747502)
+
+* Fri Nov  1 2019 DJ Delorie <dj@redhat.com> - 2.28-83
+- nptl: Avoid fork handler lock for async-signal-safe fork (#1746928)
+
+* Thu Oct 31 2019 DJ Delorie <dj@redhat.com> - 2.28-82
+- Call _dl_open_check after relocation (#1682954)
+
+* Thu Oct 31 2019 Arjun Shankar <arjun@redhat.com> - 2.28-81
+- Add malloc fastbin tunable (#1764218)
+
+* Thu Oct 31 2019 Arjun Shankar <arjun@redhat.com> - 2.28-80
+- Fix race condition in tst-clone3 and add a new ldconfig test,
+  tst-ldconfig-bad-aux-cache (#1764226)
+
+* Thu Oct 31 2019 Arjun Shankar <arjun@redhat.com> - 2.28-79
+- Remove unwanted whitespace from size lines and account for top chunk in
+  malloc_info output (#1735747)
+
+* Wed Oct 30 2019 Arjun Shankar <arjun@redhat.com> - 2.28-78
+- Enhance malloc tcache (#1746933)
+
+* Tue Oct 29 2019 Patsy Griffin <patsy@redhat.com> - 2.28-77
+- Don't define initgroups in nsswitch.conf (#1747505)
+
+* Mon Oct 28 2019 Patsy Griffin <patsy@redhat.com> - 2.28-76
+- libio: Remove codecvt vtable. (#1764241)
+
+* Mon Oct 28 2019 Patsy Griffin <patsy@redhat.com> - 2.28-75
+- Implement --preload option for the dynamic linker.(#1747453)
+
+* Mon Oct 28 2019 Patsy Griffin <patsy@redhat.com> - 2.28-74
+- Make nsswitch.conf more distribution friendly.
+  Improve nscd.conf comments.  (#1747505)
+
+* Fri Oct 25 2019 Patsy Griffin <patsy@redhat.com> - 2.28-73
+- Update system call names list to Linux 5.3 (#1764234)
 
 * Mon Jul 22 2019 Carlos O'Donell <carlos@redhat.com> - 2.28-72
 - Skip wide buffer handling for legacy stdio handles (#1722215)
