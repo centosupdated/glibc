@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 121%{?dist}
+%define glibcrelease 123%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -474,6 +474,14 @@ Patch340: glibc-rh1642150-1.patch
 Patch341: glibc-rh1642150-2.patch
 Patch342: glibc-rh1642150-3.patch
 Patch343: glibc-rh1774115.patch
+Patch344: glibc-rh1780204-29.patch
+Patch345: glibc-rh1748197-1.patch
+Patch346: glibc-rh1748197-2.patch
+Patch347: glibc-rh1748197-3.patch
+Patch348: glibc-rh1748197-4.patch
+Patch349: glibc-rh1748197-5.patch
+Patch350: glibc-rh1748197-6.patch
+Patch351: glibc-rh1748197-7.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2373,6 +2381,13 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Apr 23 2020 Florian Weimer <fweimer@redhat.com> - 2.28-123
+- Reduce IFUNC resolver usage in libpthread and librt (#1748197)
+
+* Thu Apr  9 2020 DJ Delorie <dj@redhat.com> - 2.28-122
+- Math library optimizations for IBM Z (#1780204)
+- Additional patch for s_nearbyint.c
+
 * Wed Apr  8 2020 Florian Weimer <fweimer@redhat.com> - 2.28-121
 - elf: Assign TLS modid later during dlopen (#1774115)
 
