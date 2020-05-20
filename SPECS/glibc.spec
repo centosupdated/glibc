@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 306%{?dist}
+%define glibcrelease 316%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1615,6 +1615,24 @@ Patch2831: glibc-rh1065574-5.patch
 Patch2832: glibc-rh1065574-6.patch
 Patch2833: glibc-rh1065574-7.patch
 Patch2834: glibc-rh1484832.patch
+Patch2835: glibc-rh1740039-1.patch
+Patch2836: glibc-rh1740039-2.patch
+Patch2837: glibc-rh1775599.patch
+Patch2838: glibc-rh1235112.patch
+Patch2839: glibc-rh1728915-1.patch
+Patch2840: glibc-rh1728915-2.patch
+Patch2841: glibc-rh1772307.patch
+Patch2842: glibc-rh1747465-1.patch
+Patch2843: glibc-rh1747465-2.patch
+Patch2844: glibc-rh1747465-3.patch
+Patch2845: glibc-rh1747465-4.patch
+Patch2846: glibc-rh1747465-5.patch
+Patch2847: glibc-rh1747465-6.patch
+Patch2848: glibc-rh1747465-7.patch
+Patch2849: glibc-rh1747465-8.patch
+Patch2850: glibc-rh1775816.patch
+Patch2851: glibc-rh1763325.patch
+Patch2852: glibc-rh1406732-6.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -1823,12 +1841,6 @@ which is highly discouraged.
 Summary: Header files for development using standard C libraries.
 Group: Development/Libraries
 Provides: %{name}-headers(%{_target_cpu})
-%ifarch x86_64
-# If both -m32 and -m64 is to be supported on AMD64, x86_64 glibc-headers
-# have to be installed, not i586 ones.
-Obsoletes: %{name}-headers(i586)
-Obsoletes: %{name}-headers(i686)
-%endif
 Requires(pre): kernel-headers
 Requires: kernel-headers >= 2.2.1, %{name} = %{version}-%{release}
 BuildRequires: kernel-headers >= 2.6.22
@@ -1906,10 +1918,6 @@ Group: Development/Debug
 AutoReqProv: no
 %ifarch %{debuginfocommonarches}
 Requires: glibc-debuginfo-common = %{version}-%{release}
-%else
-%ifarch %{ix86} %{sparc}
-Obsoletes: glibc-debuginfo-common
-%endif
 %endif
 
 %description debuginfo
@@ -2970,6 +2978,24 @@ package or when debugging this package.
 %patch2832 -p1
 %patch2833 -p1
 %patch2834 -p1
+%patch2835 -p1
+%patch2836 -p1
+%patch2837 -p1
+%patch2838 -p1
+%patch2839 -p1
+%patch2840 -p1
+%patch2841 -p1
+%patch2842 -p1
+%patch2843 -p1
+%patch2844 -p1
+%patch2845 -p1
+%patch2846 -p1
+%patch2847 -p1
+%patch2848 -p1
+%patch2849 -p1
+%patch2850 -p1
+%patch2851 -p1
+%patch2852 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -3135,10 +3161,23 @@ build_CFLAGS="$BuildFlags -g -O3 $*"
 # Some configure checks can spuriously fail for some architectures if
 # unwind info is present
 configure_CFLAGS="$build_CFLAGS -fno-asynchronous-unwind-tables"
+
+# See bug 1790475 for the history behind --disable-bind-now for ppc64.
+# In summary: COPY relocations and BIND_NOW are incompatible on ppc64.
+# The solution is to globally disable BIND_NOW hardening on ppc64 with
+# --disable-bind-now and then use a downstream-only patch
+# (glibc-rh1406732-6.patch) to partially enable BIND_NOW hardening for
+# ppc64 to the level of hardening that works given the toolchain.
+
 ../configure CC="$GCC" CXX="$GXX" CFLAGS="$configure_CFLAGS" \
 	--prefix=%{_prefix} \
 	--enable-add-ons=nptl$AddOns \
-	--with-headers=%{_prefix}/include $EnableKernel --enable-bind-now \
+	--with-headers=%{_prefix}/include $EnableKernel \
+%ifarch ppc64
+	--disable-bind-now \
+%else
+	--enable-bind-now \
+%endif
 	--build=%{target} \
 %ifarch %{multiarcharches}
 	--enable-multi-arch \
@@ -4144,6 +4183,38 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Thu Jan 30 2020 Carlos O'Donell <carlos@redhat.com> - 2.17-316
+- Adjust security hardening changes for 64-bit POWER BE due to
+  toolchain limitations (#1793853)
+
+* Wed Jan 29 2020 Florian Weimer <fweimer@redhat.com> - 2.17-315
+- argp: Do not override GCC keywords with macros (#1763325)
+
+* Wed Jan 29 2020 Florian Weimer <fweimer@redhat.com> - 2.17-314
+- Disable libio vtable validation for interposed pre-2.1 stdio handles (#1775816)
+
+* Tue Jan 28 2020 Florian Weimer <fweimer@redhat.com> - 2.17-313
+- Remove problematic Obsoletes: (#1795573)
+
+* Fri Jan 24 2020 Patsy Griffin <patsy@redhat.com> - 2.17-312
+- Update syscall-names.list to current version 5.4. (#1747465)
+
+* Tue Jan 21 2020 DJ Delorie <dj@redhat.com> - 2.17-311
+- Improve bcopy performance on Intel Haswell (#1772307)
+
+* Tue Jan 21 2020 DJ Delorie <dj@redhat.com> - 2.17-310
+- Filter "ignore" autofs mount entries in getmntent (#1728915)
+
+* Tue Jan 21 2020 Arjun Shankar <arjun@redhat.com> - 2.17-309
+- Fix race condition in tst-waitid (#1235112)
+
+* Tue Jan 21 2020 Arjun Shankar <arjun@redhat.com> - 2.17-308
+- CVE-2019-19126: rtld: Check __libc_enable_secure before honoring
+  LD_PREFER_MAP_32BIT_EXEC (#1775599)
+
+* Tue Oct 22 2019 Florian Weimer <fweimer@redhat.com> - 2.17-307
+- Fix assert after attempting to dlopen main programs (#1740039)
+
 * Fri Aug  2 2019 Carlos O'Donell <carlos@redhat.com> - 2.17-306
 - Fix dlopen crash when LD_LIBRARY_PATH is set (#1484832)
 
