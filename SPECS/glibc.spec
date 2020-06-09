@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 123%{?dist}
+%define glibcrelease 126%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -482,6 +482,8 @@ Patch348: glibc-rh1748197-4.patch
 Patch349: glibc-rh1748197-5.patch
 Patch350: glibc-rh1748197-6.patch
 Patch351: glibc-rh1748197-7.patch
+Patch352: glibc-rh1642150-4.patch
+Patch353: glibc-rh1836867.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1372,8 +1374,7 @@ pushd %{glibc_sysroot}%{_prefix}/lib/locale
 rm -f locale-archive
 # Intentionally we do not pass --alias-file=, aliases will be added
 # by build-locale-archive.
-$olddir/build-%{target}/elf/ld.so \
-        --library-path $olddir/build-%{target}/ \
+$olddir/build-%{target}/testrun.sh \
         $olddir/build-%{target}/locale/localedef \
         --prefix %{glibc_sysroot} --add-to-archive \
         eo *_*
@@ -2381,6 +2382,15 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed May 27 2020 Florian Weimer <fweimer@redhat.com> - 2.28-126
+- Do not clobber errno in nss_compat (#1836867)
+
+* Thu May 14 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-125
+- Support building rpm under newer versions of Coverity Scan (#1835999)
+
+* Mon May 11 2020 Florian Weimer <fweimer@redhat.com> - 2.28-124
+- Enhance memory protection key support on ppc64le (#1642150)
+
 * Thu Apr 23 2020 Florian Weimer <fweimer@redhat.com> - 2.28-123
 - Reduce IFUNC resolver usage in libpthread and librt (#1748197)
 
