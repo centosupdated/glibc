@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 126%{?dist}
+%define glibcrelease 127%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -484,6 +484,8 @@ Patch350: glibc-rh1748197-6.patch
 Patch351: glibc-rh1748197-7.patch
 Patch352: glibc-rh1642150-4.patch
 Patch353: glibc-rh1836867.patch
+Patch354: glibc-rh1821531-1.patch
+Patch355: glibc-rh1821531-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2382,6 +2384,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Jun 09 2020 Carlos O'Donell <calros@redhat.com> - 2.28-127
+- Improve performance of library strstr() function (#1821531)
+
 * Wed May 27 2020 Florian Weimer <fweimer@redhat.com> - 2.28-126
 - Do not clobber errno in nss_compat (#1836867)
 
