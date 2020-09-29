@@ -249,6 +249,11 @@ Patch0068: glibc-rh1349982.patch
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
 
+
+# Armhfp build issue
+Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
+Patch9999: glibc-rh1256317-armhfp-build-issue.patch
+
 Patch1000: glibc-rh905877.patch
 Patch1001: glibc-rh958652.patch
 Patch1002: glibc-rh977870.patch
@@ -2998,6 +3003,11 @@ package or when debugging this package.
 %patch2851 -p1
 %patch2852 -p1
 %patch2853 -p1
+
+%ifarch %{arm}
+%patch9998 -p1
+%patch9999 -p1
+%endif
 
 ##############################################################################
 # %%prep - Additional prep required...
