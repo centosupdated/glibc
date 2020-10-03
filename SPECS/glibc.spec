@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 127%{?dist}
+%define glibcrelease 129%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -486,6 +486,15 @@ Patch352: glibc-rh1642150-4.patch
 Patch353: glibc-rh1836867.patch
 Patch354: glibc-rh1821531-1.patch
 Patch355: glibc-rh1821531-2.patch
+Patch356: glibc-rh1845098-1.patch
+Patch357: glibc-rh1845098-2.patch
+Patch358: glibc-rh1845098-3.patch
+Patch359: glibc-rh1871387-1.patch
+Patch360: glibc-rh1871387-2.patch
+Patch361: glibc-rh1871387-3.patch
+Patch362: glibc-rh1871387-4.patch
+Patch363: glibc-rh1871387-5.patch
+Patch364: glibc-rh1871387-6.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2384,6 +2393,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Sep 18 2020 Arjun Shankar <arjun@redhat.com> - 2.28-129
+- Improve IBM POWER9 architecture performance (#1871387)
+
+* Thu Sep 17 2020 Arjun Shankar <arjun@redhat.com> - 2.28-128
+- Enable glibc for POWER10 (#1845098)
+
 * Tue Jun 09 2020 Carlos O'Donell <calros@redhat.com> - 2.28-127
 - Improve performance of library strstr() function (#1821531)
 
