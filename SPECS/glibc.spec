@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 129%{?dist}
+%define glibcrelease 132%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -495,6 +495,22 @@ Patch361: glibc-rh1871387-3.patch
 Patch362: glibc-rh1871387-4.patch
 Patch363: glibc-rh1871387-5.patch
 Patch364: glibc-rh1871387-6.patch
+Patch365: glibc-rh1871394-1.patch
+Patch366: glibc-rh1871394-2.patch
+Patch367: glibc-rh1871394-3.patch
+Patch368: glibc-rh1871395-1.patch
+Patch369: glibc-rh1871395-2.patch
+Patch370: glibc-rh1871397-1.patch
+Patch371: glibc-rh1871397-2.patch
+Patch372: glibc-rh1871397-3.patch
+Patch373: glibc-rh1871397-4.patch
+Patch374: glibc-rh1871397-5.patch
+Patch375: glibc-rh1871397-6.patch
+Patch376: glibc-rh1871397-7.patch
+Patch377: glibc-rh1871397-8.patch
+Patch378: glibc-rh1871397-9.patch
+Patch379: glibc-rh1871397-10.patch
+Patch380: glibc-rh1871397-11.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2393,6 +2409,16 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Oct 5 2020 DJ Delorie <dj@redhat.com> - 2.28-132
+- Fix fgetsgent_r data corruption bug (#1871397)
+
+* Fri Oct 02 2020 Patsy Griffin <patsy@redhat.com> - 2.28-131
+- Improve IBM zSeries (s390x) Performance (#1871395)
+
+* Fri Oct 02 2020 Patsy Griffin <patsy@redhat.com> - 2.28-130
+- Fix avx2 strncmp offset compare condition check (#1871394)
+- Add strncmp and strcmp testcases for page boundary
+
 * Fri Sep 18 2020 Arjun Shankar <arjun@redhat.com> - 2.28-129
 - Improve IBM POWER9 architecture performance (#1871387)
 
