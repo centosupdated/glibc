@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 132%{?dist}
+%define glibcrelease 136%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -511,6 +511,14 @@ Patch377: glibc-rh1871397-8.patch
 Patch378: glibc-rh1871397-9.patch
 Patch379: glibc-rh1871397-10.patch
 Patch380: glibc-rh1871397-11.patch
+Patch381: glibc-rh1880670.patch
+Patch382: glibc-rh1868106-1.patch
+Patch383: glibc-rh1868106-2.patch
+Patch384: glibc-rh1868106-3.patch
+Patch385: glibc-rh1868106-4.patch
+Patch386: glibc-rh1868106-5.patch
+Patch387: glibc-rh1868106-6.patch
+Patch388: glibc-rh1856398.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -575,9 +583,8 @@ BuildRequires: systemd
 # so we also depend on python3-devel.
 BuildRequires: python3 python3-devel
 
-# This is the first GCC version with enhanced valgrind support in the
-# inline expansion of string functions (#1532205, #1652929, #1652932).
-BuildRequires: gcc >= 8.2.1-3.4
+# This is the first GCC version with -moutline-atomics (#1856398)
+BuildRequires: gcc >= 8.3.1-5.2
 %define enablekernel 3.2
 Conflicts: kernel < %{enablekernel}
 %define target %{_target_cpu}-redhat-linux
@@ -1168,6 +1175,12 @@ rpm_inherit_flags \
 # configure.
 %define glibc_make_flags_as ASFLAGS="-g -Wa,--generate-missing-build-notes=yes"
 %define glibc_make_flags %{glibc_make_flags_as}
+
+%ifarch aarch64
+# BZ 1856398 - Build AArch64 with out-of-line support for LSE atomics
+GCC="$GCC -moutline-atomics"
+GXX="$GXX -moutline-atomics"
+%endif
 
 ##############################################################################
 # %%build - Generic options.
@@ -2409,6 +2422,18 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Oct 27 2020 DJ Delorie <dj@redhat.com> - 2.28-136
+- Allow __getauxval in testsuite check (#1856398)
+
+* Wed Oct 21 2020 DJ Delorie <dj@redhat.com> - 2.28-135
+- Use -moutline-atomics for aarch64 (#1856398)
+
+* Tue Oct 20 2020 Florian Weimer <fweimer@redhat.com> - 2.28-134
+- resolv: Handle DNS transaction ID collisions (#1868106)
+
+* Tue Oct 20 2020 Florian Weimer <fweimer@redhat.com> - 2.28-133
+- x86: Update auto-tuning of memcpy non-temporal threshold (#1880670)
+
 * Mon Oct 5 2020 DJ Delorie <dj@redhat.com> - 2.28-132
 - Fix fgetsgent_r data corruption bug (#1871397)
 
