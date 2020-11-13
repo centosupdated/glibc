@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 136%{?dist}
+%define glibcrelease 138%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -71,6 +71,9 @@
 %else
 %define buildpower9 0
 %endif
+
+# RHEL 8 does not have a working %%dnl macro.
+%define comment() %{nil}
 
 ##############################################################################
 # Any architecture/kernel combination that supports running 32-bit and 64-bit
@@ -519,6 +522,7 @@ Patch385: glibc-rh1868106-4.patch
 Patch386: glibc-rh1868106-5.patch
 Patch387: glibc-rh1868106-6.patch
 Patch388: glibc-rh1856398.patch
+Patch389: glibc-rh1880670-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1030,8 +1034,11 @@ This package provides debug information for package %{name}.
 Debug information is useful when developing applications that use this
 package or when debugging this package.
 
-%endif # %{debuginfocommonarches}
-%endif # 0%{?_enable_debug_packages}
+%comment Matches: %ifarch %{debuginfocommonarches}
+%endif
+
+%comment Matches: %if 0%{?_enable_debug_packages}
+%endif
 
 %if %{with benchtests}
 %package benchtests
@@ -1997,13 +2004,15 @@ egrep "$auxarches_debugsources" debuginfocommon.sources >> debuginfo.filelist
 egrep -v "$auxarches_debugsources" \
   debuginfocommon.sources >> debuginfocommon.filelist
 
-%endif # %{biarcharches}
+%comment Matches: %ifarch %{biarcharches}
+%endif
 
 # Add the list of *.a archives in the debug directory to
 # the common debuginfo package.
 list_debug_archives >> debuginfocommon.filelist
 
-%endif # %{debuginfocommonarches}
+%comment Matches: %ifarch %{debuginfocommonarches}
+%endif
 
 # Remove some common directories from the common package debuginfo so that we
 # don't end up owning them.
@@ -2023,7 +2032,8 @@ exclude_common_dirs debuginfocommon.filelist
 %endif
 exclude_common_dirs debuginfo.filelist
 
-%endif # 0%{?_enable_debug_packages}
+%comment Matches: %if 0%{?_enable_debug_packages}
+%endif
 
 ##############################################################################
 # Delete files that we do not intended to ship with the auxarch.
@@ -2039,7 +2049,8 @@ sed -e '/%%dir/d;/%%config/d;/%%verify/d;s/%%lang([^)]*) //;s#^/*##' \
 	debuginfocommon.filelist \
 %endif
 	| (cd %{glibc_sysroot}; xargs --no-run-if-empty rm -f 2> /dev/null || :)
-%endif # %{auxarches}
+%comment Matches: %ifarch %{auxarches}
+%endif
 
 ##############################################################################
 # Run the glibc testsuite
@@ -2130,7 +2141,8 @@ elf/ld.so --library-path .:elf:nptl:dlfcn \
 %endif
 popd
 
-%endif # %{run_glibc_tests}
+%comment Matches: %if %{run_glibc_tests}
+%endif
 
 
 %pre -p <lua>
@@ -2422,6 +2434,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Nov  6 2020 Florian Weimer <fweimer@redhat.com> - 2.28-138
+- Avoid comments after %%endif in the RPM spec file (#1894340)
+
+* Fri Oct 30 2020 Florian Weimer <fweimer@redhat.com> - 2.28-137
+- x86: Further memcpy optimizations for AMD Zen (#1880670)
+
 * Tue Oct 27 2020 DJ Delorie <dj@redhat.com> - 2.28-136
 - Allow __getauxval in testsuite check (#1856398)
 
