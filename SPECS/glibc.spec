@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 138%{?dist}
+%define glibcrelease 140%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -523,6 +523,13 @@ Patch386: glibc-rh1868106-5.patch
 Patch387: glibc-rh1868106-6.patch
 Patch388: glibc-rh1856398.patch
 Patch389: glibc-rh1880670-2.patch
+Patch390: glibc-rh1704868-1.patch
+Patch391: glibc-rh1704868-2.patch
+Patch392: glibc-rh1704868-3.patch
+Patch393: glibc-rh1704868-4.patch
+Patch394: glibc-rh1704868-5.patch
+Patch395: glibc-rh1893662-1.patch
+Patch396: glibc-rh1893662-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2434,6 +2441,13 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Nov 10 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-140
+- Fix calling lazily-bound SVE-using functions on AArch64 (#1893662)
+
+* Tue Nov 10 2020 Arjun Shankar <arjun@redhat.com> - 2.28-139
+- CVE-2016-10228, CVE-2020-27618: Fix infinite loops in iconv (#1704868,
+  #1894669)
+
 * Fri Nov  6 2020 Florian Weimer <fweimer@redhat.com> - 2.28-138
 - Avoid comments after %%endif in the RPM spec file (#1894340)
 
