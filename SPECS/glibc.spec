@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 140%{?dist}
+%define glibcrelease 141%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -530,6 +530,17 @@ Patch393: glibc-rh1704868-4.patch
 Patch394: glibc-rh1704868-5.patch
 Patch395: glibc-rh1893662-1.patch
 Patch396: glibc-rh1893662-2.patch
+Patch397: glibc-rh1855790-1.patch
+Patch398: glibc-rh1855790-2.patch
+Patch399: glibc-rh1855790-3.patch
+Patch400: glibc-rh1855790-4.patch
+Patch401: glibc-rh1855790-5.patch
+Patch402: glibc-rh1855790-6.patch
+Patch403: glibc-rh1855790-7.patch
+Patch404: glibc-rh1855790-8.patch
+Patch405: glibc-rh1855790-9.patch
+Patch406: glibc-rh1855790-10.patch
+Patch407: glibc-rh1855790-11.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2441,6 +2452,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Nov 30 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-141
+- Update Intel CET support (#1855790)
+
 * Tue Nov 10 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-140
 - Fix calling lazily-bound SVE-using functions on AArch64 (#1893662)
 
