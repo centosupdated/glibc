@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 141%{?dist}
+%define glibcrelease 145%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -541,6 +541,142 @@ Patch404: glibc-rh1855790-8.patch
 Patch405: glibc-rh1855790-9.patch
 Patch406: glibc-rh1855790-10.patch
 Patch407: glibc-rh1855790-11.patch
+Patch408: glibc-rh1817513-1.patch
+Patch409: glibc-rh1817513-2.patch
+Patch410: glibc-rh1817513-3.patch
+Patch411: glibc-rh1817513-4.patch
+Patch412: glibc-rh1817513-5.patch
+Patch413: glibc-rh1817513-6.patch
+Patch414: glibc-rh1817513-7.patch
+Patch415: glibc-rh1817513-8.patch
+Patch416: glibc-rh1817513-9.patch
+Patch417: glibc-rh1817513-10.patch
+Patch418: glibc-rh1817513-11.patch
+Patch419: glibc-rh1817513-12.patch
+Patch420: glibc-rh1817513-13.patch
+Patch421: glibc-rh1817513-14.patch
+Patch422: glibc-rh1817513-15.patch
+Patch423: glibc-rh1817513-16.patch
+Patch424: glibc-rh1817513-17.patch
+Patch425: glibc-rh1817513-18.patch
+Patch426: glibc-rh1817513-19.patch
+Patch427: glibc-rh1817513-20.patch
+Patch428: glibc-rh1817513-21.patch
+Patch429: glibc-rh1817513-22.patch
+Patch430: glibc-rh1817513-23.patch
+Patch431: glibc-rh1817513-24.patch
+Patch432: glibc-rh1817513-25.patch
+Patch433: glibc-rh1817513-26.patch
+Patch434: glibc-rh1817513-27.patch
+Patch435: glibc-rh1817513-28.patch
+Patch436: glibc-rh1817513-29.patch
+Patch437: glibc-rh1817513-30.patch
+Patch438: glibc-rh1817513-31.patch
+Patch439: glibc-rh1817513-32.patch
+Patch440: glibc-rh1817513-33.patch
+Patch441: glibc-rh1817513-34.patch
+Patch442: glibc-rh1817513-35.patch
+Patch443: glibc-rh1817513-36.patch
+Patch444: glibc-rh1817513-37.patch
+Patch445: glibc-rh1817513-38.patch
+Patch446: glibc-rh1817513-39.patch
+Patch447: glibc-rh1817513-40.patch
+Patch448: glibc-rh1817513-41.patch
+Patch449: glibc-rh1817513-42.patch
+Patch450: glibc-rh1817513-43.patch
+Patch451: glibc-rh1817513-44.patch
+Patch452: glibc-rh1817513-45.patch
+Patch453: glibc-rh1817513-46.patch
+Patch454: glibc-rh1817513-47.patch
+Patch455: glibc-rh1817513-48.patch
+Patch456: glibc-rh1817513-49.patch
+Patch457: glibc-rh1817513-50.patch
+Patch458: glibc-rh1817513-51.patch
+Patch459: glibc-rh1817513-52.patch
+Patch460: glibc-rh1817513-53.patch
+Patch461: glibc-rh1817513-54.patch
+Patch462: glibc-rh1817513-55.patch
+Patch463: glibc-rh1817513-56.patch
+Patch464: glibc-rh1817513-57.patch
+Patch465: glibc-rh1817513-58.patch
+Patch466: glibc-rh1817513-59.patch
+Patch467: glibc-rh1817513-60.patch
+Patch468: glibc-rh1817513-61.patch
+Patch469: glibc-rh1817513-62.patch
+Patch470: glibc-rh1817513-63.patch
+Patch471: glibc-rh1817513-64.patch
+Patch472: glibc-rh1817513-65.patch
+Patch473: glibc-rh1817513-66.patch
+Patch474: glibc-rh1817513-67.patch
+Patch475: glibc-rh1817513-68.patch
+Patch476: glibc-rh1817513-69.patch
+Patch477: glibc-rh1817513-70.patch
+Patch478: glibc-rh1817513-71.patch
+Patch479: glibc-rh1817513-72.patch
+Patch480: glibc-rh1817513-73.patch
+Patch481: glibc-rh1817513-74.patch
+Patch482: glibc-rh1817513-75.patch
+Patch483: glibc-rh1817513-76.patch
+Patch484: glibc-rh1817513-77.patch
+Patch485: glibc-rh1817513-78.patch
+Patch486: glibc-rh1817513-79.patch
+Patch487: glibc-rh1817513-80.patch
+Patch488: glibc-rh1817513-81.patch
+Patch489: glibc-rh1817513-82.patch
+Patch490: glibc-rh1817513-83.patch
+Patch491: glibc-rh1817513-84.patch
+Patch492: glibc-rh1817513-85.patch
+Patch493: glibc-rh1817513-86.patch
+Patch494: glibc-rh1817513-87.patch
+Patch495: glibc-rh1817513-88.patch
+Patch496: glibc-rh1817513-89.patch
+Patch497: glibc-rh1817513-90.patch
+Patch498: glibc-rh1817513-91.patch
+Patch499: glibc-rh1817513-92.patch
+Patch500: glibc-rh1817513-93.patch
+Patch501: glibc-rh1817513-94.patch
+Patch502: glibc-rh1817513-95.patch
+Patch503: glibc-rh1817513-96.patch
+Patch504: glibc-rh1817513-97.patch
+Patch505: glibc-rh1817513-98.patch
+Patch506: glibc-rh1817513-99.patch
+Patch507: glibc-rh1817513-100.patch
+Patch508: glibc-rh1817513-101.patch
+Patch509: glibc-rh1817513-102.patch
+Patch510: glibc-rh1817513-103.patch
+Patch511: glibc-rh1817513-104.patch
+Patch512: glibc-rh1817513-105.patch
+Patch513: glibc-rh1817513-106.patch
+Patch514: glibc-rh1817513-107.patch
+Patch515: glibc-rh1817513-108.patch
+Patch516: glibc-rh1817513-109.patch
+Patch517: glibc-rh1817513-110.patch
+Patch518: glibc-rh1817513-111.patch
+Patch519: glibc-rh1817513-112.patch
+Patch520: glibc-rh1817513-113.patch
+Patch521: glibc-rh1817513-114.patch
+Patch522: glibc-rh1817513-115.patch
+Patch523: glibc-rh1817513-116.patch
+Patch524: glibc-rh1817513-117.patch
+Patch525: glibc-rh1817513-118.patch
+Patch526: glibc-rh1817513-119.patch
+Patch527: glibc-rh1817513-120.patch
+Patch528: glibc-rh1817513-121.patch
+Patch529: glibc-rh1817513-122.patch
+Patch530: glibc-rh1817513-123.patch
+Patch531: glibc-rh1817513-124.patch
+Patch532: glibc-rh1817513-125.patch
+Patch533: glibc-rh1817513-126.patch
+Patch534: glibc-rh1817513-127.patch
+Patch535: glibc-rh1817513-128.patch
+Patch536: glibc-rh1817513-129.patch
+Patch537: glibc-rh1817513-130.patch
+Patch538: glibc-rh1817513-131.patch
+Patch539: glibc-rh1817513-132.patch
+Patch540: glibc-rh1882466-1.patch
+Patch541: glibc-rh1882466-2.patch
+Patch542: glibc-rh1882466-3.patch
+Patch543: glibc-rh1817513-133.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2452,6 +2588,16 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Jan  4 2021 Florian Weimer <fweimer@redhat.com> - 2.28-145
+- Update glibc-hwcaps fix from upstream (#1817513)
+
+* Tue Dec 15 2020 Florian Weimer <fweimer@redhat.com> - 2.28-144
+- Support running libc.so.6 as a main program in more cases (#1882466)
+
+* Thu Dec 10 2020 Florian Weimer <fweimer@redhat.com> - 2.28-142
+- Add glibc-hwcaps support (#1817513)
+- Implement DT_AUDIT support (#1871385)
+
 * Mon Nov 30 2020 Carlos O'Donell <carlos@redhat.com> - 2.28-141
 - Update Intel CET support (#1855790)
 
