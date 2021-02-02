@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 317%{?dist}
+%define glibcrelease 322%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -248,11 +248,6 @@ Patch0068: glibc-rh1349982.patch
 
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
-
-
-# Armhfp build issue
-Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
-Patch9999: glibc-rh1256317-armhfp-build-issue.patch
 
 Patch1000: glibc-rh905877.patch
 Patch1001: glibc-rh958652.patch
@@ -1626,7 +1621,6 @@ Patch2837: glibc-rh1775599.patch
 Patch2838: glibc-rh1235112.patch
 Patch2839: glibc-rh1728915-1.patch
 Patch2840: glibc-rh1728915-2.patch
-Patch2841: glibc-rh1772307.patch
 Patch2842: glibc-rh1747465-1.patch
 Patch2843: glibc-rh1747465-2.patch
 Patch2844: glibc-rh1747465-3.patch
@@ -1639,6 +1633,11 @@ Patch2850: glibc-rh1775816.patch
 Patch2851: glibc-rh1763325.patch
 Patch2852: glibc-rh1406732-6.patch
 Patch2853: glibc-rh1834816.patch
+Patch2854: glibc-rh1912543.patch
+Patch2855: glibc-rh1869380.patch
+Patch2856: glibc-rh1812119-1.patch
+Patch2857: glibc-rh1812119-2.patch
+Patch2858: glibc-rh1883162.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -2990,7 +2989,6 @@ package or when debugging this package.
 %patch2838 -p1
 %patch2839 -p1
 %patch2840 -p1
-%patch2841 -p1
 %patch2842 -p1
 %patch2843 -p1
 %patch2844 -p1
@@ -3003,11 +3001,11 @@ package or when debugging this package.
 %patch2851 -p1
 %patch2852 -p1
 %patch2853 -p1
-
-%ifarch %{arm}
-%patch9998 -p1
-%patch9999 -p1
-%endif
+%patch2854 -p1
+%patch2855 -p1
+%patch2856 -p1
+%patch2857 -p1
+%patch2858 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -4195,6 +4193,22 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Wed Jan 06 2021 Carlos O'Donell <carlos@redhat.com> - 2.17-322
+- Enable file-based IFUNC selection on NVMe devices (#1883162)
+
+* Wed Jan 06 2021 Carlos O'Donell <carlos@redhat.com> - 2.17-321
+- CVE-2020-10029: Prevent stack corruption from crafted input in cosl, sinl,
+  sincosl, and tanl function. (#1812119)
+
+* Tue Jan 05 2021 Carlos O'Donell <carlos@redhat.com> - 2.17-320
+- CVE-2020-29573: Harden printf family of functions (#1869380)
+
+* Tue Jan 05 2021 Carlos O'Donell <carlos@redhat.com> - 2.17-319
+- Revert fix for #1772307 to improve Intel Xeon performance (#1889977)
+
+* Tue Jan 05 2021 Carlos O'Donell <carlos@redhat.com> - 2.17-318
+- CVE-2019-25013: Fix EUC-KR conversion module defect (#1912543)
+
 * Tue May 12 2020 Florian Weimer <fweimer@redhat.com> - 2.17-317
 - Do not clobber errno in nss_compat (#1834816)
 
