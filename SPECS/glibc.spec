@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 145%{?dist}
+%define glibcrelease 147%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -677,6 +677,8 @@ Patch540: glibc-rh1882466-1.patch
 Patch541: glibc-rh1882466-2.patch
 Patch542: glibc-rh1882466-3.patch
 Patch543: glibc-rh1817513-133.patch
+Patch544: glibc-rh1912544.patch
+Patch545: glibc-rh1918115.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2588,6 +2590,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Jan 20 2021 Florian Weimer <fweimer@redhat.com> - 2.28-147
+- x86-64: Fix FMA4 math routine selection after bug 1817513 (#1918115)
+
+* Mon Jan 18 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-146
+- CVE-2019-25013:Fix buffer overrun in EUC-KR conversion module (#1912544)
+
 * Mon Jan  4 2021 Florian Weimer <fweimer@redhat.com> - 2.28-145
 - Update glibc-hwcaps fix from upstream (#1817513)
 
