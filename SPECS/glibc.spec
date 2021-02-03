@@ -250,6 +250,7 @@ Patch0068: glibc-rh1349982.patch
 Patch0069: glibc-rh1448107.patch
 
 # Armhfp build issue
+Patch9997: centos-arm32-NO_LONG_DOUBLE_MATH.patch
 Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
 Patch9999: glibc-rh1256317-armhfp-build-issue.patch
 
@@ -3014,6 +3015,7 @@ package or when debugging this package.
 %ifarch %{arm}
 %patch9998 -p1
 %patch9999 -p1
+%patch9997 -p1
 %endif
 
 ##############################################################################
