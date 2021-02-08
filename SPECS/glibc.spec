@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 322%{?dist}
+%define glibcrelease 323%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -248,11 +248,6 @@ Patch0068: glibc-rh1349982.patch
 
 # These changes were brought forward from RHEL 6 for compatibility
 Patch0069: glibc-rh1448107.patch
-
-# Armhfp build issue
-Patch9997: centos-arm32-NO_LONG_DOUBLE_MATH.patch
-Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
-Patch9999: glibc-rh1256317-armhfp-build-issue.patch
 
 Patch1000: glibc-rh905877.patch
 Patch1001: glibc-rh958652.patch
@@ -1643,6 +1638,8 @@ Patch2855: glibc-rh1869380.patch
 Patch2856: glibc-rh1812119-1.patch
 Patch2857: glibc-rh1812119-2.patch
 Patch2858: glibc-rh1883162.patch
+Patch2859: glibc-rh1925204-1.patch
+Patch2860: glibc-rh1925204-2.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -3011,12 +3008,8 @@ package or when debugging this package.
 %patch2856 -p1
 %patch2857 -p1
 %patch2858 -p1
-
-%ifarch %{arm}
-%patch9998 -p1
-%patch9999 -p1
-%patch9997 -p1
-%endif
+%patch2859 -p1
+%patch2860 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -4204,6 +4197,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri Feb 05 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.17-323
+- Fix isnanl check in printf. (#1925204)
+
 * Wed Jan 06 2021 Carlos O'Donell <carlos@redhat.com> - 2.17-322
 - Enable file-based IFUNC selection on NVMe devices (#1883162)
 
