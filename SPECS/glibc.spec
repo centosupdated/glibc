@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 147%{?dist}
+%define glibcrelease 148%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -679,6 +679,7 @@ Patch542: glibc-rh1882466-3.patch
 Patch543: glibc-rh1817513-133.patch
 Patch544: glibc-rh1912544.patch
 Patch545: glibc-rh1918115.patch
+Patch546: glibc-rh1924919.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2590,6 +2591,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Feb  5 2021 Florian Weimer <fweimer@redhat.com> - 2.28-148
+- CVE-2021-3326: iconv assertion failure in ISO-2022-JP-3 decoding (#1924919)
+
 * Wed Jan 20 2021 Florian Weimer <fweimer@redhat.com> - 2.28-147
 - x86-64: Fix FMA4 math routine selection after bug 1817513 (#1918115)
 
