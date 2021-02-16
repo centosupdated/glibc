@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 127%{?dist}
+%define glibcrelease 127%{?dist}.2
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -486,6 +486,14 @@ Patch352: glibc-rh1642150-4.patch
 Patch353: glibc-rh1836867.patch
 Patch354: glibc-rh1821531-1.patch
 Patch355: glibc-rh1821531-2.patch
+Patch356: glibc-rh1904153-1.patch
+Patch357: glibc-rh1904153-2.patch
+Patch358: glibc-rh1904153-3.patch
+Patch359: glibc-rh1904153-4.patch
+Patch360: glibc-rh1904153-5.patch
+Patch361: glibc-rh1904153-6.patch
+Patch362: glibc-rh1913750-1.patch
+Patch363: glibc-rh1913750-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2384,6 +2392,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Jan  5 2021 Florian Weimer <fweimer@redhat.com> - 2.28-127.2
+- x86: Update auto-tuning of memcpy non-temporal threshold (#1913750)
+
+* Mon Dec  7 2020 Florian Weimer <fweimer@redhat.com> - 2.28-127.1
+- resolv: Handle DNS transaction ID collisions (#1904153)
+
 * Tue Jun 09 2020 Carlos O'Donell <calros@redhat.com> - 2.28-127
 - Improve performance of library strstr() function (#1821531)
 
