@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 148%{?dist}
+%define glibcrelease 149%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -680,6 +680,7 @@ Patch543: glibc-rh1817513-133.patch
 Patch544: glibc-rh1912544.patch
 Patch545: glibc-rh1918115.patch
 Patch546: glibc-rh1924919.patch
+Patch547: glibc-rh1927040.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2591,6 +2592,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Feb 24 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-149
+- Fix NSS files and compat service upgrade defect (#1927040).
+
 * Fri Feb  5 2021 Florian Weimer <fweimer@redhat.com> - 2.28-148
 - CVE-2021-3326: iconv assertion failure in ISO-2022-JP-3 decoding (#1924919)
 
