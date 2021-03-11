@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 149%{?dist}
+%define glibcrelease 151%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -681,6 +681,7 @@ Patch544: glibc-rh1912544.patch
 Patch545: glibc-rh1918115.patch
 Patch546: glibc-rh1924919.patch
 Patch547: glibc-rh1927040.patch
+Patch548: glibc-rh1685400.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2592,6 +2593,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Mar  5 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-151
+- CVE-2019-9169: Fix buffer overread in regexec.c (#1685400).
+
+* Fri Mar 05 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-150
+- Rebuild glibc to update security markup metadata (#1931305)
+
 * Wed Feb 24 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-149
 - Fix NSS files and compat service upgrade defect (#1927040).
 
