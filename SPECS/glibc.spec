@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 151%{?dist}
+%define glibcrelease 152%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -680,8 +680,15 @@ Patch543: glibc-rh1817513-133.patch
 Patch544: glibc-rh1912544.patch
 Patch545: glibc-rh1918115.patch
 Patch546: glibc-rh1924919.patch
-Patch547: glibc-rh1927040.patch
-Patch548: glibc-rh1685400.patch
+Patch547: glibc-rh1932770.patch
+Patch548: glibc-rh1936864.patch
+Patch549: glibc-rh1871386-1.patch
+Patch550: glibc-rh1871386-2.patch
+Patch551: glibc-rh1871386-3.patch
+Patch552: glibc-rh1871386-4.patch
+Patch553: glibc-rh1871386-5.patch
+Patch554: glibc-rh1871386-6.patch
+Patch555: glibc-rh1871386-7.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2593,14 +2600,17 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Fri Mar  5 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-151
-- CVE-2019-9169: Fix buffer overread in regexec.c (#1685400).
+* Tue Mar 16 2021 Patsy Griffin <patsy@redhat.com> - 2.28-152
+- Update syscall-names.list to 5.7, 5.8, 5.9, 5.10 and 5.11. (#1871386)
 
-* Fri Mar 05 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-150
-- Rebuild glibc to update security markup metadata (#1931305)
+* Mon Mar 15 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-151
+- CVE-2019-9169: Fix buffer overread in regexec.c (#1936864).
 
-* Wed Feb 24 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-149
-- Fix NSS files and compat service upgrade defect (#1927040).
+* Mon Mar 15 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-150
+- Rebuild glibc to update security markup metadata (#1935128)
+
+* Mon Mar 15 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-149
+- Fix NSS files and compat service upgrade defect (#1932770).
 
 * Fri Feb  5 2021 Florian Weimer <fweimer@redhat.com> - 2.28-148
 - CVE-2021-3326: iconv assertion failure in ISO-2022-JP-3 decoding (#1924919)
