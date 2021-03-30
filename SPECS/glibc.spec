@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 152%{?dist}
+%define glibcrelease 154%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -689,6 +689,13 @@ Patch552: glibc-rh1871386-4.patch
 Patch553: glibc-rh1871386-5.patch
 Patch554: glibc-rh1871386-6.patch
 Patch555: glibc-rh1871386-7.patch
+Patch556: glibc-rh1912670-1.patch
+Patch557: glibc-rh1912670-2.patch
+Patch558: glibc-rh1912670-3.patch
+Patch559: glibc-rh1912670-4.patch
+Patch560: glibc-rh1912670-5.patch
+Patch561: glibc-rh1930302-1.patch
+Patch562: glibc-rh1930302-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2600,6 +2607,14 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Mar 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-154
+- Add IPPROTO_ETHERNET, IPPROTO_MPTCP, and INADDR_ALLSNOOPERS_GROUP defines
+  (#1930302)
+
+* Thu Mar 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-153
+- Support SEM_STAT_ANY via semctl. Return EINVAL for unknown commands to semctl,
+  msgctl, and shmctl. (#1912670)
+
 * Tue Mar 16 2021 Patsy Griffin <patsy@redhat.com> - 2.28-152
 - Update syscall-names.list to 5.7, 5.8, 5.9, 5.10 and 5.11. (#1871386)
 
