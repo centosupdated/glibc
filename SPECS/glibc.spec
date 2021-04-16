@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 154%{?dist}
+%define glibcrelease 155%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -696,6 +696,7 @@ Patch559: glibc-rh1912670-4.patch
 Patch560: glibc-rh1912670-5.patch
 Patch561: glibc-rh1930302-1.patch
 Patch562: glibc-rh1930302-2.patch
+Patch563: glibc-rh1927877.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2607,6 +2608,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Mar 24 2021 Arjun Shankar <arjun@redhat.com> - 2.28-155
+- CVE-2021-27645: nscd: Fix double free in netgroupcache (#1927877)
+
 * Thu Mar 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-154
 - Add IPPROTO_ETHERNET, IPPROTO_MPTCP, and INADDR_ALLSNOOPERS_GROUP defines
   (#1930302)
