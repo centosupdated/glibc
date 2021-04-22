@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 155%{?dist}
+%define glibcrelease 157%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -697,6 +697,15 @@ Patch560: glibc-rh1912670-5.patch
 Patch561: glibc-rh1930302-1.patch
 Patch562: glibc-rh1930302-2.patch
 Patch563: glibc-rh1927877.patch
+Patch564: glibc-rh1918719-1.patch
+Patch565: glibc-rh1918719-2.patch
+Patch566: glibc-rh1918719-3.patch
+Patch567: glibc-rh1934155-1.patch
+Patch568: glibc-rh1934155-2.patch
+Patch569: glibc-rh1934155-3.patch
+Patch570: glibc-rh1934155-4.patch
+Patch571: glibc-rh1934155-5.patch
+Patch572: glibc-rh1934155-6.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2608,6 +2617,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Apr 14 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-157
+- Consistently SXID_ERASE tunables in sxid binaries (#1934155)
+
+* Wed Mar 31 2021 DJ Delorie <dj@redhat.com> - 2.28-156
+- Backport ifunc optimizations for glibc for ppc64le (#1918719)
+
 * Wed Mar 24 2021 Arjun Shankar <arjun@redhat.com> - 2.28-155
 - CVE-2021-27645: nscd: Fix double free in netgroupcache (#1927877)
 
