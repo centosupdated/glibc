@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 157%{?dist}
+%define glibcrelease 158%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -2617,6 +2617,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Apr 22 2021 Florian Weimer <fweimer@redhat.com> - 2.28-158
+- Rebuild with new binutils (#1946518)
+
 * Wed Apr 14 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-157
 - Consistently SXID_ERASE tunables in sxid binaries (#1934155)
 
