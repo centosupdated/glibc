@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 158%{?dist}
+%define glibcrelease 160%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -706,6 +706,14 @@ Patch569: glibc-rh1934155-3.patch
 Patch570: glibc-rh1934155-4.patch
 Patch571: glibc-rh1934155-5.patch
 Patch572: glibc-rh1934155-6.patch
+Patch573: glibc-rh1956357-1.patch
+Patch574: glibc-rh1956357-2.patch
+Patch575: glibc-rh1956357-3.patch
+Patch576: glibc-rh1956357-4.patch
+Patch577: glibc-rh1956357-5.patch
+Patch578: glibc-rh1956357-6.patch
+Patch579: glibc-rh1956357-7.patch
+Patch580: glibc-rh1956357-8.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2617,6 +2625,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon May 31 2021 Arjun Shankar <arjun@redhat.com> - 2.28-160
+- Backport POWER10 optimized rawmemchr for ppc64le (#1956357)
+
+* Thu May 27 2021 Arjun Shankar <arjun@redhat.com> - 2.28-159
+- Backport additional ifunc optimizations for ppc64le (#1956357)
+
 * Thu Apr 22 2021 Florian Weimer <fweimer@redhat.com> - 2.28-158
 - Rebuild with new binutils (#1946518)
 
