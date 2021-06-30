@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 160%{?dist}
+%define glibcrelease 161%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1546,7 +1546,7 @@ install_different()
 
 %if %{buildpower9}
 pushd build-%{target}-power9
-install_different "$RPM_BUILD_ROOT/%{_lib}" power9 ..
+install_different "$RPM_BUILD_ROOT/%{_lib}/glibc-hwcaps" power9 "../.."
 popd
 %endif
 
@@ -2390,7 +2390,8 @@ local remove_dirs = { "%{_libdir}/i686",
 		      "%{_libdir}/i686/nosegneg",
 		      "%{_libdir}/power6",
 		      "%{_libdir}/power7",
-		      "%{_libdir}/power8" }
+		      "%{_libdir}/power8",
+		      "%{_libdir}/power9"}
 
 -- Walk all the directories with files we need to remove...
 for _, rdir in ipairs (remove_dirs) do
@@ -2534,7 +2535,7 @@ fi
 %files -f glibc.filelist
 %dir %{_prefix}/%{_lib}/audit
 %if %{buildpower9}
-%dir /%{_lib}/power9
+%dir /%{_lib}/glibc-hwcaps/power9
 %endif
 %ifarch s390x
 /lib/ld64.so.1
@@ -2625,6 +2626,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jun 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-161
+- Improve POWER10 performance with POWER9 fallbacks (#1956357)
+
 * Mon May 31 2021 Arjun Shankar <arjun@redhat.com> - 2.28-160
 - Backport POWER10 optimized rawmemchr for ppc64le (#1956357)
 
