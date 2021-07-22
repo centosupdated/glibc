@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 161%{?dist}
+%define glibcrelease 162%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -714,6 +714,7 @@ Patch577: glibc-rh1956357-5.patch
 Patch578: glibc-rh1956357-6.patch
 Patch579: glibc-rh1956357-7.patch
 Patch580: glibc-rh1956357-8.patch
+Patch581: glibc-rh1979127.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2626,6 +2627,10 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Jul  8 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-162
+- CVE-2021-35942: wordexp: handle overflow in positional parameter number
+  (#1979127)
+
 * Fri Jun 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-161
 - Improve POWER10 performance with POWER9 fallbacks (#1956357)
 
