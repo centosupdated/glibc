@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 162%{?dist}
+%define glibcrelease 164%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -715,6 +715,10 @@ Patch578: glibc-rh1956357-6.patch
 Patch579: glibc-rh1956357-7.patch
 Patch580: glibc-rh1956357-8.patch
 Patch581: glibc-rh1979127.patch
+Patch582: glibc-rh1966472-1.patch
+Patch583: glibc-rh1966472-2.patch
+Patch584: glibc-rh1966472-3.patch
+Patch585: glibc-rh1966472-4.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2627,6 +2631,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164
+- librt: fix NULL pointer dereference (#1966472).
+
+* Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-163
+- CVE-2021-33574: Deep copy pthread attribute in mq_notify (#1966472)
+
 * Thu Jul  8 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-162
 - CVE-2021-35942: wordexp: handle overflow in positional parameter number
   (#1979127)
