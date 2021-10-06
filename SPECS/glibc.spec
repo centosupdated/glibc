@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 148%{?dist}
+%define glibcrelease 164%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -680,6 +680,45 @@ Patch543: glibc-rh1817513-133.patch
 Patch544: glibc-rh1912544.patch
 Patch545: glibc-rh1918115.patch
 Patch546: glibc-rh1924919.patch
+Patch547: glibc-rh1932770.patch
+Patch548: glibc-rh1936864.patch
+Patch549: glibc-rh1871386-1.patch
+Patch550: glibc-rh1871386-2.patch
+Patch551: glibc-rh1871386-3.patch
+Patch552: glibc-rh1871386-4.patch
+Patch553: glibc-rh1871386-5.patch
+Patch554: glibc-rh1871386-6.patch
+Patch555: glibc-rh1871386-7.patch
+Patch556: glibc-rh1912670-1.patch
+Patch557: glibc-rh1912670-2.patch
+Patch558: glibc-rh1912670-3.patch
+Patch559: glibc-rh1912670-4.patch
+Patch560: glibc-rh1912670-5.patch
+Patch561: glibc-rh1930302-1.patch
+Patch562: glibc-rh1930302-2.patch
+Patch563: glibc-rh1927877.patch
+Patch564: glibc-rh1918719-1.patch
+Patch565: glibc-rh1918719-2.patch
+Patch566: glibc-rh1918719-3.patch
+Patch567: glibc-rh1934155-1.patch
+Patch568: glibc-rh1934155-2.patch
+Patch569: glibc-rh1934155-3.patch
+Patch570: glibc-rh1934155-4.patch
+Patch571: glibc-rh1934155-5.patch
+Patch572: glibc-rh1934155-6.patch
+Patch573: glibc-rh1956357-1.patch
+Patch574: glibc-rh1956357-2.patch
+Patch575: glibc-rh1956357-3.patch
+Patch576: glibc-rh1956357-4.patch
+Patch577: glibc-rh1956357-5.patch
+Patch578: glibc-rh1956357-6.patch
+Patch579: glibc-rh1956357-7.patch
+Patch580: glibc-rh1956357-8.patch
+Patch581: glibc-rh1979127.patch
+Patch582: glibc-rh1966472-1.patch
+Patch583: glibc-rh1966472-2.patch
+Patch584: glibc-rh1966472-3.patch
+Patch585: glibc-rh1966472-4.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1512,7 +1551,7 @@ install_different()
 
 %if %{buildpower9}
 pushd build-%{target}-power9
-install_different "$RPM_BUILD_ROOT/%{_lib}" power9 ..
+install_different "$RPM_BUILD_ROOT/%{_lib}/glibc-hwcaps" power9 "../.."
 popd
 %endif
 
@@ -2356,7 +2395,8 @@ local remove_dirs = { "%{_libdir}/i686",
 		      "%{_libdir}/i686/nosegneg",
 		      "%{_libdir}/power6",
 		      "%{_libdir}/power7",
-		      "%{_libdir}/power8" }
+		      "%{_libdir}/power8",
+		      "%{_libdir}/power9"}
 
 -- Walk all the directories with files we need to remove...
 for _, rdir in ipairs (remove_dirs) do
@@ -2500,7 +2540,7 @@ fi
 %files -f glibc.filelist
 %dir %{_prefix}/%{_lib}/audit
 %if %{buildpower9}
-%dir /%{_lib}/power9
+%dir /%{_lib}/glibc-hwcaps/power9
 %endif
 %ifarch s390x
 /lib/ld64.so.1
@@ -2591,6 +2631,57 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164
+- librt: fix NULL pointer dereference (#1966472).
+
+* Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-163
+- CVE-2021-33574: Deep copy pthread attribute in mq_notify (#1966472)
+
+* Thu Jul  8 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-162
+- CVE-2021-35942: wordexp: handle overflow in positional parameter number
+  (#1979127)
+
+* Fri Jun 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-161
+- Improve POWER10 performance with POWER9 fallbacks (#1956357)
+
+* Mon May 31 2021 Arjun Shankar <arjun@redhat.com> - 2.28-160
+- Backport POWER10 optimized rawmemchr for ppc64le (#1956357)
+
+* Thu May 27 2021 Arjun Shankar <arjun@redhat.com> - 2.28-159
+- Backport additional ifunc optimizations for ppc64le (#1956357)
+
+* Thu Apr 22 2021 Florian Weimer <fweimer@redhat.com> - 2.28-158
+- Rebuild with new binutils (#1946518)
+
+* Wed Apr 14 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-157
+- Consistently SXID_ERASE tunables in sxid binaries (#1934155)
+
+* Wed Mar 31 2021 DJ Delorie <dj@redhat.com> - 2.28-156
+- Backport ifunc optimizations for glibc for ppc64le (#1918719)
+
+* Wed Mar 24 2021 Arjun Shankar <arjun@redhat.com> - 2.28-155
+- CVE-2021-27645: nscd: Fix double free in netgroupcache (#1927877)
+
+* Thu Mar 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-154
+- Add IPPROTO_ETHERNET, IPPROTO_MPTCP, and INADDR_ALLSNOOPERS_GROUP defines
+  (#1930302)
+
+* Thu Mar 18 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-153
+- Support SEM_STAT_ANY via semctl. Return EINVAL for unknown commands to semctl,
+  msgctl, and shmctl. (#1912670)
+
+* Tue Mar 16 2021 Patsy Griffin <patsy@redhat.com> - 2.28-152
+- Update syscall-names.list to 5.7, 5.8, 5.9, 5.10 and 5.11. (#1871386)
+
+* Mon Mar 15 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-151
+- CVE-2019-9169: Fix buffer overread in regexec.c (#1936864).
+
+* Mon Mar 15 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-150
+- Rebuild glibc to update security markup metadata (#1935128)
+
+* Mon Mar 15 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-149
+- Fix NSS files and compat service upgrade defect (#1932770).
+
 * Fri Feb  5 2021 Florian Weimer <fweimer@redhat.com> - 2.28-148
 - CVE-2021-3326: iconv assertion failure in ISO-2022-JP-3 decoding (#1924919)
 
