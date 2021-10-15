@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 164%{?dist}
+%define glibcrelease 166%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -85,6 +85,47 @@
 # here. If the arch is not listed here then a single core debuginfo package
 # will be created for the architecture.
 %define debuginfocommonarches %{biarcharches} alpha alphaev6
+
+##############################################################################
+# Utility functions for pre/post scripts.  Stick them at the beginning of
+# any lua %pre, %post, %postun, etc. sections to have them expand into
+# those scripts.  It only works in lua sections and not anywhere else.
+%define glibc_post_funcs() \
+-- We use lua posix.exec because there may be no shell that we can \
+-- run during glibc upgrade.  We used to implement much of %%post as a \
+-- C program, but from an overall maintenance perspective the lua in \
+-- the spec file was simpler and safer given the operations required. \
+-- All lua code will be ignored by rpm-ostree; see: \
+-- https://github.com/projectatomic/rpm-ostree/pull/1869 \
+-- If we add new lua actions to the %%post code we should coordinate \
+-- with rpm-ostree and ensure that their glibc install is functional. \
+function post_exec (program, ...) \
+  local pid = posix.fork () \
+  if pid == 0 then \
+    posix.exec (program, ...) \
+    assert (nil) \
+  elseif pid > 0 then \
+    posix.wait (pid) \
+  end \
+end \
+\
+function update_gconv_modules_cache () \
+  local iconv_dir = "%{_libdir}/gconv" \
+  local iconv_cache = iconv_dir .. "/gconv-modules.cache" \
+  local iconv_modules = iconv_dir .. "/gconv-modules" \
+  if (posix.utime (iconv_modules) == 0) then \
+    if (posix.utime (iconv_cache) == 0) then \
+      post_exec ("%{_prefix}/sbin/iconvconfig", \
+		 "-o", iconv_cache, \
+		 "--nostdlib", \
+		 iconv_dir) \
+    else \
+      io.stdout:write ("Error: Missing " .. iconv_cache .. " file.\n") \
+    end \
+  end \
+end \
+%{nil}
+
 ##############################################################################
 # %%package glibc - The GNU C Library (glibc) core package.
 ##############################################################################
@@ -719,6 +760,21 @@ Patch582: glibc-rh1966472-1.patch
 Patch583: glibc-rh1966472-2.patch
 Patch584: glibc-rh1966472-3.patch
 Patch585: glibc-rh1966472-4.patch
+Patch586: glibc-rh1971664-1.patch
+Patch587: glibc-rh1971664-2.patch
+Patch588: glibc-rh1971664-3.patch
+Patch589: glibc-rh1971664-4.patch
+Patch590: glibc-rh1971664-5.patch
+Patch591: glibc-rh1971664-6.patch
+Patch592: glibc-rh1971664-7.patch
+Patch593: glibc-rh1971664-8.patch
+Patch594: glibc-rh1971664-9.patch
+Patch595: glibc-rh1971664-10.patch
+Patch596: glibc-rh1971664-11.patch
+Patch597: glibc-rh1971664-12.patch
+Patch598: glibc-rh1971664-13.patch
+Patch599: glibc-rh1971664-14.patch
+Patch600: glibc-rh1971664-15.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -848,6 +904,10 @@ BuildRequires: libidn2
 # this purpose.
 Requires: glibc-langpack = %{version}-%{release}
 Suggests: glibc-all-langpacks = %{version}-%{release}
+
+# Suggest extra gconv modules so that they are installed by default but can be
+# removed if needed to build a minimal OS image.
+Requires: glibc-gconv-extra%{_isa} = %{version}-%{release}
 
 %description
 The glibc package contains standard libraries which are used by
@@ -1097,6 +1157,15 @@ nothing else. It is designed for assembling a minimal system.
 %ifnarch %{auxarches}
 %files minimal-langpack
 %endif
+
+# Infrequently used iconv converter modules.
+%package gconv-extra
+Summary: All iconv converter modules for %{name}.
+Requires: %{name}%{_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
+
+%description gconv-extra
+This package contains all iconv converter modules built in %{name}.
 
 ##############################################################################
 # glibc "nscd" sub-package
@@ -1875,6 +1944,7 @@ touch master.filelist
 touch glibc.filelist
 touch common.filelist
 touch utils.filelist
+touch gconv.filelist
 touch nscd.filelist
 touch devel.filelist
 touch headers.filelist
@@ -1897,10 +1967,10 @@ touch debuginfocommon.filelist
   find %{glibc_sysroot} \( -type f -o -type l \) \
        \( \
 	 -name etc -printf "%%%%config " -o \
-	 -name gconv-modules \
-	 -printf "%%%%verify(not md5 size mtime) %%%%config(noreplace) " -o \
-	 -name gconv-modules.cache \
-	 -printf "%%%%verify(not md5 size mtime) " \
+         -name gconv-modules.cache \
+         -printf "%%%%verify(not md5 size mtime) " -o \
+         -name gconv-modules* \
+         -printf "%%%%verify(not md5 size mtime) %%%%config(noreplace) " \
 	 , \
 	 ! -path "*/lib/debug/*" -printf "/%%P\n" \)
   # List all directories with a %%dir prefix.  We omit the info directory and
@@ -1952,6 +2022,7 @@ chmod 0444 master.filelist
 # - All bench test binaries.
 # - The aux-cache, since it's handled specially in the files section.
 # - The build-locale-archive binary since it's in the common package.
+# - Extra gconv modules.  We add the required modules later.
 cat master.filelist \
 	| grep -v \
 	-e '%{_infodir}' \
@@ -1960,6 +2031,8 @@ cat master.filelist \
 	-e '%{_libdir}/lib.*\.a' \
         -e '%{_libdir}/.*\.o' \
 	-e '%{_libdir}/lib.*\.so' \
+	-e '%{_libdir}/gconv/.*\.so$' \
+	-e '%{_libdir}/gconv/gconv-modules.d/gconv-modules-extra\.conf$' \
 	-e 'nscd' \
 	-e '%{_prefix}/bin' \
 	-e '%{_prefix}/lib/locale' \
@@ -1983,6 +2056,34 @@ for module in compat files dns; do
 	>> glibc.filelist
 done
 grep -e "libmemusage.so" -e "libpcprofile.so" master.filelist >> glibc.filelist
+
+###############################################################################
+# glibc-gconv-extra
+###############################################################################
+
+grep -e "gconv-modules-extra.conf" master.filelist > gconv.filelist
+
+# Put the essential gconv modules into the main package.
+GconvBaseModules="ANSI_X3.110 ISO8859-15 ISO8859-1 CP1252"
+GconvBaseModules="$GconvBaseModules UNICODE UTF-16 UTF-32 UTF-7"
+%ifarch s390 s390x
+GconvBaseModules="$GconvBaseModules ISO-8859-1_CP037_Z900 UTF8_UTF16_Z9"
+GconvBaseModules="$GconvBaseModules UTF16_UTF32_Z9 UTF8_UTF32_Z9"
+%endif
+GconvAllModules=$(cat master.filelist |
+                 sed -n 's|%{_libdir}/gconv/\(.*\)\.so|\1|p')
+
+# Put the base modules into glibc and the rest into glibc-gconv-extra
+for conv in $GconvAllModules; do
+    if echo $GconvBaseModules | grep -q $conv; then
+        grep -E -e "%{_libdir}/gconv/$conv.so$" \
+            master.filelist >> glibc.filelist
+    else
+        grep -E -e "%{_libdir}/gconv/$conv.so$" \
+            master.filelist >> gconv.filelist
+    fi
+done
+
 
 ###############################################################################
 # glibc-devel
@@ -2148,6 +2249,7 @@ find_debuginfo_args="$find_debuginfo_args \
 	-l nscd.filelist \
 	-p '.*/(sbin|libexec)/.*' \
 	-o debuginfocommon.filelist \
+	-l gconv.filelist \
 	-l nss_db.filelist -l nss_hesiod.filelist \
 	-l libnsl.filelist -l glibc.filelist \
 %if %{with benchtests}
@@ -2350,17 +2452,7 @@ if rpm.vercmp(rel, required) < 0 then
 end
 
 %post -p <lua>
--- We use lua's posix.exec because there may be no shell that we can
--- run during glibc upgrade.
-function post_exec (program, ...)
-  local pid = posix.fork ()
-  if pid == 0 then
-    assert (posix.exec (program, ...))
-  elseif pid > 0 then
-    posix.wait (pid)
-  end
-end
-
+%glibc_post_funcs
 -- (1) Remove multilib libraries from previous installs.
 -- In order to support in-place upgrades, we must immediately remove
 -- obsolete platform directories after installing a new glibc
@@ -2469,16 +2561,7 @@ post_exec ("%{_prefix}/sbin/ldconfig")
 -- We assume that the cache is in _libdir/gconv and called
 -- "gconv-modules.cache".
 
-local iconv_dir = "%{_libdir}/gconv"
-local iconv_cache = iconv_dir .. "/gconv-modules.cache"
-if (posix.utime (iconv_cache) == 0) then
-  post_exec ("%{_prefix}/sbin/iconvconfig",
-	     "-o", iconv_cache,
-	     "--nostdlib",
-	     iconv_dir)
-else
-  io.stdout:write ("Error: Missing " .. iconv_cache .. " file.\n")
-end
+update_gconv_modules_cache()
 
 %posttrans all-langpacks -e -p <lua>
 -- If at the end of the transaction we are still installed
@@ -2519,6 +2602,14 @@ if [ "$1" = 0 ]; then
 fi
 %endif
 
+%post gconv-extra -p <lua>
+%glibc_post_funcs
+update_gconv_modules_cache ()
+
+%postun gconv-extra -p <lua>
+%glibc_post_funcs
+update_gconv_modules_cache ()
+
 %pre -n nscd
 getent group nscd >/dev/null || /usr/sbin/groupadd -g 28 -r nscd
 getent passwd nscd >/dev/null ||
@@ -2551,6 +2642,7 @@ fi
 %dir /etc/ld.so.conf.d
 %dir %{_prefix}/libexec/getconf
 %dir %{_libdir}/gconv
+%dir %{_libdir}/gconv/gconv-modules.d
 %dir %attr(0700,root,root) /var/cache/ldconfig
 %attr(0600,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /var/cache/ldconfig/aux-cache
 %attr(0644,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /etc/ld.so.cache
@@ -2585,6 +2677,8 @@ fi
 %files -f headers.filelist headers
 
 %files -f utils.filelist utils
+
+%files -f gconv.filelist gconv-extra
 
 %files -f nscd.filelist -n nscd
 %config(noreplace) /etc/nscd.conf
@@ -2631,6 +2725,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Oct 13 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-166
+- Fix debuginfo location for gconv-extra and make glibc Require it (#1971664).
+
+* Wed Oct  6 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-165
+- Split extra gconv modules into a separate package (#1971664).
+
 * Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164
 - librt: fix NULL pointer dereference (#1966472).
 
