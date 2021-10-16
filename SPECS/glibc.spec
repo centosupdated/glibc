@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 166%{?dist}
+%define glibcrelease 167%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -775,6 +775,7 @@ Patch597: glibc-rh1971664-12.patch
 Patch598: glibc-rh1971664-13.patch
 Patch599: glibc-rh1971664-14.patch
 Patch600: glibc-rh1971664-15.patch
+Patch601: glibc-rh1977614.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2725,6 +2726,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Oct 13 2021 Arjun Shankar <arjun@redhat.com> - 2.28-167
+- malloc: Initiate tcache shutdown even without allocations (#1977614)
+
 * Wed Oct 13 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-166
 - Fix debuginfo location for gconv-extra and make glibc Require it (#1971664).
 
