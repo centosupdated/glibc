@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 167%{?dist}
+%define glibcrelease 168%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -776,6 +776,8 @@ Patch598: glibc-rh1971664-13.patch
 Patch599: glibc-rh1971664-14.patch
 Patch600: glibc-rh1971664-15.patch
 Patch601: glibc-rh1977614.patch
+Patch602: glibc-rh1983203-1.patch
+Patch603: glibc-rh1983203-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2726,6 +2728,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Oct 29 2021 Arjun Shankar <arjun@redhat.com> - 2.28-168
+- Optimize memcmp, strcpy, and stpcpy for IBM POWER10 (#1983203)
+
 * Wed Oct 13 2021 Arjun Shankar <arjun@redhat.com> - 2.28-167
 - malloc: Initiate tcache shutdown even without allocations (#1977614)
 
