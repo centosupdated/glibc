@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 168%{?dist}
+%define glibcrelease 170%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -778,6 +778,8 @@ Patch600: glibc-rh1971664-15.patch
 Patch601: glibc-rh1977614.patch
 Patch602: glibc-rh1983203-1.patch
 Patch603: glibc-rh1983203-2.patch
+Patch604: glibc-rh2021452.patch
+Patch605: glibc-rh1937515.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2728,6 +2730,13 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Nov 10 2021 Arjun Shankar <arjun@redhat.com> - 2.28-170
+- x86: Properly disable XSAVE related features when its use is disabled via
+  tunables (#1937515)
+
+* Wed Nov 10 2021 Arjun Shankar <arjun@redhat.com> - 2.28-169
+- s390: Use long branches across object boundaries (#2021452)
+
 * Fri Oct 29 2021 Arjun Shankar <arjun@redhat.com> - 2.28-168
 - Optimize memcmp, strcpy, and stpcpy for IBM POWER10 (#1983203)
 
