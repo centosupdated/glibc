@@ -1,8 +1,6 @@
-Based on the following patch posted upstream and awaiting IBM review:
-https://sourceware.org/pipermail/libc-alpha/2021-November/132856.html
-
+commit 98966749f2b418825ff2ea496a0ee89fe63d2cc8
 Author: Florian Weimer <fweimer@redhat.com>
-Date:   Tue Nov 9 18:50:55 2021 +0100
+Date:   Wed Nov 10 15:21:37 2021 +0100
 
     s390: Use long branches across object boundaries (jgh instead of jh)
     
@@ -11,8 +9,8 @@ Date:   Tue Nov 9 18:50:55 2021 +0100
     
     Analysis of the linker failure was carried out by Nick Clifton.
     
-    Tested on a z13 and z15, s390x-linux-gnu only.
     Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+    Reviewed-by: Stefan Liebler <stli@linux.ibm.com>
 
 diff --git a/sysdeps/s390/memmem-arch13.S b/sysdeps/s390/memmem-arch13.S
 index b59d60acf0f6aaa0..4faede0cd2f942e3 100644

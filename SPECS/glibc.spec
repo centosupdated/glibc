@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 170%{?dist}
+%define glibcrelease 174%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -780,6 +780,9 @@ Patch602: glibc-rh1983203-1.patch
 Patch603: glibc-rh1983203-2.patch
 Patch604: glibc-rh2021452.patch
 Patch605: glibc-rh1937515.patch
+Patch606: glibc-rh1934162-1.patch
+Patch607: glibc-rh1934162-2.patch
+Patch608: glibc-rh2000374.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -809,11 +812,6 @@ Recommends: (nss_db(x86-32) if nss_db(x86-64))
 BuildRequires: gd-devel libpng-devel zlib-devel
 %endif
 %if %{with docs}
-# Removing texinfo will cause check-safety.sh test to fail because it seems to
-# trigger documentation generation based on dependencies.  We need to fix this
-# upstream in some way that doesn't depend on generating docs to validate the
-# texinfo.  I expect it's simply the wrong dependency for that target.
-BuildRequires: texinfo >= 5.0
 %endif
 %if %{without bootstrap}
 BuildRequires: libselinux-devel >= 1.33.4-3
@@ -960,6 +958,26 @@ executables.
 
 Install glibc-devel if you are going to develop programs which will
 use the standard C libraries.
+
+##############################################################################
+# glibc "doc" sub-package
+##############################################################################
+%if %{with docs}
+%package doc
+Summary: Documentation for GNU libc
+BuildArch: noarch
+Requires: %{name} = %{version}-%{release}
+
+# Removing texinfo will cause check-safety.sh test to fail because it seems to
+# trigger documentation generation based on dependencies.  We need to fix this
+# upstream in some way that doesn't depend on generating docs to validate the
+# texinfo.  I expect it's simply the wrong dependency for that target.
+BuildRequires: texinfo >= 5.0
+
+%description doc
+The glibc-doc package contains The GNU C Library Reference Manual in info
+format.  Additional package documentation is also provided.
+%endif
 
 ##############################################################################
 # glibc "static" sub-package
@@ -1676,6 +1694,9 @@ fi
 # Compress all of the info files.
 gzip -9nvf %{glibc_sysroot}%{_infodir}/libc*
 
+# Copy the debugger interface documentation over to the right location
+mkdir -p %{glibc_sysroot}%{_docdir}/glibc
+cp elf/rtld-debugger-interface.txt %{glibc_sysroot}%{_docdir}/glibc
 %else
 rm -f %{glibc_sysroot}%{_infodir}/dir
 rm -f %{glibc_sysroot}%{_infodir}/libc.info*
@@ -1789,7 +1810,14 @@ touch -r %{SOURCE0} %{glibc_sysroot}/etc/ld.so.conf
 touch -r sunrpc/etc.rpc %{glibc_sysroot}/etc/rpc
 
 pushd build-%{target}
-$GCC -Os -g -static -o build-locale-archive %{SOURCE1} \
+$GCC -Os -g \
+%ifarch %{pie_arches}
+	-fPIE \
+	-static-pie \
+%else
+	-static \
+%endif
+	 -o build-locale-archive %{SOURCE1} \
 	../build-%{target}/locale/locarchive.o \
 	../build-%{target}/locale/md5.o \
 	../build-%{target}/locale/record-status.o \
@@ -1798,12 +1826,6 @@ $GCC -Os -g -static -o build-locale-archive %{SOURCE1} \
 	-B../build-%{target}/csu/ -lc -lc_nonshared
 install -m 700 build-locale-archive %{glibc_sysroot}%{_prefix}/sbin/build-locale-archive
 popd
-
-# Lastly copy some additional documentation for the packages.
-rm -rf documentation
-mkdir documentation
-cp timezone/README documentation/README.timezone
-cp posix/gai.conf documentation/
 
 %ifarch s390x
 # Compatibility symlink
@@ -1923,6 +1945,8 @@ ar cr %{glibc_sysroot}%{_prefix}/%{_lib}/libpthread_nonshared.a
 #	- Files for the nscd subpackage.
 # * devel.filelist
 #	- Files for the devel subpackage.
+# * doc.filelist
+#	- Files for the documentation subpackage.
 # * headers.filelist
 #	- Files for the headers subpackage.
 # * static.filelist
@@ -1952,6 +1976,7 @@ touch utils.filelist
 touch gconv.filelist
 touch nscd.filelist
 touch devel.filelist
+touch doc.filelist
 touch headers.filelist
 touch static.filelist
 touch libnsl.filelist
@@ -2094,15 +2119,10 @@ done
 # glibc-devel
 ###############################################################################
 
-%if %{with docs}
-# Put the info files into the devel file list, but exclude the generated dir.
-grep '%{_infodir}' master.filelist | grep -v '%{_infodir}/dir' > devel.filelist
-%endif
-
 # Put some static files into the devel package.
 grep '%{_libdir}/lib.*\.a' master.filelist \
   | grep '/lib\(\(c\|pthread\|nldbl\|mvec\)_nonshared\|g\|ieee\|mcheck\)\.a$' \
-  >> devel.filelist
+  > devel.filelist
 
 # Put all of the object files and *.so (not the versioned ones) into the
 # devel package.
@@ -2115,6 +2135,16 @@ sed -i -e '\,libmemusage.so,d' \
 	-e '\,libpcprofile.so,d' \
 	-e '\,/libnss_[a-z]*\.so$,d' \
 	devel.filelist
+
+###############################################################################
+# glibc-doc
+###############################################################################
+
+%if %{with docs}
+# Put the info files into the doc file list, but exclude the generated dir.
+grep '%{_infodir}' master.filelist | grep -v '%{_infodir}/dir' > doc.filelist
+grep '%{_docdir}' master.filelist >> doc.filelist
+%endif
 
 ###############################################################################
 # glibc-headers
@@ -2158,12 +2188,14 @@ grep '%{_prefix}/sbin' master.filelist \
 # multilib-independent.
 # Exceptions:
 # - The actual share directory, not owned by us.
-# - The info files which go in devel, and the info directory.
+# - The info files which go into doc, and the info directory.
+# - All documentation files, which go into doc.
 grep '%{_prefix}/share' master.filelist \
 	| grep -v \
 	-e '%{_prefix}/share/info/libc.info.*' \
 	-e '%%dir %{prefix}/share/info' \
 	-e '%%dir %{prefix}/share' \
+	-e '%{_docdir}' \
 	>> common.filelist
 
 # Add the binary to build locales to the common subpackage.
@@ -2652,7 +2684,6 @@ fi
 %attr(0600,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /var/cache/ldconfig/aux-cache
 %attr(0644,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /etc/ld.so.cache
 %attr(0644,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /etc/gai.conf
-%doc README NEWS INSTALL elf/rtld-debugger-interface.txt
 # If rpm doesn't support %license, then use %doc instead.
 %{!?_licensedir:%global license %%doc}
 %license COPYING COPYING.LIB LICENSES
@@ -2662,8 +2693,6 @@ fi
 %dir %{_prefix}/lib/locale
 %dir %{_prefix}/lib/locale/C.utf8
 %{_prefix}/lib/locale/C.utf8/*
-%doc documentation/README.timezone
-%doc documentation/gai.conf
 
 %files all-langpacks
 %attr(0644,root,root) %verify(not md5 size mtime) %{_prefix}/lib/locale/locale-archive.tmpl
@@ -2676,6 +2705,10 @@ fi
 %{_prefix}/share/i18n/charmaps/*
 
 %files -f devel.filelist devel
+
+%if %{with docs}
+%files -f doc.filelist doc
+%endif
 
 %files -f static.filelist static
 
@@ -2730,6 +2763,22 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Nov 25 2021 Arjun Shankar <arjun@redhat.com> - 2.28-174
+- Introduce new glibc-doc.noarch subpackage (#2021671)
+- Move the reference manual info pages from glibc-devel to glibc-doc
+- Move debugger interface documentation from glibc to glibc-doc
+- Remove unnecessary README, INSTALL, NEWS files from glibc
+- Remove unnecessary README.timezone and gai.conf files from glibc-common
+
+* Wed Nov 17 2021 Patsy Griffin <patsy@redhat.com> - 2.28-173
+- Add new English-language 12 hour time locale en_US@ampm.UTF-8 (#2000374)
+
+* Tue Nov 16 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-172
+- Build build-locale-archive with -static-pie when supported (#1965377)
+
+* Wed Nov  10 2021 DJ Delorie <dj@redhat.com> - 2.28-171
+- elf: Always set link map in _dl_init_paths (#1934162)
+
 * Wed Nov 10 2021 Arjun Shankar <arjun@redhat.com> - 2.28-170
 - x86: Properly disable XSAVE related features when its use is disabled via
   tunables (#1937515)
