@@ -151,7 +151,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 7%{?dist}
+Release: 8%{?dist}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -264,6 +264,16 @@ Patch61: glibc-upstream-2.34-30.patch
 Patch62: glibc-upstream-2.34-31.patch
 Patch63: glibc-upstream-2.34-32.patch
 Patch64: glibc-upstream-2.34-33.patch
+Patch65: glibc-upstream-2.34-34.patch
+Patch66: glibc-upstream-2.34-35.patch
+Patch67: glibc-upstream-2.34-36.patch
+Patch68: glibc-upstream-2.34-37.patch
+Patch69: glibc-upstream-2.34-38.patch
+Patch70: glibc-upstream-2.34-39.patch
+Patch71: glibc-upstream-2.34-40.patch
+Patch72: glibc-upstream-2.34-41.patch
+Patch73: glibc-upstream-2.34-42.patch
+Patch74: glibc-upstream-2.34-43.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2295,6 +2305,20 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Nov  3 2021 Florian Weimer <fweimer@redhat.com> - 2.34-8
+- Sync with upstream branch release/2.34/master,
+  commit 6548a9bdba95b3e1fcdbd85445342467e4b0cd4f:
+- Avoid warning: overriding recipe for .../tst-ro-dynamic-mod.so
+- ld.so: Initialize bootstrap_map.l_ld_readonly [BZ #28340]
+- ld.so: Replace DL_RO_DYN_SECTION with dl_relocate_ld [BZ #28340]
+- Handle NULL input to malloc_usable_size [BZ #28506]
+- elf: Avoid deadlock between pthread_create and ctors [BZ #28357]
+- timex: Use 64-bit fields on 32-bit TIMESIZE=64 systems (BZ #28469)
+- y2038: Use a common definition for stat for sparc32
+- elf: Replace nsid with args.nsid [BZ #27609]
+- S390: Add PCI_MIO and SIE HWCAPs
+- support: Also return fd when it is 0
+
 * Fri Oct  1 2021 Florian Weimer <fweimer@redhat.com> - 2.34-7
 - Drop glibc-rh1992702-*.patch, applied upstream.  (#1992702)
 - Sync with upstream branch release/2.34/master,
