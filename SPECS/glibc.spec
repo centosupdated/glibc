@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 174%{?dist}
+%define glibcrelease 180%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -783,6 +783,43 @@ Patch605: glibc-rh1937515.patch
 Patch606: glibc-rh1934162-1.patch
 Patch607: glibc-rh1934162-2.patch
 Patch608: glibc-rh2000374.patch
+Patch609: glibc-rh1991001-1.patch
+Patch610: glibc-rh1991001-2.patch
+Patch611: glibc-rh1991001-3.patch
+Patch612: glibc-rh1991001-4.patch
+Patch613: glibc-rh1991001-5.patch
+Patch614: glibc-rh1991001-6.patch
+Patch615: glibc-rh1991001-7.patch
+Patch616: glibc-rh1991001-8.patch
+Patch617: glibc-rh1991001-9.patch
+Patch618: glibc-rh1991001-10.patch
+Patch619: glibc-rh1991001-11.patch
+Patch620: glibc-rh1991001-12.patch
+Patch621: glibc-rh1991001-13.patch
+Patch622: glibc-rh1991001-14.patch
+Patch623: glibc-rh1991001-15.patch
+Patch624: glibc-rh1991001-16.patch
+Patch625: glibc-rh1991001-17.patch
+Patch626: glibc-rh1991001-18.patch
+Patch627: glibc-rh1991001-19.patch
+Patch628: glibc-rh1991001-20.patch
+Patch629: glibc-rh1991001-21.patch
+Patch630: glibc-rh1991001-22.patch
+Patch631: glibc-rh1929928-1.patch
+Patch632: glibc-rh1929928-2.patch
+Patch633: glibc-rh1929928-3.patch
+Patch634: glibc-rh1929928-4.patch
+Patch635: glibc-rh1929928-5.patch
+Patch636: glibc-rh1984802-1.patch
+Patch637: glibc-rh1984802-2.patch
+Patch638: glibc-rh1984802-3.patch
+Patch639: glibc-rh2023420-1.patch
+Patch640: glibc-rh2023420-2.patch
+Patch641: glibc-rh2023420-3.patch
+Patch642: glibc-rh2023420-4.patch
+Patch643: glibc-rh2023420-5.patch
+Patch644: glibc-rh2023420-6.patch
+Patch645: glibc-rh2023420-7.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1851,6 +1888,7 @@ cp benchtests/scripts/benchout.schema.json %{glibc_sysroot}%{_prefix}/libexec/gl
 cp benchtests/scripts/compare_bench.py %{glibc_sysroot}%{_prefix}/libexec/glibc-benchtests/
 cp benchtests/scripts/import_bench.py %{glibc_sysroot}%{_prefix}/libexec/glibc-benchtests/
 cp benchtests/scripts/validate_benchout.py %{glibc_sysroot}%{_prefix}/libexec/glibc-benchtests/
+%endif
 
 %if 0%{?_enable_debug_packages}
 # The #line directives gperf generates do not give the proper
@@ -2217,8 +2255,8 @@ cat > utils.filelist <<EOF
 %if %{without bootstrap}
 %{_prefix}/bin/memusage
 %{_prefix}/bin/memusagestat
-%endif
 %{_prefix}/bin/mtrace
+%endif
 %{_prefix}/bin/pcprofiledump
 %{_prefix}/bin/xtrace
 EOF
@@ -2250,6 +2288,7 @@ grep '/libnss_[a-z]*\.so$' master.filelist > nss-devel.filelist
 grep '/libnsl-[0-9.]*.so$' master.filelist > libnsl.filelist
 test $(wc -l < libnsl.filelist) -eq 1
 
+%if %{with benchtests}
 ###############################################################################
 # glibc-benchtests
 ###############################################################################
@@ -2360,7 +2399,14 @@ exclude_common_dirs()
 	for d in $(echo $exclude_dirs | sed 's/ /\n/g'); do
 		sed -i "\|^%%dir $d/\?$|d" $1
 	done
+
+	# Special kludge: /usr/bin/ld.so is a symbolic link, so debuggers
+	# do not need it to locate debugging information (they can use
+	# the real path instead).
+	sed -i '\,^/usr/lib/debug/usr/bin/ld\.so\.debug$,d' $1
 }
+# The file does not exist on all architectures.
+rm -f %{glibc_sysroot}/usr/lib/debug/usr/bin/ld.so.debug
 
 %ifarch %{debuginfocommonarches}
 exclude_common_dirs debuginfocommon.filelist
@@ -2763,6 +2809,25 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Dec 13 2021 Florian Weimer <fweimer@redhat.com> - 2.28-180
+- Do not install /usr/lib/debug/usr/bin/ld.so.debug (#2023420)
+
+* Fri Dec 10 2021 Florian Weimer <fweimer@redhat.com> - 2.28-179
+- Add /usr/bin/ld.so --list-diagnostics (#2023420)
+
+* Fri Dec 10 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-178
+- Preliminary support for new IBM zSeries hardware (#1984802)
+
+* Fri Dec 10 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-177
+- Fix --with and --without builds for benchtests and bootstrap (#2020989)
+
+* Wed Dec  1 2021 Florian Weimer <fweimer@redhat.com> - 2.28-176
+- A64FX memcpy/memmove/memset optimizations (#1929928)
+
+* Tue Nov 30 2021 Florian Weimer <fweimer@redhat.com> - 2.28-175
+- Fix dl-tls.c assert failure with pthread_create & dlopen (#1991001)
+- Fix x86_64 TLS lazy binding with auditors (#1950056)
+
 * Thu Nov 25 2021 Arjun Shankar <arjun@redhat.com> - 2.28-174
 - Introduce new glibc-doc.noarch subpackage (#2021671)
 - Move the reference manual info pages from glibc-devel to glibc-doc
