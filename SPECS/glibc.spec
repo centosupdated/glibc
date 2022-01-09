@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 180%{?dist}
+%define glibcrelease 181%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -947,7 +947,7 @@ Suggests: glibc-all-langpacks = %{version}-%{release}
 
 # Suggest extra gconv modules so that they are installed by default but can be
 # removed if needed to build a minimal OS image.
-Requires: glibc-gconv-extra%{_isa} = %{version}-%{release}
+Recommends: glibc-gconv-extra%{_isa} = %{version}-%{release}
 
 %description
 The glibc package contains standard libraries which are used by
@@ -2809,6 +2809,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Jan  4 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-181
+- Weaken dependency of glibc on glibc-gconv-extra (#2015768)
+
 * Mon Dec 13 2021 Florian Weimer <fweimer@redhat.com> - 2.28-180
 - Do not install /usr/lib/debug/usr/bin/ld.so.debug (#2023420)
 
