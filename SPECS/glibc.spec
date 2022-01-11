@@ -69,9 +69,6 @@
 %undefine with_valgrind
 %endif
 
-# Only some architectures have static PIE support.
-%define pie_arches %{ix86} x86_64
-
 # The annobin annotations cause binutils to produce broken ARM EABI
 # unwinding information.  Symptom is a hang/test failure for
 # malloc/tst-malloc-stats-cancellation.  See
@@ -151,7 +148,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 8%{?dist}
+Release: 16%{?dist}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -274,6 +271,22 @@ Patch71: glibc-upstream-2.34-40.patch
 Patch72: glibc-upstream-2.34-41.patch
 Patch73: glibc-upstream-2.34-42.patch
 Patch74: glibc-upstream-2.34-43.patch
+Patch75: glibc-upstream-2.34-44.patch
+Patch76: glibc-upstream-2.34-45.patch
+Patch77: glibc-upstream-2.34-46.patch
+Patch78: glibc-upstream-2.34-47.patch
+Patch79: glibc-upstream-2.34-48.patch
+Patch80: glibc-upstream-2.34-49.patch
+Patch81: glibc-rh2027789.patch
+Patch82: glibc-rh2023422-1.patch
+Patch83: glibc-rh2023422-2.patch
+Patch84: glibc-rh2023422-3.patch
+Patch85: glibc-rh2029410.patch
+Patch86: glibc-upstream-2.34-50.patch
+Patch87: glibc-upstream-2.34-51.patch
+Patch88: glibc-upstream-2.34-52.patch
+Patch89: glibc-upstream-2.34-53.patch
+Patch90: glibc-rh1988382.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1233,9 +1246,6 @@ build()
 		--enable-bind-now \
 		--build=%{target} \
 		--enable-stack-protector=strong \
-%ifarch %{pie_arches}
-		--enable-static-pie \
-%endif
 		--enable-tunables \
 		--enable-systemtap \
 		${core_with_options} \
@@ -2305,6 +2315,39 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Dec 14 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.34-16
+- Enable PIE by default on all architectures (#1988382)
+
+* Tue Dec 14 2021 Florian Weimer <fweimer@redhat.com> - 2.34-15
+- Sync with upstream branch release/2.34/master,
+  commit 06865865151579d1aa17d38110060a68b85c5d90:
+- pthread/tst-cancel28: Fix barrier re-init race condition
+- Use $(pie-default) with conformtest
+- Run conform/ tests using newly built libc
+- nptl: Add one more barrier to nptl/tst-create1
+
+* Fri Dec 10 2021 Florian Weimer <fweimer@redhat.com> - 2.34-13
+- x86-64: Remove LD_PREFER_MAP_32BIT_EXEC support (#2029410)
+
+* Fri Dec 10 2021 Florian Weimer <fweimer@redhat.com> - 2.34-12
+- Add /usr/bin/ld.so --list-diagnostics (#2023422)
+
+* Tue Dec  7 2021 Florian Weimer <fweimer@redhat.com> - 2.34-11
+- backtrace function crashes without vDSO on ppc64le (#2027789)
+
+* Fri Dec  3 2021 Florian Weimer <fweimer@redhat.com> - 2.34-10
+- Sync with upstream branch release/2.34/master,
+  commit 387bff63dc2dccd62b09aa26dccf8cdc5f3c985c:
+- powerpc64[le]: Fix CFI and LR save address for asm syscalls [BZ #28532]
+- linux: Use /proc/stat fallback for __get_nprocs_conf (BZ #28624)
+- nptl: Do not set signal mask on second setjmp return [BZ #28607]
+- s390: Use long branches across object boundaries (jgh instead of jh)
+- elf: Earlier missing dynamic segment check in _dl_map_object_from_fd
+- gconv: Do not emit spurious NUL character in ISO-2022-JP-3 (bug 28524)
+
+* Tue Nov 16 2021 Arjun Shankar <arjun@redhat.com> - 2.34-9
+- Create /{bin,lib,lib64,sbin} as symbolic links in test-container
+
 * Wed Nov  3 2021 Florian Weimer <fweimer@redhat.com> - 2.34-8
 - Sync with upstream branch release/2.34/master,
   commit 6548a9bdba95b3e1fcdbd85445342467e4b0cd4f:
