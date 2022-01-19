@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 181%{?dist}
+%define glibcrelease 184%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -820,6 +820,10 @@ Patch642: glibc-rh2023420-4.patch
 Patch643: glibc-rh2023420-5.patch
 Patch644: glibc-rh2023420-6.patch
 Patch645: glibc-rh2023420-7.patch
+Patch646: glibc-rh2033648-1.patch
+Patch647: glibc-rh2033648-2.patch
+Patch648: glibc-rh2036955.patch
+Patch649: glibc-rh2033655.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2809,6 +2813,15 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jan  7 2022 Florian Weimer <fweimer@redhat.com> - 2.28-184
+- Conversion from ISO-2022-JP-3 may emit spurious NUL character (#2033655)
+
+* Fri Jan  7 2022 Florian Weimer <fweimer@redhat.com> - 2.28-183
+- aarch64: A64FX optimizations break "sve=off" guest mode (#2036955)
+
+* Fri Jan  7 2022 Patsy Griffin <patsy@redhat.com> - 2.28-182
+- Handle truncated timezones from tzcode-2021d and later. (#2033648)
+
 * Tue Jan  4 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-181
 - Weaken dependency of glibc on glibc-gconv-extra (#2015768)
 
