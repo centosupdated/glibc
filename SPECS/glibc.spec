@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 184%{?dist}
+%define glibcrelease 189%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -175,6 +175,23 @@ Source11: SUPPORTED
 
 # Include in the source RPM for reference.
 Source12: ChangeLog.old
+
+Source13: wrap-find-debuginfo.sh
+
+######################################################################
+# Activate the wrapper script for debuginfo generation, by rewriting
+# the definition of __debug_install_post.
+%{lua:
+local wrapper = rpm.expand("%{SOURCE13}")
+local sysroot = rpm.expand("%{glibc_sysroot}")
+local original = rpm.expand("%{__find_debuginfo}")
+rpm.define("__find_debuginfo  " .. wrapper .. " " .. sysroot .. " " .. original)
+}
+
+# The wrapper script relies on the fact that debugedit does not change
+# build IDs.
+%define _no_recompute_build_ids 1
+%undefine _unique_build_ids
 
 ##############################################################################
 # Patches:
@@ -824,6 +841,20 @@ Patch646: glibc-rh2033648-1.patch
 Patch647: glibc-rh2033648-2.patch
 Patch648: glibc-rh2036955.patch
 Patch649: glibc-rh2033655.patch
+Patch650: glibc-rh2007327-1.patch
+Patch651: glibc-rh2007327-2.patch
+Patch652: glibc-rh2032281-1.patch
+Patch653: glibc-rh2032281-2.patch
+Patch654: glibc-rh2032281-3.patch
+Patch655: glibc-rh2032281-4.patch
+Patch656: glibc-rh2032281-5.patch
+Patch657: glibc-rh2032281-6.patch
+Patch658: glibc-rh2032281-7.patch
+Patch659: glibc-rh2045063-1.patch
+Patch660: glibc-rh2045063-2.patch
+Patch661: glibc-rh2045063-3.patch
+Patch662: glibc-rh2045063-4.patch
+Patch663: glibc-rh2045063-5.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -913,7 +944,8 @@ Conflicts: prelink < 0.4.2
 
 %if 0%{?_enable_debug_packages}
 BuildRequires: elfutils >= 0.72
-BuildRequires: rpm >= 4.2-0.56
+# -20 adds __find_debuginfo macro
+BuildRequires: rpm >= 4.14.3-20
 %endif
 
 %if %{without bootstrap}
@@ -1312,62 +1344,6 @@ mtrace, a memory leak tracer and xtrace, a function call tracer
 which can be helpful during program debugging.
 
 If unsure if you need this, don't install this package.
-
-##############################################################################
-# glibc core "debuginfo" sub-package
-##############################################################################
-%if 0%{?_enable_debug_packages}
-%define debug_package %{nil}
-%define __debug_install_post %{nil}
-%global __debug_package 1
-# Disable thew new features that glibc packages don't use.
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%undefine _unique_debug_names
-%undefine _unique_debug_srcs
-
-%package debuginfo
-Summary: Debug information for package %{name}
-AutoReqProv: no
-%ifarch %{debuginfocommonarches}
-Requires: glibc-debuginfo-common = %{version}-%{release}
-%else
-%ifarch %{ix86} %{sparc}
-Obsoletes: glibc-debuginfo-common
-%endif
-%endif
-
-%description debuginfo
-This package provides debug information for package %{name}.
-Debug information is useful when developing applications that use this
-package or when debugging this package.
-
-This package also contains static standard C libraries with
-debugging information.  You need this only if you want to step into
-C library routines during debugging programs statically linked against
-one or more of the standard C libraries.
-To use this debugging information, you need to link binaries
-with -static -L%{_prefix}/lib/debug%{_libdir} compiler options.
-
-##############################################################################
-# glibc common "debuginfo-common" sub-package
-##############################################################################
-%ifarch %{debuginfocommonarches}
-
-%package debuginfo-common
-Summary: Debug information for package %{name}
-AutoReqProv: no
-
-%description debuginfo-common
-This package provides debug information for package %{name}.
-Debug information is useful when developing applications that use this
-package or when debugging this package.
-
-%comment Matches: %ifarch %{debuginfocommonarches}
-%endif
-
-%comment Matches: %if 0%{?_enable_debug_packages}
-%endif
 
 %if %{with benchtests}
 %package benchtests
@@ -1829,15 +1805,6 @@ chmod 644 %{glibc_sysroot}%{_libdir}/gconv/gconv-modules.cache
 #   archives we might have added.
 ##############################################################################
 
-# If we are building a debug package then copy all of the static archives
-# into the debug directory to keep them as unstripped copies.
-%if 0%{?_enable_debug_packages}
-mkdir -p %{glibc_sysroot}%{_prefix}/lib/debug%{_libdir}
-cp -a %{glibc_sysroot}%{_libdir}/*.a \
-	%{glibc_sysroot}%{_prefix}/lib/debug%{_libdir}/
-rm -f %{glibc_sysroot}%{_prefix}/lib/debug%{_libdir}/*_p.a
-%endif
-
 # Remove any zoneinfo files; they are maintained by tzdata.
 rm -rf %{glibc_sysroot}%{_prefix}/share/zoneinfo
 
@@ -1903,6 +1870,7 @@ popd
 pushd iconv
 ln -s ../locale/programs/charmap-kw.gperf .
 popd
+%endif
 
 %if %{with docs}
 # Remove the `dir' info-heirarchy file which will be maintained
@@ -2002,11 +1970,6 @@ ar cr %{glibc_sysroot}%{_prefix}/%{_lib}/libpthread_nonshared.a
 #       - File list with the .so symbolic links for NSS packages.
 # * compat-libpthread-nonshared.filelist.
 #	- File list for compat-libpthread-nonshared subpackage.
-# * debuginfo.filelist
-#	- Files for the glibc debuginfo package.
-# * debuginfocommon.filelist
-#	- Files for the glibc common debuginfo package.
-#
 
 # Create the main file lists. This way we can append to any one of them later
 # wihtout having to create it. Note these are removed at the start of the
@@ -2026,8 +1989,6 @@ touch nss_db.filelist
 touch nss_hesiod.filelist
 touch nss-devel.filelist
 touch compat-libpthread-nonshared.filelist
-touch debuginfo.filelist
-touch debuginfocommon.filelist
 
 ###############################################################################
 # Master file list, excluding a few things.
@@ -2317,109 +2278,6 @@ echo "%{_prefix}/libexec/glibc-benchtests/validate_benchout.py*" >> benchtests.f
 ###############################################################################
 echo "%{_libdir}/libpthread_nonshared.a" >> compat-libpthread-nonshared.filelist
 
-###############################################################################
-# glibc-debuginfocommon, and glibc-debuginfo
-###############################################################################
-
-find_debuginfo_args='--strict-build-id -g -i'
-%ifarch %{debuginfocommonarches}
-find_debuginfo_args="$find_debuginfo_args \
-	-l common.filelist \
-	-l utils.filelist \
-	-l nscd.filelist \
-	-p '.*/(sbin|libexec)/.*' \
-	-o debuginfocommon.filelist \
-	-l gconv.filelist \
-	-l nss_db.filelist -l nss_hesiod.filelist \
-	-l libnsl.filelist -l glibc.filelist \
-%if %{with benchtests}
-	-l benchtests.filelist
-%endif
-	"
-%endif
-
-/usr/lib/rpm/find-debuginfo.sh $find_debuginfo_args -o debuginfo.filelist
-
-# List all of the *.a archives in the debug directory.
-list_debug_archives()
-{
-	local dir=%{_prefix}/lib/debug%{_libdir}
-	find %{glibc_sysroot}$dir -name "*.a" -printf "$dir/%%P\n"
-}
-
-%ifarch %{debuginfocommonarches}
-
-# Remove the source files from the common package debuginfo.
-sed -i '\#^%{glibc_sysroot}%{_prefix}/src/debug/#d' debuginfocommon.filelist
-
-# Create a list of all of the source files we copied to the debug directory.
-find %{glibc_sysroot}%{_prefix}/src/debug \
-     \( -type d -printf '%%%%dir ' \) , \
-     -printf '%{_prefix}/src/debug/%%P\n' > debuginfocommon.sources
-
-%ifarch %{biarcharches}
-
-# Add the source files to the core debuginfo package.
-cat debuginfocommon.sources >> debuginfo.filelist
-
-%else
-
-%ifarch %{ix86}
-%define basearch i686
-%endif
-%ifarch sparc sparcv9
-%define basearch sparc
-%endif
-
-# The auxarches get only these few source files.
-auxarches_debugsources=\
-'/(generic|linux|%{basearch}|nptl(_db)?)/|/%{glibcsrcdir}/build|/dl-osinfo\.h'
-
-# Place the source files into the core debuginfo pakcage.
-egrep "$auxarches_debugsources" debuginfocommon.sources >> debuginfo.filelist
-
-# Remove the source files from the common debuginfo package.
-egrep -v "$auxarches_debugsources" \
-  debuginfocommon.sources >> debuginfocommon.filelist
-
-%comment Matches: %ifarch %{biarcharches}
-%endif
-
-# Add the list of *.a archives in the debug directory to
-# the common debuginfo package.
-list_debug_archives >> debuginfocommon.filelist
-
-%comment Matches: %ifarch %{debuginfocommonarches}
-%endif
-
-# Remove some common directories from the common package debuginfo so that we
-# don't end up owning them.
-exclude_common_dirs()
-{
-	exclude_dirs="%{_prefix}/src/debug"
-	exclude_dirs="$exclude_dirs $(echo %{_prefix}/lib/debug{,/%{_lib},/bin,/sbin})"
-	exclude_dirs="$exclude_dirs $(echo %{_prefix}/lib/debug%{_prefix}{,/%{_lib},/libexec,/bin,/sbin})"
-
-	for d in $(echo $exclude_dirs | sed 's/ /\n/g'); do
-		sed -i "\|^%%dir $d/\?$|d" $1
-	done
-
-	# Special kludge: /usr/bin/ld.so is a symbolic link, so debuggers
-	# do not need it to locate debugging information (they can use
-	# the real path instead).
-	sed -i '\,^/usr/lib/debug/usr/bin/ld\.so\.debug$,d' $1
-}
-# The file does not exist on all architectures.
-rm -f %{glibc_sysroot}/usr/lib/debug/usr/bin/ld.so.debug
-
-%ifarch %{debuginfocommonarches}
-exclude_common_dirs debuginfocommon.filelist
-%endif
-exclude_common_dirs debuginfo.filelist
-
-%comment Matches: %if 0%{?_enable_debug_packages}
-%endif
-
 ##############################################################################
 # Delete files that we do not intended to ship with the auxarch.
 # This is the only place where we touch the installed files after generating
@@ -2509,6 +2367,15 @@ echo ====================PLT RELOCS LIBC.SO==============
 readelf -Wr %{glibc_sysroot}/%{_lib}/libc-*.so | sed -n -e "$PLTCMD"
 echo ====================PLT RELOCS END==================
 
+# Obtain a way to run the dynamic loader.  Avoid matching the symbolic
+# link and then pick the first loader (although there should be only
+# one).
+run_ldso="$(find %{glibc_sysroot}/%{_lib}/ld-*.so -type f | LC_ALL=C sort | head -n1) --library-path %{glibc_sysroot}/%{_lib}"
+
+# Show the auxiliary vector as seen by the new library
+# (even if we do not perform the valgrind test).
+LD_SHOW_AUXV=1 $run_ldso /bin/true
+
 # Finally, check if valgrind runs with the new glibc.
 # We want to fail building if valgrind is not able to run with this glibc so
 # that we can then coordinate with valgrind to get it fixed before we update
@@ -2517,16 +2384,15 @@ pushd build-%{target}
 
 # Show the auxiliary vector as seen by the new library
 # (even if we do not perform the valgrind test).
-LD_SHOW_AUXV=1 elf/ld.so --library-path .:elf:nptl:dlfcn /bin/true
+LD_SHOW_AUXV=1 $run_ldso /bin/true
 
 %if %{with valgrind}
-elf/ld.so --library-path .:elf:nptl:dlfcn \
-	/usr/bin/valgrind --error-exitcode=1 \
-	elf/ld.so --library-path .:elf:nptl:dlfcn /usr/bin/true
+$run_ldso /usr/bin/valgrind --error-exitcode=1 \
+	$run_ldso /usr/bin/true
 %endif
 popd
 
-%comment Matches: %if %{run_glibc_tests}
+%comment Matches: %if %{with testsuite}
 %endif
 
 
@@ -2797,15 +2663,6 @@ fi
 %files -f libnsl.filelist -n libnsl
 /%{_lib}/libnsl.so.1
 
-%if 0%{?_enable_debug_packages}
-%files debuginfo -f debuginfo.filelist
-%ifarch %{debuginfocommonarches}
-%ifnarch %{auxarches}
-%files debuginfo-common -f debuginfocommon.filelist
-%endif
-%endif
-%endif
-
 %if %{with benchtests}
 %files benchtests -f benchtests.filelist
 %endif
@@ -2813,6 +2670,23 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Jan 27 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-189
+- CVE-2021-3999: getcwd: align stack on clone in aarch64 and fix a memory leak
+  (#2032281)
+
+* Tue Jan 25 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-188
+- CVE-2022-23218, CVE-2022-23219: Fix buffer overflows in sunrpc clnt_create
+  for "unix" and svcunix_create (#2045063).
+
+* Mon Jan 24 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-187
+- CVE-2021-3999: getcwd: Set errno to ERANGE for size == 1 (#2032281)
+
+* Fri Jan 21 2022 Carlos O'Donell <carlos@redhat.com> - 2.28-186
+- Fix pthread_once regression with C++ exceptions (#2007327)
+
+* Thu Jan 20 2022 DJ Delorie <dj@redhat.com> - 2.28-185
+- Adjust to rpm's find-debuginfo.sh changes, to keep stripping binaries (#1661513)
+
 * Fri Jan  7 2022 Florian Weimer <fweimer@redhat.com> - 2.28-184
 - Conversion from ISO-2022-JP-3 may emit spurious NUL character (#2033655)
 
