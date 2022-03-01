@@ -148,7 +148,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 16%{?dist}
+Release: 25%{?dist}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -287,6 +287,94 @@ Patch87: glibc-upstream-2.34-51.patch
 Patch88: glibc-upstream-2.34-52.patch
 Patch89: glibc-upstream-2.34-53.patch
 Patch90: glibc-rh1988382.patch
+Patch91: glibc-upstream-2.34-54.patch
+Patch92: glibc-upstream-2.34-55.patch
+Patch93: glibc-upstream-2.34-56.patch
+Patch94: glibc-upstream-2.34-57.patch
+Patch95: glibc-upstream-2.34-58.patch
+Patch96: glibc-upstream-2.34-59.patch
+Patch97: glibc-upstream-2.34-60.patch
+Patch98: glibc-upstream-2.34-61.patch
+Patch99: glibc-upstream-2.34-62.patch
+Patch100: glibc-upstream-2.34-63.patch
+Patch101: glibc-upstream-2.34-64.patch
+Patch102: glibc-upstream-2.34-65.patch
+Patch103: glibc-upstream-2.34-66.patch
+Patch104: glibc-upstream-2.34-67.patch
+Patch105: glibc-upstream-2.34-68.patch
+Patch106: glibc-upstream-2.34-69.patch
+Patch107: glibc-upstream-2.34-70.patch
+Patch108: glibc-upstream-2.34-71.patch
+Patch109: glibc-upstream-2.34-72.patch
+Patch110: glibc-upstream-2.34-73.patch
+Patch111: glibc-rh2032647-1.patch
+Patch112: glibc-rh2032647-2.patch
+Patch113: glibc-rh2032647-3.patch
+Patch114: glibc-rh2032647-4.patch
+Patch115: glibc-rh2032647-5.patch
+Patch116: glibc-rh2032647-6.patch
+Patch117: glibc-rh2024347-1.patch
+Patch118: glibc-rh2024347-2.patch
+Patch119: glibc-rh2024347-3.patch
+Patch120: glibc-rh2024347-4.patch
+Patch121: glibc-rh2024347-5.patch
+Patch122: glibc-rh2024347-6.patch
+Patch123: glibc-rh2024347-7.patch
+Patch124: glibc-rh2024347-8.patch
+Patch125: glibc-rh2024347-9.patch
+Patch126: glibc-rh2024347-10.patch
+Patch127: glibc-rh2024347-11.patch
+Patch128: glibc-rh2024347-12.patch
+Patch129: glibc-rh2024347-13.patch
+Patch130: glibc-rh2040657-1.patch
+Patch131: glibc-rh2040657-2.patch
+Patch132: glibc-rh2040657-3.patch
+Patch133: glibc-rh2040657-4.patch
+Patch134: glibc-rh2040657-5.patch
+Patch135: glibc-rh2040657-6.patch
+Patch136: glibc-rh2040657-7.patch
+Patch137: glibc-rh2040657-8.patch
+Patch138: glibc-rh2040657-9.patch
+Patch139: glibc-rh2040657-10.patch
+Patch140: glibc-rh2040657-11.patch
+Patch141: glibc-rh2040657-12.patch
+Patch142: glibc-upstream-2.34-74.patch
+Patch143: glibc-upstream-2.34-75.patch
+Patch144: glibc-upstream-2.34-76.patch
+Patch145: glibc-upstream-2.34-77.patch
+Patch146: glibc-upstream-2.34-78.patch
+Patch147: glibc-upstream-2.34-79.patch
+Patch148: glibc-upstream-2.34-80.patch
+Patch149: glibc-upstream-2.34-81.patch
+Patch150: glibc-upstream-2.34-82.patch
+Patch151: glibc-upstream-2.34-83.patch
+Patch152: glibc-upstream-2.34-84.patch
+Patch153: glibc-upstream-2.34-85.patch
+Patch154: glibc-upstream-2.34-86.patch
+Patch155: glibc-upstream-2.34-87.patch
+Patch156: glibc-upstream-2.34-88.patch
+Patch157: glibc-upstream-2.34-89.patch
+# glibc-2.34-90-g1b9cd6a721 only changes NEWS.
+Patch158: glibc-upstream-2.34-91.patch
+Patch159: glibc-upstream-2.34-92.patch
+# glibc-2.34-93-g72123e1b56 only changes NEWS.
+# glibc-2.34-94-g31186e2cb7 is glibc-rh2040657-1.patch.
+# glibc-2.34-95-g511b244cc5 is glibc-rh2040657-2.patch.
+# glibc-2.34-96-gde6cdd6875 is glibc-rh2040657-6.patch.
+Patch160: glibc-upstream-2.34-97.patch
+Patch161: glibc-upstream-2.34-98.patch
+Patch162: glibc-upstream-2.34-99.patch
+Patch163: glibc-c-utf8-locale-3.patch
+Patch164: glibc-c-utf8-locale-4.patch
+Patch165: glibc-c-utf8-locale-5.patch
+Patch166: glibc-upstream-2.34-100.patch
+Patch167: glibc-upstream-2.34-101.patch
+Patch168: glibc-upstream-2.34-102.patch
+Patch169: glibc-upstream-2.34-103.patch
+Patch170: glibc-upstream-2.34-104.patch
+Patch171: glibc-upstream-2.34-105.patch
+Patch172: glibc-upstream-2.34-106.patch
+Patch173: glibc-upstream-2.34-107.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1203,6 +1291,20 @@ rpm_inherit_flags \
 	"-mtune=zEC12" \
 	"-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1" \
 
+# Use the RHEL 8 baseline for the early dynamic loader code, so that
+# running on too old CPUs results in a diagnostic.
+%if 0%{?rhel} >= 9
+%ifarch ppc64le
+%define glibc_rtld_early_cflags -mcpu=power8
+%endif
+%ifarch s390x
+%define glibc_rtld_early_cflags -march=z13
+%endif
+%ifarch x86_64
+%define glibc_rtld_early_cflags -march=x86-64
+%endif
+%endif
+
 # libc_nonshared.a cannot be built with the default hardening flags
 # because the glibc build system is incompatible with
 # -D_FORTIFY_SOURCE.  The object files need to be marked as to be
@@ -1249,6 +1351,7 @@ build()
 		--enable-tunables \
 		--enable-systemtap \
 		${core_with_options} \
+		%{?glibc_rtld_early_cflags:--with-rtld-early-cflags=%glibc_rtld_early_cflags} \
 %ifarch x86_64 %{ix86}
 	       --enable-cet \
 %endif
@@ -2315,6 +2418,87 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Feb  3 2022 Florian Weimer <fweimer@redhat.com> - 2.34-25
+- Sync with upstream branch release/2.34/master,
+  commit 6eaf10cbb78d22eae7999d9de55f6b93999e0860:
+- socket: Do not use AF_NETLINK in __opensock
+- hurd if_index: Explicitly use AF_INET for if index discovery
+- Linux: Simplify __opensock and fix race condition [BZ #28353]
+- linux: __get_nprocs_sched: do not feed CPU_COUNT_S with garbage [BZ #28850]
+
+* Tue Feb  1 2022 Florian Weimer <fweimer@redhat.com> - 2.34-24
+- Sync with upstream branch release/2.34/master,
+  commit 008003dc6e83439c5e04a744b7fd8197df19096e:
+- tst-socket-timestamp-compat.c: Check __TIMESIZE [BZ #28837]
+- Linux: Only generate 64 bit timestamps for 64 bit time_t recvmsg/recvmmsg
+- linux: Fix ancillary 64-bit time timestamp conversion (BZ #28349, BZ#28350)
+- support: Add support_socket_so_timestamp_time64
+
+* Tue Feb  1 2022 Florian Weimer <fweimer@redhat.com> - 2.34-23
+- Align with glibc 2.35 version of C.UTF-8
+
+* Tue Feb  1 2022 Florian Weimer <fweimer@redhat.com> - 2.34-22
+- Sync with upstream branch release/2.34/master,
+  commit aa601d024424c40ae9a69b0c4e394a70ea0570c8:
+- x86: Use CHECK_FEATURE_PRESENT to check HLE [BZ #27398]
+- x86: Filter out more Intel CPUs for TSX [BZ #27398]
+- Fix glibc 2.34 ABI omission (missing GLIBC_2.34 in dynamic loader)
+- x86: Fix __wcsncmp_evex in strcmp-evex.S [BZ# 28755]
+- x86: Fix __wcsncmp_avx2 in strcmp-avx2.S [BZ# 28755]
+
+* Mon Jan 24 2022 Florian Weimer <fweimer@redhat.com> - 2.34-21
+- Sync with upstream branch release/2.34/master,
+  commit 3438bbca90895d32825a52e31a77dc44d273c1c1:
+- Linux: Detect user namespace support in io/tst-getcwd-smallbuff
+- realpath: Avoid overwriting preexisting error
+- CVE-2021-3999: getcwd: Set errno to ERANGE for size == 1
+- tst-realpath-toolong: Fix hurd build
+- CVE-2021-3998: realpath: ENAMETOOLONG for result larger than PATH_MAX
+- stdlib: Fix formatting of tests list in Makefile
+- stdlib: Sort tests in Makefile
+- support: Add helpers to create paths longer than PATH_MAX
+- powerpc: Fix unrecognized instruction errors with recent binutils
+- x86: use default cache size if it cannot be determined [BZ #28784]
+- CVE-2022-23218: Buffer overflow in sunrpc svcunix_create (bug 28768)
+- sunrpc: Test case for clnt_create "unix" buffer overflow (bug 22542)
+- CVE-2022-23219: Buffer overflow in sunrpc clnt_create for "unix" (bug 22542)
+- socket: Add the __sockaddr_un_set function
+- Disable debuginfod in printer tests [BZ #28757]
+- Update syscall lists for Linux 5.16
+
+* Wed Jan 19 2022 Florian Weimer <fweimer@redhat.com> - 2.34-20
+- More reliable CPU compatibility diagnostics (#2040657)
+
+* Fri Jan 14 2022 Florian Weimer <fweimer@redhat.com> - 2.34-19
+- Optionally accelerate sched_getcpu using rseq (#2024347)
+
+* Thu Jan 13 2022 Florian Weimer <fweimer@redhat.com> - 2.34-18
+- Backport optimized ELF dependency sorting algorithm (#2032647)
+
+* Thu Jan 13 2022 Florian Weimer <fweimer@redhat.com> - 2.34-17
+- Sync with upstream branch release/2.34/master,
+  commit 2fe2af88abd13ae5636881da2e26f461ecb7dfb5
+- i386: Remove broken CAN_USE_REGISTER_ASM_EBP (bug 28771)
+- Update syscall lists for Linux 5.15
+- powerpc: Fix unrecognized instruction errors with recent GCC
+- timezone: test-case for BZ #28707
+- timezone: handle truncated timezones from tzcode-2021d and later (BZ #28707)
+- Fix subscript error with odd TZif file [BZ #28338]
+- AArch64: Check for SVE in ifuncs [BZ #28744]
+- intl/plural.y: Avoid conflicting declarations of yyerror and yylex
+- Linux: Fix 32-bit vDSO for clock_gettime on powerpc32
+- linux: Add sparck brk implementation
+- Update sparc libm-test-ulps
+- Update hppa libm-test-ulps
+- riscv: align stack before calling _dl_init [BZ #28703]
+- riscv: align stack in clone [BZ #28702]
+- powerpc64[le]: Allocate extra stack frame on syscall.S
+- elf: Fix tst-cpu-features-cpuinfo for KVM guests on some AMD systems [BZ #28704]
+- nss: Use "files dns" as the default for the hosts database (bug 28700)
+- arm: Guard ucontext _rtld_global_ro access by SHARED, not PIC macro
+- mips: increase stack alignment in clone to match the ABI
+- mips: align stack in clone [BZ #28223]
+
 * Tue Dec 14 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.34-16
 - Enable PIE by default on all architectures (#1988382)
 
