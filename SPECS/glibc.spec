@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 164%{?dist}
+%define glibcrelease 164%{?dist}.3
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -719,6 +719,18 @@ Patch582: glibc-rh1966472-1.patch
 Patch583: glibc-rh1966472-2.patch
 Patch584: glibc-rh1966472-3.patch
 Patch585: glibc-rh1966472-4.patch
+Patch586: glibc-rh2032280-1.patch
+Patch587: glibc-rh2032280-2.patch
+Patch588: glibc-rh2032280-3.patch
+Patch589: glibc-rh2032280-4.patch
+Patch590: glibc-rh2032280-5.patch
+Patch591: glibc-rh2032280-6.patch
+Patch592: glibc-rh2032280-7.patch
+Patch593: glibc-rh2045062-1.patch
+Patch594: glibc-rh2045062-2.patch
+Patch595: glibc-rh2045062-3.patch
+Patch596: glibc-rh2045062-4.patch
+Patch597: glibc-rh2045062-5.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2631,6 +2643,17 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Jan 27 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164.3
+- CVE-2021-3999: getcwd: align stack on clone in aarch64 and fix a memory leak
+  (#2032280)
+
+* Wed Jan 26 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164.2
+- CVE-2022-23218, CVE-2022-23219: Fix buffer overflows in sunrpc clnt_create
+  for "unix" and svcunix_create (#2045062).
+
+* Mon Jan 24 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164.1
+- CVE-2021-3999: getcwd: Set errno to ERANGE for size == 1 (#2032280)
+
 * Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164
 - librt: fix NULL pointer dereference (#1966472).
 
