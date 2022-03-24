@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 189%{?dist}
+%define glibcrelease 196%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -855,6 +855,29 @@ Patch660: glibc-rh2045063-2.patch
 Patch661: glibc-rh2045063-3.patch
 Patch662: glibc-rh2045063-4.patch
 Patch663: glibc-rh2045063-5.patch
+Patch664: glibc-rh2054790.patch
+Patch665: glibc-rh2037416-1.patch
+Patch666: glibc-rh2037416-2.patch
+Patch667: glibc-rh2037416-3.patch
+Patch668: glibc-rh2037416-4.patch
+Patch669: glibc-rh2037416-5.patch
+Patch670: glibc-rh2037416-6.patch
+Patch671: glibc-rh2037416-7.patch
+Patch672: glibc-rh2037416-8.patch
+Patch673: glibc-rh2033684-1.patch
+Patch674: glibc-rh2033684-2.patch
+Patch675: glibc-rh2033684-3.patch
+Patch676: glibc-rh2033684-4.patch
+Patch677: glibc-rh2033684-5.patch
+Patch678: glibc-rh2033684-6.patch
+Patch679: glibc-rh2033684-7.patch
+Patch680: glibc-rh2033684-8.patch
+Patch681: glibc-rh2033684-9.patch
+Patch682: glibc-rh2033684-10.patch
+Patch683: glibc-rh2033684-11.patch
+Patch684: glibc-rh2033684-12.patch
+Patch685: glibc-rh2063712.patch
+Patch686: glibc-rh2063042.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1746,6 +1769,20 @@ $olddir/build-%{target}/testrun.sh \
 # default locale-archive without modification, and leaving compiled
 # locales as they are (without inclusion into the archive).
 cp locale-archive{,.tmpl}
+
+# Almost half the LC_CTYPE files in langpacks are identical to the C.utf8
+# variant which is installed by default.  When we keep them as hardlinks,
+# each langpack ends up retaining a copy.  If we convert these to symbolic
+# links instead, we save ~350K each when they get installed that way.
+#
+# LC_MEASUREMENT and LC_PAPER also have several duplicates but we don't
+# bother with these because they are only ~30 bytes each.
+pushd %{glibc_sysroot}/usr/lib/locale
+for f in $(find eo *_* -samefile C.utf8/LC_CTYPE); do
+  rm $f && ln -s '../C.utf8/LC_CTYPE' $f
+done
+popd
+
 # Create the file lists for the language specific sub-packages:
 for i in eo *_*
 do
@@ -2054,7 +2091,7 @@ chmod 0444 master.filelist
 # - All the libnss files (we add back the ones we want later).
 # - All bench test binaries.
 # - The aux-cache, since it's handled specially in the files section.
-# - The build-locale-archive binary since it's in the common package.
+# - The build-locale-archive binary since it's in the all-langpacks package.
 # - Extra gconv modules.  We add the required modules later.
 cat master.filelist \
 	| grep -v \
@@ -2179,13 +2216,15 @@ grep '%{_libdir}/lib.*\.a' < master.filelist \
 ###############################################################################
 
 # All of the bin and certain sbin files go into the common package except
-# iconvconfig which needs to go in glibc. Likewise nscd is excluded because
+# iconvconfig which needs to go in glibc, and build-locale-archive which
+# needs to go into glibc-all-langpacks. Likewise nscd is excluded because
 # it goes in nscd. The iconvconfig binary is kept in the main glibc package
 # because we use it in the post-install scriptlet to rebuild the
 # gconv-modules.cache.
 grep '%{_prefix}/bin' master.filelist >> common.filelist
 grep '%{_prefix}/sbin' master.filelist \
 	| grep -v '%{_prefix}/sbin/iconvconfig' \
+	| grep -v '%{_prefix}/sbin/build-locale-archive' \
 	| grep -v 'nscd' >> common.filelist
 # All of the files under share go into the common package since they should be
 # multilib-independent.
@@ -2200,9 +2239,6 @@ grep '%{_prefix}/share' master.filelist \
 	-e '%%dir %{prefix}/share' \
 	-e '%{_docdir}' \
 	>> common.filelist
-
-# Add the binary to build locales to the common subpackage.
-echo '%{_prefix}/sbin/build-locale-archive' >> common.filelist
 
 ###############################################################################
 # nscd
@@ -2613,6 +2649,8 @@ fi
 %files all-langpacks
 %attr(0644,root,root) %verify(not md5 size mtime) %{_prefix}/lib/locale/locale-archive.tmpl
 %attr(0644,root,root) %verify(not md5 size mtime mode) %ghost %{_prefix}/lib/locale/locale-archive
+# build-locale-archive re-generates locale-archive during install/upgrade/downgrade
+%attr(0700,root,root) %{_prefix}/sbin/build-locale-archive
 
 %files locale-source
 %dir %{_prefix}/share/i18n/locales
@@ -2670,6 +2708,28 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Mar 15 2022 Siddhesh Poyarekar <siddhesh@redhat.com> 2.28-196
+- Synchronize feature guards in fortified functions (#2063042)
+
+* Mon Mar 14 2022 Florian Weimer <fweimer@redhat.com> - 2.28-195
+- nss: Avoid clobbering errno in get*ent via dlopen (#2063712)
+
+* Fri Mar 11 2022 Siddhesh Poyarekar <siddhesh@redhat.com> 2.28-194
+- Enable support for _FORTIFY_SOURCE=3 for gcc 12 and later (#2033684)
+
+* Wed Mar 9 2022 DJ Delorie <dj@redhat.com> - 2.28-193
+- memory operation A64FX SVE performance improvement (#2037416)
+
+* Mon Mar 07 2022 Arjun Shankar <arjun@redhat.com> - 2.28-192
+- Move build-locale-archive to glibc-all-langpacks (#2057513)
+
+* Mon Mar 07 2022 Arjun Shankar <arjun@redhat.com> - 2.28-191
+- Fix build-locale-archive to handle symbolic links (#2054790)
+
+* Fri Mar 04 2022 Arjun Shankar <arjun@redhat.com> - 2.28-190
+- Reduce installed size of some langpacks by de-duplicating LC_CTYPE (#2054790)
+- Fix localedef so it can handle symbolic links when generating locale-archive.
+
 * Thu Jan 27 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-189
 - CVE-2021-3999: getcwd: align stack on clone in aarch64 and fix a memory leak
   (#2032281)
