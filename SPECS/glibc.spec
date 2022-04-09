@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 196%{?dist}
+%define glibcrelease 197%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -878,6 +878,7 @@ Patch683: glibc-rh2033684-11.patch
 Patch684: glibc-rh2033684-12.patch
 Patch685: glibc-rh2063712.patch
 Patch686: glibc-rh2063042.patch
+Patch687: glibc-rh2071745.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2708,6 +2709,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Apr 05 2022 Arjun Shankar <arjun@redhat.com> - 2.28-197
+- timezone: Fix a test that causes occasional build failure (#2071745)
+
 * Tue Mar 15 2022 Siddhesh Poyarekar <siddhesh@redhat.com> 2.28-196
 - Synchronize feature guards in fortified functions (#2063042)
 
