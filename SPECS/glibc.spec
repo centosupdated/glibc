@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 197%{?dist}
+%define glibcrelease 198%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -879,6 +879,16 @@ Patch684: glibc-rh2033684-12.patch
 Patch685: glibc-rh2063712.patch
 Patch686: glibc-rh2063042.patch
 Patch687: glibc-rh2071745.patch
+
+# Intel Optimizations
+Patch1001: 0001-Backport-of-Add-NT_VMCOREDD-AT_MINSIGSTKSZ-from-Linu.patch
+Patch1002: 0002-Backport-of-Print-cache-size-and-geometry-auxv-types.patch
+Patch1003: 0003-Backport-of-Tests-for-minimal-signal-handler.patch
+Patch1004: 0004-Disable-lazy-binding-on-tests-for-minimal-signal-han.patch
+Patch1005: 0005-sysconf-Add-_SC_MINSIGSTKSZ-_SC_SIGSTKSZ-BZ-20305.patch
+Patch1006: 0006-void-short-distance-rep-movsb.patch
+Patch1007: 0007-pack-up-patches.patch
+Patch1008: 0008-only-avoid-short-distance-rep-mobsb-on-icx.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2709,6 +2719,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Apr 26 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28-198
+- Intel optimizations added
+
 * Tue Apr 05 2022 Arjun Shankar <arjun@redhat.com> - 2.28-197
 - timezone: Fix a test that causes occasional build failure (#2071745)
 

@@ -1,0 +1,774 @@
+From 232e45c1720857fbf1948c4aeba39a3c8cc52335 Mon Sep 17 00:00:00 2001
+From: "H.J. Lu" <hjl.tools@gmail.com>
+Date: Mon, 1 Feb 2021 11:00:38 -0800
+Subject: [PATCH 5/5] sysconf: Add _SC_MINSIGSTKSZ/_SC_SIGSTKSZ [BZ #20305]
+
+Add _SC_MINSIGSTKSZ for the minimum signal stack size derived from
+AT_MINSIGSTKSZ, which is the minimum number of bytes of free stack
+space required in order to gurantee successful, non-nested handling
+of a single signal whose handler is an empty function, and _SC_SIGSTKSZ
+which is the suggested minimum number of bytes of stack space required
+for a signal stack.
+
+If AT_MINSIGSTKSZ isn't available, sysconf (_SC_MINSIGSTKSZ) returns
+MINSIGSTKSZ.  On Linux/x86 with XSAVE, the signal frame used by kernel
+is composed of the following areas and laid out as:
+
+ ------------------------------
+ | alignment padding          |
+ ------------------------------
+ | xsave buffer               |
+ ------------------------------
+ | fsave header (32-bit only) |
+ ------------------------------
+ | siginfo + ucontext         |
+ ------------------------------
+
+Compute AT_MINSIGSTKSZ value as size of xsave buffer + size of fsave
+header (32-bit only) + size of siginfo and ucontext + alignment padding.
+
+If _SC_SIGSTKSZ_SOURCE or _GNU_SOURCE are defined, MINSIGSTKSZ and SIGSTKSZ
+are redefined as
+
+/* Default stack size for a signal handler: sysconf (SC_SIGSTKSZ).  */
+ # undef SIGSTKSZ
+ # define SIGSTKSZ sysconf (_SC_SIGSTKSZ)
+
+/* Minimum stack size for a signal handler: SIGSTKSZ.  */
+ # undef MINSIGSTKSZ
+ # define MINSIGSTKSZ SIGSTKSZ
+
+Compilation will fail if the source assumes constant MINSIGSTKSZ or
+SIGSTKSZ.
+
+The reason for not simply increasing the kernel's MINSIGSTKSZ #define
+(apart from the fact that it is rarely used, due to glibc's shadowing
+definitions) was that userspace binaries will have baked in the old
+value of the constant and may be making assumptions about it.
+
+For example, the type (char [MINSIGSTKSZ]) changes if this #define
+changes.  This could be a problem if an newly built library tries to
+memcpy() or dump such an object defined by and old binary.
+Bounds-checking and the stack sizes passed to things like sigaltstack()
+and makecontext() could similarly go wrong.
+
+UPDATE:
+
+Backported to glibc 2.28
+
+Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@intel.com>
+---
+ NEWS                                          |  5 ++
+ bits/confname.h                               |  8 +-
+ bits/sigstksz.h                               | 21 +++++
+ elf/dl-support.c                              |  5 ++
+ elf/dl-sysdep.c                               |  9 ++
+ include/bits/sigstack.h                       |  5 ++
+ include/bits/sigstksz.h                       |  7 ++
+ include/features.h                            | 11 +++
+ manual/conf.texi                              | 21 +++++
+ manual/creature.texi                          |  6 ++
+ posix/sysconf.c                               |  3 +
+ signal/Makefile                               |  5 +-
+ signal/signal.h                               |  1 +
+ signal/tst-minsigstksz-5.c                    | 84 +++++++++++++++++++
+ sysdeps/generic/ldsodefs.h                    |  3 +
+ sysdeps/unix/sysv/linux/bits/sigstksz.h       | 33 ++++++++
+ .../unix/sysv/linux/ia64/sysconf-sigstksz.h   | 27 ++++++
+ sysdeps/unix/sysv/linux/sysconf-sigstksz.h    | 38 +++++++++
+ sysdeps/unix/sysv/linux/sysconf.c             |  9 ++
+ .../unix/sysv/linux/x86/dl-minsigstacksize.h  | 83 ++++++++++++++++++
+ .../sysv/linux/x86/include/bits/sigstack.h    |  5 ++
+ sysdeps/x86/dl-minsigstacksize.h              | 27 ++++++
+ 22 files changed, 413 insertions(+), 3 deletions(-)
+ create mode 100644 bits/sigstksz.h
+ create mode 100644 include/bits/sigstack.h
+ create mode 100644 include/bits/sigstksz.h
+ create mode 100644 signal/tst-minsigstksz-5.c
+ create mode 100644 sysdeps/unix/sysv/linux/bits/sigstksz.h
+ create mode 100644 sysdeps/unix/sysv/linux/ia64/sysconf-sigstksz.h
+ create mode 100644 sysdeps/unix/sysv/linux/sysconf-sigstksz.h
+ create mode 100644 sysdeps/unix/sysv/linux/x86/dl-minsigstacksize.h
+ create mode 100644 sysdeps/unix/sysv/linux/x86/include/bits/sigstack.h
+ create mode 100644 sysdeps/x86/dl-minsigstacksize.h
+
+diff --git a/NEWS b/NEWS
+index 154ab22d..e0e95cb8 100644
+--- a/NEWS
++++ b/NEWS
+@@ -9,6 +9,11 @@ Version 2.28
+ 
+ Major new features:
+ 
++* Add _SC_MINSIGSTKSZ and _SC_SIGSTKSZ.  When _SC_SIGSTKSZ_SOURCE or
++  _GNU_SOURCE are defined, MINSIGSTKSZ and SIGSTKSZ are no longer
++  constant on Linux.  MINSIGSTKSZ is redefined to sysconf(_SC_MINSIGSTKSZ)
++  and SIGSTKSZ is redefined to sysconf (_SC_SIGSTKSZ).
++
+ * The localization data for ISO 14651 is updated to match the 2016
+   Edition 4 release of the standard, this matches data provided by
+   Unicode 9.0.0.  This update introduces significant improvements to the
+diff --git a/bits/confname.h b/bits/confname.h
+index 59d31721..36279222 100644
+--- a/bits/confname.h
++++ b/bits/confname.h
+@@ -525,8 +525,14 @@ enum
+ 
+     _SC_THREAD_ROBUST_PRIO_INHERIT,
+ #define _SC_THREAD_ROBUST_PRIO_INHERIT	_SC_THREAD_ROBUST_PRIO_INHERIT
+-    _SC_THREAD_ROBUST_PRIO_PROTECT
++    _SC_THREAD_ROBUST_PRIO_PROTECT,
+ #define _SC_THREAD_ROBUST_PRIO_PROTECT	_SC_THREAD_ROBUST_PRIO_PROTECT
++
++    _SC_MINSIGSTKSZ,
++#define	_SC_MINSIGSTKSZ			_SC_MINSIGSTKSZ
++
++    _SC_SIGSTKSZ
++#define	_SC_SIGSTKSZ			_SC_SIGSTKSZ
+   };
+ 
+ /* Values for the NAME argument to `confstr'.  */
+diff --git a/bits/sigstksz.h b/bits/sigstksz.h
+new file mode 100644
+index 00000000..5535d873
+--- /dev/null
++++ b/bits/sigstksz.h
+@@ -0,0 +1,21 @@
++/* Definition of MINSIGSTKSZ.  Generic version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SIGNAL_H
++# error "Never include <bits/sigstksz.h> directly; use <signal.h> instead."
++#endif
+diff --git a/elf/dl-support.c b/elf/dl-support.c
+index 34be8e5b..056945d7 100644
+--- a/elf/dl-support.c
++++ b/elf/dl-support.c
+@@ -131,6 +131,8 @@ void (*_dl_init_static_tls) (struct link_map *) = &_dl_nothread_init_static_tls;
+ 
+ size_t _dl_pagesize = EXEC_PAGESIZE;
+ 
++size_t _dl_minsigstacksize = CONSTANT_MINSIGSTKSZ;
++
+ int _dl_inhibit_cache;
+ 
+ unsigned int _dl_osversion;
+@@ -287,6 +289,9 @@ _dl_aux_init (ElfW(auxv_t) *av)
+       case AT_RANDOM:
+ 	_dl_random = (void *) av->a_un.a_val;
+ 	break;
++      case AT_MINSIGSTKSZ:
++    _dl_minsigstacksize = av->a_un.a_val;
++    break;
+ # ifdef DL_PLATFORM_AUXV
+       DL_PLATFORM_AUXV
+ # endif
+diff --git a/elf/dl-sysdep.c b/elf/dl-sysdep.c
+index 93983251..4bcd75b4 100644
+--- a/elf/dl-sysdep.c
++++ b/elf/dl-sysdep.c
+@@ -116,6 +116,11 @@ _dl_sysdep_start (void **start_argptr,
+   user_entry = (ElfW(Addr)) ENTRY_POINT;
+   GLRO(dl_platform) = NULL; /* Default to nothing known about the platform.  */
+ 
++  /* NB: Default to a constant CONSTANT_MINSIGSTKSZ.  */
++  _Static_assert (__builtin_constant_p (CONSTANT_MINSIGSTKSZ),
++		  "CONSTANT_MINSIGSTKSZ is constant");
++  GLRO(dl_minsigstacksize) = CONSTANT_MINSIGSTKSZ;
++
+   for (av = GLRO(dl_auxv); av->a_type != AT_NULL; set_seen (av++))
+     switch (av->a_type)
+       {
+@@ -180,6 +185,9 @@ _dl_sysdep_start (void **start_argptr,
+       case AT_RANDOM:
+ 	_dl_random = (void *) av->a_un.a_val;
+ 	break;
++      case AT_MINSIGSTKSZ:
++	GLRO(dl_minsigstacksize) = av->a_un.a_val;
++	break;
+ #ifdef DL_PLATFORM_AUXV
+       DL_PLATFORM_AUXV
+ #endif
+@@ -317,6 +325,7 @@ _dl_show_auxv (void)
+ 	  [AT_L2_CACHEGEOMETRY - 2] =	{ "L2_CACHEGEOMETRY:  0x", hex },
+ 	  [AT_L3_CACHESIZE - 2] =	{ "L3_CACHESIZE:      ", dec },
+ 	  [AT_L3_CACHEGEOMETRY - 2] =	{ "L3_CACHEGEOMETRY:  0x", hex },
++	  [AT_MINSIGSTKSZ - 2] =	{ "MINSIGSTKSZ        ", dec },
+ 	};
+       unsigned int idx = (unsigned int) (av->a_type - 2);
+ 
+diff --git a/include/bits/sigstack.h b/include/bits/sigstack.h
+new file mode 100644
+index 00000000..eea939f5
+--- /dev/null
++++ b/include/bits/sigstack.h
+@@ -0,0 +1,5 @@
++#include_next <bits/sigstack.h>
++
++#if !defined _ISOMAC && !defined CONSTANT_MINSIGSTKSZ
++# define CONSTANT_MINSIGSTKSZ MINSIGSTKSZ
++#endif
+diff --git a/include/bits/sigstksz.h b/include/bits/sigstksz.h
+new file mode 100644
+index 00000000..2ca891e9
+--- /dev/null
++++ b/include/bits/sigstksz.h
+@@ -0,0 +1,7 @@
++/* NB: Don't define MINSIGSTKSZ nor SIGSTKSZ to sysconf (SC_SIGSTKSZ) for
++   glibc build.  IS_IN can only be used when _ISOMAC isn't defined.  */
++#ifdef _ISOMAC
++# include_next <bits/sigstksz.h>
++#elif IS_IN (libsupport)
++# include_next <bits/sigstksz.h>
++#endif
+diff --git a/include/features.h b/include/features.h
+index 5bed0a49..fdc3d11d 100644
+--- a/include/features.h
++++ b/include/features.h
+@@ -47,6 +47,8 @@
+    _LARGEFILE64_SOURCE	Additional functionality from LFS for large files.
+    _FILE_OFFSET_BITS=N	Select default filesystem interface.
+    _ATFILE_SOURCE	Additional *at interfaces.
++   _SC_SIGSTKSZ_SOURCE	Select correct (but non compile-time constant)
++			MINSIGSTKSZ and SIGSTKSZ.
+    _GNU_SOURCE		All of the above, plus GNU extensions.
+    _DEFAULT_SOURCE	The default set of features (taking precedence over
+ 			__STRICT_ANSI__).
+@@ -93,6 +95,8 @@
+    __USE_FILE_OFFSET64	Define 64bit interface as default.
+    __USE_MISC		Define things from 4.3BSD or System V Unix.
+    __USE_ATFILE		Define *at interfaces and AT_* constants for them.
++   __USE_SC_SIGSTKSZ	Define correct (but non compile-time constant)
++			MINSIGSTKSZ and SIGSTKSZ.
+    __USE_GNU		Define GNU extensions.
+    __USE_FORTIFY_LEVEL	Additional security measures used, according to level.
+ 
+@@ -136,6 +140,7 @@
+ #undef	__USE_FILE_OFFSET64
+ #undef	__USE_MISC
+ #undef	__USE_ATFILE
++#undef	__USE_SC_SIGSTKSZ
+ #undef	__USE_GNU
+ #undef	__USE_FORTIFY_LEVEL
+ #undef	__KERNEL_STRICT_NAMES
+@@ -208,6 +213,8 @@
+ # define _DEFAULT_SOURCE	1
+ # undef  _ATFILE_SOURCE
+ # define _ATFILE_SOURCE	1
++# undef  _SC_SIGSTKSZ_SOURCE
++# define _SC_SIGSTKSZ_SOURCE 1
+ #endif
+ 
+ /* If nothing (other than _GNU_SOURCE and _DEFAULT_SOURCE) is defined,
+@@ -372,6 +379,10 @@
+ # define __USE_ATFILE	1
+ #endif
+ 
++#ifdef	_SC_SIGSTKSZ_SOURCE
++# define __USE_SC_SIGSTKSZ	1
++#endif
++
+ #ifdef	_GNU_SOURCE
+ # define __USE_GNU	1
+ #endif
+diff --git a/manual/conf.texi b/manual/conf.texi
+index dbd1d302..7321f401 100644
+--- a/manual/conf.texi
++++ b/manual/conf.texi
+@@ -911,6 +911,27 @@ Inquire about the parameter corresponding to @code{NL_SETMAX}.
+ @item _SC_NL_TEXTMAX
+ @standards{X/Open, unistd.h}
+ Inquire about the parameter corresponding to @code{NL_TEXTMAX}.
++
++@item _SC_MINSIGSTKSZ
++@standards{GNU, unistd.h}
++Inquire about the minimum number of bytes of free stack space required
++in order to guarantee successful, non-nested handling of a single signal
++whose handler is an empty function.
++
++@item _SC_SIGSTKSZ
++@standards{GNU, unistd.h}
++Inquire about the suggested minimum number of bytes of stack space
++required for a signal stack.
++
++This is not guaranteed to be enough for any specific purpose other than
++the invocation of a single, non-nested, empty handler, but nonetheless
++should be enough for basic scenarios involving simple signal handlers
++and very low levels of signal nesting (say, 2 or 3 levels at the very
++most).
++
++This value is provided for developer convenience and to ease migration
++from the legacy @code{SIGSTKSZ} constant.  Programs requiring stronger
++guarantees should avoid using it if at all possible.
+ @end vtable
+ 
+ @node Examples of Sysconf
+--- a/manual/creature.texi   2022-04-14 11:40:12.081653162 +0300
++++ b/manual/creature.texi       2022-04-14 11:41:54.376167038 +0300
+@@ -251,6 +251,12 @@
+ checks that may have an additional performance overhead.
+ @end defvr
+
++@defvr Macro _SC_SIGSTKSZ_SOURCE
++@standards{GNU, (none)}
++If this macro is defined, correct (but non compile-time constant)
++MINSIGSTKSZ and SIGSTKSZ are defined.
++@end defvr
++
+ @defvr Macro _REENTRANT
+ @defvrx Macro _THREAD_SAFE
+ @standards{Obsolete, (none)}
+diff --git a/posix/sysconf.c b/posix/sysconf.c
+index 09ebd95a..48c925f5 100644
+--- a/posix/sysconf.c
++++ b/posix/sysconf.c
+@@ -266,6 +266,9 @@ __sysconf (int name)
+     case _SC_XOPEN_REALTIME:
+     case _SC_XOPEN_REALTIME_THREADS:
+ 
++    case _SC_MINSIGSTKSZ:
++    case _SC_SIGSTKSZ:
++
+       break;
+     }
+ 
+diff --git a/signal/Makefile b/signal/Makefile
+index 7767bb28..cd85b8b6 100644
+--- a/signal/Makefile
++++ b/signal/Makefile
+@@ -31,7 +31,8 @@ headers := signal.h sys/signal.h \
+ 	   bits/types/sigevent_t.h bits/types/siginfo_t.h \
+ 	   bits/types/sigset_t.h bits/types/sigval_t.h \
+ 	   bits/types/stack_t.h bits/types/struct_sigstack.h \
+-	   bits/types/__sigval_t.h
++	   bits/types/__sigval_t.h \
++	   bits/sigstksz.h
+ 
+ routines	:= signal raise killpg \
+ 		   sigaction sigprocmask kill \
+@@ -48,7 +49,7 @@ routines	:= signal raise killpg \
+ tests		:= tst-signal tst-sigset tst-sigsimple tst-raise tst-sigset2 \
+ 		   tst-sigwait-eintr tst-sigaction \
+ 		   tst-minsigstksz-1 tst-minsigstksz-2 tst-minsigstksz-3 \
+-		   tst-minsigstksz-3a tst-minsigstksz-4 \
++		   tst-minsigstksz-3a tst-minsigstksz-4 tst-minsigstksz-5
+ 
+ include ../Rules
+ 
+diff --git a/signal/signal.h b/signal/signal.h
+index 87dc82a9..8ebfc6e6 100644
+--- a/signal/signal.h
++++ b/signal/signal.h
+@@ -314,6 +314,7 @@ extern int sigreturn (struct sigcontext *__scp) __THROW;
+ extern int siginterrupt (int __sig, int __interrupt) __THROW;
+ 
+ # include <bits/sigstack.h>
++# include <bits/sigstksz.h>
+ # include <bits/ss_flags.h>
+ 
+ /* Alternate signal handler stack interface.
+diff --git a/signal/tst-minsigstksz-5.c b/signal/tst-minsigstksz-5.c
+new file mode 100644
+index 00000000..d657d2f4
+--- /dev/null
++++ b/signal/tst-minsigstksz-5.c
+@@ -0,0 +1,84 @@
++/* Test of signal delivery on an alternate stack with MINSIGSTKSZ size.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <signal.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <support/check.h>
++#include <support/support.h>
++
++static volatile sig_atomic_t handler_run;
++
++static void
++handler (int signo)
++{
++  /* Clear a bit of on-stack memory.  */
++  volatile char buffer[256];
++  for (size_t i = 0; i < sizeof (buffer); ++i)
++    buffer[i] = 0;
++  handler_run = 1;
++}
++
++int
++do_test (void)
++{
++  size_t stack_buffer_size = 64 * 1024 * 1024;
++  void *stack_buffer = xmalloc (stack_buffer_size);
++  void *stack_end = stack_buffer + stack_buffer_size;
++  memset (stack_buffer, 0xCC, stack_buffer_size);
++
++  void *stack_bottom = stack_buffer + (stack_buffer_size + MINSIGSTKSZ) / 2;
++  void *stack_top = stack_bottom + MINSIGSTKSZ;
++  stack_t stack =
++    {
++      .ss_sp = stack_bottom,
++      .ss_size = MINSIGSTKSZ,
++    };
++  if (sigaltstack (&stack, NULL) < 0)
++    FAIL_RET ("sigaltstack: %m\n");
++
++  struct sigaction act =
++    {
++      .sa_handler = handler,
++      .sa_flags = SA_ONSTACK,
++    };
++  if (sigaction (SIGUSR1, &act, NULL) < 0)
++    FAIL_RET ("sigaction: %m\n");
++
++  if (kill (getpid (), SIGUSR1) < 0)
++    FAIL_RET ("kill: %m\n");
++
++  if (handler_run != 1)
++    FAIL_RET ("handler did not run\n");
++
++  for (void *p = stack_buffer; p < stack_bottom; ++p)
++    if (*(unsigned char *) p != 0xCC)
++      FAIL_RET ("changed byte %ld bytes below configured stack\n",
++		(long) (stack_bottom - p));
++  for (void *p = stack_top; p < stack_end; ++p)
++    if (*(unsigned char *) p != 0xCC)
++      FAIL_RET ("changed byte %ld bytes above configured stack\n",
++		(long) (p - stack_top));
++
++  free (stack_buffer);
++
++  return 0;
++}
++
++#include <support/test-driver.c>
+diff --git a/sysdeps/generic/ldsodefs.h b/sysdeps/generic/ldsodefs.h
+index 6cbbaa80..a15bf2e5 100644
+--- a/sysdeps/generic/ldsodefs.h
++++ b/sysdeps/generic/ldsodefs.h
+@@ -527,6 +527,9 @@ struct rtld_global_ro
+   /* Cached value of `getpagesize ()'.  */
+   EXTERN size_t _dl_pagesize;
+ 
++  /* Cached value of `sysconf (_SC_MINSIGSTKSZ)'.  */
++  EXTERN size_t _dl_minsigstacksize;
++
+   /* Do we read from ld.so.cache?  */
+   EXTERN int _dl_inhibit_cache;
+ 
+diff --git a/sysdeps/unix/sysv/linux/bits/sigstksz.h b/sysdeps/unix/sysv/linux/bits/sigstksz.h
+new file mode 100644
+index 00000000..926508f2
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/bits/sigstksz.h
+@@ -0,0 +1,33 @@
++/* Definition of MINSIGSTKSZ and SIGSTKSZ.  Linux version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#ifndef _SIGNAL_H
++# error "Never include <bits/sigstksz.h> directly; use <signal.h> instead."
++#endif
++
++#if defined __USE_SC_SIGSTKSZ && __USE_SC_SIGSTKSZ
++# include <unistd.h>
++
++/* Default stack size for a signal handler: sysconf (SC_SIGSTKSZ).  */
++# undef SIGSTKSZ
++# define SIGSTKSZ sysconf (_SC_SIGSTKSZ)
++
++/* Minimum stack size for a signal handler: SIGSTKSZ.  */
++# undef MINSIGSTKSZ
++# define MINSIGSTKSZ SIGSTKSZ
++#endif
+diff --git a/sysdeps/unix/sysv/linux/ia64/sysconf-sigstksz.h b/sysdeps/unix/sysv/linux/ia64/sysconf-sigstksz.h
+new file mode 100644
+index 00000000..7e5ceba1
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/ia64/sysconf-sigstksz.h
+@@ -0,0 +1,27 @@
++/* sysconf_sigstksz ().  Linux/ia64 version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* Return sysconf (_SC_SIGSTKSZ).  */
++
++static long int
++sysconf_sigstksz (void)
++{
++  _Static_assert (__builtin_constant_p (SIGSTKSZ),
++		  "SIGSTKSZ is constant");
++  return SIGSTKSZ;
++}
+diff --git a/sysdeps/unix/sysv/linux/sysconf-sigstksz.h b/sysdeps/unix/sysv/linux/sysconf-sigstksz.h
+new file mode 100644
+index 00000000..64d450b2
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/sysconf-sigstksz.h
+@@ -0,0 +1,38 @@
++/* sysconf_sigstksz ().  Linux version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* Return sysconf (_SC_SIGSTKSZ).  */
++
++static long int
++sysconf_sigstksz (void)
++{
++  long int minsigstacksize = GLRO(dl_minsigstacksize);
++  assert (minsigstacksize != 0);
++  _Static_assert (__builtin_constant_p (MINSIGSTKSZ),
++		  "MINSIGSTKSZ is constant");
++  if (minsigstacksize < MINSIGSTKSZ)
++    minsigstacksize = MINSIGSTKSZ;
++  /* MAX (MINSIGSTKSZ, sysconf (_SC_MINSIGSTKSZ)) * 4.  */
++  long int sigstacksize = minsigstacksize * 4;
++  /* Return MAX (SIGSTKSZ, sigstacksize).  */
++  _Static_assert (__builtin_constant_p (SIGSTKSZ),
++		  "SIGSTKSZ is constant");
++  if (sigstacksize < SIGSTKSZ)
++    sigstacksize = SIGSTKSZ;
++  return sigstacksize;
++}
+diff --git a/sysdeps/unix/sysv/linux/sysconf.c b/sysdeps/unix/sysv/linux/sysconf.c
+index 6fab1601..4aa9b171 100644
+--- a/sysdeps/unix/sysv/linux/sysconf.c
++++ b/sysdeps/unix/sysv/linux/sysconf.c
+@@ -16,6 +16,7 @@
+    License along with the GNU C Library; if not, see
+    <http://www.gnu.org/licenses/>.  */
+ 
++#include <assert.h>
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <stdlib.h>
+@@ -26,6 +27,7 @@
+ #include <sys/param.h>
+ #include <not-cancel.h>
+ #include <ldsodefs.h>
++#include <sysconf-sigstksz.h>
+ 
+ /* Legacy value of ARG_MAX.  The macro is now not defined since the
+    actual value varies based on the stack size.  */
+@@ -75,6 +77,13 @@ __sysconf (int name)
+       }
+       break;
+ 
++    case _SC_MINSIGSTKSZ:
++      assert (GLRO(dl_minsigstacksize) != 0);
++      return GLRO(dl_minsigstacksize);
++
++    case _SC_SIGSTKSZ:
++      return sysconf_sigstksz ();
++
+     default:
+       break;
+     }
+diff --git a/sysdeps/unix/sysv/linux/x86/dl-minsigstacksize.h b/sysdeps/unix/sysv/linux/x86/dl-minsigstacksize.h
+new file mode 100644
+index 00000000..6088bbc9
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/x86/dl-minsigstacksize.h
+@@ -0,0 +1,83 @@
++/* Emulate AT_MINSIGSTKSZ.  Linux/x86 version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* Emulate AT_MINSIGSTKSZ with XSAVE. */
++
++static inline void
++dl_check_minsigstacksize (const struct cpu_features *cpu_features)
++{
++  /* Return if AT_MINSIGSTKSZ is provide by kernel.  */
++  if (GLRO(dl_minsigstacksize) != 0)
++    return;
++
++  if (cpu_features->basic.max_cpuid >= 0xd
++      && CPU_FEATURES_CPU_P (cpu_features, OSXSAVE))
++    {
++      /* Emulate AT_MINSIGSTKSZ.  In Linux kernel, the signal frame data
++	 with XSAVE is composed of the following areas and laid out as:
++	 ------------------------------
++	 | alignment padding          |
++	 ------------------------------
++	 | xsave buffer               |
++	 ------------------------------
++	 | fsave header (32-bit only) |
++	 ------------------------------
++	 | siginfo + ucontext         |
++	 ------------------------------
++	 */
++
++      unsigned int sigframe_size;
++
++#ifdef __x86_64__
++      /* NB: sizeof(struct rt_sigframe) + 8-byte return address in Linux
++	 kernel.  */
++      sigframe_size = 440 + 8;
++#else
++      /* NB: sizeof(struct sigframe_ia32) + sizeof(struct fregs_state)) +
++	 4-byte return address + 3 * 4-byte arguments in Linux kernel.  */
++      sigframe_size = 736 + 112 + 4 + 3 * 4;
++#endif
++
++      /* Add 15 bytes to align the stack to 16 bytes.  */
++      sigframe_size += 15;
++
++      /* Make the space before xsave buffer multiple of 16 bytes.  */
++      sigframe_size = ALIGN_UP (sigframe_size, 16);
++
++      /* Add (64 - 16)-byte padding to align xsave buffer at 64 bytes.  */
++      sigframe_size += 64 - 16;
++
++      unsigned int eax, ebx, ecx, edx;
++      __cpuid_count (0xd, 0, eax, ebx, ecx, edx);
++
++      /* Add the size of xsave buffer.  */
++      sigframe_size += ebx;
++
++      /* Add the size of FP_XSTATE_MAGIC2.  */
++#define FP_XSTATE_MAGIC2 0x46505845U
++      sigframe_size += sizeof (FP_XSTATE_MAGIC2);
++
++      GLRO(dl_minsigstacksize) = sigframe_size;
++    }
++  else
++    {
++      /* NB: Default to a constant MINSIGSTKSZ.  */
++      _Static_assert (__builtin_constant_p (MINSIGSTKSZ),
++		      "MINSIGSTKSZ is constant");
++      GLRO(dl_minsigstacksize) = MINSIGSTKSZ;
++    }
++}
+diff --git a/sysdeps/unix/sysv/linux/x86/include/bits/sigstack.h b/sysdeps/unix/sysv/linux/x86/include/bits/sigstack.h
+new file mode 100644
+index 00000000..208754c4
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/x86/include/bits/sigstack.h
+@@ -0,0 +1,5 @@
++#include_next <bits/sigstack.h>
++
++#ifndef _ISOMAC
++# define CONSTANT_MINSIGSTKSZ 0
++#endif
+diff --git a/sysdeps/x86/dl-minsigstacksize.h b/sysdeps/x86/dl-minsigstacksize.h
+new file mode 100644
+index 00000000..959871c9
+--- /dev/null
++++ b/sysdeps/x86/dl-minsigstacksize.h
+@@ -0,0 +1,27 @@
++/* Emulate AT_MINSIGSTKSZ.  Generic x86 version.
++   Copyright (C) 2020 Free Software Foundation, Inc.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++/* Emulate AT_MINSIGSTKSZ with XSAVE. */
++
++static inline void
++dl_check_minsigstacksize (const struct cpu_features *cpu_features)
++{
++  /* NB: Default to a constant MINSIGSTKSZ.  */
++  _Static_assert (__builtin_constant_p (MINSIGSTKSZ),
++		  "MINSIGSTKSZ is constant");
++  GLRO(dl_minsigstacksize) = MINSIGSTKSZ;
++}
+-- 
+2.27.0
+

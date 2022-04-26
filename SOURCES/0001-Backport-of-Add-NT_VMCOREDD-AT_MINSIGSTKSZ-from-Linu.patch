@@ -1,0 +1,64 @@
+From 174195409d6a3d639dd28e08cf99d6f2559eca9c Mon Sep 17 00:00:00 2001
+From: Joseph Myers <joseph@codesourcery.com>
+Date: Mon, 20 Aug 2018 15:46:26 +0000
+Subject: [PATCH] Add NT_VMCOREDD, AT_MINSIGSTKSZ from Linux 4.18 to elf.h.
+
+This patch adds two new constants from Linux 4.18 to elf.h,
+NT_VMCOREDD and AT_MINSIGSTKSZ.
+
+Tested for x86_64.
+
+    * elf/elf.c (NT_VMCOREDD): New macro.
+    (AT_MINSIGSTKSZ): Likewise.
+
+
+UPDATE:
+
+Backported to glibc 2.28
+
+Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@intel.com>
+---
+ ChangeLog | 6 +++++-
+ elf/elf.h | 4 ++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/ChangeLog b/ChangeLog
+index 74e63467..e1f1e8ed 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,5 +1,9 @@
+-2019-03-25  Mike Crowe  <mac@mcrowe.com>
++2018-08-20  Joseph Myers  <joseph@codesourcery.com>
++
++	* elf/elf.c (NT_VMCOREDD): New macro.
++	(AT_MINSIGSTKSZ): Likewise.
+ 
++2019-03-25  Mike Crowe  <mac@mcrowe.com>
+ 	* nptl/tst-rwlock14.c (do_test): Replace duplicate calls to
+ 	pthread_rwlock_timedrdlock with calls to
+ 	pthread_rwlock_timedwrlock to ensure that the latter is tested
+diff --git a/elf/elf.h b/elf/elf.h
+index d6506ea1..9b4d56b0 100644
+--- a/elf/elf.h
++++ b/elf/elf.h
+@@ -808,6 +808,7 @@ typedef struct
+ #define NT_ARM_SYSTEM_CALL	0x404	/* ARM system call number */
+ #define NT_ARM_SVE	0x405		/* ARM Scalable Vector Extension
+ 					   registers */
++#define NT_VMCOREDD	0x700		/* Vmcore Device Dump Note.  */
+ 
+ /* Legal values for the note segment descriptor types for object files.  */
+ 
+@@ -1214,6 +1215,9 @@ typedef struct
+ #define AT_L3_CACHESIZE		46
+ #define AT_L3_CACHEGEOMETRY	47
+ 
++#define AT_MINSIGSTKSZ		51 /* Stack needed for signal delivery
++				      (AArch64).  */
++
+ /* Note section contents.  Each entry in the note section begins with
+    a header of a fixed form.  */
+ 
+-- 
+2.27.0
+

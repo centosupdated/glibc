@@ -1,0 +1,111 @@
+From 0058b10814afd8f1ea031b11f3c4ac226fa60d79 Mon Sep 17 00:00:00 2001
+From: Wangyang Guo <wangyang.guo@intel.com>
+Date: Mon, 24 Jan 2022 02:59:56 +0000
+Subject: [PATCH] Only avoid short distance REP MOVSB on ICX
+
+---
+ sysdeps/x86/cacheinfo.h                                  | 9 +++++++++
+ sysdeps/x86/cpu-features.c                               | 5 +++++
+ .../include/cpu-features-preferred_feature_index_1.def   | 1 +
+ sysdeps/x86/sysdep.h                                     | 3 +++
+ sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S    | 5 +++++
+ 5 files changed, 23 insertions(+)
+
+diff --git a/sysdeps/x86/cacheinfo.h b/sysdeps/x86/cacheinfo.h
+index 02556961..7af8575d 100644
+--- a/sysdeps/x86/cacheinfo.h
++++ b/sysdeps/x86/cacheinfo.h
+@@ -45,6 +45,11 @@ long int __x86_rep_movsb_threshold attribute_hidden = 2048;
+ /* Threshold to use Enhanced REP STOSB.  */
+ long int __x86_rep_stosb_threshold attribute_hidden = 2048;
+ 
++/* Non-zero to avoid short distance REP MOVSB.  */
++//int __x86_avoid_short_distance_rep_movsb attribute_hidden;
++/* String/memory function control.  */
++int __x86_string_control attribute_hidden;
++
+ static void
+ get_common_cache_info (long int *shared_ptr, unsigned int *threads_ptr,
+ 		       long int core)
+@@ -421,6 +426,10 @@ init_cacheinfo (void)
+   else
+     __x86_rep_movsb_threshold = rep_movsb_threshold;
+ 
++  if (CPU_FEATURES_ARCH_P (cpu_features, Avoid_Short_Distance_REP_MOVSB))
++    __x86_string_control
++      |= X86_STRING_CONTROL_AVOID_SHORT_DISTANCE_REP_MOVSB;
++
+ # if HAVE_TUNABLES
+   __x86_rep_stosb_threshold = cpu_features->rep_stosb_threshold;
+ # endif
+diff --git a/sysdeps/x86/cpu-features.c b/sysdeps/x86/cpu-features.c
+index 91042505..22b45c72 100644
+--- a/sysdeps/x86/cpu-features.c
++++ b/sysdeps/x86/cpu-features.c
+@@ -526,6 +526,11 @@ init_cpu_features (struct cpu_features *cpu_features)
+       else
+ 	cpu_features->preferred[index_arch_Prefer_No_AVX512]
+ 	  |= bit_arch_Prefer_No_AVX512;
++
++      /* Avoid avoid short distance REP MOVSB on processor with FSRM.  */
++      if (CPU_FEATURES_CPU_P (cpu_features, FSRM))
++	cpu_features->preferred[index_arch_Avoid_Short_Distance_REP_MOVSB]
++	  |= bit_arch_Avoid_Short_Distance_REP_MOVSB;
+     }
+   /* This spells out "AuthenticAMD".  */
+   else if (ebx == 0x68747541 && ecx == 0x444d4163 && edx == 0x69746e65)
+diff --git a/sysdeps/x86/include/cpu-features-preferred_feature_index_1.def b/sysdeps/x86/include/cpu-features-preferred_feature_index_1.def
+index 17a5cc42..e7277b33 100644
+--- a/sysdeps/x86/include/cpu-features-preferred_feature_index_1.def
++++ b/sysdeps/x86/include/cpu-features-preferred_feature_index_1.def
+@@ -32,3 +32,4 @@ BIT (Prefer_ERMS)
+ BIT (Prefer_FSRM)
+ BIT (Prefer_No_AVX512)
+ BIT (MathVec_Prefer_No_AVX512)
++BIT (Avoid_Short_Distance_REP_MOVSB)
+diff --git a/sysdeps/x86/sysdep.h b/sysdeps/x86/sysdep.h
+index f41f4ebd..4ac93a95 100644
+--- a/sysdeps/x86/sysdep.h
++++ b/sysdeps/x86/sysdep.h
+@@ -57,6 +57,9 @@ enum cf_protection_level
+ #define STATE_SAVE_MASK \
+   ((1 << 1) | (1 << 2) | (1 << 3) | (1 << 5) | (1 << 6) | (1 << 7))
+ 
++/* Avoid short distance REP MOVSB.  */
++#define X86_STRING_CONTROL_AVOID_SHORT_DISTANCE_REP_MOVSB      (1 << 0)
++
+ #ifdef	__ASSEMBLER__
+ 
+ /* Syntactic details of assembler.  */
+diff --git a/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S b/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+index 07299dc0..4aa65555 100644
+--- a/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
++++ b/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+@@ -244,12 +244,16 @@ L(movsb):
+ 	/* Avoid slow backward REP MOVSB.  */
+ 	jb	L(more_8x_vec_backward)
+ # if AVOID_SHORT_DISTANCE_REP_MOVSB
++	andl    $X86_STRING_CONTROL_AVOID_SHORT_DISTANCE_REP_MOVSB, __x86_string_control(%rip)
++	jz	3f
+ 	movq	%rdi, %rcx
+ 	subq	%rsi, %rcx
+ 	jmp	2f
+ # endif
+ 1:
+ # if AVOID_SHORT_DISTANCE_REP_MOVSB
++	andl    $X86_STRING_CONTROL_AVOID_SHORT_DISTANCE_REP_MOVSB, __x86_string_control(%rip)
++	jz	3f
+ 	movq	%rsi, %rcx
+ 	subq	%rdi, %rcx
+ 2:
+@@ -257,6 +261,7 @@ L(movsb):
+    is N*4GB + [1..63] with N >= 0.  */
+ 	cmpl	$63, %ecx
+ 	jbe	L(more_2x_vec)	/* Avoid "rep movsb" if ECX <= 63.  */
++3:
+ # endif
+ 	movq	%rdx, %rcx
+ 	rep movsb
+-- 
+2.27.0
+

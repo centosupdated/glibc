@@ -1,0 +1,131 @@
+From f42b57f2c3da86a0e3aa8e2f6f09994b8a0c7334 Mon Sep 17 00:00:00 2001
+From: Wangyang Guo <wangyang.guo@intel.com>
+Date: Mon, 15 Nov 2021 05:28:29 +0000
+Subject: [PATCH] pack up patches
+
+---
+ crypt/Makefile                  | 2 ++
+ math/Makefile                   | 2 ++
+ math/w_sqrt_compat.c            | 1 +
+ nss/nss_files/files-XXX.c       | 4 ++++
+ sysdeps/ieee754/dbl-64/e_exp.c  | 1 +
+ sysdeps/ieee754/dbl-64/e_exp2.c | 1 +
+ sysdeps/x86_64/fpu/Makefile     | 7 +++++++
+ timezone/tzselect.ksh           | 2 +-
+ 8 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/crypt/Makefile b/crypt/Makefile
+index 3811b6e2..34fd5306 100644
+--- a/crypt/Makefile
++++ b/crypt/Makefile
+@@ -22,6 +22,8 @@ subdir	:= crypt
+ 
+ include ../Makeconfig
+ 
++CFLAGS-.o += -flto -ffat-lto-objects -fno-stack-protector
++
+ headers := crypt.h
+ 
+ extra-libs := libcrypt
+diff --git a/math/Makefile b/math/Makefile
+index df73d708..e1826330 100644
+--- a/math/Makefile
++++ b/math/Makefile
+@@ -21,6 +21,8 @@ subdir		:= math
+ 
+ include ../Makeconfig
+ 
++CFLAGS-.o += -fno-stack-protector  -falign-functions=32
++
+ # Installed header files.
+ headers		:= math.h bits/mathcalls.h bits/mathinline.h \
+ 		   fpu_control.h complex.h bits/cmathcalls.h fenv.h \
+diff --git a/math/w_sqrt_compat.c b/math/w_sqrt_compat.c
+index e76a8079..889ab39a 100644
+--- a/math/w_sqrt_compat.c
++++ b/math/w_sqrt_compat.c
+@@ -26,6 +26,7 @@
+ #if LIBM_SVID_COMPAT
+ /* wrapper sqrt */
+ double
++__attribute__((aligned(64)))
+ __sqrt (double x)
+ {
+   if (__builtin_expect (isless (x, 0.0), 0) && _LIB_VERSION != _IEEE_)
+diff --git a/nss/nss_files/files-XXX.c b/nss/nss_files/files-XXX.c
+index 37a3ce27..056ec6cc 100644
+--- a/nss/nss_files/files-XXX.c
++++ b/nss/nss_files/files-XXX.c
+@@ -40,6 +40,7 @@
+ #define ENTNAME_r	CONCAT(ENTNAME,_r)
+ 
+ #define DATAFILE	"/etc/" DATABASE
++#define ALTDATAFILE	"/usr/share/defaults/etc/" DATABASE
+ 
+ #ifdef NEED_H_ERRNO
+ # include <netdb.h>
+@@ -77,6 +78,9 @@ internal_setent (FILE **stream)
+     {
+       *stream = __nss_files_fopen (DATAFILE);
+ 
++      if (*stream == NULL)
++           *stream = fopen(ALTDATAFILE, "rce");
++
+       if (*stream == NULL)
+ 	status = errno == EAGAIN ? NSS_STATUS_TRYAGAIN : NSS_STATUS_UNAVAIL;
+     }
+diff --git a/sysdeps/ieee754/dbl-64/e_exp.c b/sysdeps/ieee754/dbl-64/e_exp.c
+index ddd2bcb1..3c693d78 100644
+--- a/sysdeps/ieee754/dbl-64/e_exp.c
++++ b/sysdeps/ieee754/dbl-64/e_exp.c
+@@ -49,6 +49,7 @@
+ 
+ double
+ SECTION
++__attribute__((aligned(64)))
+ __ieee754_exp (double x)
+ {
+   double bexp, t, eps, del, base, y, al, bet, res, rem, cor;
+diff --git a/sysdeps/ieee754/dbl-64/e_exp2.c b/sysdeps/ieee754/dbl-64/e_exp2.c
+index c45bb447..a30d5a2e 100644
+--- a/sysdeps/ieee754/dbl-64/e_exp2.c
++++ b/sysdeps/ieee754/dbl-64/e_exp2.c
+@@ -39,6 +39,7 @@ static const double TWO1023 = 8.988465674311579539e+307;
+ static const double TWOM1000 = 9.3326361850321887899e-302;
+ 
+ double
++__attribute__((aligned(64)))
+ __ieee754_exp2 (double x)
+ {
+   static const double himark = (double) DBL_MAX_EXP;
+diff --git a/sysdeps/x86_64/fpu/Makefile b/sysdeps/x86_64/fpu/Makefile
+index 2b7d69bb..bba4a1de 100644
+--- a/sysdeps/x86_64/fpu/Makefile
++++ b/sysdeps/x86_64/fpu/Makefile
+@@ -237,3 +237,10 @@ CFLAGS-test-float-libmvec-sincosf-avx512.c = -DREQUIRE_AVX512F
+ CFLAGS-test-float-libmvec-sincosf-avx512-main.c = $(libmvec-sincos-cflags) $(float-vlen16-arch-ext-cflags)
+ endif
+ endif
++
++ifeq ($(subdir),math)
++CFLAGS-branred.c = -mprefer-vector-width=128 -fno-tree-vectorize
++CFLAGS-s_sincos.c = -mprefer-vector-width=256 -fno-tree-vectorize
++CFLAGS-e_exp.c = -mprefer-vector-width=128 -fno-tree-vectorize
++CFLAGS-e_exp2.c = -mprefer-vector-width=128 -fno-tree-vectorize
++endif
+diff --git a/timezone/tzselect.ksh b/timezone/tzselect.ksh
+index d2c3a6d1..5c69e579 100755
+--- a/timezone/tzselect.ksh
++++ b/timezone/tzselect.ksh
+@@ -52,7 +52,7 @@ say() {
+ 
+ coord=
+ location_limit=10
+-zonetabtype=zone1970
++zonetabtype=zone
+ 
+ usage="Usage: tzselect [--version] [--help] [-c COORD] [-n LIMIT]
+ Select a time zone interactively.
+-- 
+2.27.0
+

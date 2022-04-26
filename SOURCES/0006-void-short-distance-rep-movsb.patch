@@ -1,0 +1,53 @@
+From ff7e299914a2dfa1c3fd7abd267535f7586ac413 Mon Sep 17 00:00:00 2001
+From: Wangyang Guo <wangyang.guo@intel.com>
+Date: Mon, 15 Nov 2021 06:12:16 +0000
+Subject: [PATCH 1/2] Avoid short distance rep movsb
+
+---
+ .../multiarch/memmove-vec-unaligned-erms.S    | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S b/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+index c952576c..07299dc0 100644
+--- a/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
++++ b/sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+@@ -56,6 +56,14 @@
+ # endif
+ #endif
+ 
++/* Avoid short distance rep movsb only with non-SSE vector.  */
++#ifndef AVOID_SHORT_DISTANCE_REP_MOVSB
++# define AVOID_SHORT_DISTANCE_REP_MOVSB 1
++#else
++# define AVOID_SHORT_DISTANCE_REP_MOVSB 0
++#endif
++
++
+ #ifndef PREFETCH
+ # define PREFETCH(addr) prefetcht0 addr
+ #endif
+@@ -235,7 +243,21 @@ L(movsb):
+ 	cmpq	%r9, %rdi
+ 	/* Avoid slow backward REP MOVSB.  */
+ 	jb	L(more_8x_vec_backward)
++# if AVOID_SHORT_DISTANCE_REP_MOVSB
++	movq	%rdi, %rcx
++	subq	%rsi, %rcx
++	jmp	2f
++# endif
+ 1:
++# if AVOID_SHORT_DISTANCE_REP_MOVSB
++	movq	%rsi, %rcx
++	subq	%rdi, %rcx
++2:
++/* Avoid "rep movsb" if RCX, the distance between source and destination,
++   is N*4GB + [1..63] with N >= 0.  */
++	cmpl	$63, %ecx
++	jbe	L(more_2x_vec)	/* Avoid "rep movsb" if ECX <= 63.  */
++# endif
+ 	movq	%rdx, %rcx
+ 	rep movsb
+ L(nop):
+-- 
+2.27.0
+
