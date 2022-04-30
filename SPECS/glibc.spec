@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 197%{?dist}
+%define glibcrelease 199%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -879,6 +879,20 @@ Patch684: glibc-rh2033684-12.patch
 Patch685: glibc-rh2063712.patch
 Patch686: glibc-rh2063042.patch
 Patch687: glibc-rh2071745.patch
+Patch688: glibc-rh2065588-1.patch
+Patch689: glibc-rh2065588-2.patch
+Patch690: glibc-rh2065588-3.patch
+Patch691: glibc-rh2065588-4.patch
+Patch692: glibc-rh2065588-5.patch
+Patch693: glibc-rh2065588-6.patch
+Patch694: glibc-rh2065588-7.patch
+Patch695: glibc-rh2065588-8.patch
+Patch696: glibc-rh2065588-9.patch
+Patch697: glibc-rh2065588-10.patch
+Patch698: glibc-rh2065588-11.patch
+Patch699: glibc-rh2065588-12.patch
+Patch700: glibc-rh2065588-13.patch
+Patch701: glibc-rh2072329.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2709,6 +2723,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Apr 26 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-199
+- Fix fortify false positive with mbsrtowcs and mbsnrtowcs (#2072329).
+
+* Fri Apr 22 2022 Carlos O'Donell <carlos@redhat.com> - 2.28-198
+- Fix multi-threaded popen defect leading to segfault (#2065588)
+
 * Tue Apr 05 2022 Arjun Shankar <arjun@redhat.com> - 2.28-197
 - timezone: Fix a test that causes occasional build failure (#2071745)
 
