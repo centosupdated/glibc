@@ -895,14 +895,9 @@ Patch700: glibc-rh2065588-13.patch
 Patch701: glibc-rh2072329.patch 
 
 # Intel Optimizations
-Patch1001: 0001-Backport-of-Add-NT_VMCOREDD-AT_MINSIGSTKSZ-from-Linu.patch
-Patch1002: 0002-Backport-of-Print-cache-size-and-geometry-auxv-types.patch
-Patch1003: 0003-Backport-of-Tests-for-minimal-signal-handler.patch
-Patch1004: 0004-Disable-lazy-binding-on-tests-for-minimal-signal-han.patch
-Patch1005: 0005-sysconf-Add-_SC_MINSIGSTKSZ-_SC_SIGSTKSZ-BZ-20305.patch
-Patch1006: 0006-void-short-distance-rep-movsb.patch
-Patch1007: 0007-pack-up-patches.patch
-Patch1008: 0008-only-avoid-short-distance-rep-mobsb-on-icx.patch
+Patch1001: 0001-void-short-distance-rep-movsb.patch
+Patch1002: 0002-pack-up-patches.patch
+Patch1003: 0003-only-avoid-short-distance-rep-mobsb-on-icx.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
