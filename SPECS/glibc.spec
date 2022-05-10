@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 164%{?dist}.3
+%define glibcrelease 189.1%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -85,6 +85,47 @@
 # here. If the arch is not listed here then a single core debuginfo package
 # will be created for the architecture.
 %define debuginfocommonarches %{biarcharches} alpha alphaev6
+
+##############################################################################
+# Utility functions for pre/post scripts.  Stick them at the beginning of
+# any lua %pre, %post, %postun, etc. sections to have them expand into
+# those scripts.  It only works in lua sections and not anywhere else.
+%define glibc_post_funcs() \
+-- We use lua posix.exec because there may be no shell that we can \
+-- run during glibc upgrade.  We used to implement much of %%post as a \
+-- C program, but from an overall maintenance perspective the lua in \
+-- the spec file was simpler and safer given the operations required. \
+-- All lua code will be ignored by rpm-ostree; see: \
+-- https://github.com/projectatomic/rpm-ostree/pull/1869 \
+-- If we add new lua actions to the %%post code we should coordinate \
+-- with rpm-ostree and ensure that their glibc install is functional. \
+function post_exec (program, ...) \
+  local pid = posix.fork () \
+  if pid == 0 then \
+    posix.exec (program, ...) \
+    assert (nil) \
+  elseif pid > 0 then \
+    posix.wait (pid) \
+  end \
+end \
+\
+function update_gconv_modules_cache () \
+  local iconv_dir = "%{_libdir}/gconv" \
+  local iconv_cache = iconv_dir .. "/gconv-modules.cache" \
+  local iconv_modules = iconv_dir .. "/gconv-modules" \
+  if (posix.utime (iconv_modules) == 0) then \
+    if (posix.utime (iconv_cache) == 0) then \
+      post_exec ("%{_prefix}/sbin/iconvconfig", \
+		 "-o", iconv_cache, \
+		 "--nostdlib", \
+		 iconv_dir) \
+    else \
+      io.stdout:write ("Error: Missing " .. iconv_cache .. " file.\n") \
+    end \
+  end \
+end \
+%{nil}
+
 ##############################################################################
 # %%package glibc - The GNU C Library (glibc) core package.
 ##############################################################################
@@ -134,6 +175,23 @@ Source11: SUPPORTED
 
 # Include in the source RPM for reference.
 Source12: ChangeLog.old
+
+Source13: wrap-find-debuginfo.sh
+
+######################################################################
+# Activate the wrapper script for debuginfo generation, by rewriting
+# the definition of __debug_install_post.
+%{lua:
+local wrapper = rpm.expand("%{SOURCE13}")
+local sysroot = rpm.expand("%{glibc_sysroot}")
+local original = rpm.expand("%{__find_debuginfo}")
+rpm.define("__find_debuginfo  " .. wrapper .. " " .. sysroot .. " " .. original)
+}
+
+# The wrapper script relies on the fact that debugedit does not change
+# build IDs.
+%define _no_recompute_build_ids 1
+%undefine _unique_build_ids
 
 ##############################################################################
 # Patches:
@@ -719,18 +777,85 @@ Patch582: glibc-rh1966472-1.patch
 Patch583: glibc-rh1966472-2.patch
 Patch584: glibc-rh1966472-3.patch
 Patch585: glibc-rh1966472-4.patch
-Patch586: glibc-rh2032280-1.patch
-Patch587: glibc-rh2032280-2.patch
-Patch588: glibc-rh2032280-3.patch
-Patch589: glibc-rh2032280-4.patch
-Patch590: glibc-rh2032280-5.patch
-Patch591: glibc-rh2032280-6.patch
-Patch592: glibc-rh2032280-7.patch
-Patch593: glibc-rh2045062-1.patch
-Patch594: glibc-rh2045062-2.patch
-Patch595: glibc-rh2045062-3.patch
-Patch596: glibc-rh2045062-4.patch
-Patch597: glibc-rh2045062-5.patch
+Patch586: glibc-rh1971664-1.patch
+Patch587: glibc-rh1971664-2.patch
+Patch588: glibc-rh1971664-3.patch
+Patch589: glibc-rh1971664-4.patch
+Patch590: glibc-rh1971664-5.patch
+Patch591: glibc-rh1971664-6.patch
+Patch592: glibc-rh1971664-7.patch
+Patch593: glibc-rh1971664-8.patch
+Patch594: glibc-rh1971664-9.patch
+Patch595: glibc-rh1971664-10.patch
+Patch596: glibc-rh1971664-11.patch
+Patch597: glibc-rh1971664-12.patch
+Patch598: glibc-rh1971664-13.patch
+Patch599: glibc-rh1971664-14.patch
+Patch600: glibc-rh1971664-15.patch
+Patch601: glibc-rh1977614.patch
+Patch602: glibc-rh1983203-1.patch
+Patch603: glibc-rh1983203-2.patch
+Patch604: glibc-rh2021452.patch
+Patch605: glibc-rh1937515.patch
+Patch606: glibc-rh1934162-1.patch
+Patch607: glibc-rh1934162-2.patch
+Patch608: glibc-rh2000374.patch
+Patch609: glibc-rh1991001-1.patch
+Patch610: glibc-rh1991001-2.patch
+Patch611: glibc-rh1991001-3.patch
+Patch612: glibc-rh1991001-4.patch
+Patch613: glibc-rh1991001-5.patch
+Patch614: glibc-rh1991001-6.patch
+Patch615: glibc-rh1991001-7.patch
+Patch616: glibc-rh1991001-8.patch
+Patch617: glibc-rh1991001-9.patch
+Patch618: glibc-rh1991001-10.patch
+Patch619: glibc-rh1991001-11.patch
+Patch620: glibc-rh1991001-12.patch
+Patch621: glibc-rh1991001-13.patch
+Patch622: glibc-rh1991001-14.patch
+Patch623: glibc-rh1991001-15.patch
+Patch624: glibc-rh1991001-16.patch
+Patch625: glibc-rh1991001-17.patch
+Patch626: glibc-rh1991001-18.patch
+Patch627: glibc-rh1991001-19.patch
+Patch628: glibc-rh1991001-20.patch
+Patch629: glibc-rh1991001-21.patch
+Patch630: glibc-rh1991001-22.patch
+Patch631: glibc-rh1929928-1.patch
+Patch632: glibc-rh1929928-2.patch
+Patch633: glibc-rh1929928-3.patch
+Patch634: glibc-rh1929928-4.patch
+Patch635: glibc-rh1929928-5.patch
+Patch636: glibc-rh1984802-1.patch
+Patch637: glibc-rh1984802-2.patch
+Patch638: glibc-rh1984802-3.patch
+Patch639: glibc-rh2023420-1.patch
+Patch640: glibc-rh2023420-2.patch
+Patch641: glibc-rh2023420-3.patch
+Patch642: glibc-rh2023420-4.patch
+Patch643: glibc-rh2023420-5.patch
+Patch644: glibc-rh2023420-6.patch
+Patch645: glibc-rh2023420-7.patch
+Patch646: glibc-rh2033648-1.patch
+Patch647: glibc-rh2033648-2.patch
+Patch648: glibc-rh2036955.patch
+Patch649: glibc-rh2033655.patch
+Patch650: glibc-rh2007327-1.patch
+Patch651: glibc-rh2007327-2.patch
+Patch652: glibc-rh2032281-1.patch
+Patch653: glibc-rh2032281-2.patch
+Patch654: glibc-rh2032281-3.patch
+Patch655: glibc-rh2032281-4.patch
+Patch656: glibc-rh2032281-5.patch
+Patch657: glibc-rh2032281-6.patch
+Patch658: glibc-rh2032281-7.patch
+Patch659: glibc-rh2045063-1.patch
+Patch660: glibc-rh2045063-2.patch
+Patch661: glibc-rh2045063-3.patch
+Patch662: glibc-rh2045063-4.patch
+Patch663: glibc-rh2045063-5.patch
+Patch664: glibc-rh2061727.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -760,11 +885,6 @@ Recommends: (nss_db(x86-32) if nss_db(x86-64))
 BuildRequires: gd-devel libpng-devel zlib-devel
 %endif
 %if %{with docs}
-# Removing texinfo will cause check-safety.sh test to fail because it seems to
-# trigger documentation generation based on dependencies.  We need to fix this
-# upstream in some way that doesn't depend on generating docs to validate the
-# texinfo.  I expect it's simply the wrong dependency for that target.
-BuildRequires: texinfo >= 5.0
 %endif
 %if %{without bootstrap}
 BuildRequires: libselinux-devel >= 1.33.4-3
@@ -825,7 +945,8 @@ Conflicts: prelink < 0.4.2
 
 %if 0%{?_enable_debug_packages}
 BuildRequires: elfutils >= 0.72
-BuildRequires: rpm >= 4.2-0.56
+# -20 adds __find_debuginfo macro
+BuildRequires: rpm >= 4.14.3-20
 %endif
 
 %if %{without bootstrap}
@@ -860,6 +981,10 @@ BuildRequires: libidn2
 # this purpose.
 Requires: glibc-langpack = %{version}-%{release}
 Suggests: glibc-all-langpacks = %{version}-%{release}
+
+# Suggest extra gconv modules so that they are installed by default but can be
+# removed if needed to build a minimal OS image.
+Recommends: glibc-gconv-extra%{_isa} = %{version}-%{release}
 
 %description
 The glibc package contains standard libraries which are used by
@@ -907,6 +1032,26 @@ executables.
 
 Install glibc-devel if you are going to develop programs which will
 use the standard C libraries.
+
+##############################################################################
+# glibc "doc" sub-package
+##############################################################################
+%if %{with docs}
+%package doc
+Summary: Documentation for GNU libc
+BuildArch: noarch
+Requires: %{name} = %{version}-%{release}
+
+# Removing texinfo will cause check-safety.sh test to fail because it seems to
+# trigger documentation generation based on dependencies.  We need to fix this
+# upstream in some way that doesn't depend on generating docs to validate the
+# texinfo.  I expect it's simply the wrong dependency for that target.
+BuildRequires: texinfo >= 5.0
+
+%description doc
+The glibc-doc package contains The GNU C Library Reference Manual in info
+format.  Additional package documentation is also provided.
+%endif
 
 ##############################################################################
 # glibc "static" sub-package
@@ -1110,6 +1255,15 @@ nothing else. It is designed for assembling a minimal system.
 %files minimal-langpack
 %endif
 
+# Infrequently used iconv converter modules.
+%package gconv-extra
+Summary: All iconv converter modules for %{name}.
+Requires: %{name}%{_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
+
+%description gconv-extra
+This package contains all iconv converter modules built in %{name}.
+
 ##############################################################################
 # glibc "nscd" sub-package
 ##############################################################################
@@ -1191,62 +1345,6 @@ mtrace, a memory leak tracer and xtrace, a function call tracer
 which can be helpful during program debugging.
 
 If unsure if you need this, don't install this package.
-
-##############################################################################
-# glibc core "debuginfo" sub-package
-##############################################################################
-%if 0%{?_enable_debug_packages}
-%define debug_package %{nil}
-%define __debug_install_post %{nil}
-%global __debug_package 1
-# Disable thew new features that glibc packages don't use.
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%undefine _unique_debug_names
-%undefine _unique_debug_srcs
-
-%package debuginfo
-Summary: Debug information for package %{name}
-AutoReqProv: no
-%ifarch %{debuginfocommonarches}
-Requires: glibc-debuginfo-common = %{version}-%{release}
-%else
-%ifarch %{ix86} %{sparc}
-Obsoletes: glibc-debuginfo-common
-%endif
-%endif
-
-%description debuginfo
-This package provides debug information for package %{name}.
-Debug information is useful when developing applications that use this
-package or when debugging this package.
-
-This package also contains static standard C libraries with
-debugging information.  You need this only if you want to step into
-C library routines during debugging programs statically linked against
-one or more of the standard C libraries.
-To use this debugging information, you need to link binaries
-with -static -L%{_prefix}/lib/debug%{_libdir} compiler options.
-
-##############################################################################
-# glibc common "debuginfo-common" sub-package
-##############################################################################
-%ifarch %{debuginfocommonarches}
-
-%package debuginfo-common
-Summary: Debug information for package %{name}
-AutoReqProv: no
-
-%description debuginfo-common
-This package provides debug information for package %{name}.
-Debug information is useful when developing applications that use this
-package or when debugging this package.
-
-%comment Matches: %ifarch %{debuginfocommonarches}
-%endif
-
-%comment Matches: %if 0%{?_enable_debug_packages}
-%endif
 
 %if %{with benchtests}
 %package benchtests
@@ -1614,6 +1712,9 @@ fi
 # Compress all of the info files.
 gzip -9nvf %{glibc_sysroot}%{_infodir}/libc*
 
+# Copy the debugger interface documentation over to the right location
+mkdir -p %{glibc_sysroot}%{_docdir}/glibc
+cp elf/rtld-debugger-interface.txt %{glibc_sysroot}%{_docdir}/glibc
 %else
 rm -f %{glibc_sysroot}%{_infodir}/dir
 rm -f %{glibc_sysroot}%{_infodir}/libc.info*
@@ -1705,15 +1806,6 @@ chmod 644 %{glibc_sysroot}%{_libdir}/gconv/gconv-modules.cache
 #   archives we might have added.
 ##############################################################################
 
-# If we are building a debug package then copy all of the static archives
-# into the debug directory to keep them as unstripped copies.
-%if 0%{?_enable_debug_packages}
-mkdir -p %{glibc_sysroot}%{_prefix}/lib/debug%{_libdir}
-cp -a %{glibc_sysroot}%{_libdir}/*.a \
-	%{glibc_sysroot}%{_prefix}/lib/debug%{_libdir}/
-rm -f %{glibc_sysroot}%{_prefix}/lib/debug%{_libdir}/*_p.a
-%endif
-
 # Remove any zoneinfo files; they are maintained by tzdata.
 rm -rf %{glibc_sysroot}%{_prefix}/share/zoneinfo
 
@@ -1727,7 +1819,14 @@ touch -r %{SOURCE0} %{glibc_sysroot}/etc/ld.so.conf
 touch -r sunrpc/etc.rpc %{glibc_sysroot}/etc/rpc
 
 pushd build-%{target}
-$GCC -Os -g -static -o build-locale-archive %{SOURCE1} \
+$GCC -Os -g \
+%ifarch %{pie_arches}
+	-fPIE \
+	-static-pie \
+%else
+	-static \
+%endif
+	 -o build-locale-archive %{SOURCE1} \
 	../build-%{target}/locale/locarchive.o \
 	../build-%{target}/locale/md5.o \
 	../build-%{target}/locale/record-status.o \
@@ -1736,12 +1835,6 @@ $GCC -Os -g -static -o build-locale-archive %{SOURCE1} \
 	-B../build-%{target}/csu/ -lc -lc_nonshared
 install -m 700 build-locale-archive %{glibc_sysroot}%{_prefix}/sbin/build-locale-archive
 popd
-
-# Lastly copy some additional documentation for the packages.
-rm -rf documentation
-mkdir documentation
-cp timezone/README documentation/README.timezone
-cp posix/gai.conf documentation/
 
 %ifarch s390x
 # Compatibility symlink
@@ -1767,6 +1860,7 @@ cp benchtests/scripts/benchout.schema.json %{glibc_sysroot}%{_prefix}/libexec/gl
 cp benchtests/scripts/compare_bench.py %{glibc_sysroot}%{_prefix}/libexec/glibc-benchtests/
 cp benchtests/scripts/import_bench.py %{glibc_sysroot}%{_prefix}/libexec/glibc-benchtests/
 cp benchtests/scripts/validate_benchout.py %{glibc_sysroot}%{_prefix}/libexec/glibc-benchtests/
+%endif
 
 %if 0%{?_enable_debug_packages}
 # The #line directives gperf generates do not give the proper
@@ -1777,6 +1871,7 @@ popd
 pushd iconv
 ln -s ../locale/programs/charmap-kw.gperf .
 popd
+%endif
 
 %if %{with docs}
 # Remove the `dir' info-heirarchy file which will be maintained
@@ -1861,6 +1956,8 @@ ar cr %{glibc_sysroot}%{_prefix}/%{_lib}/libpthread_nonshared.a
 #	- Files for the nscd subpackage.
 # * devel.filelist
 #	- Files for the devel subpackage.
+# * doc.filelist
+#	- Files for the documentation subpackage.
 # * headers.filelist
 #	- Files for the headers subpackage.
 # * static.filelist
@@ -1874,11 +1971,6 @@ ar cr %{glibc_sysroot}%{_prefix}/%{_lib}/libpthread_nonshared.a
 #       - File list with the .so symbolic links for NSS packages.
 # * compat-libpthread-nonshared.filelist.
 #	- File list for compat-libpthread-nonshared subpackage.
-# * debuginfo.filelist
-#	- Files for the glibc debuginfo package.
-# * debuginfocommon.filelist
-#	- Files for the glibc common debuginfo package.
-#
 
 # Create the main file lists. This way we can append to any one of them later
 # wihtout having to create it. Note these are removed at the start of the
@@ -1887,8 +1979,10 @@ touch master.filelist
 touch glibc.filelist
 touch common.filelist
 touch utils.filelist
+touch gconv.filelist
 touch nscd.filelist
 touch devel.filelist
+touch doc.filelist
 touch headers.filelist
 touch static.filelist
 touch libnsl.filelist
@@ -1896,8 +1990,6 @@ touch nss_db.filelist
 touch nss_hesiod.filelist
 touch nss-devel.filelist
 touch compat-libpthread-nonshared.filelist
-touch debuginfo.filelist
-touch debuginfocommon.filelist
 
 ###############################################################################
 # Master file list, excluding a few things.
@@ -1909,10 +2001,10 @@ touch debuginfocommon.filelist
   find %{glibc_sysroot} \( -type f -o -type l \) \
        \( \
 	 -name etc -printf "%%%%config " -o \
-	 -name gconv-modules \
-	 -printf "%%%%verify(not md5 size mtime) %%%%config(noreplace) " -o \
-	 -name gconv-modules.cache \
-	 -printf "%%%%verify(not md5 size mtime) " \
+         -name gconv-modules.cache \
+         -printf "%%%%verify(not md5 size mtime) " -o \
+         -name gconv-modules* \
+         -printf "%%%%verify(not md5 size mtime) %%%%config(noreplace) " \
 	 , \
 	 ! -path "*/lib/debug/*" -printf "/%%P\n" \)
   # List all directories with a %%dir prefix.  We omit the info directory and
@@ -1964,6 +2056,7 @@ chmod 0444 master.filelist
 # - All bench test binaries.
 # - The aux-cache, since it's handled specially in the files section.
 # - The build-locale-archive binary since it's in the common package.
+# - Extra gconv modules.  We add the required modules later.
 cat master.filelist \
 	| grep -v \
 	-e '%{_infodir}' \
@@ -1972,6 +2065,8 @@ cat master.filelist \
 	-e '%{_libdir}/lib.*\.a' \
         -e '%{_libdir}/.*\.o' \
 	-e '%{_libdir}/lib.*\.so' \
+	-e '%{_libdir}/gconv/.*\.so$' \
+	-e '%{_libdir}/gconv/gconv-modules.d/gconv-modules-extra\.conf$' \
 	-e 'nscd' \
 	-e '%{_prefix}/bin' \
 	-e '%{_prefix}/lib/locale' \
@@ -1997,18 +2092,41 @@ done
 grep -e "libmemusage.so" -e "libpcprofile.so" master.filelist >> glibc.filelist
 
 ###############################################################################
-# glibc-devel
+# glibc-gconv-extra
 ###############################################################################
 
-%if %{with docs}
-# Put the info files into the devel file list, but exclude the generated dir.
-grep '%{_infodir}' master.filelist | grep -v '%{_infodir}/dir' > devel.filelist
+grep -e "gconv-modules-extra.conf" master.filelist > gconv.filelist
+
+# Put the essential gconv modules into the main package.
+GconvBaseModules="ANSI_X3.110 ISO8859-15 ISO8859-1 CP1252"
+GconvBaseModules="$GconvBaseModules UNICODE UTF-16 UTF-32 UTF-7"
+%ifarch s390 s390x
+GconvBaseModules="$GconvBaseModules ISO-8859-1_CP037_Z900 UTF8_UTF16_Z9"
+GconvBaseModules="$GconvBaseModules UTF16_UTF32_Z9 UTF8_UTF32_Z9"
 %endif
+GconvAllModules=$(cat master.filelist |
+                 sed -n 's|%{_libdir}/gconv/\(.*\)\.so|\1|p')
+
+# Put the base modules into glibc and the rest into glibc-gconv-extra
+for conv in $GconvAllModules; do
+    if echo $GconvBaseModules | grep -q $conv; then
+        grep -E -e "%{_libdir}/gconv/$conv.so$" \
+            master.filelist >> glibc.filelist
+    else
+        grep -E -e "%{_libdir}/gconv/$conv.so$" \
+            master.filelist >> gconv.filelist
+    fi
+done
+
+
+###############################################################################
+# glibc-devel
+###############################################################################
 
 # Put some static files into the devel package.
 grep '%{_libdir}/lib.*\.a' master.filelist \
   | grep '/lib\(\(c\|pthread\|nldbl\|mvec\)_nonshared\|g\|ieee\|mcheck\)\.a$' \
-  >> devel.filelist
+  > devel.filelist
 
 # Put all of the object files and *.so (not the versioned ones) into the
 # devel package.
@@ -2021,6 +2139,16 @@ sed -i -e '\,libmemusage.so,d' \
 	-e '\,libpcprofile.so,d' \
 	-e '\,/libnss_[a-z]*\.so$,d' \
 	devel.filelist
+
+###############################################################################
+# glibc-doc
+###############################################################################
+
+%if %{with docs}
+# Put the info files into the doc file list, but exclude the generated dir.
+grep '%{_infodir}' master.filelist | grep -v '%{_infodir}/dir' > doc.filelist
+grep '%{_docdir}' master.filelist >> doc.filelist
+%endif
 
 ###############################################################################
 # glibc-headers
@@ -2064,12 +2192,14 @@ grep '%{_prefix}/sbin' master.filelist \
 # multilib-independent.
 # Exceptions:
 # - The actual share directory, not owned by us.
-# - The info files which go in devel, and the info directory.
+# - The info files which go into doc, and the info directory.
+# - All documentation files, which go into doc.
 grep '%{_prefix}/share' master.filelist \
 	| grep -v \
 	-e '%{_prefix}/share/info/libc.info.*' \
 	-e '%%dir %{prefix}/share/info' \
 	-e '%%dir %{prefix}/share' \
+	-e '%{_docdir}' \
 	>> common.filelist
 
 # Add the binary to build locales to the common subpackage.
@@ -2091,8 +2221,8 @@ cat > utils.filelist <<EOF
 %if %{without bootstrap}
 %{_prefix}/bin/memusage
 %{_prefix}/bin/memusagestat
-%endif
 %{_prefix}/bin/mtrace
+%endif
 %{_prefix}/bin/pcprofiledump
 %{_prefix}/bin/xtrace
 EOF
@@ -2124,6 +2254,7 @@ grep '/libnss_[a-z]*\.so$' master.filelist > nss-devel.filelist
 grep '/libnsl-[0-9.]*.so$' master.filelist > libnsl.filelist
 test $(wc -l < libnsl.filelist) -eq 1
 
+%if %{with benchtests}
 ###############################################################################
 # glibc-benchtests
 ###############################################################################
@@ -2147,101 +2278,6 @@ echo "%{_prefix}/libexec/glibc-benchtests/validate_benchout.py*" >> benchtests.f
 # compat-libpthread-nonshared
 ###############################################################################
 echo "%{_libdir}/libpthread_nonshared.a" >> compat-libpthread-nonshared.filelist
-
-###############################################################################
-# glibc-debuginfocommon, and glibc-debuginfo
-###############################################################################
-
-find_debuginfo_args='--strict-build-id -g -i'
-%ifarch %{debuginfocommonarches}
-find_debuginfo_args="$find_debuginfo_args \
-	-l common.filelist \
-	-l utils.filelist \
-	-l nscd.filelist \
-	-p '.*/(sbin|libexec)/.*' \
-	-o debuginfocommon.filelist \
-	-l nss_db.filelist -l nss_hesiod.filelist \
-	-l libnsl.filelist -l glibc.filelist \
-%if %{with benchtests}
-	-l benchtests.filelist
-%endif
-	"
-%endif
-
-/usr/lib/rpm/find-debuginfo.sh $find_debuginfo_args -o debuginfo.filelist
-
-# List all of the *.a archives in the debug directory.
-list_debug_archives()
-{
-	local dir=%{_prefix}/lib/debug%{_libdir}
-	find %{glibc_sysroot}$dir -name "*.a" -printf "$dir/%%P\n"
-}
-
-%ifarch %{debuginfocommonarches}
-
-# Remove the source files from the common package debuginfo.
-sed -i '\#^%{glibc_sysroot}%{_prefix}/src/debug/#d' debuginfocommon.filelist
-
-# Create a list of all of the source files we copied to the debug directory.
-find %{glibc_sysroot}%{_prefix}/src/debug \
-     \( -type d -printf '%%%%dir ' \) , \
-     -printf '%{_prefix}/src/debug/%%P\n' > debuginfocommon.sources
-
-%ifarch %{biarcharches}
-
-# Add the source files to the core debuginfo package.
-cat debuginfocommon.sources >> debuginfo.filelist
-
-%else
-
-%ifarch %{ix86}
-%define basearch i686
-%endif
-%ifarch sparc sparcv9
-%define basearch sparc
-%endif
-
-# The auxarches get only these few source files.
-auxarches_debugsources=\
-'/(generic|linux|%{basearch}|nptl(_db)?)/|/%{glibcsrcdir}/build|/dl-osinfo\.h'
-
-# Place the source files into the core debuginfo pakcage.
-egrep "$auxarches_debugsources" debuginfocommon.sources >> debuginfo.filelist
-
-# Remove the source files from the common debuginfo package.
-egrep -v "$auxarches_debugsources" \
-  debuginfocommon.sources >> debuginfocommon.filelist
-
-%comment Matches: %ifarch %{biarcharches}
-%endif
-
-# Add the list of *.a archives in the debug directory to
-# the common debuginfo package.
-list_debug_archives >> debuginfocommon.filelist
-
-%comment Matches: %ifarch %{debuginfocommonarches}
-%endif
-
-# Remove some common directories from the common package debuginfo so that we
-# don't end up owning them.
-exclude_common_dirs()
-{
-	exclude_dirs="%{_prefix}/src/debug"
-	exclude_dirs="$exclude_dirs $(echo %{_prefix}/lib/debug{,/%{_lib},/bin,/sbin})"
-	exclude_dirs="$exclude_dirs $(echo %{_prefix}/lib/debug%{_prefix}{,/%{_lib},/libexec,/bin,/sbin})"
-
-	for d in $(echo $exclude_dirs | sed 's/ /\n/g'); do
-		sed -i "\|^%%dir $d/\?$|d" $1
-	done
-}
-
-%ifarch %{debuginfocommonarches}
-exclude_common_dirs debuginfocommon.filelist
-%endif
-exclude_common_dirs debuginfo.filelist
-
-%comment Matches: %if 0%{?_enable_debug_packages}
-%endif
 
 ##############################################################################
 # Delete files that we do not intended to ship with the auxarch.
@@ -2332,6 +2368,15 @@ echo ====================PLT RELOCS LIBC.SO==============
 readelf -Wr %{glibc_sysroot}/%{_lib}/libc-*.so | sed -n -e "$PLTCMD"
 echo ====================PLT RELOCS END==================
 
+# Obtain a way to run the dynamic loader.  Avoid matching the symbolic
+# link and then pick the first loader (although there should be only
+# one).
+run_ldso="$(find %{glibc_sysroot}/%{_lib}/ld-*.so -type f | LC_ALL=C sort | head -n1) --library-path %{glibc_sysroot}/%{_lib}"
+
+# Show the auxiliary vector as seen by the new library
+# (even if we do not perform the valgrind test).
+LD_SHOW_AUXV=1 $run_ldso /bin/true
+
 # Finally, check if valgrind runs with the new glibc.
 # We want to fail building if valgrind is not able to run with this glibc so
 # that we can then coordinate with valgrind to get it fixed before we update
@@ -2340,16 +2385,15 @@ pushd build-%{target}
 
 # Show the auxiliary vector as seen by the new library
 # (even if we do not perform the valgrind test).
-LD_SHOW_AUXV=1 elf/ld.so --library-path .:elf:nptl:dlfcn /bin/true
+LD_SHOW_AUXV=1 $run_ldso /bin/true
 
 %if %{with valgrind}
-elf/ld.so --library-path .:elf:nptl:dlfcn \
-	/usr/bin/valgrind --error-exitcode=1 \
-	elf/ld.so --library-path .:elf:nptl:dlfcn /usr/bin/true
+$run_ldso /usr/bin/valgrind --error-exitcode=1 \
+	$run_ldso /usr/bin/true
 %endif
 popd
 
-%comment Matches: %if %{run_glibc_tests}
+%comment Matches: %if %{with testsuite}
 %endif
 
 
@@ -2362,17 +2406,7 @@ if rpm.vercmp(rel, required) < 0 then
 end
 
 %post -p <lua>
--- We use lua's posix.exec because there may be no shell that we can
--- run during glibc upgrade.
-function post_exec (program, ...)
-  local pid = posix.fork ()
-  if pid == 0 then
-    assert (posix.exec (program, ...))
-  elseif pid > 0 then
-    posix.wait (pid)
-  end
-end
-
+%glibc_post_funcs
 -- (1) Remove multilib libraries from previous installs.
 -- In order to support in-place upgrades, we must immediately remove
 -- obsolete platform directories after installing a new glibc
@@ -2481,16 +2515,7 @@ post_exec ("%{_prefix}/sbin/ldconfig")
 -- We assume that the cache is in _libdir/gconv and called
 -- "gconv-modules.cache".
 
-local iconv_dir = "%{_libdir}/gconv"
-local iconv_cache = iconv_dir .. "/gconv-modules.cache"
-if (posix.utime (iconv_cache) == 0) then
-  post_exec ("%{_prefix}/sbin/iconvconfig",
-	     "-o", iconv_cache,
-	     "--nostdlib",
-	     iconv_dir)
-else
-  io.stdout:write ("Error: Missing " .. iconv_cache .. " file.\n")
-end
+update_gconv_modules_cache()
 
 %posttrans all-langpacks -e -p <lua>
 -- If at the end of the transaction we are still installed
@@ -2531,6 +2556,14 @@ if [ "$1" = 0 ]; then
 fi
 %endif
 
+%post gconv-extra -p <lua>
+%glibc_post_funcs
+update_gconv_modules_cache ()
+
+%postun gconv-extra -p <lua>
+%glibc_post_funcs
+update_gconv_modules_cache ()
+
 %pre -n nscd
 getent group nscd >/dev/null || /usr/sbin/groupadd -g 28 -r nscd
 getent passwd nscd >/dev/null ||
@@ -2563,11 +2596,11 @@ fi
 %dir /etc/ld.so.conf.d
 %dir %{_prefix}/libexec/getconf
 %dir %{_libdir}/gconv
+%dir %{_libdir}/gconv/gconv-modules.d
 %dir %attr(0700,root,root) /var/cache/ldconfig
 %attr(0600,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /var/cache/ldconfig/aux-cache
 %attr(0644,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /etc/ld.so.cache
 %attr(0644,root,root) %verify(not md5 size mtime) %ghost %config(missingok,noreplace) /etc/gai.conf
-%doc README NEWS INSTALL elf/rtld-debugger-interface.txt
 # If rpm doesn't support %license, then use %doc instead.
 %{!?_licensedir:%global license %%doc}
 %license COPYING COPYING.LIB LICENSES
@@ -2577,8 +2610,6 @@ fi
 %dir %{_prefix}/lib/locale
 %dir %{_prefix}/lib/locale/C.utf8
 %{_prefix}/lib/locale/C.utf8/*
-%doc documentation/README.timezone
-%doc documentation/gai.conf
 
 %files all-langpacks
 %attr(0644,root,root) %verify(not md5 size mtime) %{_prefix}/lib/locale/locale-archive.tmpl
@@ -2592,11 +2623,17 @@ fi
 
 %files -f devel.filelist devel
 
+%if %{with docs}
+%files -f doc.filelist doc
+%endif
+
 %files -f static.filelist static
 
 %files -f headers.filelist headers
 
 %files -f utils.filelist utils
+
+%files -f gconv.filelist gconv-extra
 
 %files -f nscd.filelist -n nscd
 %config(noreplace) /etc/nscd.conf
@@ -2627,15 +2664,6 @@ fi
 %files -f libnsl.filelist -n libnsl
 /%{_lib}/libnsl.so.1
 
-%if 0%{?_enable_debug_packages}
-%files debuginfo -f debuginfo.filelist
-%ifarch %{debuginfocommonarches}
-%ifnarch %{auxarches}
-%files debuginfo-common -f debuginfocommon.filelist
-%endif
-%endif
-%endif
-
 %if %{with benchtests}
 %files benchtests -f benchtests.filelist
 %endif
@@ -2643,16 +2671,91 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Thu Jan 27 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164.3
+* Thu Mar 10 2022 Florian Weimer <fweimer@redhat.com> - 2.28-189.1
+- nss: Avoid clobbering errno in get*ent via dlopen (#2061727)
+
+* Thu Jan 27 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-189
 - CVE-2021-3999: getcwd: align stack on clone in aarch64 and fix a memory leak
-  (#2032280)
+  (#2032281)
 
-* Wed Jan 26 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164.2
+* Tue Jan 25 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-188
 - CVE-2022-23218, CVE-2022-23219: Fix buffer overflows in sunrpc clnt_create
-  for "unix" and svcunix_create (#2045062).
+  for "unix" and svcunix_create (#2045063).
 
-* Mon Jan 24 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164.1
-- CVE-2021-3999: getcwd: Set errno to ERANGE for size == 1 (#2032280)
+* Mon Jan 24 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-187
+- CVE-2021-3999: getcwd: Set errno to ERANGE for size == 1 (#2032281)
+
+* Fri Jan 21 2022 Carlos O'Donell <carlos@redhat.com> - 2.28-186
+- Fix pthread_once regression with C++ exceptions (#2007327)
+
+* Thu Jan 20 2022 DJ Delorie <dj@redhat.com> - 2.28-185
+- Adjust to rpm's find-debuginfo.sh changes, to keep stripping binaries (#1661513)
+
+* Fri Jan  7 2022 Florian Weimer <fweimer@redhat.com> - 2.28-184
+- Conversion from ISO-2022-JP-3 may emit spurious NUL character (#2033655)
+
+* Fri Jan  7 2022 Florian Weimer <fweimer@redhat.com> - 2.28-183
+- aarch64: A64FX optimizations break "sve=off" guest mode (#2036955)
+
+* Fri Jan  7 2022 Patsy Griffin <patsy@redhat.com> - 2.28-182
+- Handle truncated timezones from tzcode-2021d and later. (#2033648)
+
+* Tue Jan  4 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-181
+- Weaken dependency of glibc on glibc-gconv-extra (#2015768)
+
+* Mon Dec 13 2021 Florian Weimer <fweimer@redhat.com> - 2.28-180
+- Do not install /usr/lib/debug/usr/bin/ld.so.debug (#2023420)
+
+* Fri Dec 10 2021 Florian Weimer <fweimer@redhat.com> - 2.28-179
+- Add /usr/bin/ld.so --list-diagnostics (#2023420)
+
+* Fri Dec 10 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-178
+- Preliminary support for new IBM zSeries hardware (#1984802)
+
+* Fri Dec 10 2021 Carlos O'Donell <carlos@redhat.com> - 2.28-177
+- Fix --with and --without builds for benchtests and bootstrap (#2020989)
+
+* Wed Dec  1 2021 Florian Weimer <fweimer@redhat.com> - 2.28-176
+- A64FX memcpy/memmove/memset optimizations (#1929928)
+
+* Tue Nov 30 2021 Florian Weimer <fweimer@redhat.com> - 2.28-175
+- Fix dl-tls.c assert failure with pthread_create & dlopen (#1991001)
+- Fix x86_64 TLS lazy binding with auditors (#1950056)
+
+* Thu Nov 25 2021 Arjun Shankar <arjun@redhat.com> - 2.28-174
+- Introduce new glibc-doc.noarch subpackage (#2021671)
+- Move the reference manual info pages from glibc-devel to glibc-doc
+- Move debugger interface documentation from glibc to glibc-doc
+- Remove unnecessary README, INSTALL, NEWS files from glibc
+- Remove unnecessary README.timezone and gai.conf files from glibc-common
+
+* Wed Nov 17 2021 Patsy Griffin <patsy@redhat.com> - 2.28-173
+- Add new English-language 12 hour time locale en_US@ampm.UTF-8 (#2000374)
+
+* Tue Nov 16 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-172
+- Build build-locale-archive with -static-pie when supported (#1965377)
+
+* Wed Nov  10 2021 DJ Delorie <dj@redhat.com> - 2.28-171
+- elf: Always set link map in _dl_init_paths (#1934162)
+
+* Wed Nov 10 2021 Arjun Shankar <arjun@redhat.com> - 2.28-170
+- x86: Properly disable XSAVE related features when its use is disabled via
+  tunables (#1937515)
+
+* Wed Nov 10 2021 Arjun Shankar <arjun@redhat.com> - 2.28-169
+- s390: Use long branches across object boundaries (#2021452)
+
+* Fri Oct 29 2021 Arjun Shankar <arjun@redhat.com> - 2.28-168
+- Optimize memcmp, strcpy, and stpcpy for IBM POWER10 (#1983203)
+
+* Wed Oct 13 2021 Arjun Shankar <arjun@redhat.com> - 2.28-167
+- malloc: Initiate tcache shutdown even without allocations (#1977614)
+
+* Wed Oct 13 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-166
+- Fix debuginfo location for gconv-extra and make glibc Require it (#1971664).
+
+* Wed Oct  6 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-165
+- Split extra gconv modules into a separate package (#1971664).
 
 * Mon Aug  9 2021 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-164
 - librt: fix NULL pointer dereference (#1966472).

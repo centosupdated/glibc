@@ -1,3 +1,5 @@
+Additionally include stdbool.h to fix issues with bool keyword usage.
+
 commit 60854f40ea2d420867ed2f0f052ee7fca661dbff
 Author: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 Date:   Thu Oct 15 15:14:22 2020 -0300
