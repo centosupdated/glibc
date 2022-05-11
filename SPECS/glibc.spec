@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 199%{?dist}
+%define glibcrelease 200%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -893,6 +893,7 @@ Patch698: glibc-rh2065588-11.patch
 Patch699: glibc-rh2065588-12.patch
 Patch700: glibc-rh2065588-13.patch
 Patch701: glibc-rh2072329.patch
+Patch702: glibc-rh1982608.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2723,6 +2724,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed May  4 2022 DJ Delorie <dj@redhat.com> - 2.28-200
+- Fix glob defects on certain XFS filesystems (#1982608)
+
 * Tue Apr 26 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-199
 - Fix fortify false positive with mbsrtowcs and mbsnrtowcs (#2072329).
 
