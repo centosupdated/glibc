@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.17-c758a686
 %define glibcversion 2.17
-%define glibcrelease 325%{?dist}
+%define glibcrelease 326%{?dist}
 ##############################################################################
 # We support the following options:
 # --with/--without,
@@ -1642,10 +1642,8 @@ Patch2859: glibc-rh1925204-1.patch
 Patch2860: glibc-rh1925204-2.patch
 Patch2861: glibc-rh1927536.patch
 Patch2862: glibc-rh1993930.patch
-# Armhfp build issue
-Patch9997: centos-arm32-NO_LONG_DOUBLE_MATH.patch
-Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
-Patch9999: glibc-rh1256317-armhfp-build-issue.patch
+Patch2863: glibc-rh2065058-1.patch
+Patch2864: glibc-rh2065058-2.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -3018,12 +3016,8 @@ package or when debugging this package.
 %patch2860 -p1
 %patch2861 -p1
 %patch2862 -p1
-
-%ifarch %{arm}
-%patch9998 -p1
-%patch9999 -p1
-%patch9997 -p1
-%endif
+%patch2863 -p1
+%patch2864 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -4211,6 +4205,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri Mar 18 2022 DJ Delorie <dj@redhat.com> - 2.17-326
+- resolv: Handle DNS transaction ID collisions (#2065058)
+
 * Thu Aug 19 2021 Florian Weimer <fweimer@redhat.com> - 2.17-325
 - Support /etc/sysconfig/strcasecmp-nonascii for enabling non-ASCII case
   conversion in strcasecmp, strncasecmp (#1993930)
