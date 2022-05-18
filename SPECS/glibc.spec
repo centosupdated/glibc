@@ -1644,6 +1644,10 @@ Patch2861: glibc-rh1927536.patch
 Patch2862: glibc-rh1993930.patch
 Patch2863: glibc-rh2065058-1.patch
 Patch2864: glibc-rh2065058-2.patch
+# Armhfp build issue
+Patch9997: centos-arm32-NO_LONG_DOUBLE_MATH.patch
+Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
+Patch9999: glibc-rh1256317-armhfp-build-issue.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -3018,6 +3022,12 @@ package or when debugging this package.
 %patch2862 -p1
 %patch2863 -p1
 %patch2864 -p1
+
+%ifarch %{arm}
+%patch9998 -p1
+%patch9999 -p1
+%patch9997 -p1
+%endif
 
 ##############################################################################
 # %%prep - Additional prep required...
