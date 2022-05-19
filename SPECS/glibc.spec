@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 201%{?dist}
+%define glibcrelease 202%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -895,6 +895,7 @@ Patch700: glibc-rh2065588-13.patch
 Patch701: glibc-rh2072329.patch
 Patch702: glibc-rh1982608.patch
 Patch703: glibc-rh1961109.patch
+Patch704: glibc-rh2086853.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2725,6 +2726,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon May 16 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-202
+- Ensure that condition in __glibc_fortify is a constant (#2086853)
+
 * Tue May 10 2022 Arjun Shankar <arjun@redhat.com> - 2.28-201
 - Add missing MACRON to EBCDIC character sets (#1961109)
 
