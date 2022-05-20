@@ -1,0 +1,39 @@
+From 12932b371cd6eb8c3edbfb037e615ffbb546be86 Mon Sep 17 00:00:00 2001
+From: "H.J. Lu" <hjl.tools@gmail.com>
+Date: Tue, 22 Feb 2022 06:49:39 -0800
+Subject: [PATCH] math: Redirect wordsize-64 roundeven function
+
+Redirect wordsize-64 roundeven function when there is no
+
+commit 9e97f239eae1f2b1d2e694d844c0f6fd7c4dd271
+Author: Wilco Dijkstra <wdijkstr@arm.com>
+Date:   Thu Jan 7 15:26:26 2021 +0000
+
+    Remove dbl-64/wordsize-64 (part 2)
+---
+ sysdeps/ieee754/dbl-64/wordsize-64/s_roundeven.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/sysdeps/ieee754/dbl-64/wordsize-64/s_roundeven.c b/sysdeps/ieee754/dbl-64/wordsize-64/s_roundeven.c
+index 7bbbb2dc..8728d0f2 100644
+--- a/sysdeps/ieee754/dbl-64/wordsize-64/s_roundeven.c
++++ b/sysdeps/ieee754/dbl-64/wordsize-64/s_roundeven.c
+@@ -17,6 +17,7 @@
+    License along with the GNU C Library; if not, see
+    <http://www.gnu.org/licenses/>.  */
+ 
++#define NO_MATH_REDIRECT
+ #include <math.h>
+ #include <math_private.h>
+ #include <libm-alias-double.h>
+@@ -67,5 +68,6 @@ __roundeven (double x)
+   INSERT_WORDS64 (x, ix);
+   return x;
+ }
+-hidden_def (__roundeven)
++#ifndef __roundeven
+ libm_alias_double (__roundeven, roundeven)
++#endif
+-- 
+GitLab
+

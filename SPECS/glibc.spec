@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 200%{?dist}
+%define glibcrelease 204%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -893,11 +893,89 @@ Patch698: glibc-rh2065588-11.patch
 Patch699: glibc-rh2065588-12.patch
 Patch700: glibc-rh2065588-13.patch
 Patch701: glibc-rh2072329.patch 
+Patch702: glibc-rh1982608.patch
+Patch703: glibc-rh1961109.patch
+Patch704: glibc-rh2086853.patch 
+Patch705: glibc-rh2077835.patch
 
 # Intel Optimizations
-Patch1001: 0001-void-short-distance-rep-movsb.patch
-Patch1002: 0002-pack-up-patches.patch
-Patch1003: 0003-only-avoid-short-distance-rep-mobsb-on-icx.patch
+Patch10001: glibc-sw24097-1.patch
+Patch10002: glibc-sw24097-2.patch
+Patch10003: glibc-sw24097-3.patch
+Patch10004: glibc-sw24097-4.patch
+Patch10005: glibc-sw24097-5.patch
+Patch10006: glibc-sw24097-6.patch
+Patch10007: glibc-sw24097-7.patch
+Patch10008: glibc-sw24097-8.patch
+Patch10009: glibc-sw24155.patch
+Patch10010: glibc-sw28755-1.patch
+Patch10011: ia-prefer_no_vzeroupper.patch
+Patch10012: ia-upd-256bit-evex-instr-1.patch
+Patch10013: ia-upd-256bit-evex-instr-2.patch
+Patch10014: ia-upd-256bit-evex-instr-3.patch
+Patch10015: ia-upd-256bit-evex-instr-4.patch
+Patch10016: ia-upd-256bit-evex-instr-5.patch
+Patch10017: ia-avx-opt-funct-rtm.patch
+Patch10018: ia-string-funct-test-rtm.patch
+Patch10019: ia-use-zmm16-zmm31-avx512-1.patch
+Patch10020: ia-use-zmm16-zmm31-avx512-2.patch
+Patch10021: ia-ifdef-indt-strlen-evex.patch
+Patch10022: ia-bmi2-req-strlen-strnlen.patch
+Patch10023: ia-memchr-opt-avx2.patch
+Patch10024: glibc-sw27974-1.patch
+Patch10025: ia-strlen-opt-avx2.patch
+Patch10026: ia-opt-memchr-evex.patch
+Patch10027: ia-unk-vector-opr-memchr-evex.patch
+Patch10028: ia-move-strlen-multiarch.patch
+Patch10029: ia-wcslen-opt-sse4_1.patch
+Patch10030: glibc-sw27974-2.patch
+Patch10031: ia-opt-strlen-evex.patch
+Patch10032: glibc-sw28033.patch
+Patch10033: glibc-sw28064.patch
+Patch10034: glibc-sw28896.patch
+Patch10035: glibc-sw25966.patch
+Patch10036: ia-use-xmmn-vpxor.patch
+Patch10037: ia-refacto-imp-prf-strchr-avx2.patch
+Patch10038: glibc-sw27130.patch
+Patch10039: ia-upd-large-memcpy.patch
+Patch10040: ia-bmi2-req-strchr-avx2.patch
+Patch10041: ia-opt-less_vec-memset-avx512.patch
+Patch10042: ia-opt-strchr-avx2.patch
+Patch10043: ia-opt-strchr-evex.patch
+Patch10044: ia-opt-memchr-evex-rtm.patch
+Patch10045: ia-opt-memcmp-avx2-movbe.patch
+Patch10046: ia-opt-memcmp-evex-movbe-1.patch
+Patch10047: ia-impr-memset-vec-unaligned-erms.patch
+Patch10048: ia-impr-memmove-vec-unaligned-erms.patch
+Patch10049: ia-rmv-ofl-chk-wcsnlen-sse4_1.patch
+Patch10050: ia-upperbound-enh-rep_movsb.patch
+Patch10051: ia-avoid_short_distance_rep_movsb.patch
+Patch10052: ia-testl-x86_string_control.patch
+Patch10053: ia-wordsize-64-roundeven.patch
+Patch10054: ia-redirect-roundeven-funct.patch
+Patch10055: ia-roundeven_sse4_1.patch
+Patch10056: glibc-sw28755-2.patch
+Patch10057: glibc-sw28252.patch
+Patch10058: ia-new-macro-entry_p2align.patch
+Patch10059: ia-opt-memcmp-evex-movbe-2.patch
+Patch10060: ia-opt-memset-vec-unaligned-erms.patch
+Patch10061: ia-rplc-sse2-inst-avx-memcmp-evex-movbe.patch
+Patch10062: ia-imp-strcmp-evex.patch
+Patch10063: ia-rmv-prefer_avx2_strcmp.patch
+Patch10064: ia-rplc-movzx-movzbl.patch
+Patch10065: ia-set-rep_movsb_threshold-2112.patch
+Patch10066: ia-opt-memmove-vec-unaligned-erms.patch
+Patch10067: ia-double-rep_movsb_threshold-erms.patch
+Patch10068: ia-shrink-memcmp-sse4-code-size.patch
+Patch10069: glibc-sw28537-1.patch
+Patch10070: glibc-sw28537-2.patch
+Patch10071: glibc-sw28537-3.patch
+Patch10072: ia-rplc-cas-avoid-extra-load.patch
+Patch10073: glibc-sw28646.patch
+Patch10074: ia-no-index_arch_prefer_no_avx512-avx-vnni.patch
+Patch10075: ia-opt-less_vec-memcmp-evex-movb.patch
+Patch10076: glibc-sw28537-4.patch
+
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2728,8 +2806,20 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Tue May 03 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28-200
-- Intel optimizations added
+* Fri May 20 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.204
+- Intel architecture optimizations
+
+* Tue May 17 2022 Patsy Griffin <patsy@redhat.com> - 2.28-203
+- 390x: Add support for IBM z16. (#2077835)
+
+* Mon May 16 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-202
+- Ensure that condition in __glibc_fortify is a constant (#2086853)
+
+* Tue May 10 2022 Arjun Shankar <arjun@redhat.com> - 2.28-201
+- Add missing MACRON to EBCDIC character sets (#1961109)
+
+* Wed May  4 2022 DJ Delorie <dj@redhat.com> - 2.28-200
+- Fix glob defects on certain XFS filesystems (#1982608)
 
 * Tue Apr 26 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-199
 - Fix fortify false positive with mbsrtowcs and mbsnrtowcs (#2072329).
