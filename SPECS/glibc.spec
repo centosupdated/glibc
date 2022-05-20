@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 202%{?dist}
+%define glibcrelease 203%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -896,6 +896,7 @@ Patch701: glibc-rh2072329.patch
 Patch702: glibc-rh1982608.patch
 Patch703: glibc-rh1961109.patch
 Patch704: glibc-rh2086853.patch
+Patch705: glibc-rh2077835.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2726,6 +2727,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue May 17 2022 Patsy Griffin <patsy@redhat.com> - 2.28-203
+- 390x: Add support for IBM z16. (#2077835)
+
 * Mon May 16 2022 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-202
 - Ensure that condition in __glibc_fortify is a constant (#2086853)
 
