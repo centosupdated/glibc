@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 204%{?dist}
+%define glibcrelease 205%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -975,7 +975,43 @@ Patch10073: glibc-sw28646.patch
 Patch10074: ia-no-index_arch_prefer_no_avx512-avx-vnni.patch
 Patch10075: ia-opt-less_vec-memcmp-evex-movb.patch
 Patch10076: glibc-sw28537-4.patch
-
+Patch10077: glibc-sw28896-2.patch
+Patch10078: ia-test_name-string-tst-strncmp-rtm.patch
+Patch10079: ia-opt-strcmp-avx2.patch
+Patch10080: ia-opt-strcmp-evex.patch
+Patch10081: ia-strcmp-avx2-fix.patch
+Patch10082: ia-strcmp-evex-fix.patch
+Patch10083: ia-imp-vec_gen-memset-vec-unaligned-erms.patch
+Patch10084: ia-rmv-ssse3_inst-memset.patch
+Patch10085: ia-opt-bzero.patch
+Patch10086: ia-rmv-set-memset-vec-unaligned-erms.patch
+Patch10087: glibc-sw28895.patch
+Patch10088: glibc-sw28896-3.patch
+Patch10089: ia-imp-l.patch
+Patch10090: ia-march-srt-sysdep_routines.patch
+Patch10091: ia-rmv-weak_alias-memset-sse2.patch
+Patch10092: ia-rmv-bcopy-opt.patch
+Patch10093: ia-code_cleanup-strchr-avx2.patch
+Patch10094: ia-code_cleanup-strchr-evex.patch
+Patch10095: ia-opt-strcspn_strpbrk-strcspn-c.patch
+Patch10096: ia-opt-strspn-strspn-c.patch
+Patch10097: ia-rmv-strcspn-sse2.patch
+Patch10098: ia-rmv-strpbrk-sse2.patch
+Patch10099: ia-rmv-strspn-sse2.patch
+Patch10100: ia-opt-strxcasecmp-srtcmp.patch
+Patch10101: ia-opt-strxcasecmp-srtcmp-sse42.patch
+Patch10102: ia-opt-strxcasecmp-avx2.patch
+Patch10103: ia-opt-strxcasecmp-evex.patch
+Patch10104: ia-rmv-strxcasecmp-avx.patch
+Patch10105: ia-imp-wcslen.patch
+Patch10106: ia-rmv-memcmp-sse4.patch
+Patch10107: ia-code_cleanup-memcmp-avx2-movbe.patch
+Patch10108: ia-opt-str-wcs_rchr-sse2.patch
+Patch10109: ia-opt-str-wcs_rchr-avx2.patch
+Patch10110: ia-opt-str-wcs_rchr-evex.patch
+Patch10111: ia-add-fast-jitter.patch
+Patch10112: ia-add-backoff-spinlock.patch
+Patch10113: glibc-sw29127.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2806,8 +2842,11 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Jun 09 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.205
+- Intel glibc optimizations
+
 * Fri May 20 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.204
-- Intel architecture optimizations
+- Intel glibc optimizations
 
 * Tue May 17 2022 Patsy Griffin <patsy@redhat.com> - 2.28-203
 - 390x: Add support for IBM z16. (#2077835)
