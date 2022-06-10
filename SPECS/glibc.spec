@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 205%{?dist}
+%define glibcrelease 207%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -897,6 +897,13 @@ Patch702: glibc-rh1982608.patch
 Patch703: glibc-rh1961109.patch
 Patch704: glibc-rh2086853.patch 
 Patch705: glibc-rh2077835.patch
+Patch706: glibc-rh2089247-1.patch
+Patch707: glibc-rh2089247-2.patch
+Patch708: glibc-rh2089247-3.patch
+Patch709: glibc-rh2089247-4.patch
+Patch710: glibc-rh2089247-5.patch
+Patch711: glibc-rh2089247-6.patch
+Patch712: glibc-rh2091553.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2842,11 +2849,17 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Thu Jun 09 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.205
-- Intel glibc optimizations
+* Thu Jun 09 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.207
+- Intel architecture optimizations
+
+* Tue Jun 07 2022 DJ Delorie <dj@redhat.com) - 2.28-206
+- Fix incorrect strncpy results on POWER9 (#2091553)
+
+* Mon May 23 2022 Florian Weimer <fweimer@redhat.com> - 2.28-205
+- Increase tempnam randomness (#2089247)
 
 * Fri May 20 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.204
-- Intel glibc optimizations
+- Intel architecture optimizations
 
 * Tue May 17 2022 Patsy Griffin <patsy@redhat.com> - 2.28-203
 - 390x: Add support for IBM z16. (#2077835)
