@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 189.1%{?dist}
+%define glibcrelease 189.5%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -856,6 +856,15 @@ Patch661: glibc-rh2045063-3.patch
 Patch662: glibc-rh2045063-4.patch
 Patch663: glibc-rh2045063-5.patch
 Patch664: glibc-rh2061727.patch
+Patch665: glibc-rh2073432.patch
+Patch666: glibc-rh2084564.patch
+Patch667: glibc-rh2094540.patch
+Patch668: glibc-rh2093457-1.patch
+Patch669: glibc-rh2093457-2.patch
+Patch670: glibc-rh2093457-3.patch
+Patch671: glibc-rh2093457-4.patch
+Patch672: glibc-rh2093457-5.patch
+Patch673: glibc-rh2093457-6.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2671,6 +2680,18 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Jun  8 2022 Florian Weimer <fweimer@redhat.com> - 2.28-189.5
+- Increase tempnam randomness (#2093457)
+
+* Tue Jun 07 2022 DJ Delorie <dj@redhat.com> - 2.28-189.4
+- Fix incorrect strncpy results on POWER9 (#2094540)
+
+* Fri May 13 2022 Arjun Shankar <arjun@redhat.com> - 2.28-189.3
+- Add missing MACRON to EBCDIC character sets (#2084564)
+
+* Fri May 13 2022 Arjun Shankar <arjun@redhat.com> - 2.28-189.2
+- timezone: Fix a test that causes occasional build failure (#2073432)
+
 * Thu Mar 10 2022 Florian Weimer <fweimer@redhat.com> - 2.28-189.1
 - nss: Avoid clobbering errno in get*ent via dlopen (#2061727)
 
