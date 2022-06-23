@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 205%{?dist}
+%define glibcrelease 206%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -904,6 +904,7 @@ Patch709: glibc-rh2089247-4.patch
 Patch710: glibc-rh2089247-5.patch
 Patch711: glibc-rh2089247-6.patch
 Patch712: glibc-rh2091553.patch
+Patch713: glibc-rh1888660.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2734,6 +2735,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Jun  9 2022 Arjun Shankar <arjun@redhat.com> - 2.28-206
+- Fix deadlocks in pthread_atfork handlers (#1888660)
+
 * Tue Jun 07 2022 DJ Delorie <dj@redhat.com) - 2.28-205
 - Fix incorrect strncpy results on POWER9 (#2091553)
 
