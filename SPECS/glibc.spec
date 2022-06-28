@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 207%{?dist}
+%define glibcrelease 208%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -904,6 +904,7 @@ Patch709: glibc-rh2089247-4.patch
 Patch710: glibc-rh2089247-5.patch
 Patch711: glibc-rh2089247-6.patch
 Patch712: glibc-rh2091553.patch
+Patch713: glibc-rh1888660.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2849,7 +2850,10 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Thu Jun 09 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.207
+* Thu Jun 09 2022 Arjun Shankar <arjun@redhat.com> - 2.28-208
+- Fix deadlocks in pthread_atfork handlers (#1888660) 
+
+* Thu Jun 09 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28-207
 - Intel architecture optimizations
 
 * Tue Jun 07 2022 DJ Delorie <dj@redhat.com) - 2.28-206
@@ -2858,7 +2862,7 @@ fi
 * Mon May 23 2022 Florian Weimer <fweimer@redhat.com> - 2.28-205
 - Increase tempnam randomness (#2089247)
 
-* Fri May 20 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28.204
+* Fri May 20 2022 Ali Erdinc Koroglu <aekoroglu@centosproject.org> - 2.28-204
 - Intel architecture optimizations
 
 * Tue May 17 2022 Patsy Griffin <patsy@redhat.com> - 2.28-203
