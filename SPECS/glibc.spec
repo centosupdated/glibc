@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 206%{?dist}
+%define glibcrelease 207%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -905,6 +905,9 @@ Patch710: glibc-rh2089247-5.patch
 Patch711: glibc-rh2089247-6.patch
 Patch712: glibc-rh2091553.patch
 Patch713: glibc-rh1888660.patch
+Patch714: glibc-rh2096189-1.patch
+Patch715: glibc-rh2096189-2.patch
+Patch716: glibc-rh2096189-3.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2735,6 +2738,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jun 24 2022 Florian Weimer <fweimer@redhat.com> - 2.28-207
+- Add the no-aaaa DNS stub resolver option (#2096189)
+
 * Thu Jun  9 2022 Arjun Shankar <arjun@redhat.com> - 2.28-206
 - Fix deadlocks in pthread_atfork handlers (#1888660)
 
