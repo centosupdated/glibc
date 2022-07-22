@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 207%{?dist}
+%define glibcrelease 208%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -908,6 +908,15 @@ Patch713: glibc-rh1888660.patch
 Patch714: glibc-rh2096189-1.patch
 Patch715: glibc-rh2096189-2.patch
 Patch716: glibc-rh2096189-3.patch
+Patch717: glibc-rh2080349-1.patch
+Patch718: glibc-rh2080349-2.patch
+Patch719: glibc-rh2080349-3.patch
+Patch720: glibc-rh2080349-4.patch
+Patch721: glibc-rh2080349-5.patch
+Patch722: glibc-rh2080349-6.patch
+Patch723: glibc-rh2080349-7.patch
+Patch724: glibc-rh2080349-8.patch
+Patch725: glibc-rh2080349-9.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2738,6 +2747,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jul 15 2022 Patsy Griffin <patsy@redhat.com> - 2.28-208
+- Update syscall-names.list to Linuz 5.18. (#2080349)
+
 * Fri Jun 24 2022 Florian Weimer <fweimer@redhat.com> - 2.28-207
 - Add the no-aaaa DNS stub resolver option (#2096189)
 
