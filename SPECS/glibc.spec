@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 208%{?dist}
+%define glibcrelease 209%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -917,6 +917,53 @@ Patch722: glibc-rh2080349-6.patch
 Patch723: glibc-rh2080349-7.patch
 Patch724: glibc-rh2080349-8.patch
 Patch725: glibc-rh2080349-9.patch
+Patch727: glibc-rh2047981-1.patch
+Patch728: glibc-rh2047981-2.patch
+Patch729: glibc-rh2047981-3.patch
+Patch730: glibc-rh2047981-4.patch
+Patch731: glibc-rh2047981-5.patch
+Patch732: glibc-rh2047981-6.patch
+Patch733: glibc-rh2047981-7.patch
+Patch734: glibc-rh2047981-8.patch
+Patch735: glibc-rh2047981-9.patch
+Patch736: glibc-rh2047981-10.patch
+Patch737: glibc-rh2047981-11.patch
+Patch738: glibc-rh2047981-12.patch
+Patch739: glibc-rh2047981-13.patch
+Patch740: glibc-rh2047981-14.patch
+Patch741: glibc-rh2047981-15.patch
+Patch742: glibc-rh2047981-16.patch
+Patch743: glibc-rh2047981-17.patch
+Patch744: glibc-rh2047981-18.patch
+Patch745: glibc-rh2047981-19.patch
+Patch746: glibc-rh2047981-20.patch
+Patch747: glibc-rh2047981-21.patch
+Patch748: glibc-rh2047981-22.patch
+Patch749: glibc-rh2047981-23.patch
+Patch750: glibc-rh2047981-24.patch
+Patch751: glibc-rh2047981-25.patch
+Patch752: glibc-rh2047981-26.patch
+Patch753: glibc-rh2047981-27.patch
+Patch754: glibc-rh2047981-28.patch
+Patch755: glibc-rh2047981-29.patch
+Patch756: glibc-rh2047981-30.patch
+Patch757: glibc-rh2047981-31.patch
+Patch758: glibc-rh2047981-32.patch
+Patch759: glibc-rh2047981-33.patch
+Patch760: glibc-rh2047981-34.patch
+Patch761: glibc-rh2047981-35.patch
+Patch762: glibc-rh2047981-36.patch
+Patch763: glibc-rh2047981-37.patch
+Patch764: glibc-rh2047981-38.patch
+Patch766: glibc-rh2047981-39.patch
+Patch767: glibc-rh2047981-40.patch
+Patch768: glibc-rh2047981-41.patch
+Patch769: glibc-rh2047981-42.patch
+Patch770: glibc-rh2047981-43.patch
+Patch771: glibc-rh2047981-44.patch
+Patch772: glibc-rh2047981-45.patch
+Patch773: glibc-rh2047981-46.patch
+Patch774: glibc-rh2047981-47.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2747,8 +2794,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jul 22 2022 Carlos O'Donell <carlos@redhat.com> - 2.28-209
+- Improve dynamic loader auditing interface (LD_AUDIT) (#2047981)
+- Add dlinfo() API support for RTLD_DI_PHDR (#2097898)
+
 * Fri Jul 15 2022 Patsy Griffin <patsy@redhat.com> - 2.28-208
-- Update syscall-names.list to Linuz 5.18. (#2080349)
+- Update syscall-names.list to Linux 5.18. (#2080349)
 
 * Fri Jun 24 2022 Florian Weimer <fweimer@redhat.com> - 2.28-207
 - Add the no-aaaa DNS stub resolver option (#2096189)
