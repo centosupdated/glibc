@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 211%{?dist}
+%define glibcrelease 213%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -964,6 +964,10 @@ Patch771: glibc-rh2047981-44.patch
 Patch772: glibc-rh2047981-45.patch
 Patch773: glibc-rh2047981-46.patch
 Patch774: glibc-rh2047981-47.patch
+Patch775: glibc-rh2104907.patch
+Patch776: glibc-rh2119304-1.patch
+Patch777: glibc-rh2119304-2.patch
+Patch778: glibc-rh2119304-3.patch 
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2909,6 +2913,13 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Aug 25 2022 Florian Weimer <fweimer@redhat.com> - 2.28-213
+- Preserve GLRO (dl_naudit) internal ABI (#2119304)
+- Avoid s390x ABI change due to z16 recognition on s390x (#2119304)
+
+* Tue Aug 23 2022 Arjun Shankar <arjun@redhat.com> - 2.28-212
+- Fix locale en_US@ampm (#2104907) 
+
 * Fri Jul 22 2022 Carlos O'Donell <carlos@redhat.com> - 2.28-211
 - Improve dynamic loader auditing interface (LD_AUDIT) (#2047981)
 - Add dlinfo() API support for RTLD_DI_PHDR (#2097898)
