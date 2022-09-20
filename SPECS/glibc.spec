@@ -148,7 +148,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 28%{?dist}
+Release: 28%{?dist}.2
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -378,6 +378,11 @@ Patch173: glibc-upstream-2.34-107.patch
 Patch174: glibc-rh2058224-1.patch
 Patch175: glibc-rh2058224-2.patch
 Patch176: glibc-rh2058230.patch
+Patch177: glibc-rh2115828-1.patch
+Patch178: glibc-rh2115828-2.patch
+Patch179: glibc-rh2115828-3.patch
+Patch180: glibc-rh2115828-4.patch
+Patch181: glibc-rh2095450.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2421,6 +2426,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Aug 11 2022 Florian Weimer <fweimer@redhat.com> - 2.34-28.2
+- ppc64le: Fix VSX register number in POWER9 strncpy (#2095450)
+
+* Fri Aug  5 2022 Florian Weimer <fweimer@redhat.com> - 2.34-28.1
+- Backport __rseq_* symbols from glibc 2.35 (#2115828)
+
 * Tue Mar 15 2022 Florian Weimer <fweimer@redhat.com> - 2.34-28
 - Trim changelog (#2063247)
 
