@@ -448,7 +448,7 @@ fill_archive (struct locarhandle *tmpl_ah,
 		      char fullname[fnamelen + 2 * strlen (d->d_name) + 7];
 
 #ifdef _DIRENT_HAVE_D_TYPE
-		      if (d_type == DT_UNKNOWN)
+		      if (d_type == DT_UNKNOWN || d_type == DT_LNK)
 #endif
 			{
 			  strcpy (stpcpy (stpcpy (fullname, fname), "/"),
