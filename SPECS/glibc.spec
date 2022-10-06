@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 213%{?dist}
+%define glibcrelease 216%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -968,6 +968,9 @@ Patch775: glibc-rh2104907.patch
 Patch776: glibc-rh2119304-1.patch
 Patch777: glibc-rh2119304-2.patch
 Patch778: glibc-rh2119304-3.patch 
+Patch779: glibc-rh2118667.patch
+Patch780: glibc-rh2122498.patch
+Patch781: glibc-rh2125222.patch 
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2913,6 +2916,15 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-216
+- Fix hwcaps search path size computation (#2125222)
+
+* Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-215
+- Fix nscd netlink cache invalidation if epoll is used (#2122498)
+
+* Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-214
+- Run tst-audit-tlsdesc, tst-audit-tlsdesc-dlopen everywhere (#2118667) 
+
 * Thu Aug 25 2022 Florian Weimer <fweimer@redhat.com> - 2.28-213
 - Preserve GLRO (dl_naudit) internal ABI (#2119304)
 - Avoid s390x ABI change due to z16 recognition on s390x (#2119304)
