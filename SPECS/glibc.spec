@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 216%{?dist}
+%define glibcrelease 218%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -971,6 +971,13 @@ Patch778: glibc-rh2119304-3.patch
 Patch779: glibc-rh2118667.patch
 Patch780: glibc-rh2122498.patch
 Patch781: glibc-rh2125222.patch 
+Patch782: glibc-rh1871383-1.patch
+Patch783: glibc-rh1871383-2.patch
+Patch784: glibc-rh1871383-3.patch
+Patch785: glibc-rh1871383-4.patch
+Patch786: glibc-rh1871383-5.patch
+Patch787: glibc-rh1871383-6.patch
+Patch788: glibc-rh1871383-7.patch 
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2916,6 +2923,14 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Oct 05 2022 Arjun Shankar <arjun@redhat.com> - 2.28-218
+- Retain .gnu_debuglink section for libc.so.6 (#2115830)
+- Remove .annobin* symbols from ld.so
+- Remove redundant ld.so debuginfo file
+
+* Wed Sep 28 2022 DJ Delorie <dj@redhat.com> - 2.28-217
+- Improve malloc implementation (#1871383) 
+
 * Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-216
 - Fix hwcaps search path size computation (#2125222)
 
