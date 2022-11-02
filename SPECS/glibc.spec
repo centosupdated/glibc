@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 218%{?dist}
+%define glibcrelease 221%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -978,6 +978,14 @@ Patch785: glibc-rh1871383-4.patch
 Patch786: glibc-rh1871383-5.patch
 Patch787: glibc-rh1871383-6.patch
 Patch788: glibc-rh1871383-7.patch 
+Patch789: glibc-rh2122501-1.patch
+Patch790: glibc-rh2122501-2.patch
+Patch791: glibc-rh2122501-3.patch
+Patch792: glibc-rh2122501-4.patch
+Patch793: glibc-rh2122501-5.patch
+Patch794: glibc-rh2121746-1.patch
+Patch795: glibc-rh2121746-2.patch
+Patch796: glibc-rh2116938.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2923,6 +2931,16 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Oct 24 2022 Arjun Shankar <arjun@redhat.com> - 2.28-221  
+- Fix -Wstrict-overflow warning when using CMSG_NXTHDR macro (#2116938)
+
+* Fri Oct 14 2022 DJ Delorie <dj@redhat.com> - 2.28-220
+- Fix dlmopen/dlclose/dlmopen sequence and libc initialization (#2121746)
+
+* Thu Oct 13 2022 Arjun Shankar <arjun@redhat.com> - 2.28-219
+- Fix memory corruption in printf with thousands separators and large
+  integer width (#2122501)
+
 * Wed Oct 05 2022 Arjun Shankar <arjun@redhat.com> - 2.28-218
 - Retain .gnu_debuglink section for libc.so.6 (#2115830)
 - Remove .annobin* symbols from ld.so
