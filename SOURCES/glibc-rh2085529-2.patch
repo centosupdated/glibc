@@ -11,7 +11,7 @@ Date:   Wed Feb 2 22:37:20 2022 +0100
     Reviewed-by: Carlos O'Donell <carlos@redhat.com>
 
 diff --git a/manual/threads.texi b/manual/threads.texi
-index ab44a92ca0f5a6a5..4b9fc946916190ef 100644
+index 4869f69d2ceed255..48fd562923800b34 100644
 --- a/manual/threads.texi
 +++ b/manual/threads.texi
 @@ -1004,7 +1004,7 @@ The manual for the @code{rseq} system call can be found
@@ -24,7 +24,7 @@ index ab44a92ca0f5a6a5..4b9fc946916190ef 100644
  This variable contains the offset between the thread pointer (as defined
  by @code{__builtin_thread_pointer} or the thread pointer register for
 diff --git a/sysdeps/nptl/dl-tls_init_tp.c b/sysdeps/nptl/dl-tls_init_tp.c
-index 4a73927f805abf94..86e87c7da4e88d66 100644
+index 0f5280a75d546d2f..d5f2587f1348441c 100644
 --- a/sysdeps/nptl/dl-tls_init_tp.c
 +++ b/sysdeps/nptl/dl-tls_init_tp.c
 @@ -46,7 +46,7 @@ rtld_mutex_dummy (pthread_mutex_t *lock)

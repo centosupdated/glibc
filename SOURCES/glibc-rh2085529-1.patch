@@ -16,7 +16,7 @@ Date:   Thu Dec 9 09:49:32 2021 +0100
     Reviewed-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
 
 diff --git a/manual/threads.texi b/manual/threads.texi
-index 06b6b277a1228af1..ab44a92ca0f5a6a5 100644
+index 7f166bfa87e88c36..4869f69d2ceed255 100644
 --- a/manual/threads.texi
 +++ b/manual/threads.texi
 @@ -629,6 +629,8 @@ the standard.
@@ -115,7 +115,7 @@ index 06b6b277a1228af1..ab44a92ca0f5a6a5 100644
  @c pthread_atfork
  @c pthread_attr_destroy
 diff --git a/sysdeps/nptl/dl-tls_init_tp.c b/sysdeps/nptl/dl-tls_init_tp.c
-index b39dfbff2c6678d5..4a73927f805abf94 100644
+index 23aa4cfc0b784dfc..0f5280a75d546d2f 100644
 --- a/sysdeps/nptl/dl-tls_init_tp.c
 +++ b/sysdeps/nptl/dl-tls_init_tp.c
 @@ -22,6 +22,7 @@
@@ -163,7 +163,7 @@ index b39dfbff2c6678d5..4a73927f805abf94 100644
  
    /* Set initial thread's stack block from 0 up to __libc_stack_end.
 diff --git a/sysdeps/unix/sysv/linux/Makefile b/sysdeps/unix/sysv/linux/Makefile
-index 0657f4003e7116c6..856a9d58cef6a879 100644
+index 5c772f69d1b1f1f1..9b7e214219943531 100644
 --- a/sysdeps/unix/sysv/linux/Makefile
 +++ b/sysdeps/unix/sysv/linux/Makefile
 @@ -110,7 +110,8 @@ sysdep_headers += sys/mount.h sys/acct.h \

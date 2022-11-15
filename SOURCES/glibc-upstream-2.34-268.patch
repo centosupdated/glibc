@@ -1,4 +1,4 @@
-commit 0218463dd8265ed937622f88ac68c7d984fe0cfc
+commit 4c92a1041257c0155c6aa7a182fe5f78e477b0e6
 Author: Matheus Castanho <msc@linux.ibm.com>
 Date:   Tue Jun 7 10:27:26 2022 -0300
 
@@ -16,6 +16,7 @@ Date:   Tue Jun 7 10:27:26 2022 -0300
     Tested on powerpc, powerpc64 and powerpc64le.
     
     Signed-off-by: Kewen Lin <linkw@gcc.gnu.org>
+    (cherry picked from commit 0218463dd8265ed937622f88ac68c7d984fe0cfc)
 
 diff --git a/sysdeps/powerpc/powerpc64/le/power9/strncpy.S b/sysdeps/powerpc/powerpc64/le/power9/strncpy.S
 index 291941c1e5c0eb4b..5421525acee3ebfe 100644

@@ -148,7 +148,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 28%{?dist}.2
+Release: 40%{?dist}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -215,7 +215,6 @@ rpm.define("__debug_install_post bash " .. wrapper
 ##############################################################################
 Patch1: glibc-fedora-nscd.patch
 Patch4: glibc-fedora-linux-tcsetattr.patch
-Patch6: glibc-fedora-localedef.patch
 Patch8: glibc-fedora-manual-dircategory.patch
 Patch9: glibc-rh827510.patch
 Patch13: glibc-fedora-localedata-rh61908.patch
@@ -378,11 +377,208 @@ Patch173: glibc-upstream-2.34-107.patch
 Patch174: glibc-rh2058224-1.patch
 Patch175: glibc-rh2058224-2.patch
 Patch176: glibc-rh2058230.patch
-Patch177: glibc-rh2115828-1.patch
-Patch178: glibc-rh2115828-2.patch
-Patch179: glibc-rh2115828-3.patch
-Patch180: glibc-rh2115828-4.patch
-Patch181: glibc-rh2095450.patch
+Patch177: glibc-rh2054789.patch
+Patch178: glibc-upstream-2.34-108.patch
+# glibc-2.34-109-gd64b08d5ba only changes NEWS.
+Patch179: glibc-upstream-2.34-110.patch
+Patch180: glibc-upstream-2.34-111.patch
+Patch181: glibc-upstream-2.34-112.patch
+Patch182: glibc-upstream-2.34-113.patch
+Patch183: glibc-upstream-2.34-114.patch
+# glibc-2.34-115-gd5d1c95aaf only changes NEWS.
+# glibc-2.34-116-g852361b5a3 is glibc-rh2054789.patch.
+Patch184: glibc-upstream-2.34-117.patch
+Patch185: glibc-upstream-2.34-118.patch
+Patch186: glibc-upstream-2.34-119.patch
+Patch187: glibc-upstream-2.34-120.patch
+Patch188: glibc-upstream-2.34-121.patch
+Patch189: glibc-upstream-2.34-122.patch
+Patch190: glibc-upstream-2.34-123.patch
+Patch191: glibc-upstream-2.34-124.patch
+Patch192: glibc-upstream-2.34-125.patch
+Patch193: glibc-upstream-2.34-126.patch
+Patch194: glibc-upstream-2.34-127.patch
+Patch195: glibc-upstream-2.34-128.patch
+Patch196: glibc-upstream-2.34-129.patch
+Patch197: glibc-upstream-2.34-130.patch
+Patch198: glibc-upstream-2.34-131.patch
+Patch199: glibc-upstream-2.34-132.patch
+Patch200: glibc-upstream-2.34-133.patch
+Patch201: glibc-upstream-2.34-134.patch
+Patch202: glibc-upstream-2.34-135.patch
+Patch203: glibc-upstream-2.34-136.patch
+Patch204: glibc-upstream-2.34-137.patch
+Patch205: glibc-upstream-2.34-138.patch
+Patch206: glibc-upstream-2.34-139.patch
+Patch207: glibc-upstream-2.34-140.patch
+Patch208: glibc-upstream-2.34-141.patch
+Patch209: glibc-upstream-2.34-142.patch
+Patch210: glibc-upstream-2.34-143.patch
+Patch211: glibc-upstream-2.34-144.patch
+Patch212: glibc-upstream-2.34-145.patch
+Patch213: glibc-upstream-2.34-146.patch
+Patch214: glibc-upstream-2.34-147.patch
+Patch215: glibc-upstream-2.34-148.patch
+Patch216: glibc-upstream-2.34-149.patch
+Patch217: glibc-upstream-2.34-150.patch
+Patch218: glibc-upstream-2.34-151.patch
+Patch219: glibc-upstream-2.34-152.patch
+Patch220: glibc-upstream-2.34-153.patch
+Patch221: glibc-upstream-2.34-154.patch
+Patch222: glibc-upstream-2.34-155.patch
+Patch223: glibc-upstream-2.34-156.patch
+Patch224: glibc-upstream-2.34-157.patch
+Patch225: glibc-upstream-2.34-158.patch
+Patch226: glibc-upstream-2.34-159.patch
+Patch227: glibc-upstream-2.34-160.patch
+# glibc-2.34-161-gceed89d089 only changes NEWS.
+Patch228: glibc-upstream-2.34-162.patch
+Patch229: glibc-upstream-2.34-163.patch
+Patch230: glibc-upstream-2.34-164.patch
+Patch231: glibc-upstream-2.34-165.patch
+Patch232: glibc-upstream-2.34-166.patch
+Patch233: glibc-upstream-2.34-167.patch
+Patch234: glibc-upstream-2.34-168.patch
+Patch235: glibc-upstream-2.34-169.patch
+Patch236: glibc-upstream-2.34-170.patch
+Patch237: glibc-upstream-2.34-171.patch
+Patch238: glibc-upstream-2.34-172.patch
+Patch239: glibc-upstream-2.34-173.patch
+Patch240: glibc-upstream-2.34-174.patch
+Patch241: glibc-upstream-2.34-175.patch
+Patch242: glibc-upstream-2.34-176.patch
+Patch243: glibc-upstream-2.34-177.patch
+Patch244: glibc-upstream-2.34-178.patch
+Patch245: glibc-upstream-2.34-179.patch
+Patch246: glibc-upstream-2.34-180.patch
+Patch247: glibc-upstream-2.34-181.patch
+Patch248: glibc-upstream-2.34-182.patch
+Patch249: glibc-upstream-2.34-183.patch
+Patch250: glibc-upstream-2.34-184.patch
+Patch251: glibc-upstream-2.34-185.patch
+Patch252: glibc-upstream-2.34-186.patch
+Patch253: glibc-upstream-2.34-187.patch
+Patch254: glibc-upstream-2.34-188.patch
+Patch255: glibc-upstream-2.34-189.patch
+Patch256: glibc-upstream-2.34-190.patch
+Patch257: glibc-upstream-2.34-191.patch
+Patch258: glibc-upstream-2.34-192.patch
+Patch259: glibc-upstream-2.34-193.patch
+Patch260: glibc-upstream-2.34-194.patch
+Patch261: glibc-upstream-2.34-195.patch
+Patch262: glibc-upstream-2.34-196.patch
+Patch263: glibc-upstream-2.34-197.patch
+Patch264: glibc-upstream-2.34-198.patch
+Patch265: glibc-upstream-2.34-199.patch
+Patch266: glibc-upstream-2.34-200.patch
+Patch267: glibc-upstream-2.34-201.patch
+Patch268: glibc-upstream-2.34-202.patch
+Patch269: glibc-upstream-2.34-203.patch
+Patch270: glibc-upstream-2.34-204.patch
+Patch271: glibc-upstream-2.34-205.patch
+Patch272: glibc-upstream-2.34-206.patch
+Patch273: glibc-upstream-2.34-207.patch
+Patch274: glibc-upstream-2.34-208.patch
+Patch275: glibc-upstream-2.34-209.patch
+Patch276: glibc-upstream-2.34-210.patch
+Patch277: glibc-upstream-2.34-211.patch
+Patch278: glibc-upstream-2.34-212.patch
+Patch279: glibc-upstream-2.34-213.patch
+Patch280: glibc-upstream-2.34-214.patch
+Patch281: glibc-upstream-2.34-215.patch
+Patch282: glibc-upstream-2.34-216.patch
+Patch283: glibc-upstream-2.34-217.patch
+Patch284: glibc-upstream-2.34-218.patch
+Patch285: glibc-upstream-2.34-219.patch
+Patch286: glibc-upstream-2.34-220.patch
+Patch287: glibc-upstream-2.34-221.patch
+Patch288: glibc-upstream-2.34-222.patch
+Patch289: glibc-upstream-2.34-223.patch
+Patch290: glibc-upstream-2.34-224.patch
+Patch291: glibc-upstream-2.34-225.patch
+Patch292: glibc-upstream-2.34-226.patch
+Patch293: glibc-upstream-2.34-227.patch
+Patch294: glibc-upstream-2.34-228.patch
+Patch295: glibc-upstream-2.34-229.patch
+Patch296: glibc-upstream-2.34-230.patch
+Patch297: glibc-upstream-2.34-231.patch
+Patch298: glibc-upstream-2.34-232.patch
+Patch299: glibc-upstream-2.34-233.patch
+Patch300: glibc-upstream-2.34-234.patch
+Patch301: glibc-upstream-2.34-235.patch
+Patch302: glibc-upstream-2.34-236.patch
+Patch303: glibc-upstream-2.34-237.patch
+Patch304: glibc-upstream-2.34-238.patch
+Patch305: glibc-upstream-2.34-239.patch
+Patch306: glibc-upstream-2.34-240.patch
+Patch307: glibc-upstream-2.34-241.patch
+Patch308: glibc-upstream-2.34-242.patch
+Patch309: glibc-upstream-2.34-243.patch
+Patch310: glibc-upstream-2.34-244.patch
+Patch311: glibc-upstream-2.34-245.patch
+Patch312: glibc-upstream-2.34-246.patch
+Patch313: glibc-upstream-2.34-247.patch
+Patch314: glibc-upstream-2.34-248.patch
+Patch315: glibc-upstream-2.34-249.patch
+Patch316: glibc-upstream-2.34-250.patch
+Patch317: glibc-upstream-2.34-251.patch
+Patch318: glibc-upstream-2.34-252.patch
+Patch319: glibc-upstream-2.34-253.patch
+Patch320: glibc-upstream-2.34-254.patch
+Patch321: glibc-upstream-2.34-255.patch
+Patch322: glibc-upstream-2.34-256.patch
+Patch323: glibc-upstream-2.34-257.patch
+Patch324: glibc-upstream-2.34-258.patch
+Patch325: glibc-upstream-2.34-259.patch
+Patch326: glibc-upstream-2.34-260.patch
+Patch327: glibc-upstream-2.34-261.patch
+Patch328: glibc-upstream-2.34-262.patch
+Patch329: glibc-upstream-2.34-263.patch
+Patch330: glibc-upstream-2.34-264.patch
+Patch331: glibc-upstream-2.34-265.patch
+Patch332: glibc-upstream-2.34-266.patch
+Patch333: glibc-upstream-2.34-267.patch
+Patch334: glibc-upstream-2.34-268.patch
+Patch335: glibc-rh2085529-1.patch
+Patch336: glibc-rh2085529-2.patch
+Patch337: glibc-rh2085529-3.patch
+Patch338: glibc-rh2085529-4.patch
+Patch339: glibc-upstream-2.34-269.patch
+Patch340: glibc-upstream-2.34-270.patch
+Patch341: glibc-upstream-2.34-271.patch
+Patch342: glibc-upstream-2.34-272.patch
+Patch343: glibc-upstream-2.34-273.patch
+Patch344: glibc-rh2096191-1.patch
+Patch345: glibc-rh2096191-2.patch
+Patch346: glibc-upstream-2.34-274.patch
+Patch347: glibc-upstream-2.34-275.patch
+Patch348: glibc-upstream-2.34-276.patch
+Patch349: glibc-upstream-2.34-277.patch
+Patch350: glibc-upstream-2.34-278.patch
+Patch351: glibc-upstream-2.34-279.patch
+Patch352: glibc-upstream-2.34-280.patch
+Patch353: glibc-upstream-2.34-281.patch
+Patch354: glibc-upstream-2.34-282.patch
+Patch355: glibc-upstream-2.34-283.patch
+Patch356: glibc-upstream-2.34-284.patch
+Patch357: glibc-upstream-2.34-285.patch
+Patch358: glibc-upstream-2.34-286.patch
+Patch359: glibc-upstream-2.34-287.patch
+Patch360: glibc-upstream-2.34-288.patch
+Patch361: glibc-upstream-2.34-289.patch
+Patch362: glibc-upstream-2.34-290.patch
+Patch363: glibc-upstream-2.34-291.patch
+Patch364: glibc-upstream-2.34-292.patch
+Patch365: glibc-upstream-2.34-293.patch
+Patch366: glibc-upstream-2.34-294.patch
+Patch367: glibc-upstream-2.34-295.patch
+Patch368: glibc-upstream-2.34-296.patch
+Patch369: glibc-upstream-2.34-297.patch
+Patch370: glibc-upstream-2.34-298.patch
+Patch371: glibc-upstream-2.34-299.patch
+Patch372: glibc-upstream-2.34-300.patch
+Patch373: glibc-upstream-2.34-301.patch
+Patch374: glibc-upstream-2.34-302.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1417,11 +1613,11 @@ done
 pushd build-%{target}
 %make_build install_root=%{glibc_sysroot} install
 %make_build install_root=%{glibc_sysroot} \
-	install-locales -C ../localedata objdir=`pwd`
+	install-locale-files -C ../localedata objdir=`pwd`
 popd
-# Locale creation may produce different groups of hardlinks in an
-# unpredictable manner.  Re-grouping makes those differences go away.
-hardlink %{glibc_sysroot}/usr/lib/locale
+# Locale creation via install-locale-files does not group identical files
+# via hardlinks, so we must group them ourselves.
+hardlink -c %{glibc_sysroot}/usr/lib/locale
 
 # install_different:
 #	Install all core libraries into DESTDIR/SUBDIR. Either the file is
@@ -1542,6 +1738,19 @@ $olddir/build-%{target}/elf/ld.so \
 # so we need to restore it in the posttrans scriptlet (like the old
 # glibc-all-langpacks versions)
 ln locale-archive locale-archive.real
+
+# Almost half the LC_CTYPE files in langpacks are identical to the C.utf8
+# variant which is installed by default.  When we keep them as hardlinks,
+# each langpack ends up retaining a copy.  If we convert these to symbolic
+# links instead, we save ~350K each when they get installed that way.
+#
+# LC_MEASUREMENT and LC_PAPER also have several duplicates but we don't
+# bother with these because they are only ~30 bytes each.
+pushd %{glibc_sysroot}/usr/lib/locale
+for f in $(find eo *_* -samefile C.utf8/LC_CTYPE); do
+  rm $f && ln -s '../C.utf8/LC_CTYPE' $f
+done
+popd
 
 # Create the file lists for the language specific sub-packages:
 for i in eo *_*
@@ -2426,14 +2635,252 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Thu Aug 11 2022 Florian Weimer <fweimer@redhat.com> - 2.34-28.2
-- ppc64le: Fix VSX register number in POWER9 strncpy (#2095450)
+* Fri Jul 22 2022 Arjun Shankar <arjun@redhat.com> - 2.34-40
+- Sync with upstream branch release/2.34/master,
+  commit b2f32e746492615a6eb3e66fac1e766e32e8deb1:
+- malloc: Simplify implementation of __malloc_assert
+- Update syscall-names.list for Linux 5.18
+- x86: Add missing IS_IN (libc) check to strncmp-sse4_2.S
+- x86: Move mem{p}{mov|cpy}_{chk_}erms to its own file
+- x86: Move and slightly improve memset_erms
+- x86: Add definition for __wmemset_chk AVX2 RTM in ifunc impl list
+- x86: Put wcs{n}len-sse4.1 in the sse4.1 text section
+- x86: Align entry for memrchr to 64-bytes.
+- x86: Add BMI1/BMI2 checks for ISA_V3 check
+- x86: Cleanup bounds checking in large memcpy case
+- x86: Add bounds `x86_non_temporal_threshold`
+- x86: Add sse42 implementation to strcmp's ifunc
+- x86: Fix misordered logic for setting `rep_movsb_stop_threshold`
+- x86: Align varshift table to 32-bytes
+- x86: ZERO_UPPER_VEC_REGISTERS_RETURN_XTEST expect no transactions
+- x86: Shrink code size of memchr-evex.S
+- x86: Shrink code size of memchr-avx2.S
+- x86: Optimize memrchr-avx2.S
+- x86: Optimize memrchr-evex.S
+- x86: Optimize memrchr-sse2.S
+- x86: Add COND_VZEROUPPER that can replace vzeroupper if no `ret`
+- x86: Create header for VEC classes in x86 strings library
+- x86_64: Add strstr function with 512-bit EVEX
+- x86-64: Ignore r_addend for R_X86_64_GLOB_DAT/R_X86_64_JUMP_SLOT
+- x86_64: Implement evex512 version of strlen, strnlen, wcslen and wcsnlen
+- x86_64: Remove bzero optimization
+- x86_64: Remove end of line trailing spaces
+- nptl: Fix ___pthread_unregister_cancel_restore asynchronous restore
+- linux: Fix mq_timereceive check for 32 bit fallback code (BZ 29304)
 
-* Fri Aug  5 2022 Florian Weimer <fweimer@redhat.com> - 2.34-28.1
-- Backport __rseq_* symbols from glibc 2.35 (#2115828)
+* Fri Jun 24 2022 Florian Weimer <fweimer@redhat.com> - 2.34-39
+- Add the no-aaaa DNS stub resolver option (#2096191)
 
-* Tue Mar 15 2022 Florian Weimer <fweimer@redhat.com> - 2.34-28
-- Trim changelog (#2063247)
+* Tue Jun 14 2022 Arjun Shankar <arjun@redhat.com> - 2.34-38
+- Sync with upstream branch release/2.34/master,
+  commit 94ab2088c37d8e4285354af120b7ed6b887b9e53:
+- nss: handle stat failure in check_reload_and_get (BZ #28752)
+- nss: add assert to DB_LOOKUP_FCT (BZ #28752)
+- nios2: Remove _dl_skip_args usage (BZ# 29187)
+- hppa: Remove _dl_skip_args usage (BZ# 29165)
+- nptl: Fix __libc_cleanup_pop_restore asynchronous restore (BZ#29214)
+
+* Wed Jun  8 2022 Florian Weimer <fweimer@redhat.com> - 2.34-37
+- Enable rseq by default and add GLIBC_2.35 rseq symbols (#2085529)
+
+* Wed Jun  8 2022 Florian Weimer <fweimer@redhat.com> - 2.34-36
+- Sync with upstream branch release/2.34/master,
+  commit 4c92a1041257c0155c6aa7a182fe5f78e477b0e6:
+- powerpc: Fix VSX register number on __strncpy_power9 [BZ #29197]
+- socket: Fix mistyped define statement in socket/sys/socket.h (BZ #29225)
+- iconv: Use 64 bit stat for gconv_parseconfdir (BZ# 29213)
+- catgets: Use 64 bit stat for __open_catalog (BZ# 29211)
+- inet: Use 64 bit stat for ruserpass (BZ# 29210)
+- socket: Use 64 bit stat for isfdtype (BZ# 29209)
+- posix: Use 64 bit stat for fpathconf (_PC_ASYNC_IO) (BZ# 29208)
+- posix: Use 64 bit stat for posix_fallocate fallback (BZ# 29207)
+- misc: Use 64 bit stat for getusershell (BZ# 29204)
+- misc: Use 64 bit stat for daemon (BZ# 29203)
+
+* Tue May 31 2022 Arjun Shankar <arjun@redhat.com> - 2.34-35
+- Sync with upstream branch release/2.34/master,
+  commit ff450cdbdee0b8cb6b9d653d6d2fa892de29be31:
+- Fix deadlock when pthread_atfork handler calls pthread_atfork or dlclose
+- x86: Fallback {str|wcs}cmp RTM in the ncmp overflow case [BZ #29127]
+- string.h: fix __fortified_attr_access macro call [BZ #29162]
+- linux: Add a getauxval test [BZ #23293]
+- rtld: Use generic argv adjustment in ld.so [BZ #23293]
+- S390: Enable static PIE
+
+* Thu May 19 2022 Florian Weimer <fweimer@redhat.com> - 2.34-34
+- Sync with upstream branch release/2.34/master,
+  commit ede8d94d154157d269b18f3601440ac576c1f96a:
+- csu: Implement and use _dl_early_allocate during static startup
+- Linux: Introduce __brk_call for invoking the brk system call
+- Linux: Implement a useful version of _startup_fatal
+- ia64: Always define IA64_USE_NEW_STUB as a flag macro
+- Linux: Define MMAP_CALL_INTERNAL
+- i386: Honor I386_USE_SYSENTER for 6-argument Linux system calls
+- i386: Remove OPTIMIZE_FOR_GCC_5 from Linux libc-do-syscall.S
+- elf: Remove __libc_init_secure
+- Linux: Consolidate auxiliary vector parsing (redo)
+- Linux: Include <dl-auxv.h> in dl-sysdep.c only for SHARED
+- Revert "Linux: Consolidate auxiliary vector parsing"
+- Linux: Consolidate auxiliary vector parsing
+- Linux: Assume that NEED_DL_SYSINFO_DSO is always defined
+- Linux: Remove DL_FIND_ARG_COMPONENTS
+- Linux: Remove HAVE_AUX_SECURE, HAVE_AUX_XID, HAVE_AUX_PAGESIZE
+- elf: Merge dl-sysdep.c into the Linux version
+- elf: Remove unused NEED_DL_BASE_ADDR and _dl_base_addr
+- x86: Optimize {str|wcs}rchr-evex
+- x86: Optimize {str|wcs}rchr-avx2
+- x86: Optimize {str|wcs}rchr-sse2
+- x86: Cleanup page cross code in memcmp-avx2-movbe.S
+- x86: Remove memcmp-sse4.S
+- x86: Small improvements for wcslen
+- x86: Remove AVX str{n}casecmp
+- x86: Add EVEX optimized str{n}casecmp
+- x86: Add AVX2 optimized str{n}casecmp
+- x86: Optimize str{n}casecmp TOLOWER logic in strcmp-sse42.S
+- x86: Optimize str{n}casecmp TOLOWER logic in strcmp.S
+- x86: Remove strspn-sse2.S and use the generic implementation
+- x86: Remove strpbrk-sse2.S and use the generic implementation
+- x86: Remove strcspn-sse2.S and use the generic implementation
+- x86: Optimize strspn in strspn-c.c
+- x86: Optimize strcspn and strpbrk in strcspn-c.c
+- x86: Code cleanup in strchr-evex and comment justifying branch
+- x86: Code cleanup in strchr-avx2 and comment justifying branch
+- x86_64: Remove bcopy optimizations
+- x86-64: Remove bzero weak alias in SS2 memset
+- x86_64/multiarch: Sort sysdep_routines and put one entry per line
+- x86: Improve L to support L(XXX_SYMBOL (YYY, ZZZ))
+- fortify: Ensure that __glibc_fortify condition is a constant [BZ #29141]
+
+* Thu May 12 2022 Florian Weimer <fweimer@redhat.com> - 2.34-33
+- Sync with upstream branch release/2.34/master,
+  commit 91c2e6c3db44297bf4cb3a2e3c40236c5b6a0b23:
+- dlfcn: Implement the RTLD_DI_PHDR request type for dlinfo
+- manual: Document the dlinfo function
+- x86: Fix fallback for wcsncmp_avx2 in strcmp-avx2.S [BZ #28896]
+- x86: Fix bug in strncmp-evex and strncmp-avx2 [BZ #28895]
+- x86: Set .text section in memset-vec-unaligned-erms
+- x86-64: Optimize bzero
+- x86: Remove SSSE3 instruction for broadcast in memset.S (SSE2 Only)
+- x86: Improve vec generation in memset-vec-unaligned-erms.S
+- x86-64: Fix strcmp-evex.S
+- x86-64: Fix strcmp-avx2.S
+- x86: Optimize strcmp-evex.S
+- x86: Optimize strcmp-avx2.S
+- manual: Clarify that abbreviations of long options are allowed
+- Add HWCAP2_AFP, HWCAP2_RPRES from Linux 5.17 to AArch64 bits/hwcap.h
+- aarch64: Add HWCAP2_ECV from Linux 5.16
+- Add SOL_MPTCP, SOL_MCTP from Linux 5.16 to bits/socket.h
+- Update kernel version to 5.17 in tst-mman-consts.py
+- Update kernel version to 5.16 in tst-mman-consts.py
+- Update syscall lists for Linux 5.17
+- Add ARPHRD_CAN, ARPHRD_MCTP to net/if_arp.h
+- Update kernel version to 5.15 in tst-mman-consts.py
+- Add PF_MCTP, AF_MCTP from Linux 5.15 to bits/socket.h
+
+* Thu Apr 28 2022 Carlos O'Donell <carlos@redhat.com> - 2.34-32
+- Sync with upstream branch release/2.34/master,
+  commit c66c92181ddbd82306537a608e8c0282587131de:
+- posix/glob.c: update from gnulib (BZ#25659)
+- linux: Fix fchmodat with AT_SYMLINK_NOFOLLOW for 64 bit time_t (BZ#29097)
+
+* Wed Apr 27 2022 Carlos O'Donell <carlos@redhat.com> - 2.34-31
+- Sync with upstream branch release/2.34/master,
+  commit 55640ed3fde48360a8e8083be4843bd2dc7cecfe:
+- i386: Regenerate ulps
+- linux: Fix missing internal 64 bit time_t stat usage
+- x86: Optimize L(less_vec) case in memcmp-evex-movbe.S
+- x86: Don't set Prefer_No_AVX512 for processors with AVX512 and AVX-VNNI
+- x86-64: Use notl in EVEX strcmp [BZ #28646]
+- x86: Shrink memcmp-sse4.S code size
+- x86: Double size of ERMS rep_movsb_threshold in dl-cacheinfo.h
+- x86: Optimize memmove-vec-unaligned-erms.S
+- x86-64: Replace movzx with movzbl
+- x86-64: Remove Prefer_AVX2_STRCMP
+- x86-64: Improve EVEX strcmp with masked load
+- x86: Replace sse2 instructions with avx in memcmp-evex-movbe.S
+- x86: Optimize memset-vec-unaligned-erms.S
+- x86: Optimize memcmp-evex-movbe.S for frontend behavior and size
+- x86: Modify ENTRY in sysdep.h so that p2align can be specified
+- x86-64: Optimize load of all bits set into ZMM register [BZ #28252]
+- scripts/glibcelf.py: Mark as UNSUPPORTED on Python 3.5 and earlier
+- dlfcn: Do not use rtld_active () to determine ld.so state (bug 29078)
+- INSTALL: Rephrase -with-default-link documentation
+- misc: Fix rare fortify crash on wchar funcs. [BZ 29030]
+- Default to --with-default-link=no (bug 25812)
+- scripts: Add glibcelf.py module
+
+* Thu Apr 21 2022 Carlos O'Donell <carlos@redhat.com> - 2.34-30
+- Sync with upstream branch release/2.34/master,
+  commit 71326f1f2fd09dafb9c34404765fb88129e94237:
+- nptl: Fix pthread_cancel cancelhandling atomic operations
+- mips: Fix mips64n32 64 bit time_t stat support (BZ#29069)
+- hurd: Fix arbitrary error code
+- nptl: Handle spurious EINTR when thread cancellation is disabled (BZ#29029)
+- S390: Add new s390 platform z16.
+- NEWS: Update fixed bug list for LD_AUDIT backports.
+- hppa: Fix bind-now audit (BZ #28857)
+- elf: Replace tst-audit24bmod2.so with tst-audit24bmod2
+- Fix elf/tst-audit25a with default bind now toolchains
+- elf: Fix runtime linker auditing on aarch64 (BZ #26643)
+- elf: Issue la_symbind for bind-now (BZ #23734)
+- elf: Fix initial-exec TLS access on audit modules (BZ #28096)
+- elf: Add la_activity during application exit
+- elf: Do not fail for failed dlmopen on audit modules (BZ #28061)
+- elf: Issue audit la_objopen for vDSO
+- elf: Add audit tests for modules with TLSDESC
+- elf: Avoid unnecessary slowdown from profiling with audit (BZ#15533)
+- elf: Add _dl_audit_pltexit
+- elf: Add _dl_audit_pltenter
+- elf: Add _dl_audit_preinit
+- elf: Add _dl_audit_symbind_alt and _dl_audit_symbind
+- elf: Add _dl_audit_objclose
+- elf: Add _dl_audit_objsearch
+- elf: Add _dl_audit_activity_map and _dl_audit_activity_nsid
+- elf: Add _dl_audit_objopen
+- elf: Move la_activity (LA_ACT_ADD) after _dl_add_to_namespace_list() (BZ #28062)
+- elf: Move LAV_CURRENT to link_lavcurrent.h
+- elf: Fix elf_get_dynamic_info() for bootstrap
+- elf: Fix dynamic-link.h usage on rtld.c
+- elf: Fix elf_get_dynamic_info definition
+- elf: Avoid nested functions in the loader [BZ #27220]
+- powerpc: Delete unneeded ELF_MACHINE_BEFORE_RTLD_RELOC
+- hppa: Use END instead of PSEUDO_END in swapcontext.S
+- hppa: Implement swapcontext in assembler (bug 28960)
+
+* Tue Mar 15 2022 Florian Weimer <fweimer@redhat.com> - 2.34-29
+- Sync with upstream branch release/2.34/master,
+  commit 224d8c1890b6c57c7e4e8ddbb792dd9552086704:
+- debug: Synchronize feature guards in fortified functions [BZ #28746]
+- debug: Autogenerate _FORTIFY_SOURCE tests
+- Enable _FORTIFY_SOURCE=3 for gcc 12 and above
+- fortify: Fix spurious warning with realpath
+- __glibc_unsafe_len: Fix comment
+- debug: Add tests for _FORTIFY_SOURCE=3
+- Make sure that the fortified function conditionals are constant
+- Don't add access size hints to fortifiable functions
+- nss: Protect against errno changes in function lookup (bug 28953)
+- nss: Do not mention NSS test modules in <gnu/lib-names.h>
+- io: Add fsync call in tst-stat
+- hppa: Fix warnings from _dl_lookup_address
+- nptl: Fix cleanups for stack grows up [BZ# 28899]
+- hppa: Revise gettext trampoline design
+- hppa: Fix swapcontext
+- Fix elf/tst-audit2 on hppa
+- localedef: Handle symbolic links when generating locale-archive
+- NEWS: Add a bug fix entry for BZ #28896
+- x86: Fix TEST_NAME to make it a string in tst-strncmp-rtm.c
+- x86: Test wcscmp RTM in the wcsncmp overflow case [BZ #28896]
+- x86: Fallback {str|wcs}cmp RTM in the ncmp overflow case [BZ #28896]
+- string: Add a testcase for wcsncmp with SIZE_MAX [BZ #28755]
+- linux: fix accuracy of get_nprocs and get_nprocs_conf [BZ #28865]
+- Add reference to BZ#28860 on NEWS
+- linux: Fix missing __convert_scm_timestamps (BZ #28860)
+
+* Tue Mar 08 2022 Arjun Shankar <arjun@redhat.com> - 2.34-28
+- Reduce installed size of some langpacks by de-duplicating LC_CTYPE (#2054789)
+- Fix localedef so it can handle symbolic links when generating locale-archive.
+- Drop glibc-fedora-localedef.patch and adjust locale installation
+  accordingly so that installed content remains unchanged.
 
 * Mon Feb 28 2022 Florian Weimer <fweimer@redhat.com> - 2.34-27
 - Fix regression (ldd crash) during dependency sorting in ld.so (#2058230)
