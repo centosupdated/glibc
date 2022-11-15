@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 219%{?dist}
+%define glibcrelease 220%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -986,6 +986,32 @@ Patch793: glibc-rh2122501-5.patch
 Patch794: glibc-rh2121746-1.patch
 Patch795: glibc-rh2121746-2.patch
 Patch796: glibc-rh2116938.patch
+Patch797: glibc-rh2109510-1.patch
+Patch798: glibc-rh2109510-2.patch
+Patch799: glibc-rh2109510-3.patch
+Patch800: glibc-rh2109510-4.patch
+Patch801: glibc-rh2109510-5.patch
+Patch802: glibc-rh2109510-6.patch
+Patch803: glibc-rh2109510-7.patch
+Patch804: glibc-rh2109510-8.patch
+Patch805: glibc-rh2109510-9.patch
+Patch806: glibc-rh2109510-10.patch
+Patch807: glibc-rh2109510-11.patch
+Patch808: glibc-rh2109510-12.patch
+Patch809: glibc-rh2109510-13.patch
+Patch810: glibc-rh2109510-14.patch
+Patch811: glibc-rh2109510-15.patch
+Patch812: glibc-rh2109510-16.patch
+Patch813: glibc-rh2109510-17.patch
+Patch814: glibc-rh2109510-18.patch
+Patch815: glibc-rh2109510-19.patch
+Patch816: glibc-rh2109510-20.patch
+Patch817: glibc-rh2109510-21.patch
+Patch818: glibc-rh2109510-22.patch
+Patch819: glibc-rh2109510-23.patch
+Patch820: glibc-rh2139875-1.patch
+Patch821: glibc-rh2139875-2.patch
+Patch822: glibc-rh2139875-3.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2816,6 +2842,10 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Thu Nov  3 2022 Florian Weimer <fweimer@redhat.com> - 2.28-220
+- Explicitly switch to --with-default-link=no (#2109510)
+- Define MAP_SYNC on ppc64le (#2139875)
+
 * Mon Oct 24 2022 Arjun Shankar <arjun@redhat.com> - 2.28-219
 - Fix -Wstrict-overflow warning when using CMSG_NXTHDR macro (#2116938)
 
