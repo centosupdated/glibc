@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 220%{?dist}
+%define glibcrelease 221%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1012,6 +1012,18 @@ Patch819: glibc-rh2109510-23.patch
 Patch820: glibc-rh2139875-1.patch
 Patch821: glibc-rh2139875-2.patch
 Patch822: glibc-rh2139875-3.patch
+Patch823: glibc-rh1159809-1.patch
+Patch824: glibc-rh1159809-2.patch
+Patch825: glibc-rh1159809-3.patch
+Patch826: glibc-rh1159809-4.patch
+Patch827: glibc-rh1159809-5.patch
+Patch828: glibc-rh1159809-6.patch
+Patch829: glibc-rh1159809-7.patch
+Patch830: glibc-rh1159809-8.patch
+Patch831: glibc-rh1159809-9.patch
+Patch832: glibc-rh1159809-10.patch
+Patch833: glibc-rh1159809-11.patch
+Patch834: glibc-rh1159809-12.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2842,6 +2854,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Nov 18 2022 Florian Weimer <fweimer@redhat.com> - 2.28-221
+- Switch to fast DSO dependency sorting algorithm (#1159809)
+
 * Thu Nov  3 2022 Florian Weimer <fweimer@redhat.com> - 2.28-220
 - Explicitly switch to --with-default-link=no (#2109510)
 - Define MAP_SYNC on ppc64le (#2139875)
