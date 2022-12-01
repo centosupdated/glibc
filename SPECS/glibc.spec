@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 221%{?dist}
+%define glibcrelease 223%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1024,6 +1024,10 @@ Patch831: glibc-rh1159809-9.patch
 Patch832: glibc-rh1159809-10.patch
 Patch833: glibc-rh1159809-11.patch
 Patch834: glibc-rh1159809-12.patch
+Patch835: glibc-rh2141989.patch
+Patch836: glibc-rh2142937-1.patch
+Patch837: glibc-rh2142937-2.patch
+Patch838: glibc-rh2142937-3.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2854,6 +2858,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Nov 25 2022 Arjun Shankar <arjun@redhat.com> - 2.28-223
+- Backport upstream fixes to tst-pldd (#2142937)
+
+* Tue Nov 22 2022 Florian Weimer <fweimer@redhat.com> - 2.28-222
+- Restore IPC_64 support in sysvipc *ctl functions (#2141989)
+
 * Fri Nov 18 2022 Florian Weimer <fweimer@redhat.com> - 2.28-221
 - Switch to fast DSO dependency sorting algorithm (#1159809)
 
