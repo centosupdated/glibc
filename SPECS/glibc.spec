@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 223%{?dist}
+%define glibcrelease 224%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1028,6 +1028,7 @@ Patch835: glibc-rh2141989.patch
 Patch836: glibc-rh2142937-1.patch
 Patch837: glibc-rh2142937-2.patch
 Patch838: glibc-rh2142937-3.patch
+Patch839: glibc-rh2144568.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2858,6 +2859,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Nov 30 2022 Arjun Shankar <arjun@redhat.com> - 2.28-224
+- Fix rtld-audit trampoline for aarch64 (#2144568)
+
 * Fri Nov 25 2022 Arjun Shankar <arjun@redhat.com> - 2.28-223
 - Backport upstream fixes to tst-pldd (#2142937)
 
