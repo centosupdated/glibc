@@ -148,7 +148,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 40%{?dist}
+Release: 40%{?dist}.1
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -579,6 +579,7 @@ Patch371: glibc-upstream-2.34-299.patch
 Patch372: glibc-upstream-2.34-300.patch
 Patch373: glibc-upstream-2.34-301.patch
 Patch374: glibc-upstream-2.34-302.patch
+Patch375: glibc-rh2142111.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2635,6 +2636,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Nov 22 2022 Florian Weimer <fweimer@redhat.com> - 2.34-40.1
+- Restore IPC_64 support in sysvipc *ctl functions (#2142111)
+
 * Fri Jul 22 2022 Arjun Shankar <arjun@redhat.com> - 2.34-40
 - Sync with upstream branch release/2.34/master,
   commit b2f32e746492615a6eb3e66fac1e766e32e8deb1:
