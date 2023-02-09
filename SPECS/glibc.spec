@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 226%{?dist}
+%define glibcrelease 227%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1029,6 +1029,8 @@ Patch836: glibc-rh2142937-1.patch
 Patch837: glibc-rh2142937-2.patch
 Patch838: glibc-rh2142937-3.patch
 Patch839: glibc-rh2144568.patch
+Patch840: glibc-rh2154914-1.patch
+Patch841: glibc-rh2154914-2.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2974,6 +2976,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jan 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-227
+- Enforce a specififc internal ordering for tunables (#2154914)
+
 * Wed Nov 30 2022 Arjun Shankar <arjun@redhat.com> - 2.28-226
 - Fix rtld-audit trampoline for aarch64 (#2144568)
 
