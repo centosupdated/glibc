@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 211%{?dist}
+%define glibcrelease 225%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -968,6 +968,69 @@ Patch775: glibc-rh2104907.patch
 Patch776: glibc-rh2119304-1.patch
 Patch777: glibc-rh2119304-2.patch
 Patch778: glibc-rh2119304-3.patch
+Patch779: glibc-rh2118667.patch
+Patch780: glibc-rh2122498.patch
+Patch781: glibc-rh2125222.patch
+Patch782: glibc-rh1871383-1.patch
+Patch783: glibc-rh1871383-2.patch
+Patch784: glibc-rh1871383-3.patch
+Patch785: glibc-rh1871383-4.patch
+Patch786: glibc-rh1871383-5.patch
+Patch787: glibc-rh1871383-6.patch
+Patch788: glibc-rh1871383-7.patch
+Patch789: glibc-rh2122501-1.patch
+Patch790: glibc-rh2122501-2.patch
+Patch791: glibc-rh2122501-3.patch
+Patch792: glibc-rh2122501-4.patch
+Patch793: glibc-rh2122501-5.patch
+Patch794: glibc-rh2121746-1.patch
+Patch795: glibc-rh2121746-2.patch
+Patch796: glibc-rh2116938.patch
+Patch797: glibc-rh2109510-1.patch
+Patch798: glibc-rh2109510-2.patch
+Patch799: glibc-rh2109510-3.patch
+Patch800: glibc-rh2109510-4.patch
+Patch801: glibc-rh2109510-5.patch
+Patch802: glibc-rh2109510-6.patch
+Patch803: glibc-rh2109510-7.patch
+Patch804: glibc-rh2109510-8.patch
+Patch805: glibc-rh2109510-9.patch
+Patch806: glibc-rh2109510-10.patch
+Patch807: glibc-rh2109510-11.patch
+Patch808: glibc-rh2109510-12.patch
+Patch809: glibc-rh2109510-13.patch
+Patch810: glibc-rh2109510-14.patch
+Patch811: glibc-rh2109510-15.patch
+Patch812: glibc-rh2109510-16.patch
+Patch813: glibc-rh2109510-17.patch
+Patch814: glibc-rh2109510-18.patch
+Patch815: glibc-rh2109510-19.patch
+Patch816: glibc-rh2109510-20.patch
+Patch817: glibc-rh2109510-21.patch
+Patch818: glibc-rh2109510-22.patch
+Patch819: glibc-rh2109510-23.patch
+Patch820: glibc-rh2139875-1.patch
+Patch821: glibc-rh2139875-2.patch
+Patch822: glibc-rh2139875-3.patch
+Patch823: glibc-rh1159809-1.patch
+Patch824: glibc-rh1159809-2.patch
+Patch825: glibc-rh1159809-3.patch
+Patch826: glibc-rh1159809-4.patch
+Patch827: glibc-rh1159809-5.patch
+Patch828: glibc-rh1159809-6.patch
+Patch829: glibc-rh1159809-7.patch
+Patch830: glibc-rh1159809-8.patch
+Patch831: glibc-rh1159809-9.patch
+Patch832: glibc-rh1159809-10.patch
+Patch833: glibc-rh1159809-11.patch
+Patch834: glibc-rh1159809-12.patch
+Patch835: glibc-rh2141989.patch
+Patch836: glibc-rh2142937-1.patch
+Patch837: glibc-rh2142937-2.patch
+Patch838: glibc-rh2142937-3.patch
+Patch839: glibc-rh2144568.patch
+Patch840: glibc-rh2154914-1.patch
+Patch841: glibc-rh2154914-2.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -2798,6 +2861,52 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jan 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-225
+- Enforce a specififc internal ordering for tunables (#2154914)
+
+* Wed Nov 30 2022 Arjun Shankar <arjun@redhat.com> - 2.28-224
+- Fix rtld-audit trampoline for aarch64 (#2144568)
+
+* Fri Nov 25 2022 Arjun Shankar <arjun@redhat.com> - 2.28-223
+- Backport upstream fixes to tst-pldd (#2142937)
+
+* Tue Nov 22 2022 Florian Weimer <fweimer@redhat.com> - 2.28-222
+- Restore IPC_64 support in sysvipc *ctl functions (#2141989)
+
+* Fri Nov 18 2022 Florian Weimer <fweimer@redhat.com> - 2.28-221
+- Switch to fast DSO dependency sorting algorithm (#1159809)
+
+* Thu Nov  3 2022 Florian Weimer <fweimer@redhat.com> - 2.28-220
+- Explicitly switch to --with-default-link=no (#2109510)
+- Define MAP_SYNC on ppc64le (#2139875)
+
+* Mon Oct 24 2022 Arjun Shankar <arjun@redhat.com> - 2.28-219
+- Fix -Wstrict-overflow warning when using CMSG_NXTHDR macro (#2116938)
+
+* Fri Oct 14 2022 DJ Delorie <dj@redhat.com> - 2.28-218
+- Fix dlmopen/dlclose/dlmopen sequence and libc initialization (#2121746)
+
+* Thu Oct 13 2022 Arjun Shankar <arjun@redhat.com> - 2.28-217
+- Fix memory corruption in printf with thousands separators and large
+  integer width (#2122501)
+
+* Wed Oct 05 2022 Arjun Shankar <arjun@redhat.com> - 2.28-216
+- Retain .gnu_debuglink section for libc.so.6 (#2115830)
+- Remove .annobin* symbols from ld.so
+- Remove redundant ld.so debuginfo file
+
+* Wed Sep 28 2022 DJ Delorie <dj@redhat.com> - 2.28-215
+- Improve malloc implementation (#1871383)
+
+* Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-214
+- Fix hwcaps search path size computation (#2125222)
+
+* Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-213
+- Fix nscd netlink cache invalidation if epoll is used (#2122498)
+
+* Tue Sep 20 2022 Florian Weimer <fweimer@redhat.com> - 2.28-212
+- Run tst-audit-tlsdesc, tst-audit-tlsdesc-dlopen everywhere (#2118667)
+
 * Thu Aug 25 2022 Florian Weimer <fweimer@redhat.com> - 2.28-211
 - Preserve GLRO (dl_naudit) internal ABI (#2119304)
 - Avoid s390x ABI change due to z16 recognition on s390x (#2119304)
