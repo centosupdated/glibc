@@ -69,6 +69,13 @@
 %undefine with_valgrind
 %endif
 
+# Build the POWER10 runtime on POWER, but only for downstream.
+%ifarch ppc64le
+%define buildpower10 0%{?rhel} > 0
+%else
+%define buildpower10 0
+%endif
+
 # The annobin annotations cause binutils to produce broken ARM EABI
 # unwinding information.  Symptom is a hang/test failure for
 # malloc/tst-malloc-stats-cancellation.  See
@@ -148,7 +155,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 40%{?dist}
+Release: 60%{?dist}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -202,6 +209,19 @@ original = original:match("^%s*(.-)%s*$"):gsub("\\\n", "")
 rpm.define("__debug_install_post bash " .. wrapper
   .. " " .. sysroot .. " " .. original)
 }
+
+# sysroot package support.  These contain arch-specific packages, so
+# turn off the rpmbuild check.
+%global _binaries_in_noarch_packages_terminate_build 0
+# Variant of %%dist that contains just the distribution release, no affixes.
+%{?fedora:%global sysroot_dist fc%{fedora}}
+%{?rhel:%global sysroot_dist el%{rhel}}
+%{?!sysroot_dist:%global sysroot_dist root}
+# The name of the sysroot package.
+%global sysroot_package_arch sysroot-%{_arch}-%{sysroot_dist}-%{name}
+# Installed path for the sysroot tree.  Must contain /sys-root/, which
+# triggers filtering.
+%global sysroot_prefix /usr/%{_arch}-redhat-linux/sys-root/%{sysroot_dist}
 
 # The wrapper script relies on the fact that debugedit does not change
 # build IDs.
@@ -579,6 +599,107 @@ Patch371: glibc-upstream-2.34-299.patch
 Patch372: glibc-upstream-2.34-300.patch
 Patch373: glibc-upstream-2.34-301.patch
 Patch374: glibc-upstream-2.34-302.patch
+Patch375: glibc-upstream-2.34-303.patch
+Patch376: glibc-upstream-2.34-304.patch
+Patch377: glibc-upstream-2.34-305.patch
+Patch378: glibc-upstream-2.34-306.patch
+Patch379: glibc-upstream-2.34-307.patch
+Patch380: glibc-upstream-2.34-308.patch
+Patch381: glibc-rh2118666.patch
+Patch382: glibc-rh2128615-1.patch
+Patch383: glibc-rh2128615-2.patch
+Patch384: glibc-rh2128615-3.patch
+Patch385: glibc-rh2117712-1.patch
+Patch386: glibc-rh2117712-2.patch
+Patch387: glibc-rh2117712-3.patch
+Patch388: glibc-rh2117712-4.patch
+Patch389: glibc-rh2117712-5.patch
+Patch390: glibc-rh2117712-6.patch
+Patch391: glibc-upstream-2.34-309.patch
+Patch392: glibc-upstream-2.34-310.patch
+Patch393: glibc-upstream-2.34-311.patch
+Patch394: glibc-upstream-2.34-312.patch
+# glibc-2.34-313-gbc5cb538e5 backported above as glibc-rh2118666.patch.
+Patch395: glibc-upstream-2.34-314.patch
+Patch396: glibc-upstream-2.34-315.patch
+Patch397: glibc-upstream-2.34-316.patch
+Patch398: glibc-upstream-2.34-317.patch
+Patch399: glibc-upstream-2.34-318.patch
+Patch400: glibc-upstream-2.34-319.patch
+Patch401: glibc-upstream-2.34-320.patch
+Patch402: glibc-upstream-2.34-321.patch
+Patch403: glibc-upstream-2.34-322.patch
+Patch404: glibc-upstream-2.34-323.patch
+Patch405: glibc-upstream-2.34-324.patch
+Patch406: glibc-upstream-2.34-325.patch
+Patch407: glibc-upstream-2.34-326.patch
+Patch408: glibc-upstream-2.34-327.patch
+# glibc-2.34-328-g2def56a349 conflicts with glibc-rh2096191-2.patch;
+# glibc-rh2129005.patch contains the original master branch commit instead.
+Patch409: glibc-rh2129005.patch
+Patch410: glibc-upstream-2.34-329.patch
+Patch411: glibc-upstream-2.34-330.patch
+Patch412: glibc-upstream-2.34-331.patch
+Patch413: glibc-upstream-2.34-332.patch
+Patch414: glibc-upstream-2.34-333.patch
+Patch415: glibc-upstream-2.34-334.patch
+Patch416: glibc-upstream-2.34-335.patch
+Patch417: glibc-upstream-2.34-336.patch
+Patch418: glibc-upstream-2.34-337.patch
+Patch419: glibc-upstream-2.34-338.patch
+Patch420: glibc-upstream-2.34-339.patch
+Patch421: glibc-upstream-2.34-340.patch
+Patch422: glibc-upstream-2.34-341.patch
+Patch423: glibc-upstream-2.34-342.patch
+Patch424: glibc-upstream-2.34-343.patch
+Patch425: glibc-upstream-2.34-344.patch
+Patch426: glibc-upstream-2.34-345.patch
+Patch427: glibc-upstream-2.34-346.patch
+Patch428: glibc-upstream-2.34-347.patch
+Patch429: glibc-upstream-2.34-348.patch
+Patch430: glibc-upstream-2.34-349.patch
+Patch431: glibc-upstream-2.34-350.patch
+Patch432: glibc-upstream-2.34-351.patch
+Patch433: glibc-upstream-2.34-352.patch
+Patch434: glibc-upstream-2.34-353.patch
+Patch435: glibc-upstream-2.34-354.patch
+Patch436: glibc-upstream-2.34-355.patch
+Patch437: glibc-upstream-2.34-356.patch
+Patch438: glibc-upstream-2.34-357.patch
+Patch439: glibc-upstream-2.34-358.patch
+Patch440: glibc-upstream-2.34-359.patch
+# glibc-2.34-360-g75b0edb7ef only changes NEWS.
+Patch441: glibc-upstream-2.34-361.patch
+Patch442: glibc-upstream-2.34-362.patch
+Patch443: glibc-upstream-2.34-363.patch
+Patch444: glibc-upstream-2.34-364.patch
+Patch445: glibc-upstream-2.34-365.patch
+Patch446: glibc-rh2149102.patch
+Patch447: glibc-upstream-2.34-366.patch
+Patch448: glibc-upstream-2.34-367.patch
+Patch449: glibc-upstream-2.34-368.patch
+Patch450: glibc-upstream-2.34-369.patch
+Patch451: glibc-upstream-2.34-370.patch
+Patch452: glibc-upstream-2.34-371.patch
+Patch453: glibc-upstream-2.34-372.patch
+Patch454: glibc-upstream-2.34-373.patch
+Patch455: glibc-upstream-2.34-374.patch
+Patch456: glibc-upstream-2.34-375.patch
+Patch457: glibc-upstream-2.34-376.patch
+Patch458: glibc-upstream-2.34-377.patch
+Patch459: glibc-upstream-2.34-378.patch
+Patch460: glibc-upstream-2.34-379.patch
+Patch461: glibc-upstream-2.34-380.patch
+Patch462: glibc-upstream-2.34-381.patch
+Patch463: glibc-upstream-2.34-382.patch
+Patch464: glibc-upstream-2.34-383.patch
+Patch465: glibc-upstream-2.34-384.patch
+Patch466: glibc-rh2162962.patch
+Patch467: glibc-upstream-2.34-385.patch
+Patch468: glibc-upstream-2.34-386.patch
+# glibc-upstream-2.34-387.patch is a NEWS-only update.  Skipped downstream.
+Patch469: glibc-upstream-2.34-388.patch
+Patch470: glibc-upstream-2.34-389.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -1380,6 +1501,21 @@ libpthread_nonshared.a which is no longer used. The static library
 libpthread_nonshared.a is an internal implementation detail of the C
 runtime and should not be expected to exist.
 
+%if %{without bootstrap}
+%package -n %sysroot_package_arch
+Summary: Sysroot package for glibc, %{_arch} architecture
+BuildArch: noarch
+Provides: sysroot-%{_arch}-%{name}
+# The files are not usable for execution, so do not provide nor
+# require anything.
+AutoReqProv: no
+
+%description -n %sysroot_package_arch
+This package contains development files for the glibc package
+that can be installed across architectures.
+%dnl %%{without bootstrap}
+%endif
+
 ##############################################################################
 # Prepare for the build.
 ##############################################################################
@@ -1582,6 +1718,15 @@ build()
 # Default set of compiler options.
 build
 
+%if %{buildpower10}
+(
+  GCC="$GCC -mcpu=power10 -mtune=power10"
+  GXX="$GXX -mcpu=power10 -mtune=power10"
+  core_with_options="--with-cpu=power10"
+  build power10
+)
+%endif
+
 ##############################################################################
 # Install glibc...
 ##############################################################################
@@ -1649,22 +1794,26 @@ install_different()
 	mkdir -p "$destdir"
 	mkdir -p "$libdestdir"
 	# Walk all of the libraries we installed...
-	for lib in libc math/libm nptl/libpthread rt/librt nptl_db/libthread_db
+	for lib in libc math/libm
 	do
 		libbase=${lib#*/}
 		# Take care that `libbaseso' has a * that needs expanding so
 		# take care with quoting.
-		libbaseso=$(basename %{glibc_sysroot}/%{_lib}/${libbase}-*.so)
+		libbaseso=$(basename %{glibc_sysroot}/%{_lib}/${libbase}.so.*)
 		# Only install if different from default build library.
 		if cmp -s ${lib}.so ../build-%{target}/${lib}.so; then
 			ln -sf "$subdir_up"/$libbaseso $libdestdir/$libbaseso
 		else
 			cp -a ${lib}.so $libdestdir/$libbaseso
 		fi
-		dlib=$libdestdir/$(basename %{glibc_sysroot}/%{_lib}/${libbase}.so.*)
-		ln -sf $libbaseso $dlib
 	done
 }
+
+%if %{buildpower10}
+pushd build-%{target}-power10
+install_different "$RPM_BUILD_ROOT/%{_libdir}/glibc-hwcaps" power10 ..
+popd
+%endif
 
 ##############################################################################
 # Remove the files we don't want to distribute
@@ -1885,6 +2034,61 @@ done
 ##############################################################################
 ar cr %{glibc_sysroot}%{_prefix}/%{_lib}/libpthread_nonshared.a
 
+###############################################################################
+# Sysroot package creation.
+###############################################################################
+
+%if %{without bootstrap}
+mkdir -p %{glibc_sysroot}/%{sysroot_prefix}
+pushd %{glibc_sysroot}/%{sysroot_prefix}
+mkdir -p usr/lib usr/lib64
+
+cp -a %{glibc_sysroot}/%{_prefix}/include usr/.
+for lib in lib lib64;  do
+    for pfx in "" %{_prefix}/; do
+	if test -d %{glibc_sysroot}/$pfx$lib ; then
+	    # Implement UsrMove: everything goes into usr/$lib.  Only
+	    # copy files directly in $lib.
+	    find %{glibc_sysroot}/$pfx$lib -maxdepth 1 -type f \
+		| xargs -I '{}' cp  '{}' usr/$lib/.
+	    # Symbolic links need to be adjusted for UsrMove: They
+	    # need to stay within the same directory.
+	    for sl in `find %{glibc_sysroot}/$pfx$lib -maxdepth 1 -type l`; do
+		set +x
+		slbase=$(basename $sl)
+		sltarget=$(basename $(readlink $sl))
+		if ! test -r usr/$lib/$sltarget; then
+		    echo "$sl: inferred $sltarget ($(readlink $sl)) missing"
+		    exit 1
+		fi
+		set -x
+		ln -s $sltarget usr/$lib/$slbase
+	    done
+	fi
+    done
+done
+
+# Workaround for the lack of a kernel sysroot package.  Copy the
+# kernel headers into the sysroot.
+rpm -ql kernel-headers | grep "^/usr/include" | while read f ; do
+    if test -f "$f" ; then
+        install -D "$f" "./$f"
+    fi
+done
+
+# Remove the executable bit from files in the sysroot.  This prevents
+# debuginfo extraction.
+find -type f | xargs chmod a-x
+
+# Use sysroot-relative paths in linker script.  Ignore symbolic links.
+sed -e 's,\([^0-9a-zA-Z=*]/lib\),=/usr/lib,g' \
+    -e 's,\([^0-9a-zA-Z=*]\)/,\1=/,g' \
+    -i $(find -type f -name 'lib[cm].so')
+
+popd
+%dnl %%{without bootstrap}
+%endif
+
 ##############################################################################
 # Beyond this point in the install process we no longer modify the set of
 # installed files.
@@ -1973,13 +2177,14 @@ touch compat-libpthread-nonshared.filelist
   # language specific sub-packages.
   # libnss_ files go into subpackages related to NSS modules.
   # and .*/share/i18n/charmaps/.*), they go into the sub-package
-  # "locale-source":
+  # "locale-source".  /sys-root/ files are put into the sysroot package.
   sed -e '\,.*/share/locale/\([^/_]\+\).*/LC_MESSAGES/.*\.mo,d' \
       -e '\,.*/share/i18n/locales/.*,d' \
       -e '\,.*/share/i18n/charmaps/.*,d' \
       -e '\,.*/etc/\(localtime\|nsswitch.conf\|ld\.so\.conf\|ld\.so\.cache\|default\|rpc\|gai\.conf\),d' \
       -e '\,.*/%{_libdir}/lib\(pcprofile\|memusage\)\.so,d' \
-      -e '\,.*/bin/\(memusage\|mtrace\|xtrace\|pcprofiledump\),d'
+      -e '\,.*/bin/\(memusage\|mtrace\|xtrace\|pcprofiledump\),d' \
+      -e '\,.*/sys-root,d'
 } | sort > master.filelist
 
 # The master file list is now used by each subpackage to list their own
@@ -2304,6 +2509,16 @@ pushd build-%{target}
 run_tests
 popd
 
+%if %{buildpower10}
+# Run this test only if the server supports Power10 instructions.
+if LD_SHOW_AUXV=1 /bin/true | grep -E "AT_HWCAP2:[^$]*arch_3_1" > /dev/null; then
+  echo ====================TESTING -mcpu=power10=============
+  pushd build-%{target}-power10
+  run_tests
+  popd
+fi
+%endif
+
 echo ====================TESTING END=====================
 PLTCMD='/^Relocation section .*\(\.rela\?\.plt\|\.rela\.IA_64\.pltoff\)/,/^$/p'
 echo ====================PLT RELOCS LD.SO================
@@ -2314,8 +2529,9 @@ echo ====================PLT RELOCS END==================
 
 # Obtain a way to run the dynamic loader.  Avoid matching the symbolic
 # link and then pick the first loader (although there should be only
-# one).  See wrap-find-debuginfo.sh.
-ldso_path="$(find %{glibc_sysroot}/ -regextype posix-extended \
+# one).  Use -maxdepth 2 to avoid descending into the /sys-root/
+# sub-tree.  See wrap-find-debuginfo.sh.
+ldso_path="$(find %{glibc_sysroot}/ -maxdepth 2 -regextype posix-extended \
   -regex '.*/ld(-.*|64|)\.so\.[0-9]+$' -type f | LC_ALL=C sort | head -n1)"
 run_ldso="$ldso_path --library-path %{glibc_sysroot}/%{_lib}"
 
@@ -2348,13 +2564,11 @@ if rpm.vercmp(rel, required) < 0 then
   error("FATAL: kernel too old", 0)
 end
 
-%post -p <lua>
-%glibc_post_funcs
 -- (1) Remove multilib libraries from previous installs.
 -- In order to support in-place upgrades, we must immediately remove
--- obsolete platform directories after installing a new glibc
+-- all platform directories before installing a new glibc
 -- version.  RPM only deletes files removed by updates near the end
--- of the transaction.  If we did not remove the obsolete platform
+-- of the transaction.  If we did not remove all platform
 -- directories here, they may be preferred by the dynamic linker
 -- during the execution of subsequent RPM scriptlets, likely
 -- resulting in process startup failures.
@@ -2427,7 +2641,9 @@ for _, rdir in ipairs (remove_dirs) do
   end
 end
 
--- (2) Update /etc/ld.so.conf
+%post -p <lua>
+%glibc_post_funcs
+-- (1) Update /etc/ld.so.conf
 -- Next we update /etc/ld.so.conf to ensure that it starts with
 -- a literal "include ld.so.conf.d/*.conf".
 
@@ -2466,7 +2682,7 @@ if posix.access (ldsoconf) then
   end
 end
 
--- (3) Rebuild ld.so.cache early.
+-- (2) Rebuild ld.so.cache early.
 -- If the format of the cache changes then we need to rebuild
 -- the cache early to avoid any problems running binaries with
 -- the new glibc.
@@ -2474,7 +2690,7 @@ end
 -- Note: We use _prefix because Fedora's UsrMove says so.
 post_exec ("%{_prefix}/sbin/ldconfig")
 
--- (4) Update gconv modules cache.
+-- (3) Update gconv modules cache.
 -- If the /usr/lib/gconv/gconv-modules.cache exists, then update it
 -- with the latest set of modules that were just installed.
 -- We assume that the cache is in _libdir/gconv and called
@@ -2482,7 +2698,7 @@ post_exec ("%{_prefix}/sbin/ldconfig")
 
 update_gconv_modules_cache()
 
--- (5) On upgrades, restart systemd if installed.  "systemctl -q" does
+-- (4) On upgrades, restart systemd if installed.  "systemctl -q" does
 -- not suppress the error message (which is common in chroots), so
 -- open-code post_exec with standard error suppressed.
 if tonumber(arg[2]) >= 2
@@ -2549,6 +2765,9 @@ fi
 
 %files -f glibc.filelist
 %dir %{_prefix}/%{_lib}/audit
+%if %{buildpower10}
+%dir /%{_libdir}/glibc-hwcaps/power10
+%endif
 %verify(not md5 size mtime) %config(noreplace) /etc/nsswitch.conf
 %verify(not md5 size mtime) %config(noreplace) /etc/ld.so.conf
 %verify(not md5 size mtime) %config(noreplace) /etc/rpc
@@ -2634,7 +2853,163 @@ fi
 
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
+%if %{without bootstrap}
+%files -n sysroot-%{_arch}-%{sysroot_dist}-glibc
+%{sysroot_prefix}
+%endif
+
 %changelog
+* Wed Feb  8 2023 Florian Weimer <fweimer@redhat.com> - 2.34-60
+- Upstream test for ldconfig -p (#2167811)
+
+* Wed Feb  8 2023 Florian Weimer <fweimer@redhat.com> - 2.34-59
+- Fix ldconfig -p on i686 (#2167811)
+
+* Wed Jan 25 2023 Florian Weimer <fweimer@redhat.com> - 2.34-58
+- Enhance internal tunables ABI stability (awk iteration order) (#2162962)
+
+* Tue Jan 17 2023 Florian Weimer <fweimer@redhat.com> - 2.34-57
+- Sync with upstream branch release/2.34/master,
+  commit 6484ae5b8c4d4314f748e4d3c9a9baa5385e57c5
+- malloc: Fix -Wuse-after-free warning in tst-mallocalign1 [BZ #26779]
+- s_sincosf.h: Change pio4 type to float [BZ #28713]
+- math: Properly cast X_TLOSS to float [BZ #28713]
+- Regenerate ulps on x86_64 with GCC 12
+- Avoid -Wuse-after-free in tests [BZ #26779].
+- Fix build of nptl/tst-thread_local1.cc with GCC 12
+- Fix stdio-common tests for GCC 12 -Waddress
+- Fix stdlib/tst-setcontext.c for GCC 12 -Warray-compare
+- resolv: Avoid GCC 12 false positive warning [BZ #28439].
+- intl: Avoid -Wuse-after-free [BZ #26779]
+- elf: Drop elf/tls-macros.h in favor of __thread and tls_model attributes [BZ #28152] [BZ #28205]
+- time: Set daylight to 1 for matching DST/offset change (RHBZ#2155352)
+- elf/tst-tlsopt-powerpc fails when compiled with -mcpu=power10 (BZ# 29776)
+- time: Use 64 bit time on tzfile
+- nscd: Use 64 bit time_t on libc nscd routines (BZ# 29402)
+- nis: Build libnsl with 64 bit time_t
+- Use LFS and 64 bit time for installed programs (BZ #15333)
+
+* Mon Dec 12 2022 Tulio Magno Quites Machado Filho <tuliom@redhat.com> - 2.34-56
+- Earlier removal of alternative multilibs (#2149994)
+
+* Mon Dec 12 2022 Tulio Magno Quites Machado Filho <tuliom@redhat.com> - 2.34-55
+- Earlier removal of alternative multilibs (#2149994)
+
+* Mon Dec 12 2022 Florian Weimer <fweimer@redhat.com> - 2.34-54
+- Install kernel header files into the sysroot subpackage (#2149644)
+
+* Wed Dec 07 2022 Arjun Shankar <arjun@redhat.com> - 2.34-53
+- Sync with upstream branch release/2.34/master,
+  commit a4217408a3d6050a7f42ac23adb6ac7218dca85f:
+- Apply asm redirections in syslog.h before first use [BZ #27087]
+- _Static_assert needs two arguments for compatibility with GCC before 9
+
+* Wed Nov 30 2022 Florian Weimer <fweimer@redhat.com> - 2.34-52
+- Add noarch sysroot subpackages (#2149644)
+
+* Tue Nov 29 2022 Florian Weimer <fweimer@redhat.com> - 2.34-51
+- Prepare for integration of GCC 8 compatible _Static_assert (#2149102)
+
+* Fri Nov 25 2022 Arjun Shankar <arjun@redhat.com> - 2.34-50
+- Sync with upstream branch release/2.34/master,
+  commit 405b8ae13540e9fd614df614e3361ebf9abd14cf:
+- elf: Fix wrong fscanf usage on tst-pldd
+- Allow for unpriviledged nested containers
+- elf: Fix wrong fscanf usage on tst-pldd
+- x86: Fix wcsnlen-avx2 page cross length comparison [BZ #29591]
+- elf: Fix rtld-audit trampoline for aarch64
+
+* Mon Nov 14 2022 Arjun Shankar <arjun@redhat.com> - 2.34-49
+- Sync with upstream branch release/2.34/master,
+  commit: 75b0edb7ef338084e53925139ae81fb0dfc07dd4:
+- Update NEWS file in the right place
+- Linux: Support __IPC_64 in sysvctl *ctl command arguments (bug 29771)
+- io: Fix use-after-free in ftw [BZ #26779]
+- io: Fix ftw internal realloc buffer (BZ #28126)
+- regex: fix buffer read overrun in search [BZ#28470]
+- regex: copy back from Gnulib
+- Allow #pragma GCC in headers in conformtest
+- Fix memmove call in vfprintf-internal.c:group_number
+- mktime: improve heuristic for ca-1986 Indiana DST
+- Makerules: fix MAKEFLAGS assignment for upcoming make-4.4 [BZ# 29564]
+- linux: Fix generic struct_stat for 64 bit time (BZ# 29657)
+- elf: Do not completely clear reused namespace in dlmopen (bug 29600)
+- nss: Use shared prefix in IPv4 address in tst-reload1
+- nss: Fix tst-nss-files-hosts-long on single-stack hosts (bug 24816)
+- nss: Implement --no-addrconfig option for getent
+
+* Thu Oct 13 2022 Arjun Shankar <arjun@redhat.com> - 2.34-48
+- Handle non-hostname CNAME aliases during name resolution (#2129005)
+- Sync with upstream branch release/2.34/master,
+  commit e3976287b22422787f3cc6fc9adda58304b55bd9:
+- nscd: Drop local address tuple variable [BZ #29607]
+- x86-64: Require BMI1/BMI2 for AVX2 strrchr and wcsrchr implementations
+- x86-64: Require BMI2 and LZCNT for AVX2 memrchr implementation
+- x86-64: Require BMI2 for AVX2 (raw|w)memchr implementations
+- x86-64: Require BMI2 for AVX2 wcs(n)cmp implementations
+- x86-64: Require BMI2 for AVX2 strncmp implementation
+- x86-64: Require BMI2 for AVX2 strcmp implementation
+- x86-64: Require BMI2 for AVX2 str(n)casecmp implementations
+- x86: include BMI1 and BMI2 in x86-64-v3 level
+- nptl: Add backoff mechanism to spinlock loop
+- sysdeps: Add 'get_fast_jitter' interace in fast-jitter.h
+- nptl: Effectively skip CAS in spinlock loop
+- Move assignment out of the CAS condition
+- Add LLL_MUTEX_READ_LOCK [BZ #28537]
+- Avoid extra load with CAS in __pthread_mutex_clocklock_common [BZ #28537]
+- Avoid extra load with CAS in __pthread_mutex_lock_full [BZ #28537]
+- resolv: Fix building tst-resolv-invalid-cname for earlier C standards
+- nss_dns: Rewrite _nss_dns_gethostbyname4_r using current interfaces
+- resolv: Add new tst-resolv-invalid-cname
+- nss_dns: In gaih_getanswer_slice, skip strange aliases (bug 12154)
+  (#2129005)
+- nss_dns: Rewrite getanswer_r to match getanswer_ptr (bug 12154, bug 29305)
+- nss_dns: Remove remnants of IPv6 address mapping
+- nss_dns: Rewrite _nss_dns_gethostbyaddr2_r and getanswer_ptr
+- nss_dns: Split getanswer_ptr from getanswer_r
+- resolv: Add DNS packet parsing helpers geared towards wire format
+- resolv: Add internal __ns_name_length_uncompressed function
+- resolv: Add the __ns_samebinaryname function
+- resolv: Add internal __res_binary_hnok function
+- resolv: Add tst-resolv-aliases
+- resolv: Add tst-resolv-byaddr for testing reverse lookup
+- gconv: Use 64-bit interfaces in gconv_parseconfdir (bug 29583)
+- elf: Fix hwcaps string size overestimation
+- nscd: Fix netlink cache invalidation if epoll is used [BZ #29415]
+- Apply asm redirections in wchar.h before first use
+- Apply asm redirections in stdio.h before first use [BZ #27087]
+- elf: Call __libc_early_init for reused namespaces (bug 29528)
+
+* Tue Oct 11 2022 Florian Weimer <fweimer@redhat.com> - 2.34-47
+- Simplify the glibc system call profile (#2117712)
+
+* Tue Oct 11 2022 Florian Weimer <fweimer@redhat.com> - 2.34-46
+- DSO dependency sort must put new map first even if in cycle (#2128615)
+
+* Tue Oct 11 2022 Florian Weimer <fweimer@redhat.com> - 2.34-45
+- Run tst-audit-tlsdesc{,-dlopen} on all architectures (#2118666)
+
+* Thu Oct 06 2022 Arjun Shankar <arjun@redhat.com> - 2.34-44
+- wrap-find-debuginfo.sh: Use nm --format=posix instead of --format=just-symbols
+
+* Mon Oct 03 2022 Arjun Shankar <arjun@redhat.com> - 2.34-43
+- Remove .annobin* symbols from ld.so (#2126477)
+
+* Tue Sep 06 2022 Arjun Shankar <arjun@redhat.com> - 2.34-42
+- Co-Authored-By: Benjamin Herrenschmidt <benh@amazon.com>
+- Retain .gnu_debuglink section in libc.so.6 (#2090744)
+- Remove redundant ld.so debuginfo file (#2090744)
+
+* Tue Aug 23 2022 Arjun Shankar <arjun@redhat.com> - 2.34-41
+- Sync with upstream branch release/2.34/master,
+  commit 68507377f249d165f1f35502d96e9365edb07d9a:
+- socket: Check lengths before advancing pointer in CMSG_NXTHDR
+- alpha: Fix generic brk system call emulation in __brk_call (bug 29490)
+- stdlib: Fixup mbstowcs NULL __dst handling. [BZ #29279]
+- stdlib: Remove attr_write from mbstows if dst is NULL [BZ: 29265]
+- Update syscall lists for Linux 5.19
+- dlfcn: Pass caller pointer to static dlopen implementation (bug 29446)
+
 * Fri Jul 22 2022 Arjun Shankar <arjun@redhat.com> - 2.34-40
 - Sync with upstream branch release/2.34/master,
   commit b2f32e746492615a6eb3e66fac1e766e32e8deb1:
