@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 227%{?dist}
+%define glibcrelease 230%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1031,6 +1031,12 @@ Patch838: glibc-rh2142937-3.patch
 Patch839: glibc-rh2144568.patch
 Patch840: glibc-rh2154914-1.patch
 Patch841: glibc-rh2154914-2.patch
+Patch842: glibc-rh2183081-1.patch
+Patch843: glibc-rh2183081-2.patch
+Patch844: glibc-rh2172949.patch
+Patch845: glibc-rh2180155-1.patch
+Patch846: glibc-rh2180155-2.patch
+Patch847: glibc-rh2180155-3.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2976,6 +2982,15 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon May 22 2023 Florian Weimer <fweimer@redhat.com> - 2.28-230
+- gmon: Various bug fixes (#2180155)
+
+* Thu May 18 2023 Patsy Griffin <patsy@redhat.com> - 2.28-229
+- Change sgetsgent_r to set errno. (#2172949)
+
+* Wed May  3 2023 Florian Weimer <fweimer@redhat.com> - 2.28-228
+- Fix incorrect inline feraiseexcept on i686, x86-64 (#2183081)
+
 * Fri Jan 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-227
 - Enforce a specififc internal ordering for tunables (#2154914)
 
