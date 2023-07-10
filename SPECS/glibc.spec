@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 230%{?dist}
+%define glibcrelease 232%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1037,6 +1037,9 @@ Patch844: glibc-rh2172949.patch
 Patch845: glibc-rh2180155-1.patch
 Patch846: glibc-rh2180155-2.patch
 Patch847: glibc-rh2180155-3.patch
+Patch848: glibc-rh2213909.patch
+Patch849: glibc-rh2176707-1.patch
+Patch850: glibc-rh2176707-2.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2982,6 +2985,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jul 7 2023 DJ Delorie <dj@redhat.com> - 2.28-232
+- Don't block SIGCHILD when system() is called concurrently (#2176707)
+
+* Mon Jul 3 2023 DJ Delorie <dj@redhat.com> - 2.28-231
+- resolv_conf: release lock on allocation failure (#2213909)
+
 * Mon May 22 2023 Florian Weimer <fweimer@redhat.com> - 2.28-230
 - gmon: Various bug fixes (#2180155)
 
