@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 233%{?dist}
+%define glibcrelease 234%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1041,6 +1041,7 @@ Patch848: glibc-rh2213909.patch
 Patch849: glibc-rh2176707-1.patch
 Patch850: glibc-rh2176707-2.patch
 Patch851: glibc-rh2186781.patch
+Patch852: glibc-rh2224348.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2986,6 +2987,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Jul 21 2023 Florian Weimer <fweimer@redhat.com> - 2.28-234
+- Make libSegFault.so NODELETE (#2224348)
+
 * Sun Jul  9 2023 Carlos O'Donell <carlos@redhat.com> - 2.28-233
 - Update ESTALE error message translations (#2186781)
 
