@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 234%{?dist}
+%define glibcrelease 235%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -2904,7 +2904,7 @@ fi
 %ifarch s390x
 /lib/ld64.so.1
 %endif
-%verify(not md5 size mtime) %config(noreplace) /etc/nsswitch.conf
+%verify(not md5 size mtime link) %config(noreplace) /etc/nsswitch.conf
 %verify(not md5 size mtime) %config(noreplace) /etc/ld.so.conf
 %verify(not md5 size mtime) %config(noreplace) /etc/rpc
 %dir /etc/ld.so.conf.d
@@ -2987,6 +2987,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Aug  7 2023 Florian Weimer <fweimer@redhat.com> - 2.28-235
+- Ignore symbolic link change on /etc/nsswitch.conf (#2229709)
+
 * Fri Jul 21 2023 Florian Weimer <fweimer@redhat.com> - 2.28-234
 - Make libSegFault.so NODELETE (#2224348)
 
