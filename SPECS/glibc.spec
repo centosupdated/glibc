@@ -1098,9 +1098,9 @@ Patch10046: ia-opt-memcmp-evex-movbe-1.patch
 Patch10047: ia-impr-memset-vec-unaligned-erms.patch
 Patch10048: ia-impr-memmove-vec-unaligned-erms.patch
 Patch10049: ia-rmv-ofl-chk-wcsnlen-sse4_1.patch
-Patch10050: ia-upperbound-enh-rep_movsb.patch
-Patch10051: ia-avoid_short_distance_rep_movsb.patch
-Patch10052: ia-testl-x86_string_control.patch
+#Patch10050: ia-upperbound-enh-rep_movsb.patch
+#Patch10051: ia-avoid_short_distance_rep_movsb.patch
+#Patch10052: ia-testl-x86_string_control.patch
 Patch10053: ia-wordsize-64-roundeven.patch
 Patch10054: ia-redirect-roundeven-funct.patch
 Patch10055: ia-roundeven_sse4_1.patch
@@ -1111,10 +1111,10 @@ Patch10059: ia-opt-memcmp-evex-movbe-2.patch
 Patch10060: ia-opt-memset-vec-unaligned-erms.patch
 Patch10061: ia-rplc-sse2-inst-avx-memcmp-evex-movbe.patch
 Patch10062: ia-imp-strcmp-evex.patch
-Patch10063: ia-rmv-prefer_avx2_strcmp.patch
+#Patch10063: ia-rmv-prefer_avx2_strcmp.patch
 Patch10064: ia-rplc-movzx-movzbl.patch
 Patch10065: ia-set-rep_movsb_threshold-2112.patch
-Patch10066: ia-opt-memmove-vec-unaligned-erms.patch
+#Patch10066: ia-opt-memmove-vec-unaligned-erms.patch
 Patch10067: ia-double-rep_movsb_threshold-erms.patch
 Patch10068: ia-shrink-memcmp-sse4-code-size.patch
 Patch10069: glibc-sw28537-1.patch
