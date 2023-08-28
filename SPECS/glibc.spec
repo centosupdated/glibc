@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 235%{?dist}
+%define glibcrelease 238%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1042,6 +1042,11 @@ Patch849: glibc-rh2176707-1.patch
 Patch850: glibc-rh2176707-2.patch
 Patch851: glibc-rh2186781.patch
 Patch852: glibc-rh2224348.patch
+Patch853: glibc-rh2176707-3.patch
+Patch854: glibc-rh2180462-1.patch
+Patch855: glibc-rh2180462-2.patch
+Patch856: glibc-rh2180462-3.patch
+Patch857: glibc-rh2180462-4.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2987,8 +2992,17 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
-* Mon Aug  7 2023 Florian Weimer <fweimer@redhat.com> - 2.28-235
+* Tue Aug 15 2023 Carlos O'Donell <carlos@redhat.com> - 2.28-238
+- Fix string and memory function tuning on small systems (#2180462)
+
+* Tue Aug  8 2023 DJ Delorie <dj@redhat.com> - 2.28-237
+- Fix temporal threshold calculations (#2180462)
+
+* Mon Aug  7 2023 Florian Weimer <fweimer@redhat.com> - 2.28-236
 - Ignore symbolic link change on /etc/nsswitch.conf (#2229709)
+
+* Wed Jul 26 2023 DJ Delorie <dj@redhat.com> - 2.28-235
+- Update test to closer match upstream. (#2176707)
 
 * Fri Jul 21 2023 Florian Weimer <fweimer@redhat.com> - 2.28-234
 - Make libSegFault.so NODELETE (#2224348)
