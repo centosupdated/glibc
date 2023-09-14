@@ -132,7 +132,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: %{glibcrelease}
+Release: %{glibcrelease}.1
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -1047,6 +1047,12 @@ Patch854: glibc-rh2180462-1.patch
 Patch855: glibc-rh2180462-2.patch
 Patch856: glibc-rh2180462-3.patch
 Patch857: glibc-rh2180462-4.patch
+Patch858: glibc-rh2233338-1.patch
+Patch859: glibc-rh2233338-2.patch
+Patch860: glibc-rh2233338-3.patch
+Patch861: glibc-rh2233338-4.patch
+Patch862: glibc-rh2233338-5.patch
+Patch863: glibc-rh2233338-6.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2992,6 +2998,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Sep 11 2023 Florian Weimer <fweimer@redhat.com> - 2.28-238.1
+- Always call destructors in reverse constructor order (#2233338)
+
 * Tue Aug 15 2023 Carlos O'Donell <carlos@redhat.com> - 2.28-238
 - Fix string and memory function tuning on small systems (#2180462)
 

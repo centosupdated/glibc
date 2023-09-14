@@ -1,0 +1,141 @@
+commit 53df2ce6885da3d0e89e87dca7b095622296014f
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Fri Sep 8 13:02:06 2023 +0200
+
+    elf: Remove unused l_text_end field from struct link_map
+    
+    It is a left-over from commit 52a01100ad011293197637e42b5be1a479a2
+    ("elf: Remove ad-hoc restrictions on dlopen callers [BZ #22787]").
+    
+    When backporting commmit 6985865bc3ad5b23147ee73466583dd7fdf65892
+    ("elf: Always call destructors in reverse constructor order
+    (bug 30785)"), we can move the l_init_called_next field to this
+    place, so that the internal GLIBC_PRIVATE ABI does not change.
+    
+    Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+    Tested-by: Carlos O'Donell <carlos@redhat.com>
+
+Conflicts:
+	elf/dl-load.h
+	  (Missing commit "Avoid "inline" after return type in function
+	  definitions.")
+	elf/rtld.c
+	  (Missing rtld_setup_main_map function.  Re-did the l_text_end
+	  removal from scratch.)
+
+diff --git a/elf/dl-load.c b/elf/dl-load.c
+index 0b45e6e3db31c70d..52dc564af9e95878 100644
+--- a/elf/dl-load.c
++++ b/elf/dl-load.c
+@@ -1176,7 +1176,7 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
+ 
+     /* Now process the load commands and map segments into memory.
+        This is responsible for filling in:
+-       l_map_start, l_map_end, l_addr, l_contiguous, l_text_end, l_phdr
++       l_map_start, l_map_end, l_addr, l_contiguous, l_phdr
+      */
+     errstring = _dl_map_segments (l, fd, header, type, loadcmds, nloadcmds,
+ 				  maplength, has_holes, loader);
+diff --git a/elf/dl-load.h b/elf/dl-load.h
+index 66ea2e9237ab6321..ebf2604e044c3bde 100644
+--- a/elf/dl-load.h
++++ b/elf/dl-load.h
+@@ -82,14 +82,11 @@ struct loadcmd
+ 
+ /* This is a subroutine of _dl_map_segments.  It should be called for each
+    load command, some time after L->l_addr has been set correctly.  It is
+-   responsible for setting up the l_text_end and l_phdr fields.  */
+-static void __always_inline
++   responsible for setting the l_phdr fields  */
++static __always_inline void
+ _dl_postprocess_loadcmd (struct link_map *l, const ElfW(Ehdr) *header,
+                          const struct loadcmd *c)
+ {
+-  if (c->prot & PROT_EXEC)
+-    l->l_text_end = l->l_addr + c->mapend;
+-
+   if (l->l_phdr == 0
+       && c->mapoff <= header->e_phoff
+       && ((size_t) (c->mapend - c->mapstart + c->mapoff)
+@@ -102,7 +99,7 @@ _dl_postprocess_loadcmd (struct link_map *l, const ElfW(Ehdr) *header,
+ 
+ /* This is a subroutine of _dl_map_object_from_fd.  It is responsible
+    for filling in several fields in *L: l_map_start, l_map_end, l_addr,
+-   l_contiguous, l_text_end, l_phdr.  On successful return, all the
++   l_contiguous, l_phdr.  On successful return, all the
+    segments are mapped (or copied, or whatever) from the file into their
+    final places in the address space, with the correct page permissions,
+    and any bss-like regions already zeroed.  It returns a null pointer
+diff --git a/elf/rtld.c b/elf/rtld.c
+index cd2cc4024a3581c2..c2edd0bfdc27f207 100644
+--- a/elf/rtld.c
++++ b/elf/rtld.c
+@@ -472,7 +472,6 @@ _dl_start_final (void *arg, struct dl_start_final_info *info)
+   GL(dl_rtld_map).l_real = &GL(dl_rtld_map);
+   GL(dl_rtld_map).l_map_start = (ElfW(Addr)) _begin;
+   GL(dl_rtld_map).l_map_end = (ElfW(Addr)) _end;
+-  GL(dl_rtld_map).l_text_end = (ElfW(Addr)) _etext;
+   /* Copy the TLS related data if necessary.  */
+ #ifndef DONT_USE_BOOTSTRAP_MAP
+ # if NO_TLS_OFFSET != 0
+@@ -1520,7 +1519,6 @@ dl_main (const ElfW(Phdr) *phdr,
+     }
+ 
+   main_map->l_map_end = 0;
+-  main_map->l_text_end = 0;
+   /* Perhaps the executable has no PT_LOAD header entries at all.  */
+   main_map->l_map_start = ~0;
+   /* And it was opened directly.  */
+@@ -1591,8 +1589,6 @@ dl_main (const ElfW(Phdr) *phdr,
+ 	  allocend = main_map->l_addr + ph->p_vaddr + ph->p_memsz;
+ 	  if (main_map->l_map_end < allocend)
+ 	    main_map->l_map_end = allocend;
+-	  if ((ph->p_flags & PF_X) && allocend > main_map->l_text_end)
+-	    main_map->l_text_end = allocend;
+ 	}
+ 	break;
+ 
+@@ -1641,8 +1637,6 @@ ERROR: '%s': cannot process note segment.\n", _dl_argv[0]);
+       = (char *) main_map->l_tls_initimage + main_map->l_addr;
+   if (! main_map->l_map_end)
+     main_map->l_map_end = ~0;
+-  if (! main_map->l_text_end)
+-    main_map->l_text_end = ~0;
+   if (! GL(dl_rtld_map).l_libname && GL(dl_rtld_map).l_name)
+     {
+       /* We were invoked directly, so the program might not have a
+diff --git a/elf/setup-vdso.h b/elf/setup-vdso.h
+index d2b35a080b57c183..352e992c578e416f 100644
+--- a/elf/setup-vdso.h
++++ b/elf/setup-vdso.h
+@@ -52,9 +52,6 @@ setup_vdso (struct link_map *main_map __attribute__ ((unused)),
+ 		l->l_addr = ph->p_vaddr;
+ 	      if (ph->p_vaddr + ph->p_memsz >= l->l_map_end)
+ 		l->l_map_end = ph->p_vaddr + ph->p_memsz;
+-	      if ((ph->p_flags & PF_X)
+-		  && ph->p_vaddr + ph->p_memsz >= l->l_text_end)
+-		l->l_text_end = ph->p_vaddr + ph->p_memsz;
+ 	    }
+ 	  else
+ 	    /* There must be no TLS segment.  */
+@@ -63,7 +60,6 @@ setup_vdso (struct link_map *main_map __attribute__ ((unused)),
+       l->l_map_start = (ElfW(Addr)) GLRO(dl_sysinfo_dso);
+       l->l_addr = l->l_map_start - l->l_addr;
+       l->l_map_end += l->l_addr;
+-      l->l_text_end += l->l_addr;
+       l->l_ld = (void *) ((ElfW(Addr)) l->l_ld + l->l_addr);
+       elf_get_dynamic_info (l, dyn_temp);
+       _dl_setup_hash (l);
+diff --git a/include/link.h b/include/link.h
+index a37b2cf3133eefd5..88683e7a747b86e0 100644
+--- a/include/link.h
++++ b/include/link.h
+@@ -251,8 +251,6 @@ struct link_map
+     /* Start and finish of memory map for this object.  l_map_start
+        need not be the same as l_addr.  */
+     ElfW(Addr) l_map_start, l_map_end;
+-    /* End of the executable part of the mapping.  */
+-    ElfW(Addr) l_text_end;
+ 
+     /* Default array for 'l_scope'.  */
+     struct r_scope_elem *l_scope_mem[4];

@@ -1,0 +1,37 @@
+commit 7b5bfe77836442b9aeb75cc520f0d1eb7f82be67
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Mon May 18 15:21:04 2020 +0200
+
+    elf: Assert that objects are relocated before their constructors run
+    
+    If we try to run constructors before relocation, this is always
+    a dynamic linker bug.  An assert is easier to notice than a call
+    via an invalid function pointer (which may not even produce a valid
+    call stack).
+    
+    Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+
+diff --git a/elf/dl-init.c b/elf/dl-init.c
+index 45405cd0563845b4..99ce531d7b326f5f 100644
+--- a/elf/dl-init.c
++++ b/elf/dl-init.c
+@@ -16,6 +16,7 @@
+    License along with the GNU C Library; if not, see
+    <http://www.gnu.org/licenses/>.  */
+ 
++#include <assert.h>
+ #include <stddef.h>
+ #include <ldsodefs.h>
+ 
+@@ -27,6 +28,11 @@ typedef void (*init_t) (int, char **, char **);
+ static void
+ call_init (struct link_map *l, int argc, char **argv, char **env)
+ {
++  /* If the object has not been relocated, this is a bug.  The
++     function pointers are invalid in this case.  (Executables do not
++     need relocation, and neither do proxy objects.)  */
++  assert (l->l_real->l_relocated || l->l_real->l_type == lt_executable);
++
+   if (l->l_init_called)
+     /* This object is all done.  */
+     return;
