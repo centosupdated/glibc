@@ -132,7 +132,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: %{glibcrelease}.1
+Release: %{glibcrelease}.6
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -1047,12 +1047,11 @@ Patch854: glibc-rh2180462-1.patch
 Patch855: glibc-rh2180462-2.patch
 Patch856: glibc-rh2180462-3.patch
 Patch857: glibc-rh2180462-4.patch
-Patch858: glibc-rh2233338-1.patch
-Patch859: glibc-rh2233338-2.patch
-Patch860: glibc-rh2233338-3.patch
-Patch861: glibc-rh2233338-4.patch
-Patch862: glibc-rh2233338-5.patch
-Patch863: glibc-rh2233338-6.patch
+# (Reverted fixes for rh2233338 were here.)
+Patch864: glibc-rh2234714.patch
+Patch865: glibc-RHEL-2435.patch
+Patch866: glibc-RHEL-2435-2.patch
+Patch867: glibc-RHEL-2423.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2998,6 +2997,21 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Sep 19 2023 Carlos O'Donell <carlos@redhat.com> - 2.28-238.6
+- Revert: Always call destructors in reverse constructor order (#2233338)
+
+* Tue Sep 19 2023 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-238.5
+- CVE-2023-4806 glibc: potential use-after-free in getaddrinfo (RHEL-2423)
+
+* Tue Sep 19 2023 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-238.4
+- CVE-2023-4813: Work around RHEL-8 limitation in test (RHEL-2435)
+
+* Fri Sep 15 2023 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-238.3
+- CVE-2023-4813: potential use-after-free in gaih_inet (RHEL-2435)
+
+* Wed Sep 13 2023 Florian Weimer <fweimer@redhat.com> - 2.28-238.2
+- CVE-2023-4527: Stack read overflow in getaddrinfo in no-aaaa mode (#2234714)
+
 * Mon Sep 11 2023 Florian Weimer <fweimer@redhat.com> - 2.28-238.1
 - Always call destructors in reverse constructor order (#2233338)
 
