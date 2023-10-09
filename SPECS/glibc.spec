@@ -132,7 +132,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: %{glibcrelease}.6
+Release: %{glibcrelease}.7
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -1052,6 +1052,7 @@ Patch864: glibc-rh2234714.patch
 Patch865: glibc-RHEL-2435.patch
 Patch866: glibc-RHEL-2435-2.patch
 Patch867: glibc-RHEL-2423.patch
+Patch868: glibc-RHEL-3036.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2997,6 +2998,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Wed Sep 20 2023 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-238.7
+- CVE-2023-4911 glibc: buffer overflow in ld.so leading to privilege escalation (RHEL-3036)
+
 * Tue Sep 19 2023 Carlos O'Donell <carlos@redhat.com> - 2.28-238.6
 - Revert: Always call destructors in reverse constructor order (#2233338)
 
