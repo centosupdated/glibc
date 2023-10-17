@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 238%{?dist}
+%define glibcrelease 239%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -132,7 +132,7 @@ end \
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: %{glibcrelease}.7
+Release: %{glibcrelease}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -1053,6 +1053,7 @@ Patch865: glibc-RHEL-2435.patch
 Patch866: glibc-RHEL-2435-2.patch
 Patch867: glibc-RHEL-2423.patch
 Patch868: glibc-RHEL-3036.patch
+Patch869: glibc-RHEL-3757.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2998,6 +2999,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Oct 16 2023 Arjun Shankar <arjun@redhat.com> - 2.28-239
+- Enable running a single test from the testsuite (RHEL-3757)
+
 * Wed Sep 20 2023 Siddhesh Poyarekar <siddhesh@redhat.com> - 2.28-238.7
 - CVE-2023-4911 glibc: buffer overflow in ld.so leading to privilege escalation (RHEL-3036)
 
