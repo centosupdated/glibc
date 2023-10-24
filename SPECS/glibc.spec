@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 239%{?dist}
+%define glibcrelease 241%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1054,6 +1054,8 @@ Patch866: glibc-RHEL-2435-2.patch
 Patch867: glibc-RHEL-2423.patch
 Patch868: glibc-RHEL-3036.patch
 Patch869: glibc-RHEL-3757.patch
+Patch870: glibc-RHEL-2122.patch
+Patch871: glibc-RHEL-1192.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -2999,6 +3001,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Oct 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-241
+- nscd: Skip unusable entries in first pass in prune_cache (RHEL-1192)
+
+* Mon Oct 16 2023 DJ Delorie <dj@redhat.com> - 2.28-240
+- Fix slow tls access after dlopen (RHEL-2122)
+
 * Mon Oct 16 2023 Arjun Shankar <arjun@redhat.com> - 2.28-239
 - Enable running a single test from the testsuite (RHEL-3757)
 
