@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 241%{?dist}
+%define glibcrelease 242%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -2030,6 +2030,7 @@ gzip -9nvf %{glibc_sysroot}%{_infodir}/libc*
 # Copy the debugger interface documentation over to the right location
 mkdir -p %{glibc_sysroot}%{_docdir}/glibc
 cp elf/rtld-debugger-interface.txt %{glibc_sysroot}%{_docdir}/glibc
+cp posix/gai.conf %{glibc_sysroot}%{_docdir}/glibc
 %else
 rm -f %{glibc_sysroot}%{_infodir}/dir
 rm -f %{glibc_sysroot}%{_infodir}/libc.info*
@@ -3001,6 +3002,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Tue Oct 24 2023 Arjun Shankar <arjun@redhat.com> - 2.28-242
+- Add /usr/share/doc/glibc/gai.conf to glibc-doc (RHEL-12894)
+
 * Fri Oct 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-241
 - nscd: Skip unusable entries in first pass in prune_cache (RHEL-1192)
 
