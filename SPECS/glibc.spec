@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 242%{?dist}
+%define glibcrelease 244%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1056,6 +1056,8 @@ Patch868: glibc-RHEL-3036.patch
 Patch869: glibc-RHEL-3757.patch
 Patch870: glibc-RHEL-2122.patch
 Patch871: glibc-RHEL-1192.patch
+Patch872: glibc-RHEL-3639.patch
+Patch873: glibc-RHEL-10481.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -3002,6 +3004,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Mon Nov 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-244
+- Fix force-first handling in dlclose (RHEL-10481)
+
+* Fri Nov 10 2023 Florian Weimer <fweimer@redhat.com> - 2.28-243
+- Avoid lazy binding failures during dlclose (RHEL-3639)
+
 * Tue Oct 24 2023 Arjun Shankar <arjun@redhat.com> - 2.28-242
 - Add /usr/share/doc/glibc/gai.conf to glibc-doc (RHEL-12894)
 
