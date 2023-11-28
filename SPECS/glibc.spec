@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 244%{?dist}
+%define glibcrelease 246%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1058,6 +1058,9 @@ Patch870: glibc-RHEL-2122.patch
 Patch871: glibc-RHEL-1192.patch
 Patch872: glibc-RHEL-3639.patch
 Patch873: glibc-RHEL-10481.patch
+Patch874: glibc-RHEL-13720-1.patch
+Patch875: glibc-RHEL-13720-2.patch
+Patch876: glibc-RHEL-15867.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -3004,6 +3007,12 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Nov 24 2023 Florian Weimer <fweimer@redhat.com> - 2.28-246
+- Restore <sys/cdefs.h> compatibility with C90 compilers (RHEL-15867)
+
+* Tue Nov 21 2023 Florian Weimer <fweimer@redhat.com> - 2.28-245
+- ldconfig should skip temporary files created by RPM (RHEL-13720)
+
 * Mon Nov 20 2023 Florian Weimer <fweimer@redhat.com> - 2.28-244
 - Fix force-first handling in dlclose (RHEL-10481)
 
