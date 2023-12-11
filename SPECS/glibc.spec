@@ -1,6 +1,6 @@
 %define glibcsrcdir glibc-2.28
 %define glibcversion 2.28
-%define glibcrelease 246%{?dist}
+%define glibcrelease 247%{?dist}
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -1061,6 +1061,10 @@ Patch873: glibc-RHEL-10481.patch
 Patch874: glibc-RHEL-13720-1.patch
 Patch875: glibc-RHEL-13720-2.patch
 Patch876: glibc-RHEL-15867.patch
+Patch877: glibc-RHEL-16825-1.patch
+Patch878: glibc-RHEL-16825-2.patch
+Patch879: glibc-RHEL-16825-3.patch
+Patch880: glibc-RHEL-16825-4.patch
 
 # Intel Optimizations
 Patch10001: glibc-sw24097-1.patch
@@ -3007,6 +3011,9 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Fri Dec  8 2023 Florian Weimer <fweimer@redhat.com> - 2.28-247
+- Improve compatibility between underlinking and IFUNC resolvers (RHEL-16825)
+
 * Fri Nov 24 2023 Florian Weimer <fweimer@redhat.com> - 2.28-246
 - Restore <sys/cdefs.h> compatibility with C90 compilers (RHEL-15867)
 
