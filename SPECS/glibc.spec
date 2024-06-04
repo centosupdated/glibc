@@ -125,7 +125,7 @@
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: %{glibcrelease}
+Release: %{glibcrelease}.3
 # GPLv2+ is used in a bunch of programs, LGPLv2+ is used for libraries.
 # Things that are linked directly into dynamically linked programs
 # and shared libraries (e.g. crt files, lib*_nonshared.a) have an additional
@@ -1644,10 +1644,17 @@ Patch2861: glibc-rh1927536.patch
 Patch2862: glibc-rh1993930.patch
 Patch2863: glibc-rh2065058-1.patch
 Patch2864: glibc-rh2065058-2.patch
-# Armhfp build issue
-Patch9997: centos-arm32-NO_LONG_DOUBLE_MATH.patch
-Patch9998: glibc-armhfp-ELF_MACHINE_NO_REL-undefined.patch
-Patch9999: glibc-rh1256317-armhfp-build-issue.patch
+Patch20671: glibc-RHEL-31803.patch
+Patch20672: glibc-RHEL-34263-1.patch
+Patch20673: glibc-RHEL-34263-2.patch
+Patch20674: glibc-RHEL-34263-3.patch
+Patch20675: glibc-RHEL-34263-4.patch
+Patch20676: glibc-RHEL-34263-5.patch
+Patch20677: glibc-RHEL-34263-6.patch
+Patch20678: glibc-RHEL-34263-7.patch
+Patch20679: glibc-RHEL-34263-8.patch
+Patch20680: glibc-RHEL-34263-9.patch
+Patch20681: glibc-RHEL-34263-10.patch
 
 ##############################################################################
 # End of glibc patches.
@@ -3022,12 +3029,17 @@ package or when debugging this package.
 %patch2862 -p1
 %patch2863 -p1
 %patch2864 -p1
-
-%ifarch %{arm}
-%patch9998 -p1
-%patch9999 -p1
-%patch9997 -p1
-%endif
+%patch -P 20671 -p1
+%patch -P 20672 -p1
+%patch -P 20673 -p1
+%patch -P 20674 -p1
+%patch -P 20675 -p1
+%patch -P 20676 -p1
+%patch -P 20677 -p1
+%patch -P 20678 -p1
+%patch -P 20679 -p1
+%patch -P 20680 -p1
+%patch -P 20681 -p1
 
 ##############################################################################
 # %%prep - Additional prep required...
@@ -4215,6 +4227,21 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Thu May  2 2024 Florian Weimer <fweimer@redhat.com> - 2.17-326.3
+- nscd: Fix timeout type in netgroup cache (RHEL-34263)
+
+* Tue Apr 30 2024 Florian Weimer <fweimer@redhat.com> - 2.17-326.2
+- nscd: Do not use sendfile for the netgroup cache
+- nscd: Use-after-free in netgroup cache
+- CVE-2021-27645: nscd: double-free in netgroup cache
+- CVE-2024-33599: nscd: buffer overflow in netgroup cache (RHEL-34263)
+- CVE-2024-33600: nscd: null pointer dereferences in netgroup cache
+- CVE-2024-33601: nscd: crash on out-of-memory condition
+- CVE-2024-33602: nscd: memory corruption with NSS netgroup modules
+
+* Tue Apr 16 2024 Florian Weimer <fweimer@redhat.com> - 2.17-326.1
+- CVE-2024-2961: Out of bounds write in iconv conversion to ISO-2022-CN-EXT (RHEL-31803)
+
 * Fri Mar 18 2022 DJ Delorie <dj@redhat.com> - 2.17-326
 - resolv: Handle DNS transaction ID collisions (#2065058)
 
