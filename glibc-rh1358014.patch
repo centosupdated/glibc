@@ -1,0 +1,643 @@
+Fix  CVE-2014-9761, unbounded stack allocation in nan* functions
+
+This is different from the upstream patch because of its long
+dependency chain.  Instead, this patch rewrites the input string to
+make it shorter, preserving all of its relevant properties.
+
+test-nan-payload and test-nan-overflow are upstream tests, from this
+upstream commit:
+
+commit 8f5e8b01a1da2a207228f2072c934fa5918554b8
+Author: Joseph Myers <joseph@codesourcery.com>
+Date:   Fri Dec 4 20:36:28 2015 +0000
+
+    Fix nan functions handling of payload strings (bug 16961, bug 16962).
+
+
+Index: glibc-2.12-2-gc4ccff1/math/Makefile
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/math/Makefile
++++ glibc-2.12-2-gc4ccff1/math/Makefile
+@@ -98,7 +98,7 @@ distribute += $(test-longdouble-yes:=.c)
+ 
+ ifneq (no,$(PERL))
+ libm-tests = test-float test-double $(test-longdouble-$(long-double-fcts)) \
+-	test-ifloat test-idouble
++	test-ifloat test-idouble test-nan-payload test-nan-overflow tst-nan
+ libm-tests.o = $(addsuffix .o,$(libm-tests))
+ 
+ tests += $(libm-tests)
+Index: glibc-2.12-2-gc4ccff1/math/nan_prepare_string.h
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/math/nan_prepare_string.h
+@@ -0,0 +1,129 @@
++/* Prepare a NAN string for strtod/strtof/strtold.
++   Copyright (C) 2016 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, write to the Free
++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
++   02111-1307 USA.  */
++
++#include <stdbool.h>
++#include <string.h>
++
++/* Scratch buffer used to store the result of nan_prepare_string.  */
++struct nan_prepare_string_scratch
++{
++  char buffer[40];
++};
++
++/* Convert INPUT to a string of the form "NAN(...)".  Use *SCRATCH for
++   storage.  Return an alternative string if the result would be too
++   large for the scratch buffer.  */
++static const char *
++nan_prepare_string (const char *input,
++                    struct nan_prepare_string_scratch *scratch)
++{
++  char *output = scratch->buffer;
++  char *end = output + sizeof (scratch->buffer);
++
++  /* The "NAN(" prefix.  */
++  output[0] = 'N';
++  output[1] = 'A';
++  output[2] = 'N';
++  output[3] = '(';
++  output += 4;
++
++  if (input[0] == '0')
++    {
++      /* Copy the radix prefix.  */
++      output[0] = '0';
++      bool hex;
++      if (input[1] == 'x' || input[1] == 'X')
++        {
++          hex = true;
++          output[1] = input[1];
++          output += 2;
++          input += 2;
++        }
++      else
++        {
++          hex = false;
++          ++output;
++          ++input;
++        }
++
++      /* Skip over all leading zeros, but leave one zero to preserve
++         syntactic pecularities (such as "00x....").  */
++      if (input[0] == '0')
++        {
++          output[0] = '0';
++          ++output;
++          do
++            ++input;
++          while (input[0] == '0');
++        }
++
++      /* Preserve invalid digits.  */
++      if (hex)
++        for (const char *p = input; *p != '\0'; ++p)
++          {
++            if (!(('0' <= *p && *p <= '9')
++                  || ('a' <= *p && *p <= 'f')
++                  || ('A' <= *p && *p <= 'F')))
++              {
++                output[0] = *p;
++                output[1] = ')';
++                output[2] = '\0';
++                return scratch->buffer;
++              }
++          }
++      else
++        for (const char *p = input; *p != '\0'; ++p)
++          {
++            if (!('0' <= *p && *p <= '7'))
++              {
++                output[0] = *p;
++                output[1] = ')';
++                output[2] = '\0';
++                return scratch->buffer;
++              }
++          }
++    }
++  else
++    /* No leading zero.  Preserve non-decimal input.  */
++    for (const char *p = input; *p != '\0'; ++p)
++      {
++        if (!('0' <= *p && *p <= '9'))
++          {
++            output[0] = *p;
++            output[1] = ')';
++            output[2] = '\0';
++            return scratch->buffer;
++          }
++      }
++
++  /* This string results in a NAN which has the same bit pattern as
++     any other syntactically valid over-long NAN string, after
++     conversion.  */
++  const char *alternative = "NAN(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)";
++
++  size_t length = strlen (input);
++  /* Add space for the closing paren and the null terminator.  */
++  if (length + 2 > end - output)
++    return alternative;
++  memcpy (output, input, length);
++  output += length;
++  output[0] = ')';
++  output[1] = '\0';
++  return scratch->buffer;
++}
+Index: glibc-2.12-2-gc4ccff1/math/s_nan.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/math/s_nan.c
++++ glibc-2.12-2-gc4ccff1/math/s_nan.c
+@@ -24,15 +24,15 @@
+ #include <string.h>
+ #include <ieee754.h>
+ 
++#include "nan_prepare_string.h"
+ 
+ double
+ __nan (const char *tagp)
+ {
+   if (tagp[0] != '\0')
+     {
+-      char buf[6 + strlen (tagp)];
+-      sprintf (buf, "NAN(%s)", tagp);
+-      return strtod (buf, NULL);
++      struct nan_prepare_string_scratch buf;
++      return strtod (nan_prepare_string (tagp, &buf), NULL);
+     }
+ 
+   return NAN;
+Index: glibc-2.12-2-gc4ccff1/math/s_nanf.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/math/s_nanf.c
++++ glibc-2.12-2-gc4ccff1/math/s_nanf.c
+@@ -24,15 +24,15 @@
+ #include <string.h>
+ #include <ieee754.h>
+ 
++#include "nan_prepare_string.h"
+ 
+ float
+ __nanf (const char *tagp)
+ {
+   if (tagp[0] != '\0')
+     {
+-      char buf[6 + strlen (tagp)];
+-      sprintf (buf, "NAN(%s)", tagp);
+-      return strtof (buf, NULL);
++      struct nan_prepare_string_scratch buf;
++      return strtof (nan_prepare_string (tagp, &buf), NULL);
+     }
+ 
+   return NAN;
+Index: glibc-2.12-2-gc4ccff1/math/s_nanl.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/math/s_nanl.c
++++ glibc-2.12-2-gc4ccff1/math/s_nanl.c
+@@ -24,15 +24,15 @@
+ #include <string.h>
+ #include <ieee754.h>
+ 
++#include "nan_prepare_string.h"
+ 
+ long double
+ __nanl (const char *tagp)
+ {
+   if (tagp[0] != '\0')
+     {
+-      char buf[6 + strlen (tagp)];
+-      sprintf (buf, "NAN(%s)", tagp);
+-      return strtold (buf, NULL);
++      struct nan_prepare_string_scratch buf;
++      return strtold (nan_prepare_string (tagp, &buf), NULL);
+     }
+ 
+   return NAN;
+Index: glibc-2.12-2-gc4ccff1/math/tst-nan.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/math/tst-nan.c
+@@ -0,0 +1,208 @@
++/* Test nan* functions with string-processing corner cases.
++   Copyright (C) 2016 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, write to the Free
++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
++   02111-1307 USA.  */
++
++#include <math.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/resource.h>
++
++static char *
++input_for_expected (const char *input)
++{
++  char *result;
++  if (asprintf (&result, "NAN(%s)", input) < 0)
++    {
++      printf ("error: asprintf: %m\n");
++      exit (1);
++    }
++  return result;
++}
++
++static bool errors;
++
++static void
++dump_bytes (const unsigned char *buffer, size_t length)
++{
++  for (size_t i = 0; i < length; ++i)
++    printf ("%02x", buffer[i]);
++}
++
++static void
++report_error (const char *function, size_t type_size, const char *input,
++              unsigned char *expected, unsigned char *actual)
++{
++  errors = true;
++  printf ("error: output mismatch for %s\n", function);
++  if (strlen (input) > 60)
++    printf ("  input: \"%.30s\" ... \"%s\"\n",
++            input, input + strlen (input) - 30);
++  else
++    printf ("  input: \"%s\"\n", input);
++  printf ("  expected: ");
++  dump_bytes (expected, type_size);
++  putchar ('\n');
++  printf ("  actual:   ");
++  dump_bytes (actual, type_size);
++  putchar ('\n');
++}
++
++#define DEFINE_CHECK_ONE(type, nan_function, str_function) \
++  static void                                               \
++  test_##nan_function (const char *input)                   \
++  {                                                         \
++    union                                                   \
++    {                                                       \
++      type number;                                          \
++      unsigned char bytes[sizeof (type)];                   \
++    } expected, actual;                                     \
++    memset (&expected, 0, sizeof (expected));               \
++    memset (&actual, 0, sizeof (actual));                   \
++    char *for_expected = input_for_expected (input);        \
++    expected.number = str_function (for_expected, NULL);    \
++    actual.number = nan_function (input);                   \
++    if (memcmp (expected.bytes, actual.bytes,               \
++                sizeof (actual.bytes)) != 0)                \
++      report_error (#nan_function, sizeof (type), input,    \
++                    expected.bytes, actual.bytes);          \
++    free (for_expected);                                    \
++  }                                                         \
++
++DEFINE_CHECK_ONE (double, nan, strtod)
++DEFINE_CHECK_ONE (float, nanf, strtof)
++#ifndef NO_LONG_DOUBLE
++DEFINE_CHECK_ONE (long double, nanl, strtold)
++#endif
++
++static void
++test_function (void (*test_one) (const char *))
++{
++  static const char *test_strings[] =
++    {
++      "",
++      " ",
++      " 1234",
++      "1234 ",
++      " 0",
++      "0",
++      "00",
++      "0x",
++      "0x0",
++      "0x1",
++      "1",
++      "x",
++      "y",
++      "abc",
++      "9",
++      "1234",
++      "01234"
++      "0x1234",
++      "0X1234",
++      "08",
++      "1110x",
++      NULL
++    };
++
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    test_one (*testcase);
++
++  size_t huge_length = 1 * 1024 * 1024;
++  char *huge = malloc (huge_length);
++  memset (huge, '0', huge_length);
++
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      strcpy (huge + huge_length - 20, *testcase);
++      test_one (huge);
++    }
++
++  huge[1] = 'x';
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      strcpy (huge + huge_length - 20, *testcase);
++      test_one (huge);
++    }
++
++  memset (huge, '1', huge_length);
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      strcpy (huge + huge_length - 20, *testcase);
++      test_one (huge);
++    }
++
++  memset (huge, 'a', huge_length);
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      strcpy (huge + huge_length - 20, *testcase);
++      test_one (huge);
++    }
++
++  memset (huge, 'x', huge_length);
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      strcpy (huge + huge_length - 20, *testcase);
++      test_one (huge);
++    }
++
++  memset (huge, 'y', huge_length);
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      strcpy (huge + huge_length - 20, *testcase);
++      test_one (huge);
++    }
++
++  memset (huge, '0', huge_length);
++  huge[huge_length - 1] = '\0';
++  for (const char **testcase = test_strings; *testcase != NULL; ++testcase)
++    {
++      memset (huge, '0', 20);
++      memcpy (huge, *testcase, strlen (*testcase));
++      test_one (huge);
++    }
++
++  free (huge);
++}
++
++static int
++do_test (void)
++{
++  /* Reduce the stack size, so that we do not need a huge input string
++     to trigger (potential) stack overflows.  */
++  {
++    struct rlimit stack_size;
++    stack_size.rlim_cur = 512 * 1024;
++    stack_size.rlim_max = 512 * 1024;
++    if (setrlimit (RLIMIT_STACK, &stack_size) != 0)
++      {
++        printf ("error: strlimit: %m\n");
++        exit (1);
++      }
++  }
++
++  test_function (test_nan);
++  test_function (test_nanf);
++#ifndef NO_LONG_DOUBLE
++  test_function (test_nanl);
++#endif
++  return errors;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"
+Index: glibc-2.12-2-gc4ccff1/math/test-nan-overflow.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/math/test-nan-overflow.c
+@@ -0,0 +1,66 @@
++/* Test nan functions stack overflow (bug 16962).
++   Copyright (C) 2015-2016 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <math.h>
++#include <stdio.h>
++#include <string.h>
++#include <sys/resource.h>
++
++#define STACK_LIM 1048576
++#define STRING_SIZE (2 * STACK_LIM)
++
++static int
++do_test (void)
++{
++  int result = 0;
++  struct rlimit lim;
++  getrlimit (RLIMIT_STACK, &lim);
++  lim.rlim_cur = STACK_LIM;
++  setrlimit (RLIMIT_STACK, &lim);
++  char *nanstr = malloc (STRING_SIZE);
++  if (nanstr == NULL)
++    {
++      puts ("malloc failed, cannot test");
++      return 77;
++    }
++  memset (nanstr, '0', STRING_SIZE - 1);
++  nanstr[STRING_SIZE - 1] = 0;
++#define NAN_TEST(TYPE, FUNC)			\
++  do						\
++    {						\
++      char *volatile p = nanstr;		\
++      volatile TYPE v = FUNC (p);		\
++      if (isnan (v))				\
++	puts ("PASS: " #FUNC);			\
++      else					\
++	{					\
++	  puts ("FAIL: " #FUNC);		\
++	  result = 1;				\
++	}					\
++    }						\
++  while (0)
++  NAN_TEST (float, nanf);
++  NAN_TEST (double, nan);
++#ifndef NO_LONG_DOUBLE
++  NAN_TEST (long double, nanl);
++#endif
++  return result;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"
+Index: glibc-2.12-2-gc4ccff1/math/test-nan-payload.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/math/test-nan-payload.c
+@@ -0,0 +1,122 @@
++/* Test nan functions payload handling (bug 16961).
++   Copyright (C) 2015-2016 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <float.h>
++#include <math.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++/* Avoid built-in functions.  */
++#define WRAP_NAN(FUNC, STR) \
++  ({ const char *volatile wns = (STR); FUNC (wns); })
++#define WRAP_STRTO(FUNC, STR) \
++  ({ const char *volatile wss = (STR); FUNC (wss, NULL); })
++
++#define CHECK_IS_NAN(TYPE, A)			\
++  do						\
++    {						\
++      if (isnan (A))				\
++	puts ("PASS: " #TYPE " " #A);		\
++      else					\
++	{					\
++	  puts ("FAIL: " #TYPE " " #A);		\
++	  result = 1;				\
++	}					\
++    }						\
++  while (0)
++
++#define CHECK_SAME_NAN(TYPE, A, B)			\
++  do							\
++    {							\
++      if (memcmp (&(A), &(B), sizeof (A)) == 0)		\
++	puts ("PASS: " #TYPE " " #A " = " #B);		\
++      else						\
++	{						\
++	  puts ("FAIL: " #TYPE " " #A " = " #B);	\
++	  result = 1;					\
++	}						\
++    }							\
++  while (0)
++
++#define CHECK_DIFF_NAN(TYPE, A, B)			\
++  do							\
++    {							\
++      if (memcmp (&(A), &(B), sizeof (A)) != 0)		\
++	puts ("PASS: " #TYPE " " #A " != " #B);		\
++      else						\
++	{						\
++	  puts ("FAIL: " #TYPE " " #A " != " #B);	\
++	  result = 1;					\
++	}						\
++    }							\
++  while (0)
++
++/* Cannot test payloads by memcmp for formats where NaNs have padding
++   bits.  */
++#define CAN_TEST_EQ(MANT_DIG) ((MANT_DIG) != 64 && (MANT_DIG) != 106)
++
++#define RUN_TESTS(TYPE, SFUNC, FUNC, MANT_DIG)		\
++  do							\
++    {							\
++     TYPE n123 = WRAP_NAN (FUNC, "123");		\
++     CHECK_IS_NAN (TYPE, n123);				\
++     TYPE s123 = WRAP_STRTO (SFUNC, "NAN(123)");	\
++     CHECK_IS_NAN (TYPE, s123);				\
++     TYPE n456 = WRAP_NAN (FUNC, "456");		\
++     CHECK_IS_NAN (TYPE, n456);				\
++     TYPE s456 = WRAP_STRTO (SFUNC, "NAN(456)");	\
++     CHECK_IS_NAN (TYPE, s456);				\
++     TYPE n123x = WRAP_NAN (FUNC, "123)");		\
++     CHECK_IS_NAN (TYPE, n123x);			\
++     TYPE nemp = WRAP_NAN (FUNC, "");			\
++     CHECK_IS_NAN (TYPE, nemp);				\
++     TYPE semp = WRAP_STRTO (SFUNC, "NAN()");		\
++     CHECK_IS_NAN (TYPE, semp);				\
++     TYPE sx = WRAP_STRTO (SFUNC, "NAN");		\
++     CHECK_IS_NAN (TYPE, sx);				\
++     if (CAN_TEST_EQ (MANT_DIG))			\
++       CHECK_SAME_NAN (TYPE, n123, s123);		\
++     if (CAN_TEST_EQ (MANT_DIG))			\
++       CHECK_SAME_NAN (TYPE, n456, s456);		\
++     if (CAN_TEST_EQ (MANT_DIG))			\
++       CHECK_SAME_NAN (TYPE, nemp, semp);		\
++     if (CAN_TEST_EQ (MANT_DIG))			\
++       CHECK_SAME_NAN (TYPE, n123x, sx);		\
++     CHECK_DIFF_NAN (TYPE, n123, n456);			\
++     CHECK_DIFF_NAN (TYPE, n123, nemp);			\
++     CHECK_DIFF_NAN (TYPE, n123, n123x);		\
++     CHECK_DIFF_NAN (TYPE, n456, nemp);			\
++     CHECK_DIFF_NAN (TYPE, n456, n123x);		\
++    }							\
++  while (0)
++
++static int
++do_test (void)
++{
++  int result = 0;
++  RUN_TESTS (float, strtof, nanf, FLT_MANT_DIG);
++  RUN_TESTS (double, strtod, nan, DBL_MANT_DIG);
++#ifndef NO_LONG_DOUBLE
++  RUN_TESTS (long double, strtold, nanl, LDBL_MANT_DIG);
++#endif
++  return result;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"

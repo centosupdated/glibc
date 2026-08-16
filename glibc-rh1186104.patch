@@ -1,0 +1,123 @@
+#
+# In bug 1186104 we adjust the s390/s390x localplt data to account
+# for the fact that _Unwind_Find_FDE is called through the PLT.
+# this matches upstream. It isn't clear why this is required, but
+# upstream s390/s390x has this exception also and claims it's because
+# of compatibility with gcc 2 and 3. The localplt-generid.data is
+# copied and _Unwind_Find_FDE added. This removes the check-localplt
+# failure on s390/s390x for _Unwind_Find_FDE.
+#
+# Next we add a local alias for feupdateenv via __feupdateenv, along
+# with the hidden prototpyes, hidden definitions, and finally weak
+# alias to feupdateenv. All of this allows libm.so to call __feupdateenv
+# and bypass the PLT. This fixes the last check-localplt failure on
+# s390* and pppc*. A side effect of the fix is that all relevant
+# architectures now need to use the same macros, and so we update
+# x86_64 and i686.
+#
+# Note: the PLT call to feupdateenv was added by bug 837918 when fixing
+# math function inaccuracies e.g. saving and restoring around functions
+# which could only handle round-to-nearest.
+#
+Index: glibc-2.12-2-gc4ccff1/scripts/data/localplt-s390-linux-gnu.data
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/scripts/data/localplt-s390-linux-gnu.data
+@@ -0,0 +1,7 @@
++libc.so: _Unwind_Find_FDE
++libc.so: calloc
++libc.so: free
++libc.so: malloc
++libc.so: memalign
++libc.so: realloc
++libm.so: matherr
+Index: glibc-2.12-2-gc4ccff1/scripts/data/localplt-s390x-linux-gnu.data
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/scripts/data/localplt-s390x-linux-gnu.data
+@@ -0,0 +1,7 @@
++libc.so: _Unwind_Find_FDE
++libc.so: calloc
++libc.so: free
++libc.so: malloc
++libc.so: memalign
++libc.so: realloc
++libm.so: matherr
+Index: glibc-2.12-2-gc4ccff1/include/fenv.h
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/include/fenv.h
++++ glibc-2.12-2-gc4ccff1/include/fenv.h
+@@ -17,5 +17,7 @@ libm_hidden_proto (fegetenv)
+ libm_hidden_proto (fesetenv)
+ libm_hidden_proto (fesetround)
+ libm_hidden_proto (feholdexcept)
++libm_hidden_proto (__feupdateenv)
++libm_hidden_proto (feupdateenv)
+ 
+ #endif
+Index: glibc-2.12-2-gc4ccff1/sysdeps/s390/fpu/feupdateenv.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/s390/fpu/feupdateenv.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/s390/fpu/feupdateenv.c
+@@ -23,7 +23,7 @@
+ #include <fpu_control.h>
+ 
+ int
+-feupdateenv (const fenv_t *envp)
++__feupdateenv (const fenv_t *envp)
+ {
+   fexcept_t temp;
+ 
+@@ -38,3 +38,6 @@ feupdateenv (const fenv_t *envp)
+   /* Success.  */
+   return 0;
+ }
++libm_hidden_def (__feupdateenv)
++weak_alias (__feupdateenv, feupdateenv)
++libm_hidden_weak (feupdateenv)
+Index: glibc-2.12-2-gc4ccff1/sysdeps/i386/fpu/feupdateenv.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/i386/fpu/feupdateenv.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/i386/fpu/feupdateenv.c
+@@ -57,4 +57,6 @@ strong_alias (__feupdateenv, __old_feupd
+ compat_symbol (libm, BP_SYM (__old_feupdateenv), BP_SYM (feupdateenv), GLIBC_2_1);
+ #endif
+ 
++libm_hidden_def (__feupdateenv)
++libm_hidden_ver (__feupdateenv, feupdateenv)
+ versioned_symbol (libm, BP_SYM (__feupdateenv), BP_SYM (feupdateenv), GLIBC_2_2);
+Index: glibc-2.12-2-gc4ccff1/sysdeps/powerpc/fpu/feupdateenv.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/powerpc/fpu/feupdateenv.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/powerpc/fpu/feupdateenv.c
+@@ -66,4 +66,6 @@ strong_alias (__feupdateenv, __old_feupd
+ compat_symbol (libm, BP_SYM (__old_feupdateenv), BP_SYM (feupdateenv), GLIBC_2_1);
+ #endif
+ 
++libm_hidden_def (__feupdateenv)
++libm_hidden_ver (__feupdateenv, feupdateenv)
+ versioned_symbol (libm, BP_SYM (__feupdateenv), BP_SYM (feupdateenv), GLIBC_2_2);
+Index: glibc-2.12-2-gc4ccff1/sysdeps/x86_64/fpu/feupdateenv.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/x86_64/fpu/feupdateenv.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/x86_64/fpu/feupdateenv.c
+@@ -48,4 +48,6 @@ strong_alias (__feupdateenv, __old_feupd
+ compat_symbol (libm, __old_feupdateenv, feupdateenv, GLIBC_2_1);
+ #endif
+ 
++libm_hidden_def (__feupdateenv)
++libm_hidden_ver (__feupdateenv, feupdateenv)
+ versioned_symbol (libm, __feupdateenv, feupdateenv, GLIBC_2_2);
+Index: glibc-2.12-2-gc4ccff1/math/feupdateenv.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/math/feupdateenv.c
++++ glibc-2.12-2-gc4ccff1/math/feupdateenv.c
+@@ -31,6 +31,8 @@ __feupdateenv (const fenv_t *envp)
+ strong_alias (__feupdateenv, __old_feupdateenv)
+ compat_symbol (libm, __old_feupdateenv, feupdateenv, GLIBC_2_1);
+ #endif
++libm_hidden_def (__feupdateenv)
++libm_hidden_ver (__feupdateenv, feupdateenv)
+ versioned_symbol (libm, __feupdateenv, feupdateenv, GLIBC_2_2);
+ 
+ stub_warning (feupdateenv)

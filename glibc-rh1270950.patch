@@ -1,0 +1,42 @@
+commit fa3fc0fe5f452d0aa7e435d8f32e992958683819
+Author: Ulrich Drepper <drepper@gmail.com>
+Date:   Wed Jun 22 15:00:54 2011 -0400
+
+     Avoid __check_pf calls in getaddrinfo unless really needed
+
+--- a/sysdeps/posix/getaddrinfo.c	2016-09-08 00:11:53.250422093 -0400
++++ b/sysdeps/posix/getaddrinfo.c	2016-09-08 00:14:43.905333580 -0400
+@@ -2334,14 +2334,17 @@ getaddrinfo (const char *name, const cha
+   size_t in6ailen = 0;
+   bool seen_ipv4 = false;
+   bool seen_ipv6 = false;
+-  /* We might need information about what interfaces are available.
+-     Also determine whether we have IPv4 or IPv6 interfaces or both.  We
+-     cannot cache the results since new interfaces could be added at
+-     any time.  */
+-  __check_pf (&seen_ipv4, &seen_ipv6, &in6ai, &in6ailen);
++  bool check_pf_called = false;
+ 
+   if (hints->ai_flags & AI_ADDRCONFIG)
+     {
++      /* We might need information about what interfaces are available.
++	 Also determine whether we have IPv4 or IPv6 interfaces or both.  We
++	 cannot cache the results since new interfaces could be added at
++	 any time.  */
++      __check_pf (&seen_ipv4, &seen_ipv6, &in6ai, &in6ailen);
++      check_pf_called = true;
++
+       /* Now make a decision on what we return, if anything.  */
+       if (hints->ai_family == PF_UNSPEC && (seen_ipv4 || seen_ipv6))
+ 	{
+@@ -2424,6 +2427,10 @@ getaddrinfo (const char *name, const cha
+       char *canonname = NULL;
+       bool malloc_results;
+ 
++      /* Now we definitely need the interface information.  */
++      if (! check_pf_called)
++	__check_pf (&seen_ipv4, &seen_ipv6, &in6ai, &in6ailen);
++
+       malloc_results
+ 	= !__libc_use_alloca (nresults * (sizeof (*results) + sizeof (*order)));
+       if (malloc_results)

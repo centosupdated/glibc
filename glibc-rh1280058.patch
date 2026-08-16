@@ -1,0 +1,236 @@
+Short description: Don't emit invalid duplicated shift sequences for IBM9xx encodings.
+Author(s): Andreas Schwab <schwab@suse.de>
+Origin: git://sourceware.org/git/glibc.git
+Bug-RHEL: #1280058 (rhel-5.11), #1293914 (rhel-6.8), #1293916 (rhel-7.3)
+Bug-Fedora: NA
+Bug-Upstream: #17197
+Upstream status: committed.
+#
+# commit 42d6443faf5e8b5c70474923bfcc021b77ee0095
+# Author: Andreas Schwab <schwab@suse.de>
+# Date:   Thu Jul 24 17:32:56 2014 +0200
+#
+#     Don't emit invalid extra shift character at block boundary by iconv (bug 17197)
+#
+Index: glibc-2.12-2-gc4ccff1/iconvdata/Makefile
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconvdata/Makefile
++++ glibc-2.12-2-gc4ccff1/iconvdata/Makefile
+@@ -67,7 +67,8 @@ include ../Makeconfig
+ 
+ ifeq (yes,$(build-shared))
+ tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
+-	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7
++	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 \
++	bug-iconv10
+ ifeq ($(have-thread-library),yes)
+ tests += bug-iconv3
+ endif
+@@ -371,6 +372,8 @@ $(objpfx)tst-iconv4.out: $(objpfx)gconv-
+ 			 $(addprefix $(objpfx),$(modules.so))
+ $(objpfx)tst-iconv7.out: $(objpfx)gconv-modules \
+ 			 $(addprefix $(objpfx),$(modules.so))
++$(objpfx)bug-iconv10.out: $(objpfx)gconv-modules \
++			  $(addprefix $(objpfx),$(modules.so))
+ 
+ $(objpfx)iconv-test.out: run-iconv-test.sh $(objpfx)gconv-modules \
+ 			 $(addprefix $(objpfx),$(modules.so)) \
+Index: glibc-2.12-2-gc4ccff1/iconvdata/bug-iconv10.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/iconvdata/bug-iconv10.c
+@@ -0,0 +1,94 @@
++/* bug 17197: check that iconv doesn't emit invalid extra shift character
++   Copyright (C) 2015 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#include <iconv.h>
++#include <locale.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <errno.h>
++
++static int
++do_test (void)
++{
++  static const char *charsets[] =
++    { "IBM930", "IBM933", "IBM935", "IBM937", "IBM939" };
++  static const char *expects[] =
++    { "\016\x44\x4d\017", "\016\x41\x63\017", "\016\x44\x4d\017",
++      "\016\x44\x4d\017", "\016\x44\x4d\017" };
++  int ret = 0;
++
++  for (int i = 0; i < sizeof (charsets) / sizeof (*charsets); i++)
++    {
++      const char *charset = charsets[i];
++      iconv_t cd = iconv_open (charset, "UTF-8");
++      if (cd == (iconv_t) -1)
++	{
++	  printf ("iconv_open failed (%s)\n", charset);
++	  ret = 1;
++	  continue;
++	}
++
++      char input[] = "\xe2\x88\x9e.";
++      const char *expect1 = expects[i];
++      const char expect2[] = "\x4b";
++      size_t input_len = sizeof (input);
++      char output[4];
++      size_t inlen = input_len;
++      size_t outlen = sizeof (output);
++      char *inptr = input;
++      char *outptr = output;
++      /* First round: expect conversion to stop before ".".  */
++      size_t r = iconv (cd, &inptr, &inlen, &outptr, &outlen);
++      if (r != -1
++	  || errno != E2BIG
++	  || inlen != 2
++	  || inptr != input + input_len - 2
++	  || outlen != 0
++	  || memcmp (output, expect1, sizeof (output)) != 0)
++	{
++	  printf ("wrong first conversion (%s)", charset);
++	  ret = 1;
++	  goto do_close;
++	}
++
++      outlen = sizeof (output);
++      outptr = output;
++      r = iconv (cd, &inptr, &inlen, &outptr, &outlen);
++      if (r != 0
++	  || inlen != 0
++	  || outlen != sizeof (output) - sizeof (expect2)
++	  || memcmp (output, expect2, sizeof (expect2)) != 0)
++	{
++	  printf ("wrong second conversion (%s)\n", charset);
++	  ret = 1;
++	}
++
++    do_close:
++      if (iconv_close (cd) != 0)
++	{
++	  printf ("iconv_close failed (%s)\n", charset);
++	  ret = 1;
++	  continue;
++	}
++    }
++  return ret;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"
+Index: glibc-2.12-2-gc4ccff1/iconvdata/ibm930.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconvdata/ibm930.c
++++ glibc-2.12-2-gc4ccff1/iconvdata/ibm930.c
+@@ -257,6 +257,7 @@ enum
+ 		break;							      \
+ 	      }								      \
+ 	    *outptr++ = SI;						      \
++	    curcs = sb;							      \
+ 	  }								      \
+ 									      \
+ 	if (__builtin_expect (outptr + 1 > outend, 0))			      \
+@@ -270,7 +271,6 @@ enum
+ 	  *outptr++ = 0x5b;						      \
+ 	else								      \
+ 	  *outptr++ = cp[0];						      \
+-	curcs = sb;							      \
+       }									      \
+ 									      \
+     /* Now that we wrote the output increment the input pointer.  */	      \
+Index: glibc-2.12-2-gc4ccff1/iconvdata/ibm933.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconvdata/ibm933.c
++++ glibc-2.12-2-gc4ccff1/iconvdata/ibm933.c
+@@ -255,6 +255,7 @@ enum
+ 		break;							      \
+ 	      }								      \
+ 	    *outptr++ = SI;						      \
++	    curcs = sb;							      \
+ 	  }								      \
+ 									      \
+ 	if (__builtin_expect (outptr + 1 > outend, 0))			      \
+@@ -263,7 +264,6 @@ enum
+ 	    break;							      \
+ 	  }								      \
+ 	*outptr++ = cp[0];						      \
+-	curcs = sb;							      \
+       }									      \
+ 									      \
+     /* Now that we wrote the output increment the input pointer.  */	      \
+Index: glibc-2.12-2-gc4ccff1/iconvdata/ibm935.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconvdata/ibm935.c
++++ glibc-2.12-2-gc4ccff1/iconvdata/ibm935.c
+@@ -255,6 +255,7 @@ enum
+ 		break;							      \
+ 	      }								      \
+ 	    *outptr++ = SI;						      \
++	    curcs = sb;							      \
+ 	  }								      \
+ 									      \
+ 	if (__builtin_expect (outptr + 1 > outend, 0))			      \
+@@ -263,7 +264,6 @@ enum
+ 	    break;							      \
+ 	  }								      \
+ 	*outptr++ = cp[0];						      \
+-	curcs = sb;							      \
+       }									      \
+ 									      \
+     /* Now that we wrote the output increment the input pointer.  */	      \
+Index: glibc-2.12-2-gc4ccff1/iconvdata/ibm937.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconvdata/ibm937.c
++++ glibc-2.12-2-gc4ccff1/iconvdata/ibm937.c
+@@ -255,6 +255,7 @@ enum
+ 		break;							      \
+ 	      }								      \
+ 	    *outptr++ = SI;						      \
++	    curcs = sb;							      \
+ 	  }								      \
+ 									      \
+ 	if (__builtin_expect (outptr + 1 > outend, 0))			      \
+@@ -263,7 +264,6 @@ enum
+ 	    break;							      \
+ 	  }								      \
+ 	*outptr++ = cp[0];						      \
+-	curcs = sb;							      \
+       }									      \
+ 									      \
+     /* Now that we wrote the output increment the input pointer.  */	      \
+Index: glibc-2.12-2-gc4ccff1/iconvdata/ibm939.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconvdata/ibm939.c
++++ glibc-2.12-2-gc4ccff1/iconvdata/ibm939.c
+@@ -255,6 +255,7 @@ enum
+ 		break;							      \
+ 	      }								      \
+ 	    *outptr++ = SI;						      \
++	    curcs = sb;							      \
+ 	  }								      \
+ 									      \
+ 	if (__builtin_expect (outptr + 1 > outend, 0))			      \
+@@ -268,7 +269,6 @@ enum
+ 	  *outptr++ = 0xb2;						      \
+ 	else								      \
+ 	  *outptr++ = cp[0];						      \
+-	curcs = sb;							      \
+       }									      \
+ 									      \
+     /* Now that we wrote the output increment the input pointer.  */	      \

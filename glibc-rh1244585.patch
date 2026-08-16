@@ -1,0 +1,42 @@
+From 6807b1db8233ed84671f061b5d825622233df303 Mon Sep 17 00:00:00 2001
+From: Kevin Easton <kevin@guarana.org>
+Date: Tue, 24 Feb 2015 23:57:07 -0500
+Subject: [PATCH] Reduce lock contention in __tz_convert() [BZ #16145] (partial
+ fix)
+
+This patch is an "easy win" partial fix for BZ #16145, which notes
+the heavy contention on tzset_lock when multiple threads are converting
+times with localtime_r().
+
+In __tz_convert(), the lock does not need to be held after
+__tzfile_compute() / __tz_compute() have been called, so we can move the
+unlock up.  At this point there is still significant work to be done in
+__offtime(), so we see some improvement (in my testing with 8 cores
+banging on localtime_r(), ~20% improvement in throughput).
+---
+ ChangeLog    | 6 ++++++
+ time/tzset.c | 4 ++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/time/tzset.c b/time/tzset.c
+index 8bc7a2e..82324ca 100644
+--- a/time/tzset.c
++++ b/time/tzset.c
+@@ -644,6 +644,8 @@ __tz_convert (const time_t *timer, int use_localtime, struct tm *tp)
+       leap_extra_secs = 0;
+     }
+ 
++  __libc_lock_unlock (tzset_lock);
++
+   if (tp)
+     {
+       if (! use_localtime)
+@@ -659,8 +661,6 @@ __tz_convert (const time_t *timer, int use_localtime, struct tm *tp)
+ 	tp = NULL;
+     }
+ 
+-  __libc_lock_unlock (tzset_lock);
+-
+   return tp;
+ }
+ 

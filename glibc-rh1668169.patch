@@ -1,0 +1,174 @@
+commit 71b5d1c5d5a7ca0f8c047b07e5507857fcd29f97
+Author: Stanislav Brabec <sbrabec@suse.cz>
+Date:   Tue Feb 28 16:16:45 2012 +0100
+
+            [BZ #13637]
+            * posix/regex_internal.c (re_string_skip_chars): Fix miscomputation
+            of remain_len that may cause incomplete multi-byte character and
+            false match.
+            * posix/bug-regex33.c: New file.
+            * posix/Makefile (tests): Add bug-regex33.
+
+Adjusted for the usual Makefile comments.  bug-regex34 had already
+been backported in glibc-rh905874.patch.
+
+diff --git a/posix/Makefile b/posix/Makefile
+index 28d4caf01a086791..b6deaeccfef67084 100644
+--- a/posix/Makefile
++++ b/posix/Makefile
+@@ -82,7 +82,7 @@ tests		:= tstgetopt testfnm runtests runptests	     \
+ 		   bug-regex17 bug-regex18 bug-regex19 bug-regex20 \
+ 		   bug-regex21 bug-regex22 bug-regex23 bug-regex24 \
+ 		   bug-regex25 bug-regex26 bug-regex27 bug-regex28 \
+-		   bug-regex29 bug-regex30 \
++		   bug-regex29 bug-regex30 bug-regex33 \
+ 		   tst-nice tst-nanosleep tst-regex2 \
+ 		   transbug tst-rxspencer tst-pcre tst-boost \
+ 		   bug-ga1 tst-vfork1 tst-vfork2 tst-vfork3 tst-waitid \
+@@ -199,6 +199,7 @@ bug-regex23-ENV = LOCPATH=$(common-objpfx)localedata
+ bug-regex25-ENV = LOCPATH=$(common-objpfx)localedata
+ bug-regex26-ENV = LOCPATH=$(common-objpfx)localedata
+ bug-regex30-ENV = LOCPATH=$(common-objpfx)localedata
++bug-regex33-ENV = LOCPATH=$(common-objpfx)localedata
+ bug-regex34-ENV = LOCPATH=$(common-objpfx)localedata
+ tst-rxspencer-ARGS = --utf8 rxspencer/tests
+ tst-rxspencer-ENV = LOCPATH=$(common-objpfx)localedata
+diff --git a/posix/bug-regex33.c b/posix/bug-regex33.c
+new file mode 100644
+index 0000000000000000..c0c94aa43e21cdec
+--- /dev/null
++++ b/posix/bug-regex33.c
+@@ -0,0 +1,120 @@
++/* Test re_search with multi-byte characters in EUC-JP.
++   Copyright (C) 2012 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++   Contributed by Stanislav Brabec <sbrabec@suse.cz>, 2012.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, write to the Free
++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
++   02111-1307 USA.  */
++
++#define _GNU_SOURCE 1
++#include <locale.h>
++#include <regex.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include "regex_internal.h"
++
++static int
++do_test (void)
++{
++  struct re_pattern_buffer r;
++  struct re_registers s;
++  int e, rc = 0;
++  if (setlocale (LC_CTYPE, "ja_JP.EUC-JP") == NULL)
++    {
++      puts ("setlocale failed");
++      return 1;
++    }
++  memset (&r, 0, sizeof (r));
++  memset (&s, 0, sizeof (s));
++
++  /* The bug cannot be reproduced without initialized fastmap. */
++  r.fastmap = malloc (SBC_MAX);
++
++                     /* 圭 */
++  re_compile_pattern ("\xb7\xbd", 2, &r);
++
++                /* aaaaa件a新処, \xb7\xbd constitutes a false match */
++  e = re_search (&r, "\x61\x61\x61\x61\x61\xb7\xef\x61\xbf\xb7\xbd\xe8",
++                 12, 0, 12, &s);
++  if (e != -1)
++    {
++      printf ("bug-regex33.1: false match or error: re_search() returned %d, should return -1\n", e);
++      rc = 1;
++    }
++
++                /* aaaa件a新処, \xb7\xbd constitutes a false match,
++                 * this is a reproducer of BZ #13637 */
++  e = re_search (&r, "\x61\x61\x61\x61\xb7\xef\x61\xbf\xb7\xbd\xe8",
++                 11, 0, 11, &s);
++  if (e != -1)
++    {
++      printf ("bug-regex33.2: false match or error: re_search() returned %d, should return -1\n", e);
++      rc = 1;
++    }
++
++                /* aaa件a新処, \xb7\xbd constitutes a false match,
++                 * this is a reproducer of BZ #13637 */
++  e = re_search (&r, "\x61\x61\x61\xb7\xef\x61\xbf\xb7\xbd\xe8",
++                 10, 0, 10, &s);
++  if (e != -1)
++    {
++      printf ("bug-regex33.3: false match or error: re_search() returned %d, should return -1\n", e);
++      rc = 1;
++    }
++
++                /* aa件a新処, \xb7\xbd constitutes a false match */
++  e = re_search (&r, "\x61\x61\xb7\xef\x61\xbf\xb7\xbd\xe8",
++                 9, 0, 9, &s);
++  if (e != -1)
++    {
++      printf ("bug-regex33.4: false match or error: re_search() returned %d, should return -1\n", e);
++      rc = 1;
++    }
++
++                /* a件a新処, \xb7\xbd constitutes a false match */
++  e = re_search (&r, "\x61\xb7\xef\x61\xbf\xb7\xbd\xe8",
++                 8, 0, 8, &s);
++  if (e != -1)
++    {
++      printf ("bug-regex33.5: false match or error: re_search() returned %d, should return -1\n", e);
++      rc = 1;
++    }
++
++                /* 新処圭新処, \xb7\xbd here really matches 圭, but second occurrence is a false match,
++                 * this is a reproducer of bug-regex25 and BZ #13637 */
++  e = re_search (&r, "\xbf\xb7\xbd\xe8\xb7\xbd\xbf\xb7\xbd\xe8",
++                 10, 0, 10, &s);
++  if (e != 4)
++    {
++      printf ("bug-regex33.6: no match or false match: re_search() returned %d, should return 4\n", e);
++      rc = 1;
++    }
++
++                /* 新処圭新, \xb7\xbd here really matches 圭,
++                 * this is a reproducer of bug-regex25 */
++  e = re_search (&r, "\xbf\xb7\xbd\xe8\xb7\xbd\xbf\xb7",
++                 10, 0, 10, &s);
++  if (e != 4)
++    {
++      printf ("bug-regex33.7: no match or false match: re_search() returned %d, should return 4\n", e);
++      rc = 1;
++    }
++
++  return rc;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"
+diff --git a/posix/regex_internal.c b/posix/regex_internal.c
+index 8183a29bf694bacc..7416c8d9691c12ce 100644
+--- a/posix/regex_internal.c
++++ b/posix/regex_internal.c
+@@ -496,7 +496,7 @@ re_string_skip_chars (re_string_t *pstr, int new_raw_idx, wint_t *last_wc)
+        rawbuf_idx < new_raw_idx;)
+     {
+       wchar_t wc2;
+-      int remain_len = pstr->len - rawbuf_idx;
++      int remain_len = pstr->raw_len - rawbuf_idx;
+       prev_st = pstr->cur_state;
+       mbclen = __mbrtowc (&wc2, (const char *) pstr->raw_mbs + rawbuf_idx,
+ 			  remain_len, &pstr->cur_state);

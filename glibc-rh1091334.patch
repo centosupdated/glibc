@@ -1,0 +1,84 @@
+Upstream commit:
+
+commit 0417b20fe6c671b3a8761a5f8ad59f14d774fa83
+Author: Siddhesh Poyarekar <siddhesh@redhat.com>
+Date:   Wed Nov 20 17:47:41 2013 +0530
+
+    Rename Oriya locale to Odia (bug 15601)
+    
+    The state of Orissa was officially renamed the state to Odisha and the
+    language from Oriya to Odia in 2010.
+    
+    References:
+    
+    http://zeenews.india.com/election09/story.aspx?aid=739995
+    http://orissamatters.com/2011/11/07/orissa-became-odisha/
+    http://www.ndtv.com/article/india/parliament-passes-bill-to-change-orissa-s-name-93888
+    http://orissa.gov.in/e-magazine/Orissareview/2011/Nov/engpdf/9-17.pdf
+
+Index: b/libio/tst-widetext.input
+===================================================================
+--- a/libio/tst-widetext.input
++++ b/libio/tst-widetext.input
+@@ -126,7 +126,7 @@ Gujarati (U+0A80-U+0AFF):
+ ઀◌ઁ◌ંઃ઄અઆઇઈઉઊઋઌઍ઎એઐઑ઒ઓઔકખગઘઙચછજઝઞટઠડઢણતથદધન઩પફબભમયર઱લળ઴વશષસહ઺઻◌઼ઽાિ
+ ી◌ુ◌ૂ◌ૃ◌ૄ◌ૅ૆◌ે◌ૈૉ૊ોૌ◌્૎૏ૐ૑૒૓૔૕૖૗૘૙૚૛૜૝૞૟ૠૡૢૣ૤૥૦૧૨૩૪૫૬૭૮૯૰૱૲૳૴૵૶૷૸ૹૺૻૼ૽૾૿
+ 
+-Oriya (U+0B00-U+0B7F):
++Odia (U+0B00-U+0B7F):
+ 
+ ଀◌ଁଂଃ଄ଅଆଇଈଉଊଋଌ଍଎ଏଐ଑଒ଓଔକଖଗଘଙଚଛଜଝଞଟଠଡଢଣତଥଦଧନ଩ପଫବଭମଯର଱ଲଳ଴ଵଶଷସହ଺଻◌଼ଽା◌ି
+ ୀ◌ୁ◌ୂ◌ୃୄ୅୆େୈ୉୊ୋୌ◌୍୎୏୐୑୒୓୔୕◌ୖୗ୘୙୚୛ଡ଼ଢ଼୞ୟୠୡୢୣ୤୥୦୧୨୩୪୫୬୭୮୯୰ୱ୲୳୴୵୶୷୸୹୺୻୼୽୾୿
+Index: b/locale/iso-639.def
+===================================================================
+--- a/locale/iso-639.def
++++ b/locale/iso-639.def
+@@ -345,7 +345,7 @@ DEFINE_LANGUAGE_CODE3 ("Nyoro", nyo, nyo
+ DEFINE_LANGUAGE_CODE3 ("Nzima", nzi, nzi)
+ DEFINE_LANGUAGE_CODE ("Occitan (post 1500); Proven�al", oc, oci, oci)
+ DEFINE_LANGUAGE_CODE ("Ojibwa", oj, oji, oji)
+-DEFINE_LANGUAGE_CODE ("Oriya", or, ori, ori)
++DEFINE_LANGUAGE_CODE ("Odia", or, ori, ori)
+ DEFINE_LANGUAGE_CODE ("Oromo", om, orm, orm)
+ DEFINE_LANGUAGE_CODE3 ("Osage", osa, osa)
+ DEFINE_LANGUAGE_CODE ("Ossetian; Ossetic", os, oss, oss)
+Index: b/localedata/locales/or_IN
+===================================================================
+--- a/localedata/locales/or_IN
++++ b/localedata/locales/or_IN
+@@ -1,19 +1,19 @@
+ comment_char %
+ escape_char /
+ 
+-% Oriya locale for India.
++% Odia locale for India.
+ % Contributed by Masahide Washizawa <washi at jp ibm com>
+ 
+ %%%%%%%%%%%%%
+ LC_IDENTIFICATION
+-title       "Oriya language locale for India"
++title       "Odia language locale for India"
+ source      "IBM AP Linux Technology Center, Yamato Software Laboratory"
+ address     "1623-14, Shimotsuruma, Yamato-shi, Kanagawa-ken, 242-8502, Japan"
+ contact     ""
+ email       "bug-glibc@gnu.org"
+ tel         ""
+ fax         ""
+-language    "Oriya"
++language    "Odia"
+ territory   "India"
+ revision    "1.0"
+ date        "2006-05-25"
+@@ -35,10 +35,10 @@ END LC_IDENTIFICATION
+ LC_CTYPE
+ copy "i18n"
+ 
+-% Oriya uses the alternate digits U+0B66..U+0B6F
++% Odia uses the alternate digits U+0B66..U+0B6F
+ outdigit <U0B66>..<U0B6F>
+ 
+-% This is used in the scanf family of functions to read Oriya numbers
++% This is used in the scanf family of functions to read Odia numbers
+ % using "%Id" and such.
+ map to_inpunct; /
+   (<U0030>,<U0B66>); /

@@ -1,0 +1,592 @@
+Upstream commits:
+
+commit a62719ba90e2fa1728890ae7dc8df9e32a622e7b
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Wed Oct 28 19:32:46 2015 +0100
+
+    malloc: Prevent arena free_list from turning cyclic [BZ #19048]
+
+commit 3da825ce483903e3a881a016113b3e59fd4041de
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Wed Dec 16 12:39:48 2015 +0100
+
+    malloc: Fix attached thread reference count handling [BZ #19243]
+    
+    reused_arena can increase the attached thread count of arenas on the
+    free list.  This means that the assertion that the reference count is
+    zero is incorrect.  In this case, the reference count initialization
+    is incorrect as well and could cause arenas to be put on the free
+    list too early (while they still have attached threads).
+
+(The test case in the previous commit had to be adjusted to use
+__sync_* built-ins.)
+
+commit 90c400bd4904b0240a148f0b357a5cbc36179239
+Author: Florian Weimer <fweimer@redhat.com>
+Date:   Mon Dec 21 16:42:46 2015 +0100
+
+    malloc: Fix list_lock/arena lock deadlock [BZ #19182]
+
+Index: glibc-2.12-2-gc4ccff1/malloc/arena.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/malloc/arena.c
++++ glibc-2.12-2-gc4ccff1/malloc/arena.c
+@@ -80,12 +80,31 @@ extern int sanity_check_heap_info_alignm
+ /* Thread specific data */
+ 
+ static tsd_key_t arena_key;
+-static mutex_t list_lock;
++
++/* Arena free list.  free_list_lock synchronizes access to the
++   free_list variable below, and the next_free and attached_threads
++   members of struct malloc_state objects.  No other locks must be
++   acquired after free_list_lock has been acquired.  */
++
+ #ifdef PER_THREAD
++static mutex_t free_list_lock;
+ static size_t narenas;
+ static mstate free_list;
+ #endif
+ 
++/* list_lock prevents concurrent writes to the next member of struct
++   malloc_state objects.
++
++   Read access to the next member is supposed to synchronize with the
++   atomic_write_barrier and the write to the next member in
++   _int_new_arena.  This suffers from data races; see the FIXME
++   comments in _int_new_arena and reused_arena.
++
++   list_lock also prevents concurrent forks.  When list_lock is
++   acquired, no arena lock must be acquired, but it is permitted to
++   acquire arena locks after list_lock.  */
++static mutex_t list_lock;
++
+ #if THREAD_STATS
+ static int stat_n_heaps;
+ #define THREAD_STAT(x) x
+@@ -275,6 +294,10 @@ ptmalloc_lock_all (void)
+ 
+   if(__malloc_initialized < 1)
+     return;
++
++  /* We do not acquire free_list_lock here because we completely
++     reconstruct free_list in ptmalloc_unlock_all2.  */
++
+   if (mutex_trylock(&list_lock))
+     {
+       Void_t *my_arena;
+@@ -296,7 +319,10 @@ ptmalloc_lock_all (void)
+   save_free_hook = __free_hook;
+   __malloc_hook = malloc_atfork;
+   __free_hook = free_atfork;
+-  /* Only the current thread may perform malloc/free calls now. */
++  /* Only the current thread may perform malloc/free calls now.
++     save_arena will be reattached to the current thread, in
++     ptmalloc_lock_all, so save_arena->attached_threads is not
++     updated.  */
+   tsd_getspecific(arena_key, save_arena);
+   tsd_setspecific(arena_key, ATFORK_ARENA_PTR);
+  out:
+@@ -312,6 +338,9 @@ ptmalloc_unlock_all (void)
+     return;
+   if (--atfork_recursive_cntr != 0)
+     return;
++  /* Replace ATFORK_ARENA_PTR with save_arena.
++     save_arena->attached_threads was not changed in ptmalloc_lock_all
++     and is still correct.  */
+   tsd_setspecific(arena_key, save_arena);
+   __malloc_hook = save_malloc_hook;
+   __free_hook = save_free_hook;
+@@ -343,12 +372,19 @@ ptmalloc_unlock_all2 (void)
+   __free_hook = save_free_hook;
+ #endif
+ #ifdef PER_THREAD
++  /* Push all arenas to the free list, except save_arena, which is
++     attached to the current thread.  */
++  mutex_init (&free_list_lock);
++  if (save_arena != NULL)
++    ((mstate) save_arena)->attached_threads = 1;
+   free_list = NULL;
+ #endif
+   for(ar_ptr = &main_arena;;) {
+     mutex_init(&ar_ptr->mutex);
+ #ifdef PER_THREAD
+     if (ar_ptr != save_arena) {
++      /* This arena is no longer attached to any thread.  */
++      ar_ptr->attached_threads = 0;
+       ar_ptr->next_free = free_list;
+       free_list = ar_ptr;
+     }
+@@ -356,6 +392,7 @@ ptmalloc_unlock_all2 (void)
+     ar_ptr = ar_ptr->next;
+     if(ar_ptr == &main_arena) break;
+   }
++
+   mutex_init(&list_lock);
+   atfork_recursive_cntr = 0;
+ }
+@@ -525,6 +562,9 @@ ptmalloc_init (void)
+     __morecore = __failing_morecore;
+ #endif
+ 
++#ifdef PER_THREAD
++  mutex_init(&free_list_lock);
++#endif
+   mutex_init(&list_lock);
+   tsd_key_create(&arena_key, NULL);
+   tsd_setspecific(arena_key, (Void_t *)&main_arena);
+@@ -897,8 +937,30 @@ heap_trim(heap, pad) heap_info *heap; si
+   return 1;
+ }
+ 
++#ifdef PER_THREAD
++
++/* If REPLACED_ARENA is not NULL, detach it from this thread.  Must be
++   called while free_list_lock is held.  */
++static void
++detach_arena (mstate replaced_arena)
++{
++  if (replaced_arena != NULL)
++    {
++      assert (replaced_arena->attached_threads > 0);
++      /* The current implementation only detaches from main_arena in
++	 case of allocation failure.  This means that it is likely not
++	 beneficial to put the arena on free_list even if the
++	 reference count reaches zero.  */
++      --replaced_arena->attached_threads;
++    }
++}
++
++#endif /* PER_THREAD */
++
+ /* Create a new arena with initial size "size".  */
+ 
++/* Remove an arena from free_list.  The arena may be in use because it
++   was attached concurrently to a thread by reused_arena below.  */
+ static mstate
+ _int_new_arena(size_t size)
+ {
+@@ -919,6 +981,9 @@ _int_new_arena(size_t size)
+   }
+   a = h->ar_ptr = (mstate)(h+1);
+   malloc_init_state(a);
++#ifdef PER_THREAD
++  a->attached_threads = 1;
++#endif
+   /*a->next = NULL;*/
+   a->system_mem = a->max_system_mem = h->size;
+   arena_mem += h->size;
+@@ -936,9 +1001,15 @@ _int_new_arena(size_t size)
+   top(a) = (mchunkptr)ptr;
+   set_head(top(a), (((char*)h + h->size) - ptr) | PREV_INUSE);
+ 
++#ifdef PER_THREAD
++  mstate replaced_arena;
++  {
++    void *vptr = NULL;
++    replaced_arena = tsd_getspecific (arena_key, vptr);
++  }
++#endif
+   tsd_setspecific(arena_key, (Void_t *)a);
+   mutex_init(&a->mutex);
+-  (void)mutex_lock(&a->mutex);
+ 
+ #ifdef PER_THREAD
+   (void)mutex_lock(&list_lock);
+@@ -946,6 +1017,9 @@ _int_new_arena(size_t size)
+ 
+   /* Add the new arena to the global list.  */
+   a->next = main_arena.next;
++  /* FIXME: The barrier is an attempt to synchronize with read access
++     in reused_arena, which does not acquire list_lock while
++     traversing the list.  */
+   atomic_write_barrier ();
+   main_arena.next = a;
+ 
+@@ -953,6 +1027,21 @@ _int_new_arena(size_t size)
+   (void)mutex_unlock(&list_lock);
+ #endif
+ 
++  (void) mutex_lock (&free_list_lock);
++  detach_arena (replaced_arena);
++  (void) mutex_unlock (&free_list_lock);
++
++  /* Lock this arena.  NB: Another thread may have been attached to
++     this arena because the arena is now accessible from the
++     main_arena.next list and could have been picked by reused_arena.
++     This can only happen for the last arena created (before the arena
++     limit is reached).  At this point, some arena has to be attached
++     to two threads.  We could acquire the arena lock before list_lock
++     to make it less likely that reused_arena picks this new arena,
++     but this could result in a deadlock with ptmalloc_lock_all.  */
++
++  (void) mutex_lock (&a->mutex);
++
+   THREAD_STAT(++(a->stat_lock_loop));
+ 
+   return a;
+@@ -963,14 +1052,23 @@ _int_new_arena(size_t size)
+ static mstate
+ get_free_list (void)
+ {
++  void *vptr = NULL;
++  mstate replaced_arena = tsd_getspecific (arena_key, vptr);
+   mstate result = free_list;
+   if (result != NULL)
+     {
+-      (void)mutex_lock(&list_lock);
++      (void)mutex_lock(&free_list_lock);
+       result = free_list;
+       if (result != NULL)
+-	free_list = result->next_free;
+-      (void)mutex_unlock(&list_lock);
++	{
++	  free_list = result->next_free;
++
++	  /* The arena will be attached to this thread.  */
++	  ++result->attached_threads;
++
++	  detach_arena (replaced_arena);
++	}
++      (void)mutex_unlock(&free_list_lock);
+ 
+       if (result != NULL)
+ 	{
+@@ -988,16 +1086,20 @@ static mstate
+ reused_arena (bool retrying)
+ {
+   mstate result;
++  /* FIXME: Access to next_to_use suffers from data races.  */
+   static mstate next_to_use;
+   if (next_to_use == NULL)
+     next_to_use = &main_arena;
+ 
++  /* Iterate over all arenas (including those linked from
++     free_list).  */
+   result = next_to_use;
+   do
+     {
+       if (!mutex_trylock(&result->mutex))
+ 	goto out;
+ 
++      /* FIXME: This is a data race, see _int_new_arena.  */
+       result = result->next;
+     }
+   while (result != next_to_use);
+@@ -1034,6 +1136,17 @@ reused_arena (bool retrying)
+   (void)mutex_lock(&result->mutex);
+ 
+  out:
++  /* Attach the arena to the current thread.  Note that we may have
++     selected an arena which was on free_list.  */
++  {
++    /* Update the arena thread attachment counters.  */
++    void *vptr = NULL;
++    mstate replaced_arena = tsd_getspecific (arena_key, vptr);
++    (void) mutex_lock (&free_list_lock);
++    detach_arena (replaced_arena);
++    ++result->attached_threads;
++    (void) mutex_unlock (&free_list_lock);
++  }
+   tsd_setspecific(arena_key, (Void_t *)result);
+   THREAD_STAT(++(result->stat_lock_loop));
+   next_to_use = result->next;
+@@ -1147,10 +1260,16 @@ arena_thread_freeres (void)
+ 
+   if (a != NULL)
+     {
+-      (void)mutex_lock(&list_lock);
+-      a->next_free = free_list;
+-      free_list = a;
+-      (void)mutex_unlock(&list_lock);
++      (void)mutex_lock(&free_list_lock);
++      /* If this was the last attached thread for this arena, put the
++	 arena on the free list.  */
++      assert (a->attached_threads > 0);
++      if (--a->attached_threads == 0)
++	{
++	  a->next_free = free_list;
++	  free_list = a;
++	}
++      (void)mutex_unlock(&free_list_lock);
+     }
+ }
+ text_set_element (__libc_thread_subfreeres, arena_thread_freeres);
+Index: glibc-2.12-2-gc4ccff1/malloc/malloc.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/malloc/malloc.c
++++ glibc-2.12-2-gc4ccff1/malloc/malloc.c
+@@ -2402,8 +2402,13 @@ struct malloc_state {
+   struct malloc_state *next;
+ 
+ #ifdef PER_THREAD
+-  /* Linked list for free arenas.  */
++  /* Linked list for free arenas.  Access to this field is serialized
++     by free_list_lock in arena.c. */
+   struct malloc_state *next_free;
++  /* Number of threads attached to this arena.  0 if the arena is on
++     the free list.  Access to this field is serialized by
++     free_list_lock in arena.c.  */
++  INTERNAL_SIZE_T attached_threads;
+ #endif
+ 
+   /* Memory allocated from the system in this arena.  */
+@@ -2450,7 +2455,12 @@ struct malloc_par {
+    before using. This malloc relies on the property that malloc_state
+    is initialized to all zeroes (as is true of C statics).  */
+ 
+-static struct malloc_state main_arena;
++static struct malloc_state main_arena =
++{
++#ifdef PER_THREAD
++  .attached_threads = 1
++#endif
++};
+ 
+ /* There is only one instance of the malloc parameters.  */
+ 
+Index: glibc-2.12-2-gc4ccff1/malloc/Makefile
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/malloc/Makefile
++++ glibc-2.12-2-gc4ccff1/malloc/Makefile
+@@ -28,7 +28,7 @@ dist-headers := malloc.h
+ headers := $(dist-headers) obstack.h mcheck.h
+ tests := mallocbug tst-malloc tst-valloc tst-calloc tst-obstack \
+ 	 tst-mallocstate tst-mcheck tst-mallocfork tst-trim1 \
+-	 tst-malloc-backtrace
++	 tst-malloc-backtrace tst-malloc-thread-exit
+ test-srcs = tst-mtrace
+ 
+ distribute = thread-m.h mtrace.pl mcheck-init.c stackinfo.h memusage.h \
+@@ -61,6 +61,9 @@ aux := set-freeres thread-freeres
+ 
+ include ../Makeconfig
+ 
++$(objpfx)tst-malloc-thread-exit: $(common-objpfx)nptl/libpthread.so \
++			       $(common-objpfx)nptl/libpthread_nonshared.a
++
+ CPPFLAGS-memusagestat = -DNOT_IN_libc
+ 
+ # The Perl script to analyze the output of the mtrace functions.
+Index: glibc-2.12-2-gc4ccff1/malloc/tst-malloc-thread-exit.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/malloc/tst-malloc-thread-exit.c
+@@ -0,0 +1,217 @@
++/* Test malloc with concurrent thread termination.
++   Copyright (C) 2015 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++/* This thread spawns a number of outer threads, equal to the arena
++   limit.  The outer threads run a loop which start and join two
++   different kinds of threads: the first kind allocates (attaching an
++   arena to the thread; malloc_first_thread) and waits, the second
++   kind waits and allocates (wait_first_threads).  Both kinds of
++   threads exit immediately after waiting.  The hope is that this will
++   exhibit races in thread termination and arena management,
++   particularly related to the arena free list.  */
++
++#include <errno.h>
++#include <pthread.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++
++#define TIMEOUT 7
++
++static int termination_requested;
++static int inner_thread_count = 4;
++static size_t malloc_size = 32;
++
++static void
++__attribute__ ((noinline))
++unoptimized_free (void *ptr)
++{
++  free (ptr);
++}
++
++static void *
++malloc_first_thread (void * closure)
++{
++  pthread_barrier_t *barrier = closure;
++  void *ptr = malloc (malloc_size);
++  if (ptr == NULL)
++    {
++      printf ("error: malloc: %m\n");
++      abort ();
++    }
++  int ret = pthread_barrier_wait (barrier);
++  if (ret != 0 && ret != PTHREAD_BARRIER_SERIAL_THREAD)
++    {
++      errno = ret;
++      printf ("error: pthread_barrier_wait: %m\n");
++      abort ();
++    }
++  unoptimized_free (ptr);
++  return NULL;
++}
++
++static void *
++wait_first_thread (void * closure)
++{
++  pthread_barrier_t *barrier = closure;
++  int ret = pthread_barrier_wait (barrier);
++  if (ret != 0 && ret != PTHREAD_BARRIER_SERIAL_THREAD)
++    {
++      errno = ret;
++      printf ("error: pthread_barrier_wait: %m\n");
++      abort ();
++    }
++  void *ptr = malloc (malloc_size);
++  if (ptr == NULL)
++    {
++      printf ("error: malloc: %m\n");
++      abort ();
++    }
++  unoptimized_free (ptr);
++  return NULL;
++}
++
++static void *
++outer_thread (void *closure)
++{
++  pthread_t *threads = calloc (sizeof (*threads), inner_thread_count);
++  if (threads == NULL)
++    {
++      printf ("error: calloc: %m\n");
++      abort ();
++    }
++
++  while (!__sync_fetch_and_add (&termination_requested, 0))
++    {
++      pthread_barrier_t barrier;
++      int ret = pthread_barrier_init (&barrier, NULL, inner_thread_count + 1);
++      if (ret != 0)
++        {
++          errno = ret;
++          printf ("pthread_barrier_init: %m\n");
++          abort ();
++        }
++      for (int i = 0; i < inner_thread_count; ++i)
++        {
++          void *(*func) (void *);
++          if ((i  % 2) == 0)
++            func = malloc_first_thread;
++          else
++            func = wait_first_thread;
++          ret = pthread_create (threads + i, NULL, func, &barrier);
++          if (ret != 0)
++            {
++              errno = ret;
++              printf ("error: pthread_create: %m\n");
++              abort ();
++            }
++        }
++      ret = pthread_barrier_wait (&barrier);
++      if (ret != 0 && ret != PTHREAD_BARRIER_SERIAL_THREAD)
++        {
++          errno = ret;
++          printf ("pthread_wait: %m\n");
++          abort ();
++        }
++      for (int i = 0; i < inner_thread_count; ++i)
++        {
++          ret = pthread_join (threads[i], NULL);
++          if (ret != 0)
++            {
++              ret = errno;
++              printf ("error: pthread_join: %m\n");
++              abort ();
++            }
++        }
++      ret = pthread_barrier_destroy (&barrier);
++      if (ret != 0)
++        {
++          ret = errno;
++          printf ("pthread_barrier_destroy: %m\n");
++          abort ();
++        }
++    }
++
++  free (threads);
++
++  return NULL;
++}
++
++static int
++do_test (void)
++{
++  /* The number of top-level threads should be equal to the number of
++     arenas.  See arena_get2.  */
++  long outer_thread_count = sysconf (_SC_NPROCESSORS_ONLN);
++  if (outer_thread_count >= 1)
++    {
++      /* See NARENAS_FROM_NCORES in malloc.c.  */
++      if (sizeof (long) == 4)
++        outer_thread_count *= 2;
++      else
++        outer_thread_count *= 8;
++    }
++
++  /* Leave some room for shutting down all threads gracefully.  */
++  int timeout = TIMEOUT - 2;
++
++  pthread_t *threads = calloc (sizeof (*threads), outer_thread_count);
++  if (threads == NULL)
++    {
++      printf ("error: calloc: %m\n");
++      abort ();
++    }
++
++  for (long i = 0; i < outer_thread_count; ++i)
++    {
++      int ret = pthread_create (threads + i, NULL, outer_thread, NULL);
++      if (ret != 0)
++        {
++          errno = ret;
++          printf ("error: pthread_create: %m\n");
++          abort ();
++        }
++    }
++
++  struct timespec ts = {timeout, 0};
++  if (nanosleep (&ts, NULL))
++    {
++      printf ("error: error: nanosleep: %m\n");
++      abort ();
++    }
++
++  __sync_fetch_and_add (&termination_requested, 1);
++
++  for (long i = 0; i < outer_thread_count; ++i)
++    {
++      int ret = pthread_join (threads[i], NULL);
++      if (ret != 0)
++        {
++          errno = ret;
++          printf ("error: pthread_join: %m\n");
++          abort ();
++        }
++    }
++  free (threads);
++
++  return 0;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"

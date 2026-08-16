@@ -1,0 +1,23 @@
+Upstream patch:
+
+commit c9e9d408631bf700fc975d315e4c6d8ce8d84d3c
+Author: Petr Baudis <pasky@ucw.cz>
+Date:   Thu Apr 5 11:47:44 2012 +0200
+
+    [BZ #6770] Add first_weekday and first_workday to ca_ES.
+    
+    Patch from Fedora by Jeff Law.  Acknowledged by Jordi Mallach.
+
+diff --git a/localedata/locales/ca_ES b/localedata/locales/ca_ES
+index 95143f1..35c1936 100644
+--- a/localedata/locales/ca_ES
++++ b/localedata/locales/ca_ES
+@@ -138,6 +138,8 @@ t_fmt_ampm ""
+ date_fmt	"<U0025><U0061><U0020><U0025><U0062><U0020><U0025><U0065>/
+ <U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020>/
+ <U0025><U005A><U0020><U0025><U0059>"
++first_weekday 2
++first_workday 2
+ END LC_TIME
+ 
+ LC_PAPER

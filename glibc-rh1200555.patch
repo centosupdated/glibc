@@ -1,0 +1,260 @@
+Rewrite tzdata-update in standard C and integrate it into the glibc
+build process.  Do not replace /etc/localtime if it is a symbolic
+link.
+
+Do not invoke /usr/sbin/tzdata-update from
+/usr/sbin/build-locale-archive.
+
+Index: glibc-2.12-2-gc4ccff1/timezone/Makefile
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/timezone/Makefile
++++ glibc-2.12-2-gc4ccff1/timezone/Makefile
+@@ -27,7 +27,7 @@ distribute := tzfile.h private.h scheck.
+ 
+ extra-objs := scheck.o ialloc.o
+ 
+-others	:= zdump zic
++others	:= zdump zic tzdata-update
+ tests	:= test-tz tst-timezone
+ 
+ tzbases := africa antarctica asia australasia europe northamerica \
+@@ -40,7 +40,7 @@ tzfiles := $(tzbases) $(tzlinks)
+ distribute += $(tzfiles) leapseconds pacificnew simplebackw
+ 
+ generated := $(addprefix z.,$(tzfiles))
+-install-sbin := zic zdump
++install-sbin := zic zdump tzdata-update
+ 
+ generated-dirs = testdata
+ 
+@@ -49,6 +49,7 @@ all: # Make this the default target; it
+ include ../Makeconfig	# Get objpfx defined so we can use it below.
+ 
+ CPPFLAGS-zic = -DNOT_IN_libc
++CFLAGS-tzdata-update.c = -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+ 
+ # z.* use this variable.
+ define nl
+Index: glibc-2.12-2-gc4ccff1/timezone/tzdata-update.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/timezone/tzdata-update.c
+@@ -0,0 +1,206 @@
++/* Update /etc/localtime with the zone configured in /etc/sysconfig/clock.
++
++   This program needs to be kept in sync with the %post scriptlet of
++   the tzdata package. */
++
++#define _GNU_SOURCE 1
++#define _FILE_OFFSET_BITS 64
++
++#include <fcntl.h>
++#include <limits.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/stat.h>
++#include <unistd.h>
++
++#define DEFAULT "US/Eastern"
++#define LOCALTIME "/etc/localtime"
++#define SYSCONFIG "/etc/sysconfig/clock"
++#define ZONEINFO "/usr/share/zoneinfo/"
++
++/* Extract the ZONE setting from /etc/sysconfig/clock.
++   Returns NULL on error or if the ZONE setting is missing from the file. */
++static char *
++findzone (const char *sysconfig)
++{
++  FILE *f = fopen (sysconfig, "r");
++  if (f == NULL)
++    return NULL;
++
++  char *result = NULL;
++  char *line = NULL;
++  size_t length = 0;
++  while (1)
++    {
++      ssize_t ret = getline (&line, &length, f);
++      if (ret <= 0)
++        break;
++
++      char *p = line;
++      while (*p == ' ' || *p == '\t') p++;
++      if (memcmp (p, "ZONE", 4) == 0)
++        {
++          p += 4;
++          while (*p == ' ' || *p == '\t') p++;
++          if (*p == '=')
++            {
++              p++;
++              while (*p == ' ' || *p == '\t') p++;
++              if (*p == '"') p++;
++              char *q = p;
++              while (strchr (" \t\n\"", *p) == NULL) p++;
++              result = strndup (q, p - q);
++              break;
++            }
++        }
++    }
++
++  free (line);
++  fclose (f);
++
++  return result;
++}
++
++struct buffer
++{
++  char *data;
++  size_t length;
++};
++
++/* Read the entire file PATH.  The DATA member is NULL in case of an
++   error.  */
++static struct buffer
++readall (const char *path)
++{
++  /* Default results indicates an error.  */
++  struct buffer result = {};
++
++  /* Open the file.  */
++  int fd = open (path, O_RDONLY);
++  if (fd < 0)
++    return result;
++
++  /* Determine the size of the result buffer.  */
++  struct stat st;
++  if (fstat (fd, &st) < 0 || !S_ISREG (st.st_mode)
++      || st.st_size > SSIZE_MAX)
++    goto out;
++
++  /* Allocate the result buffer. */
++  result.data = malloc (st.st_size);
++  if (result.data == NULL)
++    goto out;
++  result.length = st.st_size;
++
++  /* Read the entire file into the result buffer.  */
++  {
++    char *p = result.data;
++    char *end = result.data + result.length;
++    while (p < end)
++      {
++        ssize_t count = read (fd, p, end - p);
++        if (count <= 0)
++          {
++            free (result.data);
++            /* Revert back to an error return.  */
++            result.data = NULL;
++            result.length = 0;
++            break;
++          }
++        p += count;
++      }
++  }
++
++ out:
++  close (fd);
++  return result;
++}
++
++/* Replace the file at PATH with zoneinfo data ZONEDATA.
++   Do nothing if PATH refers to a symbolic link.  */
++static void
++update (const char *path, struct buffer zonedata)
++{
++  if (zonedata.data == NULL)
++    return;
++
++  /* Do not replace symbolic links. */
++  {
++    struct stat st;
++    if (lstat (path, &st) == 0 && S_ISLNK (st.st_mode))
++      return;
++  }
++
++  /* Avoid replacing an existing file with identical contents.  */
++  {
++    struct buffer old = readall (path);
++    if (old.data != NULL)
++      {
++        int unchanged = old.length == zonedata.length
++          && memcmp (old.data, zonedata.data, old.length) == 0;
++        free (old.data);
++        if (unchanged)
++          return;
++      }
++  }
++
++  /* Write temporary .tzupdate file and rename it into place.  */
++  char *tmp;
++  if (asprintf (&tmp, "%s.tzupdate", path) <= 0)
++    return;
++  FILE * f = fopen (tmp, "w+");
++  if (f != NULL)
++    {
++      int success = fwrite (zonedata.data, zonedata.length, 1, f) == 1;
++      if (success)
++        {
++          fflush (f);
++          if (ferror (f))
++            success = 0;
++        }
++      if (fclose (f) == EOF)
++        success = 0;
++      if (success)
++        success = rename (tmp, path) == 0;
++      if (!success)
++        unlink (tmp);
++    }
++  free (tmp);
++}
++
++int
++main (void)
++{
++  char *zone = findzone (SYSCONFIG);
++  if (zone != NULL)
++    {
++      char *path;
++      if (asprintf (&path, ZONEINFO "%s", zone) <= 0)
++        {
++          free (zone);
++          return 0;
++        }
++      struct buffer zonedata = readall (path);
++      free (path);
++      free (zone);
++      if (zonedata.data != NULL)
++        {
++          update (LOCALTIME, zonedata);
++          update ("/var/spool/postfix/etc/localtime", zonedata);
++          free (zonedata.data);
++          return 0;
++        }
++    }
++
++  /* No valid zone configuration found.  Install the default zone if
++     /etc/localtime does not exist.  */
++  struct stat st;
++  if (lstat (LOCALTIME, &st) != 0)
++    {
++      struct buffer zonedata = readall (ZONEINFO DEFAULT);
++      update (LOCALTIME, zonedata);
++      free (zonedata.data);
++    }
++  return 0;
++}
+Index: glibc-2.12-2-gc4ccff1/releng/build-locale-archive.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/releng/build-locale-archive.c
++++ glibc-2.12-2-gc4ccff1/releng/build-locale-archive.c
+@@ -621,7 +621,5 @@ int main ()
+   fill_archive (&tmpl_ah, cnt, list, primary);
+   close_archive (&tmpl_ah);
+   truncate (tmpl_file, 0);
+-  char *argv[] = { "/usr/sbin/tzdata-update", NULL };
+-  execve (argv[0], (char *const *)argv, (char *const *)&argv[1]);
+   exit (0);
+ }

@@ -1,0 +1,163 @@
+Minimal backport of the following 2 commits in order to support
+correct detection of FMA feature on RHEL6.
+
+commit 1a0994f5356214e8af8a1c1cc33fbf74a7ac8993
+Author: Carlos O'Donell <carlos_odonell@mentor.com>
+Date:   Wed May 16 20:14:24 2012 -0700
+
+    BZ#14059: Fix AVX and FMA4 detection.
+    
+    Fix AVX and FMA4 detection by following the guidelines
+    set out by Intel and AMD for detecting these features.
+
+commit 0569936773c861c791f10bba5e2f4cac5fbb4e78
+Author: H.J. Lu <hjl.tools@gmail.com>
+Date:   Tue Oct 2 05:05:17 2012 -0700
+
+    Define HAS_FMA with bit_FMA_Usable
+
+Index: glibc-2.12-2-gc4ccff1/sysdeps/i386/i686/multiarch/s_fma.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/i386/i686/multiarch/s_fma.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/i386/i686/multiarch/s_fma.c
+@@ -27,7 +27,7 @@
+ extern double __fma_ia32 (double x, double y, double z) attribute_hidden;
+ extern double __fma_fma (double x, double y, double z) attribute_hidden;
+ 
+-libm_ifunc (__fma, HAS_FMA ? __fma_fma : __fma_ia32);
++libm_ifunc (__fma, HAS_FMA_USABLE ? __fma_fma : __fma_ia32);
+ weak_alias (__fma, fma)
+ 
+ # define __fma __fma_ia32
+Index: glibc-2.12-2-gc4ccff1/sysdeps/i386/i686/multiarch/s_fmaf.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/i386/i686/multiarch/s_fmaf.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/i386/i686/multiarch/s_fmaf.c
+@@ -27,7 +27,7 @@
+ extern float __fmaf_ia32 (float x, float y, float z) attribute_hidden;
+ extern float __fmaf_fma (float x, float y, float z) attribute_hidden;
+ 
+-libm_ifunc (__fmaf, HAS_FMA ? __fmaf_fma : __fmaf_ia32);
++libm_ifunc (__fmaf, HAS_FMA_USABLE ? __fmaf_fma : __fmaf_ia32);
+ weak_alias (__fmaf, fmaf)
+ 
+ # define __fmaf __fmaf_ia32
+Index: glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/init-arch.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/x86_64/multiarch/init-arch.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/init-arch.c
+@@ -37,6 +37,22 @@ get_common_indeces (unsigned int *family
+   unsigned int eax = __cpu_features.cpuid[COMMON_CPUID_INDEX_1].eax;
+   *family = (eax >> 8) & 0x0f;
+   *model = (eax >> 4) & 0x0f;
++  if (HAS_OSXSAVE)
++    {
++      unsigned int xcrlow;
++      unsigned int xcrhigh;
++      asm ("xgetbv" : "=a" (xcrlow), "=d" (xcrhigh) : "c" (0));
++      /* Is YMM and XMM state usable?  */
++      if ((xcrlow & (bit_YMM_state | bit_XMM_state)) ==
++          (bit_YMM_state | bit_XMM_state))
++        {
++          /* Determine if FMA is usable.  The recommended Intel procedure
++	     is to check for AVX && FMA to decide if FMA is available.  */
++          if (HAS_AVX && HAS_FMA)
++            __cpu_features.feature[index_FMA_Usable]
++              |= bit_FMA_Usable;
++	}
++    }
+ }
+ 
+ 
+Index: glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/init-arch.h
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/x86_64/multiarch/init-arch.h
++++ glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/init-arch.h
+@@ -17,8 +17,13 @@
+    02111-1307 USA.  */
+ 
+ #define bit_Fast_Rep_String		(1 << 0)
+-#define bit_Slow_BSF                   (1 << 2)
++#define bit_Slow_BSF			(1 << 2)
+ #define bit_Prefer_SSE_for_memop	(1 << 3)
++#define bit_FMA_Usable			(1 << 7)
++
++/* XCR0 Feature flags.  */
++#define bit_XMM_state           (1 << 1)
++#define bit_YMM_state           (1 << 2)
+ 
+ #ifdef	__ASSEMBLER__
+ 
+@@ -28,15 +33,20 @@
+ # define bit_SSSE3	(1 << 9)
+ # define bit_SSE4_1	(1 << 19)
+ # define bit_SSE4_2	(1 << 20)
++# define bit_OSXSAVE	(1 << 27)
++# define bit_AVX	(1 << 28)
+ 
+ # define index_SSE2	COMMON_CPUID_INDEX_1*CPUID_SIZE+CPUID_EDX_OFFSET
+ # define index_SSSE3	COMMON_CPUID_INDEX_1*CPUID_SIZE+CPUID_ECX_OFFSET
+ # define index_SSE4_1	COMMON_CPUID_INDEX_1*CPUID_SIZE+CPUID_ECX_OFFSET
+ # define index_SSE4_2	COMMON_CPUID_INDEX_1*CPUID_SIZE+CPUID_ECX_OFFSET
++# define index_OSXSAVE	COMMON_CPUID_INDEX_1*CPUID_SIZE+CPUID_ECX_OFFSET
++# define index_AVX	COMMON_CPUID_INDEX_1*CPUID_SIZE+CPUID_ECX_OFFSET
+ 
+-#define index_Fast_Rep_String	FEATURE_INDEX_1*FEATURE_SIZE
+-# define index_Slow_BSF                        FEATURE_INDEX_1*FEATURE_SIZE
++# define index_Fast_Rep_String		FEATURE_INDEX_1*FEATURE_SIZE
++# define index_Slow_BSF			FEATURE_INDEX_1*FEATURE_SIZE
+ # define index_Prefer_SSE_for_memop	FEATURE_INDEX_1*FEATURE_SIZE
++# define index_FMA_Usable		FEATURE_INDEX_1*FEATURE_SIZE
+ 
+ #else	/* __ASSEMBLER__ */
+ 
+@@ -105,10 +115,13 @@ extern const struct cpu_features *__get_
+ # define HAS_SSE4_1	HAS_CPU_FEATURE (COMMON_CPUID_INDEX_1, ecx, 19)
+ # define HAS_SSE4_2	HAS_CPU_FEATURE (COMMON_CPUID_INDEX_1, ecx, 20)
+ # define HAS_FMA	HAS_CPU_FEATURE (COMMON_CPUID_INDEX_1, ecx, 12)
++# define HAS_OSXSAVE	HAS_CPU_FEATURE (COMMON_CPUID_INDEX_1, ecx, 27)
++# define HAS_AVX	HAS_CPU_FEATURE (COMMON_CPUID_INDEX_1, ecx, 28)
+ 
+-# define index_Fast_Rep_String	FEATURE_INDEX_1
+-# define index_Slow_BSF                        FEATURE_INDEX_1
++# define index_Fast_Rep_String		FEATURE_INDEX_1
++# define index_Slow_BSF			FEATURE_INDEX_1
+ # define index_Prefer_SSE_for_memop	FEATURE_INDEX_1
++# define index_FMA_Usable		FEATURE_INDEX_1
+ 
+ #define HAS_ARCH_FEATURE(idx, bit) \
+   ((__get_cpu_features ()->feature[idx] & (bit)) != 0)
+@@ -119,4 +132,7 @@ extern const struct cpu_features *__get_
+ #define HAS_PREFER_SSE_FOR_MEMOP \
+   HAS_ARCH_FEATURE (index_Prefer_SSE_for_memop, bit_Prefer_SSE_for_memop)
+ 
++#define HAS_FMA_USABLE \
++  HAS_ARCH_FEATURE (index_FMA_Usable, bit_FMA_Usable)
++
+ #endif	/* __ASSEMBLER__ */
+Index: glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/s_fma.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/x86_64/multiarch/s_fma.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/s_fma.c
+@@ -34,7 +34,7 @@ __fma_fma (double x, double y, double z)
+   return x;
+ }
+ 
+-libm_ifunc (__fma, HAS_FMA ? __fma_fma : __fma_sse2);
++libm_ifunc (__fma, HAS_FMA_USABLE ? __fma_fma : __fma_sse2);
+ weak_alias (__fma, fma)
+ 
+ # define __fma __fma_sse2
+Index: glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/s_fmaf.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/x86_64/multiarch/s_fmaf.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/x86_64/multiarch/s_fmaf.c
+@@ -33,7 +33,7 @@ __fmaf_fma (float x, float y, float z)
+   return x;
+ }
+ 
+-libm_ifunc (__fmaf, HAS_FMA ? __fmaf_fma : __fmaf_sse2);
++libm_ifunc (__fmaf, HAS_FMA_USABLE ? __fmaf_fma : __fmaf_sse2);
+ weak_alias (__fmaf, fmaf)
+ 
+ # define __fmaf __fmaf_sse2

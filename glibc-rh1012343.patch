@@ -1,0 +1,440 @@
+Partial backport to fix bug 1012343 and bug 1437147.
+
+commit 312be3f9f5eab1643d7dcc7728c76d413d4f2640
+Author: Ulrich Drepper <drepper@gmail.com>
+Date:   Tue Nov 15 04:24:42 2011 -0500
+
+    Clean up internal fopen uses
+    
+    No need to ever not use c and e.
+
+Index: glibc-2.12-2-gc4ccff1/hesiod/hesiod.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/hesiod/hesiod.c
++++ glibc-2.12-2-gc4ccff1/hesiod/hesiod.c
+@@ -278,7 +278,7 @@ parse_config_file(struct hesiod_p *ctx,
+ 	/*
+ 	 * Now open and parse the file...
+ 	 */
+-	if (!(fp = fopen(filename, "r")))
++	if (!(fp = fopen(filename, "rce")))
+ 		return (-1);
+ 
+ 	while (fgets(buf, sizeof(buf), fp) != NULL) {
+Index: glibc-2.12-2-gc4ccff1/iconv/gconv_conf.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/iconv/gconv_conf.c
++++ glibc-2.12-2-gc4ccff1/iconv/gconv_conf.c
+@@ -366,7 +366,7 @@ read_conf_file (const char *filename, co
+ {
+   /* Note the file is opened with cancellation in the I/O functions
+      disabled.  */
+-  FILE *fp = fopen (filename, "rc");
++  FILE *fp = fopen (filename, "rce");
+   char *line = NULL;
+   size_t line_len = 0;
+   static int modcounter;
+Index: glibc-2.12-2-gc4ccff1/inet/rcmd.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/inet/rcmd.c
++++ glibc-2.12-2-gc4ccff1/inet/rcmd.c
+@@ -488,7 +488,7 @@ iruserfopen (const char *file, uid_t oku
+     cp = _("not regular file");
+   else
+     {
+-      res = fopen (file, "rc");
++      res = fopen (file, "rce");
+       if (!res)
+ 	cp = _("cannot open");
+       else if (__fxstat64 (_STAT_VER, fileno (res), &st) < 0)
+Index: glibc-2.12-2-gc4ccff1/inet/ruserpass.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/inet/ruserpass.c
++++ glibc-2.12-2-gc4ccff1/inet/ruserpass.c
+@@ -114,7 +114,7 @@ ruserpass(host, aname, apass)
+ 	buf = alloca (strlen (hdir) + 8);
+ 
+ 	__stpcpy (__stpcpy (buf, hdir), "/.netrc");
+-	cfile = fopen(buf, "rc");
++	cfile = fopen(buf, "rce");
+ 	if (cfile == NULL) {
+ 		if (errno != ENOENT)
+ 			warn("%s", buf);
+Index: glibc-2.12-2-gc4ccff1/intl/localealias.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/intl/localealias.c
++++ glibc-2.12-2-gc4ccff1/intl/localealias.c
+@@ -221,7 +221,7 @@ read_alias_file (fname, fname_len)
+ 
+   /* Note the file is opened with cancellation in the I/O functions
+      disabled.  */
+-  fp = fopen (full_fname, "rc");
++  fp = fopen (full_fname, "rce");
+   freea (full_fname);
+   if (fp == NULL)
+     return 0;
+Index: glibc-2.12-2-gc4ccff1/misc/getpass.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/misc/getpass.c
++++ glibc-2.12-2-gc4ccff1/misc/getpass.c
+@@ -57,7 +57,7 @@ getpass (prompt)
+   /* Try to write to and read from the terminal if we can.
+      If we can't open the terminal, use stderr and stdin.  */
+ 
+-  in = fopen ("/dev/tty", "w+c");
++  in = fopen ("/dev/tty", "w+ce");
+   if (in == NULL)
+     {
+       in = stdin;
+Index: glibc-2.12-2-gc4ccff1/misc/getusershell.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/misc/getusershell.c
++++ glibc-2.12-2-gc4ccff1/misc/getusershell.c
+@@ -104,7 +104,7 @@ initshells()
+ 	shells = NULL;
+ 	free(strings);
+ 	strings = NULL;
+-	if ((fp = fopen(_PATH_SHELLS, "rc")) == NULL)
++	if ((fp = fopen(_PATH_SHELLS, "rce")) == NULL)
+ 		goto init_okshells_noclose;
+ 	if (fstat64(fileno(fp), &statb) == -1) {
+ 	init_okshells:
+Index: glibc-2.12-2-gc4ccff1/misc/mntent_r.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/misc/mntent_r.c
++++ glibc-2.12-2-gc4ccff1/misc/mntent_r.c
+@@ -40,10 +40,10 @@ FILE *
+ __setmntent (const char *file, const char *mode)
+ {
+   /* Extend the mode parameter with "c" to disable cancellation in the
+-     I/O functions.  */
++     I/O functions and "e" to set FD_CLOEXEC.  */
+   size_t modelen = strlen (mode);
+-  char newmode[modelen + 2];
+-  memcpy (mempcpy (newmode, mode, modelen), "c", 2);
++  char newmode[modelen + 3];
++  memcpy (mempcpy (newmode, mode, modelen), "ce", 3);
+   FILE *result = fopen (file, newmode);
+ 
+   if (result != NULL)
+Index: glibc-2.12-2-gc4ccff1/nis/nis_file.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nis/nis_file.c
++++ glibc-2.12-2-gc4ccff1/nis/nis_file.c
+@@ -31,7 +31,7 @@ static void *
+ read_nis_obj (const char *name, iofct_t readfct, freefct_t freefct,
+ 	      size_t objsize)
+ {
+-  FILE *in = fopen (name, "rc");
++  FILE *in = fopen (name, "rce");
+   if (in == NULL)
+     return NULL;
+ 
+@@ -59,7 +59,7 @@ read_nis_obj (const char *name, iofct_t
+ static bool_t
+ write_nis_obj (const char *name, const void *obj, iofct_t writefct)
+ {
+-  FILE *out = fopen (name, "w");
++  FILE *out = fopen (name, "wce");
+   if (out == NULL)
+     return FALSE;
+ 
+Index: glibc-2.12-2-gc4ccff1/nis/nss-default.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nis/nss-default.c
++++ glibc-2.12-2-gc4ccff1/nis/nss-default.c
+@@ -57,7 +57,7 @@ static void
+ init (void)
+ {
+   int saved_errno = errno;
+-  FILE *fp = fopen (default_nss, "rc");
++  FILE *fp = fopen (default_nss, "rce");
+   if (fp != NULL)
+     {
+       char *line = NULL;
+Index: glibc-2.12-2-gc4ccff1/nptl/pthread_getattr_np.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nptl/pthread_getattr_np.c
++++ glibc-2.12-2-gc4ccff1/nptl/pthread_getattr_np.c
+@@ -75,7 +75,7 @@ pthread_getattr_np (thread_id, attr)
+       /* The safest way to get the top of the stack is to read
+ 	 /proc/self/maps and locate the line into which
+ 	 __libc_stack_end falls.  */
+-      FILE *fp = fopen ("/proc/self/maps", "rc");
++      FILE *fp = fopen ("/proc/self/maps", "rce");
+       if (fp == NULL)
+ 	ret = errno;
+       /* We need the limit of the stack in any case.  */
+Index: glibc-2.12-2-gc4ccff1/nss/nss_files/files-XXX.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/nss_files/files-XXX.c
++++ glibc-2.12-2-gc4ccff1/nss/nss_files/files-XXX.c
+@@ -77,7 +77,7 @@ internal_setent (int stayopen)
+ 
+   if (stream == NULL)
+     {
+-      stream = fopen (DATAFILE, "re");
++      stream = fopen (DATAFILE, "rce");
+ 
+       if (stream == NULL)
+ 	status = errno == EAGAIN ? NSS_STATUS_TRYAGAIN : NSS_STATUS_UNAVAIL;
+Index: glibc-2.12-2-gc4ccff1/nss/nss_files/files-alias.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/nss_files/files-alias.c
++++ glibc-2.12-2-gc4ccff1/nss/nss_files/files-alias.c
+@@ -48,7 +48,7 @@ internal_setent (void)
+ 
+   if (stream == NULL)
+     {
+-      stream = fopen ("/etc/aliases", "re");
++      stream = fopen ("/etc/aliases", "rce");
+ 
+       if (stream == NULL)
+ 	status = errno == EAGAIN ? NSS_STATUS_TRYAGAIN : NSS_STATUS_UNAVAIL;
+@@ -258,7 +258,7 @@ get_next_alias (const char *match, struc
+ 
+ 		      first_unused = cp;
+ 
+-		      listfile = fopen (&cp[9], "r");
++		      listfile = fopen (&cp[9], "rce");
+ 		      /* If the file does not exist we simply ignore
+ 			 the statement.  */
+ 		      if (listfile != NULL
+Index: glibc-2.12-2-gc4ccff1/nss/nss_files/files-initgroups.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/nss_files/files-initgroups.c
++++ glibc-2.12-2-gc4ccff1/nss/nss_files/files-initgroups.c
+@@ -30,7 +30,7 @@ _nss_files_initgroups_dyn (const char *u
+ 			   long int *size, gid_t **groupsp, long int limit,
+ 			   int *errnop)
+ {
+-  FILE *stream = fopen ("/etc/group", "re");
++  FILE *stream = fopen ("/etc/group", "rce");
+   if (stream == NULL)
+     {
+       *errnop = errno;
+Index: glibc-2.12-2-gc4ccff1/nss/nss_files/files-key.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/nss_files/files-key.c
++++ glibc-2.12-2-gc4ccff1/nss/nss_files/files-key.c
+@@ -35,7 +35,7 @@ search (const char *netname, char *resul
+ {
+   FILE *stream;
+ 
+-  stream = fopen (DATAFILE, "r");
++  stream = fopen (DATAFILE, "rce");
+   if (stream == NULL)
+     return errno == EAGAIN ? NSS_STATUS_TRYAGAIN : NSS_STATUS_UNAVAIL;
+ 
+Index: glibc-2.12-2-gc4ccff1/nss/nsswitch.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/nsswitch.c
++++ glibc-2.12-2-gc4ccff1/nss/nsswitch.c
+@@ -455,7 +455,7 @@ nss_parse_file (const char *fname)
+   size_t len;
+ 
+   /* Open the configuration file.  */
+-  fp = fopen (fname, "rc");
++  fp = fopen (fname, "rce");
+   if (fp == NULL)
+     return NULL;
+ 
+Index: glibc-2.12-2-gc4ccff1/resolv/gethnamaddr.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/resolv/gethnamaddr.c
++++ glibc-2.12-2-gc4ccff1/resolv/gethnamaddr.c
+@@ -800,7 +800,7 @@ _sethtent(f)
+ 	int f;
+ {
+ 	if (!hostf)
+-		hostf = fopen(_PATH_HOSTS, "r" );
++		hostf = fopen(_PATH_HOSTS, "rce" );
+ 	else
+ 		rewind(hostf);
+ 	stayopen = f;
+@@ -823,7 +823,7 @@ _gethtent()
+ 	register char *cp, **q;
+ 	int af, len;
+ 
+-	if (!hostf && !(hostf = fopen(_PATH_HOSTS, "r" ))) {
++	if (!hostf && !(hostf = fopen(_PATH_HOSTS, "rce" ))) {
+ 		__set_h_errno (NETDB_INTERNAL);
+ 		return (NULL);
+ 	}
+Index: glibc-2.12-2-gc4ccff1/resolv/res_query.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/resolv/res_query.c
++++ glibc-2.12-2-gc4ccff1/resolv/res_query.c
+@@ -614,7 +614,7 @@ res_hostalias(const res_state statp, con
+ 	if (statp->options & RES_NOALIASES)
+ 		return (NULL);
+ 	file = getenv("HOSTALIASES");
+-	if (file == NULL || (fp = fopen(file, "r")) == NULL)
++	if (file == NULL || (fp = fopen(file, "rce")) == NULL)
+ 		return (NULL);
+ 	setbuf(fp, NULL);
+ 	buf[sizeof(buf) - 1] = '\0';
+Index: glibc-2.12-2-gc4ccff1/sysdeps/posix/getaddrinfo.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/posix/getaddrinfo.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/posix/getaddrinfo.c
+@@ -1937,7 +1937,7 @@ gaiconf_init (void)
+   size_t nscopelist = 0;
+   bool scopelist_nullbits = false;
+ 
+-  FILE *fp = fopen (GAICONF_FNAME, "rc");
++  FILE *fp = fopen (GAICONF_FNAME, "rce");
+   if (fp != NULL)
+     {
+       struct stat64 st;
+Index: glibc-2.12-2-gc4ccff1/sysdeps/unix/sysv/linux/readonly-area.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/sysdeps/unix/sysv/linux/readonly-area.c
++++ glibc-2.12-2-gc4ccff1/sysdeps/unix/sysv/linux/readonly-area.c
+@@ -32,7 +32,7 @@ __readonly_area (const char *ptr, size_t
+ {
+   const void *ptr_end = ptr + size;
+ 
+-  FILE *fp = fopen ("/proc/self/maps", "rc");
++  FILE *fp = fopen ("/proc/self/maps", "rce");
+   if (fp == NULL)
+     {
+       /* It is the system administrator's choice to not have /proc
+Index: glibc-2.12-2-gc4ccff1/time/getdate.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/time/getdate.c
++++ glibc-2.12-2-gc4ccff1/time/getdate.c
+@@ -129,7 +129,7 @@ __getdate_r (const char *string, struct
+     return 2;
+ 
+   /* Open the template file.  */
+-  fp = fopen (datemsk, "rc");
++  fp = fopen (datemsk, "rce");
+   if (fp == NULL)
+     return 2;
+ 
+Index: glibc-2.12-2-gc4ccff1/nss/Makefile
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/Makefile
++++ glibc-2.12-2-gc4ccff1/nss/Makefile
+@@ -41,7 +41,7 @@ others                  := getent
+ install-bin             := getent
+ 
+ tests			= test-netdb tst-nss-test1 test-digits-dots \
+-			  bug17079
++			  bug17079 rhbz1012343
+ xtests			= bug-erange
+ 
+ include ../Makeconfig
+@@ -77,6 +77,7 @@ endif
+ include ../Rules
+ 
+ CFLAGS-files-hosts.c += -fno-strict-aliasing
++LDFLAGS-rhbz1012343 += -lpthread
+ 
+ ifeq (yes,$(build-static-nss))
+ $(objpfx)getent: $(objpfx)libnss_files.a
+Index: glibc-2.12-2-gc4ccff1/nss/rhbz1012343.c
+===================================================================
+--- /dev/null
++++ glibc-2.12-2-gc4ccff1/nss/rhbz1012343.c
+@@ -0,0 +1,60 @@
++#include <stdio.h>
++#include <stdbool.h>
++#include <pthread.h>
++#include <pwd.h>
++#include <sys/types.h>
++#include <unistd.h>
++
++volatile bool started = false;
++
++static void *
++routine( void *arg )
++{
++  char buf[256];
++  struct passwd pwbuf, *pw;
++  uid_t uid;
++
++  (void)&arg;
++
++  uid = geteuid();
++  started = true;
++  for(;;) {
++#ifdef DISABLE_CANCEL
++    int oldstate, state;
++    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &oldstate);
++#endif
++    getpwuid_r(uid, &pwbuf, buf, sizeof(buf), &pw);
++#ifdef DISABLE_CANCEL
++    pthread_setcancelstate(oldstate, &state);
++    pthread_testcancel();
++#endif
++  }
++
++  return 0;
++}
++
++int
++do_test (void)
++{
++  char buf[256];
++  struct passwd pwbuf, *pw;
++  pthread_t thread;
++
++  pthread_create(&thread, NULL, routine, NULL);
++  while(!started)
++    sleep (1);
++  sleep(3);
++  printf( "Cancelling thread\n" );
++  while( pthread_cancel(thread) != 0 );
++  printf( "Joining...\n");
++  pthread_join(thread, NULL);
++  printf( "Joined, trying getpwuid_r call\n" );
++
++  getpwuid_r(geteuid(), &pwbuf, buf, sizeof(buf), &pw);
++  printf( "Never get here\n" );
++
++  return 0;
++}
++
++#define TEST_FUNCTION do_test ()
++#include "../test-skeleton.c"
+Index: glibc-2.12-2-gc4ccff1/misc/getttyent.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/misc/getttyent.c
++++ glibc-2.12-2-gc4ccff1/misc/getttyent.c
+@@ -192,7 +192,7 @@ setttyent()
+ 	if (tf) {
+ 		(void)rewind(tf);
+ 		return (1);
+-	} else if ((tf = fopen(_PATH_TTYS, "rc"))) {
++	} else if ((tf = fopen(_PATH_TTYS, "rce"))) {
+ 		/* We do the locking ourselves.  */
+ 		__fsetlocking (tf, FSETLOCKING_BYCALLER);
+ 		return (1);
+Index: glibc-2.12-2-gc4ccff1/nss/nss_files/files-netgrp.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/nss/nss_files/files-netgrp.c
++++ glibc-2.12-2-gc4ccff1/nss/nss_files/files-netgrp.c
+@@ -63,7 +63,7 @@ _nss_files_setnetgrent (const char *grou
+     return NSS_STATUS_UNAVAIL;
+ 
+   /* Find the netgroups file and open it.  */
+-  fp = fopen (DATAFILE, "r");
++  fp = fopen (DATAFILE, "rce");
+   if (fp == NULL)
+     status = errno == EAGAIN ? NSS_STATUS_TRYAGAIN : NSS_STATUS_UNAVAIL;
+   else
+Index: glibc-2.12-2-gc4ccff1/resolv/res_hconf.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/resolv/res_hconf.c
++++ glibc-2.12-2-gc4ccff1/resolv/res_hconf.c
+@@ -308,7 +308,7 @@ do_init (void)
+   if (hconf_name == NULL)
+     hconf_name = _PATH_HOSTCONF;
+ 
+-  fp = fopen (hconf_name, "rc");
++  fp = fopen (hconf_name, "rce");
+   if (fp)
+     {
+       /* No threads using this stream.  */

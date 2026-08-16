@@ -1,0 +1,19 @@
+Use mode 0644 for /etc/localtime irrespective of the process umask.
+
+Index: glibc-2.12-2-gc4ccff1/timezone/tzdata-update.c
+===================================================================
+--- glibc-2.12-2-gc4ccff1.orig/timezone/tzdata-update.c
++++ glibc-2.12-2-gc4ccff1/timezone/tzdata-update.c
+@@ -152,7 +152,11 @@ update (const char *path, struct buffer
+   FILE * f = fopen (tmp, "w+");
+   if (f != NULL)
+     {
+-      int success = fwrite (zonedata.data, zonedata.length, 1, f) == 1;
++      /* The file should be world-readable, no matter what the umask
++         says.  */
++      int success = fchmod (fileno (f), 0644) == 0;
++      if (success)
++        success = fwrite (zonedata.data, zonedata.length, 1, f) == 1;
+       if (success)
+         {
+           fflush (f);
