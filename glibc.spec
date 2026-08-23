@@ -296,7 +296,7 @@ Requires(pre): basesystem, libgcc
 # For initial glibc bootstraps it can be commented out
 BuildRequires: gd-devel libpng-devel zlib-devel texinfo, libselinux-devel >= 1.33.4-3
 BuildRequires: audit-libs-devel >= 1.1.3, sed >= 3.95, libcap-devel, gettext, nss-devel
-BuildRequires: /bin/ps, /bin/kill, /bin/awk
+BuildRequires: procps, util-linux-ng, gawk
 %ifarch %{systemtaparches}
 BuildRequires: systemtap-sdt-devel
 %endif
